@@ -1,7 +1,10 @@
 import { DKSelector } from '@components/DKSelector'
+import { Map } from '@components/Map'
 import { SelectedDK } from '@components/SelectedDK'
 import { CellularTag, WiFiTag } from '@components/Tags'
+import { WaitingForLocation } from '@components/WaitingForLocation'
 import { Warning } from '@components/Warning'
+import { DK, DKs } from '../src/DKs'
 
 type Components = {
 	name: string
@@ -37,8 +40,32 @@ export const Storybook = () => {
 			name: 'SelectedDK',
 			examples: [
 				{
-					component: <SelectedDK selected="PCA10090" clearSelection={noop} />,
+					component: (
+						<SelectedDK
+							selected={DKs['PCA10090'] as DK}
+							clear={noop}
+							setIMEIandPIN={noop}
+						/>
+					),
 					description: 'Shows a selected DK',
+				},
+			],
+		},
+		{
+			name: 'Map',
+			examples: [
+				{
+					component: <Map />,
+					description: 'A map',
+				},
+			],
+		},
+		{
+			name: 'Map Placeholder',
+			examples: [
+				{
+					component: <WaitingForLocation />,
+					description: 'Shown while the device has not yet connected.',
 				},
 			],
 		},
@@ -59,21 +86,21 @@ export const Storybook = () => {
 	return (
 		<div class="d-flex flex-row">
 			<Sidebar components={components} />
-			<main class="flex-grow-1 ms-4 me-4">
+			<main class="flex-grow-1" style={{ backgroundColor: '#ccc' }}>
 				{components.map(({ name, examples }) => (
-					<>
-						<section id={name} class="mt-4 mb-4">
-							<h2>{name}</h2>
-							{examples.map(({ component, description }) => (
-								<>
-									<aside class={'mt-4'}>
-										<p>{description}</p>
-									</aside>
-									<div>{component}</div>
-								</>
-							))}
-						</section>
-					</>
+					<section id={name} class="m-4">
+						<h2>{name}</h2>
+						{examples.map(({ component, description }) => (
+							<>
+								<aside class={'mt-4'}>
+									<p>{description}</p>
+								</aside>
+								<div class={'p-4'} style={{ backgroundColor: 'white' }}>
+									{component}
+								</div>
+							</>
+						))}
+					</section>
 				))}
 			</main>
 		</div>

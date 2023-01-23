@@ -7,7 +7,7 @@ export const DKSelector = ({
 	onSelect: (id: string) => unknown
 }) => {
 	return (
-		<div class="text-bg-dark p-4">
+		<>
 			<h2>Please select your hardware:</h2>
 			<div class="d-flex flex-col justify-content-between">
 				{Object.entries(DKs).map(
@@ -45,6 +45,6 @@ export const DKSelector = ({
 					),
 				)}
 			</div>
-		</div>
+		</>
 	)
 }

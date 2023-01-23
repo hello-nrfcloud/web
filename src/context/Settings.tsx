@@ -4,6 +4,7 @@ import type { DKs } from '../DKs'
 
 type Settings = {
 	selectedDK?: keyof typeof DKs
+	dkCredentials?: { imei: string; pin: string }
 }
 
 const defaultSettings: Settings = {}
