@@ -11,7 +11,14 @@ const Tag = ({
 }) => (
 	<span
 		class="badge rounded-pill"
-		style={{ backgroundColor: color, color: textColor ?? 'white' }}
+		style={{
+			backgroundColor: color,
+			color: textColor ?? 'white',
+			whiteSpace: 'no-wrap',
+			height: '28px',
+			lineHeight: '20px',
+			fontSize: '12px',
+		}}
 	>
 		{title}
 	</span>
@@ -51,6 +58,6 @@ export const toTag = (name: string): JSX.Element => {
 		case TagName.PCA10143:
 			return <ProductTag name={'nRF7002 PDK'} family="nRF7" />
 		default:
-			return <Tag title={name} color={'grey'} textColor={'black'} />
+			return <Tag title={name} color={'grey'} textColor={'white'} />
 	}
 }
