@@ -1,5 +1,24 @@
+import { FormInput, PlugZap, ToggleRight } from 'lucide-preact'
 import { useState } from 'preact/hooks'
+import styled from 'styled-components'
 import type { DK } from '../DKs'
+import { SIMIcon } from './icons/SIMIcon'
+
+const StepsWithIcons = styled.ol`
+	text-align: center;
+	list-style: none;
+	padding: 0;
+	svg {
+		width: 48px;
+		height: 48px;
+	}
+	li {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+`
 
 export const SelectedDK = ({
 	clear,
@@ -27,6 +46,25 @@ export const SelectedDK = ({
 				<p>
 					{selected.title} <small>({selected.model})</small>
 				</p>
+			</section>
+			<section class="mb-4">
+				<StepsWithIcons>
+					<li>
+						<SIMIcon /> Insert the SIM card
+					</li>
+					<li>
+						<PlugZap strokeWidth={1} />
+						Plug into a USB power source
+					</li>
+					<li>
+						<ToggleRight strokeWidth={1} />
+						Turn on
+					</li>
+					<li>
+						<FormInput strokeWidth={1} />
+						Enter your devices' IMEI and PIN to see it on the map below
+					</li>
+				</StepsWithIcons>
 			</section>
 			<aside class={'d-flex justify-content-center'}>
 				<form class="row row-cols-lg-auto g-3 align-items-center">
@@ -71,7 +109,6 @@ export const SelectedDK = ({
 							/>
 						</div>
 					</div>
-
 					<div class="col-12">
 						<button
 							type="button"

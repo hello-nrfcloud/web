@@ -3,6 +3,7 @@ import { WaitingForLocation } from '@components/WaitingForLocation'
 import { Warning } from '@components/Warning'
 import { useSettings } from '@context/Settings'
 import { SelectDK } from '@flow/SelectDK'
+import { ExternalLink } from 'lucide-preact'
 
 export const App = () => {
 	const {
@@ -51,6 +52,14 @@ export const App = () => {
 											<button type="button" class="btn btn-success">
 												Share my location!
 											</button>
+											<a
+												class="btn btn-light ms-4"
+												href="https://world.nrf.guide/"
+												target="_blank"
+											>
+												<ExternalLink class="me-2" />
+												Nordic World
+											</a>
 										</p>
 									</section>
 									<aside class="flex-shrink-1">
