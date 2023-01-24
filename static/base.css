@@ -23,6 +23,17 @@
   --color-nordic-middle-grey: #768692;
   --color-nordic-dark-grey: #333f48;
 
+  /* Location Source Colors */
+  /* Source https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc */
+  --color-location-GNSS: #c7f9cc;
+  --color-location-WIFI: #80ed99;
+  --color-location-MULTI_CELL: #57cc99;
+  --color-location-SINGLE_CELL: #38a3a5;
+
+  /* Product Family Colors */
+  --color-nRF9: var(--color-nordic-fall);
+  --color-nRF7: #d13150;
+
   /* Other */
   --color-panel-bg: #0b0b0f75;
 }

@@ -1,4 +1,3 @@
-import { locationSourceColors, productFamilyColors } from '@components/colors'
 import { TagName } from '../DKs'
 
 const Tag = ({
@@ -19,14 +18,14 @@ const Tag = ({
 )
 
 export const CellularTag = ({ name }: { name?: string }) => (
-	<Tag title={name ?? 'Cellular'} color={productFamilyColors.nRF9} />
+	<Tag title={name ?? 'Cellular'} color={'var(--color-nRF9)'} />
 )
 
 export const WiFiTag = ({ name }: { name?: string }) => (
 	<Tag
 		title={name ?? 'Wi-Fi'}
-		color={locationSourceColors.WIFI}
-		textColor="#000000"
+		color={'var(--color-nRF7)'}
+		textColor="#ffffff"
 	/>
 )
 
