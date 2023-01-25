@@ -53,10 +53,12 @@ export const toTag = (name: string): JSX.Element => {
 			return <WiFiTag />
 		case TagName.cellular:
 			return <CellularTag />
-		case TagName.PCA10090:
+		case TagName.nRF9160DK:
 			return <ProductTag name={'nRF9160 DK'} family="nRF9" />
-		case TagName.PCA10143:
-			return <ProductTag name={'nRF7002 PDK'} family="nRF7" />
+		case TagName.nRF7002DK:
+			return <ProductTag name={'nRF7002 DK'} family="nRF7" />
+		case TagName.Thingy91:
+			return <ProductTag name={'Thingy:91'} family="nRF9" />
 		default:
 			return <Tag title={name} color={'grey'} textColor={'white'} />
 	}

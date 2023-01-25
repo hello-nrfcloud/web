@@ -1,8 +1,7 @@
+import { Provider as DeviceProvider } from '@context/Device'
 import { formatDistanceToNow } from 'date-fns'
 import { render } from 'preact'
 import { App } from './App'
-
-import { Provider as SettingsProvider } from '@context/Settings'
 
 console.debug('version', VERSION)
 console.debug(
@@ -19,9 +18,9 @@ if (root === null) {
 	console.error(`Could not find root element!`)
 } else {
 	render(
-		<SettingsProvider>
+		<DeviceProvider>
 			<App />
-		</SettingsProvider>,
+		</DeviceProvider>,
 		root,
 	)
 }
