@@ -86,6 +86,15 @@ export const App = () => {
 														product solution.
 													</p>
 												</div>
+												<div class="col">
+													<h3>Your SIM card</h3>
+													<p>
+														<em>
+															Provide information about featured SIM card vendor
+															in case we detect the device is using one of them.
+														</em>
+													</p>
+												</div>
 											</div>
 										</div>
 									</div>
