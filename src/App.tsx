@@ -6,7 +6,7 @@ import { CellularTag, toTag } from '@components/Tags'
 import { WaitingForLocation } from '@components/WaitingForLocation'
 import { Warning } from '@components/Warning'
 import { useDevice } from '@context/Device'
-import { ExternalLink } from 'lucide-preact'
+import { ExternalLink, Github, Laptop2 } from 'lucide-preact'
 
 export const App = () => {
 	const { type, device } = useDevice()
@@ -145,6 +145,76 @@ export const App = () => {
 					)}
 					<section
 						style={{
+							backgroundColor: 'var(--color-nordic-sky)',
+						}}
+						class="pt-4 pb-4"
+					>
+						<div class="container">
+							<h3 class="mt-4">Resources for your development kit:</h3>
+							<ul>
+								<li>
+									You can download the firmware for the cellular module on{' '}
+									<a
+										href="https://www.nordicsemi.com/Products/nRF9160/Download?lang=en#infotabs"
+										target="_blank"
+									>
+										the product page of the nRF9160
+									</a>
+									.
+								</li>
+								<li>
+									<a
+										href="https://infocenter.nordicsemi.com/topic/ref_at_commands/REF/at_commands/intro.html"
+										target="_blank"
+									>
+										Basic AT Command set
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/serial_lte_modem/doc/AT_commands_intro.html#slm-at-intro"
+										target="_blank"
+									>
+										Extended AT Command set (Serial LTE Monitor)
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://infocenter.nordicsemi.com/topic/ps_nrf9160/nRF9160_html5_keyfeatures.html"
+										target="_blank"
+									>
+										nRF9160 Product Specification
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://infocenter.nordicsemi.com/topic/nwp_044/WP/nwp_044/intro.html"
+										target="_blank"
+									>
+										nWP044 - Best practices for cellular IoT development
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://infocenter.nordicsemi.com/topic/nwp_037/WP/nwp_037/nwp_037_intro.html"
+										target="_blank"
+									>
+										nWP037 - nRF9160 Hardware Design Guidelines
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://infocenter.nordicsemi.com/topic/nwp_034/WP/nwp_034/nwp_034_intro.html"
+										target="_blank"
+									>
+										nWP034 - nRF9160 Hardware Verification Guidelines
+									</a>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section
+						style={{
 							backgroundColor: 'var(--color-nordic-grass)',
 						}}
 						class="pt-4 pb-4"
@@ -160,9 +230,32 @@ export const App = () => {
 							</header>
 							<div class="mt-4 card-group">
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										nRF Connect SDK Fundamentals
+									<h5 class="card-header">
+										Set up your development environment
 									</h5>
+									<div class="card-body">
+										<p class="card-text">
+											To begin using the nRF Connect SDK, it is recommended to
+											start with this guide.&nbsp;
+										</p>
+										<p class="card-text">
+											Make sure that you have completed all the mentioned step
+											to avoid problems later in the development process.
+										</p>
+										<a
+											href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/getting_started.html"
+											class="btn btn-primary"
+										>
+											Set up your development environment
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:100')}
+										{toTag('SDK')}
+									</div>
+								</div>
+								<div class="card">
+									<h5 class="card-header">nRF Connect SDK Fundamentals</h5>
 									<div class="card-body">
 										<p class="card-text">
 											Learn how to develop rich portable RTOS-based applications
@@ -177,12 +270,11 @@ export const App = () => {
 									</div>
 									<div class="card-footer d-flex justify-content-between">
 										{toTag('level:100')}
+										{toTag('SDK')}
 									</div>
 								</div>
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										Cellular IoT Fundamentals
-									</h5>
+									<h5 class="card-header">Cellular IoT Fundamentals</h5>
 									<div class="card-body">
 										<p class="card-text">
 											Cellular IoT Fundamentals is a self-paced hands-on online
@@ -203,9 +295,7 @@ export const App = () => {
 									</div>
 								</div>
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										Location, location, location
-									</h5>
+									<h5 class="card-header">Location, location, location</h5>
 									<div class="card-body">
 										<p class="card-text">
 											<a
@@ -234,9 +324,7 @@ export const App = () => {
 									</div>
 								</div>
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										Cellular connectivity
-									</h5>
+									<h5 class="card-header">Cellular connectivity</h5>
 									<div class="card-body">
 										<p class="card-text">
 											The LTE Link Monitor is a modem client application that
@@ -274,7 +362,30 @@ export const App = () => {
 							</header>
 							<div class="mt-4 card-group">
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
+									<h5 class="card-header">
+										nRF9160 Hardware Integration Guide
+									</h5>
+									<div class="card-body">
+										<p class="card-text">
+											This document complements the nRF9160 Product
+											Specification to provide recommendations and guidelines
+											for designing devices based on the nRF9160 module.
+										</p>
+										<a
+											href="https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/sip/nrf9160-sip/hardware-integration-guide/nrf9160hardwareintegrationguidev12.pdf"
+											class="btn btn-primary"
+										>
+											Read the guide
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:200')}
+										<CellularTag />
+										{toTag('product:nrf9160')}
+									</div>
+								</div>
+								<div class="card">
+									<h5 class="card-header">
 										Build an Asset Tracker from Scratch
 									</h5>
 									<div class="card-body">
@@ -293,9 +404,7 @@ export const App = () => {
 									</div>
 								</div>
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										Protocols for cellular IoT
-									</h5>
+									<h5 class="card-header">Protocols for cellular IoT</h5>
 									<div class="card-body">
 										<p class="card-text">
 											What are the important factors to be considered for
@@ -346,6 +455,32 @@ export const App = () => {
 										{toTag('ultra low-power')}
 									</div>
 								</div>
+								<div class="card">
+									<h5 class="card-header">
+										Power-optimizing cellular applications
+									</h5>
+									<div class="card-body">
+										<p class="card-text">
+											An nRF9160 DK can draw current ranging from a few micro
+											amperes (in sleep mode) to hundreds of milli amperes (when
+											the radio is active). To achieve long battery life, it is
+											crucial that the application is optimized in the use of
+											the radio.
+										</p>
+										<a
+											href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/app_power_opt.html#cellular-applications"
+											class="btn btn-primary"
+											target="_blank"
+										>
+											Read the guide
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:200')}
+										{toTag('ultra low-power')}
+										<CellularTag />
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -365,9 +500,7 @@ export const App = () => {
 							</header>
 							<div class="mt-4 card-group">
 								<div class="card">
-									<h5 class="card-header d-flex justify-content-between">
-										Fleet management
-									</h5>
+									<h5 class="card-header">Fleet management</h5>
 									<div class="card-body">
 										<p class="card-text">
 											Take this 300 level advanced course to learn how to deploy
@@ -382,6 +515,68 @@ export const App = () => {
 										<CellularTag />
 									</div>
 								</div>
+								<div class="card">
+									<h5 class="card-header">Connection tracking</h5>
+									<div class="card-body">
+										<p class="card-text">
+											With the “Trace Collector V2 Preview” which is part of the
+											“nRF Connect for Desktop” you are able to get live traces
+											between you application, modem and the cellular network:
+										</p>
+										<a
+											href="https://infocenter.nordicsemi.com/topic/ug_trace_collector/UG/trace_collector/intro.html"
+											class="btn btn-primary"
+										>
+											Read the guide!
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:300')}
+										<CellularTag />
+									</div>
+								</div>
+								<div class="card">
+									<h5 class="card-header">nRF9160 Guidelines</h5>
+									<div class="card-body">
+										<p class="card-text">
+											This documents contain guidelines for hardware design,
+											integration, and verification for nRF9160.
+										</p>
+										<a
+											href="https://infocenter.nordicsemi.com/topic/struct_nrf91/struct/nrf91_guidelines.html"
+											class="btn btn-primary"
+										>
+											Read the guide
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:300')}
+										<CellularTag />
+										{toTag('product:nrf9160')}
+									</div>
+								</div>
+								<div class="card">
+									<h5 class="card-header">Online Power Profiler for LTE</h5>
+									<div class="card-body">
+										<p class="card-text">
+											Use this tool to estimate the current consumption of the
+											nRF91 LTE modem. The OPP supports both NB-IoT (cat NB1)
+											and LTE-M (cat M1), and several other network parameters.
+										</p>
+										<a
+											href="https://devzone.nordicsemi.com/power/w/opp/3/online-power-profiler-for-lte"
+											class="btn btn-primary"
+											target="_blank"
+										>
+											Use the tool
+										</a>
+									</div>
+									<div class="card-footer d-flex justify-content-between">
+										{toTag('level:200')}
+										{toTag('ultra low-power')}
+										<CellularTag />
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -392,21 +587,111 @@ export const App = () => {
 						class="pt-4 pb-4"
 					>
 						<div class="container pt-4 pb-4 text-light">
-							<p>
-								<a href="https://devzone.nordicsemi.com/" target="_blank">
-									<img
-										src="/static/images/devzone-white.svg"
-										alt="{DevZone"
-										width="250"
-										height="150"
-									/>
-								</a>
-							</p>
-							<h2>Get support</h2>
-							<p>
-								In case you have any question, reach out to our community or
-								create a private support ticket.
-							</p>
+							<div class="row">
+								<div class="col">
+									<p>
+										<a href="https://devzone.nordicsemi.com/" target="_blank">
+											<img
+												src="/static/images/devzone-white.svg"
+												alt="{DevZone"
+												width="250"
+												height="150"
+											/>
+										</a>
+									</p>
+									<h2>Get support</h2>
+									<p>
+										In case you have any question, reach out to our community or
+										create a private support ticket.
+									</p>
+									<p>
+										<a
+											href="https://devzone.nordicsemi.com/"
+											target="_blank"
+											class="btn btn-secondary"
+										>
+											devzone.nordicsemi.com
+										</a>
+									</p>
+									<p>
+										Additionally, you can find a variety of tutorials and blog
+										posts:
+									</p>
+									<ul>
+										<li>
+											<a
+												href="https://devzone.nordicsemi.com/guides/cellular-iot-guides/"
+												target="_blank"
+												class="text-white"
+											>
+												Cellular IoT guides
+											</a>{' '}
+											(<em>important guides should be integrated above</em>)
+										</li>
+									</ul>
+								</div>
+								<div class="col">
+									<p class="mt-4 mb-4">
+										<Github
+											strokeWidth={1}
+											style={{ width: '100px', height: '100px' }}
+										/>
+									</p>
+									<h2>Nordic Semiconductor on Github</h2>
+									<ul>
+										<li>
+											<a
+												href="https://github.com/NordicSemiconductor"
+												target="_blank"
+												class="text-white"
+											>
+												<code>NordicSemiconductor</code>
+											</a>
+											: Officially supported repositories
+										</li>
+										<li>
+											<a
+												href="https://github.com/NordicPlayground"
+												target="_blank"
+												class="text-white"
+											>
+												<code>NordicPlayground</code>
+											</a>
+											: Emerging and unsupported projects
+										</li>
+										<li>
+											<a
+												href="https://github.com/sdk-nrf"
+												target="_blank"
+												class="text-white"
+											>
+												<code>sdk-nrf</code>
+											</a>
+											: nRF Connect SDK
+										</li>
+									</ul>
+								</div>
+								<div class="col">
+									<p class="mt-4 mb-4">
+										<Laptop2
+											strokeWidth={1}
+											style={{ width: '100px', height: '100px' }}
+										/>
+									</p>
+									<h2>Important Tools</h2>
+									<ul>
+										<li>
+											<a
+												href="https://nrfconnect.github.io/vscode-nrf-connect/"
+												target="_blank"
+												class="text-white"
+											>
+												nRF Connect SDK for Visual Studio Code
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
 						</div>
 					</section>
 				</article>
