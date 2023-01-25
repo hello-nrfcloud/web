@@ -39,17 +39,56 @@ export const App = () => {
 					</div>
 					{device !== undefined && (
 						<>
-							<div class="container p-4">
-								<ConnectDK device={device} />
-							</div>
 							{!device.hasLocation && (
 								<>
+									<div class="container p-4">
+										<ConnectDK device={device} />
+									</div>
 									<WaitingForLocation />
 								</>
 							)}
 							{device.hasLocation && (
 								<>
 									<Map />
+									<div
+										style={{
+											backgroundColor: 'var(--color-nordic-dark-grey)',
+										}}
+										class="pt-4 pb-4"
+									>
+										<div class="container text-white">
+											<h2>What you see on this map.</h2>
+											<p>
+												<em>
+													Explainer about the map features, and nRF Cloud
+													Location Services.
+												</em>
+											</p>
+											<div class="row">
+												<div class="col">
+													<h3>Cellular Connection Details</h3>
+													<p>
+														<em>
+															Explain the connection information displayed on
+															the map
+														</em>
+													</p>
+												</div>
+												<div class="col">
+													<h3>nRF Cloud Location services</h3>
+													<p>
+														nRF Cloud Location Services are a set of
+														commercially available features that can be used to
+														assist devices and customer applications that need
+														fast and power-efficient location details. They are
+														designed specifically for Nordic silicon to enable
+														high performing and ultra-low power consuming
+														product solution.
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
 									<div
 										style={{
 											backgroundColor: '#01509b',
