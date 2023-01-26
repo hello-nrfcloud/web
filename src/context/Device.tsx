@@ -4,7 +4,7 @@ import { DK, DKs } from '../DKs'
 
 export type Device = {
 	imei: string
-	pin: string
+	code: string
 	hasLocation: boolean
 	type: DK
 }
@@ -13,11 +13,11 @@ export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
 	fromType: (type: keyof typeof DKs) => void
-	fromPIN: (pin: string) => void
+	fromCode: (code: string) => void
 	clear: () => void
 }>({
 	fromType: () => undefined,
-	fromPIN: () => undefined,
+	fromCode: () => undefined,
 	clear: () => undefined,
 })
 
@@ -41,10 +41,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	return (
 		<DeviceContext.Provider
 			value={{
-				fromPIN: (pin) => {
+				fromCode: (code) => {
 					setDevice({
 						hasLocation: false,
-						pin: pin,
+						code,
 						imei: '351234567890123',
 						type: DKs['PCA10090'] as DK,
 					})

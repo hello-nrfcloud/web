@@ -5,26 +5,30 @@ import { DKs } from '../DKs'
 import { toTag } from './Tags'
 
 export const DKSelector = () => {
-	const [pin, setPIN] = useState<string>('01/by98b2')
-	const isValid = /^[0-9]{2}\/[a-z0-9]{6}/.test(pin)
-	const { fromPIN, fromType } = useDevice()
+	const [productionRun, setProductionRun] = useState<string>('01')
+	const [token, setToken] = useState<string>('e5hs5y8h')
+	const code = `${productionRun}/${token}`
+	const isValid = /^[0-9]{2}\/[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}/i.test(code)
+	const { fromCode, fromType } = useDevice()
 
 	return (
 		<>
 			<h2>Please scan the QR code on your DK</h2>
-			<div class="d-flex mt-4">
-				<img
-					src="/static/images/qrcode.webp"
-					class="img-fluid w-25"
-					alt="Development Kit with QR code"
-					width={730}
-					height={631}
-				/>
-				<div class="ms-4">
+			<div class="row mt-4">
+				<div class="col-4">
+					<img
+						src="/static/images/qrcode.webp"
+						class="img-fluid"
+						alt="Development Kit with QR code"
+						width={744}
+						height={629}
+					/>
+				</div>
+				<div class="col-4">
 					<p>
 						The QR code on the Development Kit encodes a link with a code (e.g.{' '}
-						<code>01/by98b2</code>) that contains the production run ID (e.g.
-						<code>01</code>) and a unique code (e.g. <code>by98b2</code>) that
+						<code>01/e5hs5y8h</code>) that contains the production run ID (e.g.{' '}
+						<code>01</code>) and a unique code (e.g. <code>e5hs5y8h</code>) that
 						will proof your ownership of the DK and will be used to look up the
 						IMEI in our database.
 					</p>
@@ -33,32 +37,49 @@ export const DKSelector = () => {
 							type="button"
 							class="btn btn-primary"
 							onClick={() => {
-								fromPIN('01/by98b2')
+								fromCode('01/e5hs5y8h')
 							}}
 						>
 							<QrCode /> Scan QR code
 						</button>
 					</p>
-					<h3 class="mt-4">No QR code?</h3>
-					<p>Enter the PIN manually:</p>
+				</div>
+				<div class="col-4">
+					<h3>No QR code?</h3>
+					<p>Enter the code manually:</p>
 					<form class="row row-cols-lg-auto g-3 align-items-center">
 						<div class="col-12">
-							<label class="visually-hidden" htmlFor="pinInput">
-								PIN
+							<label class="visually-hidden" htmlFor="productionRunInput">
+								Code
 							</label>
 							<div class="input-group">
-								<div class="input-group-text">PIN</div>
+								<div class="input-group-text">nrf.guide/</div>
 								<input
 									type="text"
-									minLength={9}
-									maxLength={9}
+									minLength={2}
+									maxLength={2}
 									class="form-control form-control-sm"
-									id="pinInput"
-									placeholder="01/ba89hl"
-									value={pin}
+									id="productionRunInput"
+									placeholder="01"
+									value={productionRun}
 									onChange={(e) => {
-										setPIN((e.target as HTMLInputElement).value)
+										setProductionRun((e.target as HTMLInputElement).value)
 									}}
+									size={2}
+								/>
+								<div class="input-group-text">/</div>
+								<input
+									type="text"
+									minLength={8}
+									maxLength={8}
+									class="form-control form-control-sm"
+									id="tokenInput"
+									placeholder="e5hs5y8h"
+									value={token}
+									onChange={(e) => {
+										setToken((e.target as HTMLInputElement).value)
+									}}
+									size={8}
 								/>
 							</div>
 						</div>
@@ -68,7 +89,7 @@ export const DKSelector = () => {
 								class="btn btn-primary"
 								disabled={!isValid}
 								onClick={() => {
-									fromPIN('pin')
+									fromCode(code)
 								}}
 							>
 								Submit
