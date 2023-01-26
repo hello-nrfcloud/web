@@ -1,5 +1,6 @@
 import { ConnectDK } from '@components/ConnectDK'
 import { DKSelector } from '@components/DKSelector'
+import { Header } from '@components/Header'
 import { Map } from '@components/Map'
 import { Resources } from '@components/Resources'
 import { SelectedDK } from '@components/SelectedDK'
@@ -28,20 +29,7 @@ export const App = () => {
 			<Warning title="Development preview: this project is under development and not ready to use." />
 			<main>
 				<article>
-					<div
-						style={{
-							backgroundColor: 'var(--color-nordic-blue)',
-						}}
-						class="pt-4 pb-4"
-					>
-						<header class="container pt-4 pb-4 text-white">
-							<h1>nRF Guide</h1>
-							<p>
-								Welcome to <em>nRF Guide</em> your getting started guide for the
-								Nordic Semiconductor Development Kits.
-							</p>
-						</header>
-					</div>
+					<Header />
 					<div style={{ backgroundColor: '#eee' }} class="pt-4 pb-4">
 						<div class="container">
 							{type !== undefined && <SelectedDK selected={type} />}
