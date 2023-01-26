@@ -12,6 +12,7 @@ export const App = () => {
 	const { type, device } = useDevice()
 	return (
 		<>
+			<Warning title="Development preview: this project is under development and not ready to use." />
 			<main>
 				<article>
 					<div
@@ -21,9 +22,6 @@ export const App = () => {
 						class="pt-4 pb-4"
 					>
 						<header class="container pt-4 pb-4 text-white">
-							<div class="mb-4">
-								<Warning title="Development preview: this project is under development and not ready to use." />
-							</div>
 							<h1>nRF Guide</h1>
 							<p>
 								Welcome to <em>nRF Guide</em> your getting started guide for the
