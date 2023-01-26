@@ -1,7 +1,7 @@
 import { useDevice } from '@context/Device'
 import { QrCode } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { DKs } from '../DKs'
+import { DKs } from '../content/DKs'
 import { toTag } from './Tags'
 
 export const DKSelector = () => {

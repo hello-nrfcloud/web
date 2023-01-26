@@ -1,6 +1,6 @@
 import { ComponentChildren, createContext } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { DK, DKs } from '../DKs'
+import { DK, DKs } from '../content/DKs'
 
 export type Device = {
 	imei: string

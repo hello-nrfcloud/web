@@ -1,5 +1,3 @@
-import { TagName } from '../DKs'
-
 const Tag = ({
 	title,
 	color,
@@ -10,7 +8,7 @@ const Tag = ({
 	textColor?: string
 }) => (
 	<span
-		class="badge rounded-pill"
+		class="badge rounded-pill ms-1"
 		style={{
 			backgroundColor: color,
 			color: textColor ?? 'white',
@@ -47,18 +45,44 @@ export const ProductTag = ({
 	return <CellularTag name={name} />
 }
 
+export const Level100Tag = () => (
+	<Tag
+		color="var(--color-nordic-grass)"
+		textColor="var(--color-nordic-darkgrey)"
+		title="Lvl 100"
+	/>
+)
+
+export const Level200Tag = () => (
+	<Tag color="var(--color-nordic-lake)" textColor="white" title="Lvl 200" />
+)
+
+export const Level300Tag = () => (
+	<Tag
+		color="var(--color-nordic-blueslate)"
+		textColor="white"
+		title="Lvl 300"
+	/>
+)
+
 export const toTag = (name: string): JSX.Element => {
 	switch (name) {
-		case TagName.wifi:
+		case `family:nRF7`:
 			return <WiFiTag />
-		case TagName.cellular:
+		case `family:nRF9`:
 			return <CellularTag />
-		case TagName.nRF9160DK:
+		case `model:PCA10090`:
 			return <ProductTag name={'nRF9160 DK'} family="nRF9" />
-		case TagName.nRF7002DK:
+		case `model:PCA10143`:
 			return <ProductTag name={'nRF7002 DK'} family="nRF7" />
-		case TagName.Thingy91:
+		case `model:PCA20035`:
 			return <ProductTag name={'Thingy:91'} family="nRF9" />
+		case 'level:100':
+			return <Level100Tag />
+		case 'level:200':
+			return <Level200Tag />
+		case 'level:300':
+			return <Level300Tag />
 		default:
 			return <Tag title={name} color={'grey'} textColor={'white'} />
 	}

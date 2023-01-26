@@ -1,6 +1,7 @@
 import { useDevice } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
-import type { DK } from '../DKs'
+import type { DK } from '../content/DKs'
+import { toTag } from './Tags'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device, clear } = useDevice()
@@ -8,7 +9,8 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 		<div class="d-flex justify-content-between align-items-center">
 			<span>
 				Your development kit: <strong>{selected.title}</strong> (
-				{selected.model})<br />
+				{selected.model}){selected.tags.map(toTag)}
+				<br />
 				{device === undefined && (
 					<span>
 						<CloudOff />
