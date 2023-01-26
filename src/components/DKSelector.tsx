@@ -29,7 +29,7 @@ export const DKSelector = () => {
 						The QR code on the Development Kit encodes a link with a code (e.g.{' '}
 						<code>01/e5hs5y8h</code>) that contains the production run ID (e.g.{' '}
 						<code>01</code>) and a unique code (e.g. <code>e5hs5y8h</code>) that
-						will proof your ownership of the DK and will be used to look up the
+						will prove your ownership of the DK and will be used to look up the
 						IMEI in our database.
 					</p>
 					<p>
