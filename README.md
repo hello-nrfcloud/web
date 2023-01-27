@@ -23,3 +23,14 @@ npm ci
 ```bash
 npm start
 ```
+
+## Deploy
+
+- register domain name, export as `DOMAIN_NAME`
+- create certificate in `us-east-1` region, export as `CERTIFICATE_ID`
+- export a comma-separated list of allowed ips as `ALLOWED_IPS`
+
+```bash
+npx cdk bootstrap
+npx cdk deploy --all
+```
