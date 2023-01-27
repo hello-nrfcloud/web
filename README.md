@@ -28,7 +28,9 @@ npm start
 
 - register domain name, export as `DOMAIN_NAME`
 - create certificate in `us-east-1` region, export as `CERTIFICATE_ID`
-- export a comma-separated list of allowed ips as `ALLOWED_IPS`
+- export a comma-separated list of allowed client addresses as
+  `ALLOWED_CLIENTS`. This list may contain host names (e.g. from a DDNS
+  provider) which will be resolved.
 
 ```bash
 npx cdk bootstrap

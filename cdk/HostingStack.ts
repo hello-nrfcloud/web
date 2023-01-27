@@ -20,7 +20,7 @@ export class HostingStack extends Stack {
 		stackName: string,
 		{
 			repository: r,
-			allowedIps,
+			allowedClients,
 			domainName,
 			region,
 			certificateId,
@@ -29,7 +29,7 @@ export class HostingStack extends Stack {
 				owner: string
 				repo: string
 			}
-			allowedIps: string[]
+			allowedClients: string[]
 			domainName: string
 			certificateId: string
 			region: string
@@ -42,6 +42,7 @@ export class HostingStack extends Stack {
 		})
 
 		const websiteBucket = new S3.Bucket(this, 'bucket', {
+			autoDeleteObjects: true,
 			removalPolicy: RemovalPolicy.DESTROY,
 			websiteIndexDocument: 'index.html',
 			websiteErrorDocument: '404.html',
@@ -69,7 +70,7 @@ export class HostingStack extends Stack {
 
 		websiteBucket.grantWrite(ghRole)
 
-		const myFunc = new Cf.experimental.EdgeFunction(
+		const clientAuthorizer = new Cf.experimental.EdgeFunction(
 			this,
 			'IPAuthorizerLambda',
 			{
@@ -77,9 +78,9 @@ export class HostingStack extends Stack {
 				handler: 'index.handler',
 				code: Lambda.Code.fromInline(
 					readFileSync(
-						path.join(process.cwd(), 'cdk', 'ipAuthorizer.js'),
+						path.join(process.cwd(), 'cdk', 'clientAuthorizer.js'),
 						'utf-8',
-					).replace('%ALLOWED_IPS%', allowedIps.join(',')),
+					).replace('%ALLOWED_CLIENTS%', allowedClients.join(',')),
 				),
 			},
 		)
@@ -87,6 +88,7 @@ export class HostingStack extends Stack {
 		const oai = new Cf.OriginAccessIdentity(this, 'originAccessIdentity', {
 			comment: `OAI for ${domainName} CloudFront distribution.`,
 		})
+		websiteBucket.grantRead(oai)
 
 		const distribution = new Cf.Distribution(this, 'cloudFront', {
 			enabled: true,
@@ -98,12 +100,14 @@ export class HostingStack extends Stack {
 				compress: true,
 				smoothStreaming: false,
 				origin: new S3Origin(websiteBucket, {
+					originId: 's3website',
+					originPath: '/',
 					originAccessIdentity: oai,
 				}),
 				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
 				edgeLambdas: [
 					{
-						functionVersion: myFunc.currentVersion,
+						functionVersion: clientAuthorizer.currentVersion,
 						eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
 					},
 				],
@@ -117,35 +121,6 @@ export class HostingStack extends Stack {
 				`arn:aws:acm:us-east-1:${this.account}:certificate/${certificateId}`,
 			),
 		})
-		// Grant distribution access to bucket
-		/*
-		websiteBucket.addToResourcePolicy(
-			new IAM.PolicyStatement({
-				effect: IAM.Effect.ALLOW,
-				principals: [new IAM.ServicePrincipal('cloudfront.amazonaws.com')],
-				actions: ['s3:GetObject'],
-				resources: [websiteBucket.arnForObjects('*')],
-				conditions: {
-					StringEquals: {
-						'AWS:SourceArn': `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`,
-					},
-				},
-			}),
-		)
-		*/
-
-		websiteBucket.addToResourcePolicy(
-			new IAM.PolicyStatement({
-				effect: IAM.Effect.ALLOW,
-				principals: [
-					new IAM.ArnPrincipal(
-						`arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${oai.originAccessIdentityId}`,
-					),
-				],
-				actions: ['s3:GetObject'],
-				resources: [websiteBucket.arnForObjects('*')],
-			}),
-		)
 
 		new CfnOutput(this, 'gitHubCdRoleArn', {
 			value: ghRole.roleArn,
