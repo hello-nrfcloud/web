@@ -1,5 +1,5 @@
 import { Header } from '@components/Header'
-import { Warning } from '@components/Warning'
+import { PreviewWarning } from '@components/PreviewWarning'
 import { formatDistanceToNow } from 'date-fns'
 import { render } from 'preact'
 
@@ -19,7 +19,7 @@ if (root === null) {
 } else {
 	render(
 		<>
-			<Warning title="Development preview: this project is under development and not ready to use." />
+			<PreviewWarning />
 			<main>
 				<article>
 					<Header />

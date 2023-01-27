@@ -2,10 +2,10 @@ import { ConnectDK } from '@components/ConnectDK'
 import { DKSelector } from '@components/DKSelector'
 import { Header } from '@components/Header'
 import { Map } from '@components/Map'
+import { PreviewWarning } from '@components/PreviewWarning'
 import { Resources } from '@components/Resources'
 import { SelectedDK } from '@components/SelectedDK'
 import { WaitingForLocation } from '@components/WaitingForLocation'
-import { Warning } from '@components/Warning'
 import { Resource, resources } from '@content/resources'
 import { useDevice } from '@context/Device'
 import { ExternalLink, Github, Laptop2 } from 'lucide-preact'
@@ -26,7 +26,7 @@ export const App = () => {
 
 	return (
 		<>
-			<Warning title="Development preview: this project is under development and not ready to use." />
+			<PreviewWarning />
 			<main>
 				<article>
 					<Header />
