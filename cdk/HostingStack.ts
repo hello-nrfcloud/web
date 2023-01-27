@@ -44,8 +44,6 @@ export class HostingStack extends Stack {
 		const websiteBucket = new S3.Bucket(this, 'bucket', {
 			autoDeleteObjects: true,
 			removalPolicy: RemovalPolicy.DESTROY,
-			websiteIndexDocument: 'index.html',
-			websiteErrorDocument: '404.html',
 		})
 
 		const githubDomain = 'token.actions.githubusercontent.com'
@@ -90,6 +88,11 @@ export class HostingStack extends Stack {
 		})
 		websiteBucket.grantRead(oai)
 
+		const s3Origin = new S3Origin(websiteBucket, {
+			originId: 's3website',
+			originPath: '/',
+			originAccessIdentity: oai,
+		})
 		const distribution = new Cf.Distribution(this, 'cloudFront', {
 			enabled: true,
 			priceClass: Cf.PriceClass.PRICE_CLASS_100,
@@ -99,11 +102,7 @@ export class HostingStack extends Stack {
 				cachedMethods: Cf.CachedMethods.CACHE_GET_HEAD,
 				compress: true,
 				smoothStreaming: false,
-				origin: new S3Origin(websiteBucket, {
-					originId: 's3website',
-					originPath: '/',
-					originAccessIdentity: oai,
-				}),
+				origin: s3Origin,
 				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
 				edgeLambdas: [
 					{
@@ -111,6 +110,9 @@ export class HostingStack extends Stack {
 						eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
 					},
 				],
+				cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
+					defaultTtl: Duration.days(30),
+				}),
 			},
 			enableIpv6: false, // For IP protected access
 			domainNames: [domainName],
@@ -120,6 +122,11 @@ export class HostingStack extends Stack {
 				// us-east-1 is required for CloudFront
 				`arn:aws:acm:us-east-1:${this.account}:certificate/${certificateId}`,
 			),
+		})
+		distribution.addBehavior('*.html', s3Origin, {
+			cachePolicy: new Cf.CachePolicy(this, 'htmlCachePolicy', {
+				defaultTtl: Duration.minutes(10),
+			}),
 		})
 
 		new CfnOutput(this, 'gitHubCdRoleArn', {

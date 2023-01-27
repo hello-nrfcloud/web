@@ -18,8 +18,8 @@ const repository = {
 for (const [k, v] of Object.entries({
 	Domain: domainName,
 	'Certificate ID': certificateId,
-	'OICD Repo': repository.repo,
 	'OICD Owner': repository.owner,
+	'OICD Repo': repository.repo,
 	'Allowed clients': allowedClients.join(', '),
 })) {
 	console.debug(chalk.magenta(k), chalk.green(v))
