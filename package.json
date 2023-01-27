@@ -2,6 +2,7 @@
   "name": "@nordicsemiconductor/nrf-guide-web",
   "version": "0.0.0-development",
   "description": "A getting started guide for the Nordic Semiconductor Development Kits",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NordicSemiconductor/nrf.guide.git"
@@ -37,10 +38,10 @@
     "@types/node": "18.11.18",
     "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "5.49.0",
-    "aws-cdk": "2.62.1",
-    "aws-cdk-lib": "2.62.1",
+    "aws-cdk": "2.62.2",
+    "aws-cdk-lib": "2.62.2",
     "bootstrap": "5.2.3",
-    "cdk": "2.62.1",
+    "cdk": "2.62.2",
     "chalk": "5.2.0",
     "eslint": "8.32.0",
     "eslint-plugin-jsx-a11y": "6.7.1",
