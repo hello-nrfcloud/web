@@ -5,10 +5,10 @@ import { DKs } from '../content/DKs'
 import { toTag } from './Tags'
 
 export const DKSelector = () => {
-	const [productionRun, setProductionRun] = useState<string>('01')
-	const [token, setToken] = useState<string>('e5hs5y8h')
-	const code = `${productionRun}/${token}`
-	const isValid = /^[0-9]{2}\/[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}/i.test(code)
+	const [productionRun, setProductionRun] = useState<string>('42')
+	const [token, setToken] = useState<string>('d3c4fb4d')
+	const code = `${productionRun}.${token}`
+	const isValid = /^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}/i.test(code)
 	const { fromCode, fromType } = useDevice()
 
 	return (
@@ -27,8 +27,8 @@ export const DKSelector = () => {
 				<div class="col-4">
 					<p>
 						The QR code on the Development Kit encodes a link with a code (e.g.{' '}
-						<code>01/e5hs5y8h</code>) that contains the production run ID (e.g.{' '}
-						<code>01</code>) and a unique code (e.g. <code>e5hs5y8h</code>) that
+						<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
+						<code>42</code>) and a unique code (e.g. <code>d3c4fb4d</code>) that
 						will prove your ownership of the DK and will be used to look up the
 						IMEI in our database.
 					</p>
@@ -37,7 +37,7 @@ export const DKSelector = () => {
 							type="button"
 							class="btn btn-primary"
 							onClick={() => {
-								fromCode('01/e5hs5y8h')
+								fromCode('42.d3c4fb4d')
 							}}
 						>
 							<QrCode /> Scan QR code
@@ -60,21 +60,21 @@ export const DKSelector = () => {
 									maxLength={2}
 									class="form-control form-control-sm"
 									id="productionRunInput"
-									placeholder="01"
+									placeholder="42"
 									value={productionRun}
 									onChange={(e) => {
 										setProductionRun((e.target as HTMLInputElement).value)
 									}}
 									size={2}
 								/>
-								<div class="input-group-text">/</div>
+								<div class="input-group-text">.</div>
 								<input
 									type="text"
 									minLength={8}
 									maxLength={8}
 									class="form-control form-control-sm"
 									id="tokenInput"
-									placeholder="e5hs5y8h"
+									placeholder="d3c4fb4d"
 									value={token}
 									onChange={(e) => {
 										setToken((e.target as HTMLInputElement).value)
