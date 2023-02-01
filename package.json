@@ -13,8 +13,8 @@
   "homepage": "https://github.com/NordicSemiconductor/nrf.guide#readme",
   "keywords": [
     "nordicsemiconductor",
-    "guide",
-    "dk"
+    "cellular-iot",
+    "nrf-guide"
   ],
   "author": "Nordic Semiconductor ASA | nordicsemi.no",
   "license": "BSD-3-Clause",
