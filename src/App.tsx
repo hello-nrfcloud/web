@@ -15,7 +15,6 @@ export const App = () => {
 
 	const bySelectedType = (resource: Resource): boolean => {
 		if (type === undefined) return true
-		console.log(resource.tags.find((tag) => type.tags.includes(tag)))
 		return resource.tags.find((tag) => type.tags.includes(tag)) !== undefined
 	}
 
