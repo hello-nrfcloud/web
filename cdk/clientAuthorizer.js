@@ -5,7 +5,7 @@ const { lookup } = require('dns/promises')
 const allowedClients = Promise.all(
 	`%ALLOWED_CLIENTS%`
 		.split(',')
-		.map((clientAddress) => lookup(clientAddress, 4)),
+		.map(async (clientAddress) => lookup(clientAddress, 4)),
 ).then((addresses) => addresses.map(({ address }) => address))
 
 exports.handler = (event, context, callback) => {
