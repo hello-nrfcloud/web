@@ -67,6 +67,13 @@ jobs:
           BUCKET_NAME=`aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "bucketName") | .OutputValue' | sed -E 's/\/$//g'`
           aws s3 sync build s3://${BUCKET_NAME}
 
+      - name: Set cache metadata
+        run: |
+          # All files to 1 year
+          aws s3 cp s3://${BUCKET_NAME} s3://${BUCKET_NAME} --recursive --metadata-directive REPLACE --cache-control max-age=30758400,public
+          # HTML files to 10 minutes
+          aws s3 cp s3://${BUCKET_NAME} s3://${BUCKET_NAME} --exclude "*" --include "*.html" --recursive --metadata-directive REPLACE --cache-control max-age=600,public
+
       - name:
           Trigger CloudFront cache invalidation for index.html (all other files
           have unique names)
