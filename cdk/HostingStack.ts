@@ -70,6 +70,14 @@ export class HostingStack extends Stack {
 
 		websiteBucket.grantReadWrite(ghRole)
 
+		// Allow to describe this stack (to see outputs)
+		ghRole.addToPolicy(
+			new IAM.PolicyStatement({
+				actions: ['cloudformation:DescribeStacks'],
+				resources: [this.stackId],
+			}),
+		)
+
 		const clientAuthorizer = new Cf.experimental.EdgeFunction(
 			this,
 			'IPAuthorizerLambda',
