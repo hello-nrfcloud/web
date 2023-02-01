@@ -119,6 +119,7 @@ export class HostingStack extends Stack {
 			cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
 				defaultTtl: Duration.days(356),
 				minTtl: Duration.days(356),
+				queryStringBehavior: Cf.CacheQueryStringBehavior.allowList('v'),
 			}),
 		}
 

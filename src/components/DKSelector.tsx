@@ -17,7 +17,7 @@ export const DKSelector = () => {
 			<div class="row mt-4">
 				<div class="col-4">
 					<img
-						src="/static/images/qrcode.webp"
+						src="/static/images/qrcode.webp?v=2"
 						class="img-fluid"
 						alt="Development Kit with QR code"
 						width={744}
