@@ -149,6 +149,9 @@ export class HostingStack extends Stack {
 		distribution.addBehavior('*.html', s3Origin, htmlBehaviour)
 		distribution.addBehavior('/', s3Origin, htmlBehaviour)
 
+		// Allow CD to create cache invalidation
+		distribution.grantCreateInvalidation(ghRole)
+
 		new CfnOutput(this, 'gitHubCdRoleArn', {
 			value: ghRole.roleArn,
 			exportName: `${this.stackName}:gitHubCdRoleArn`,
