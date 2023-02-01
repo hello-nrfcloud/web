@@ -5,6 +5,7 @@ on: push
 permissions:
   id-token: write
   contents: write
+  issues: write
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
