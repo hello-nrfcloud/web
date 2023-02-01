@@ -120,6 +120,8 @@ export class HostingStack extends Stack {
 				defaultTtl: Duration.days(356),
 				minTtl: Duration.days(356),
 				queryStringBehavior: Cf.CacheQueryStringBehavior.allowList('v'),
+				enableAcceptEncodingBrotli: true,
+				enableAcceptEncodingGzip: true,
 			}),
 		}
 
@@ -127,6 +129,8 @@ export class HostingStack extends Stack {
 			...defaultBehaviour,
 			cachePolicy: new Cf.CachePolicy(this, 'htmlCachePolicy', {
 				defaultTtl: Duration.minutes(10),
+				enableAcceptEncodingBrotli: true,
+				enableAcceptEncodingGzip: true,
 			}),
 		}
 
