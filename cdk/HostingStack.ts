@@ -140,10 +140,22 @@ export class HostingStack extends Stack {
 			value: distribution.distributionDomainName,
 			exportName: `${this.stackName}:distributionDomainName`,
 		})
+
+		new CfnOutput(this, 'distributionId', {
+			value: distribution.distributionId,
+			exportName: `${this.stackName}:distributionId`,
+		})
+
+		new CfnOutput(this, 'bucketName', {
+			value: websiteBucket.bucketName,
+			exportName: `${this.stackName}:bucketName`,
+		})
 	}
 }
 
 export type StackOutputs = {
-	bucketDomainName: string
 	gitHubCdRoleArn: string
+	distributionDomainName: string
+	bucketName: string
+	distributionId: string
 }

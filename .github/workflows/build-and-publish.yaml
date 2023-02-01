@@ -9,8 +9,8 @@ permissions:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   AWS_REGION: eu-north-1
-  AWS_ROLE: arn:aws:iam::812555912232:role/nrf-guide-web-cd
-  BUCKET_NAME: nrf-guide-web-bucket43879c71-k9888inoknx4
+  AWS_ACCOUNT_ID: 812555912232
+  STACK_NAME: nrf-guide-web
   CLOUDFRONT_DISTRIBUTION: EWW417GN4G5NJ
 
 jobs:
@@ -57,20 +57,22 @@ jobs:
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ env.AWS_ROLE }}
+          role-to-assume:
+            arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.STACK_NAME }}-cd
           role-session-name: gh-actions-publish
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Upload build
-        run: aws s3 sync build s3://${{ env.BUCKET_NAME }}
-      # Set metadate for index.html
-      # aws s3 cp build s3://$PUBLIC_WEB_APP_BUCKET_NAME --recursive --metadata-directive REPLACE --cache-control 'public,max-age=600' --expires ''
+        run: |
+          BUCKET_NAME=`aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "bucketName") | .OutputValue' | sed -E 's/\/$//g'`
+          aws s3 sync build s3://${BUCKET_NAME}
 
       - name:
           Trigger CloudFront cache invalidation for index.html (all other files
           have unique names)
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION }} --paths /,/index.html
+          CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue' | sed -E 's/\/$//g'`
+          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html
 
       - name: Semantic release
         continue-on-error: true
