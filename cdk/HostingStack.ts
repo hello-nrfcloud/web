@@ -58,8 +58,9 @@ export class HostingStack extends Stack {
 			assumedBy: new IAM.WebIdentityPrincipal(
 				ghProvider.openIdConnectProviderArn,
 				{
-					StringLike: {
-						[`${githubDomain}:sub`]: `repo:${r.owner.toLowerCase()}/${r.repo.toLowerCase()}:saga`,
+					StringEquals: {
+						[`${githubDomain}:sub`]: `repo:${r.owner}/${r.repo}:ref:refs/heads/saga`,
+						'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
 					},
 				},
 			),
@@ -67,7 +68,7 @@ export class HostingStack extends Stack {
 			maxSessionDuration: Duration.hours(1),
 		})
 
-		websiteBucket.grantWrite(ghRole)
+		websiteBucket.grantReadWrite(ghRole)
 
 		const clientAuthorizer = new Cf.experimental.EdgeFunction(
 			this,
