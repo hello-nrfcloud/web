@@ -95,26 +95,39 @@ export class HostingStack extends Stack {
 			originPath: '/',
 			originAccessIdentity: oai,
 		})
+
+		const defaultBehaviour: Cf.AddBehaviorOptions = {
+			allowedMethods: Cf.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
+			cachedMethods: Cf.CachedMethods.CACHE_GET_HEAD,
+			compress: true,
+			smoothStreaming: false,
+			viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+			edgeLambdas: [
+				{
+					functionVersion: clientAuthorizer.currentVersion,
+					eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
+				},
+			],
+			cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
+				defaultTtl: Duration.days(356),
+				minTtl: Duration.days(356),
+			}),
+		}
+
+		const htmlBehaviour: Cf.AddBehaviorOptions = {
+			...defaultBehaviour,
+			cachePolicy: new Cf.CachePolicy(this, 'htmlCachePolicy', {
+				defaultTtl: Duration.minutes(10),
+			}),
+		}
+
 		const distribution = new Cf.Distribution(this, 'cloudFront', {
 			enabled: true,
 			priceClass: Cf.PriceClass.PRICE_CLASS_100,
 			defaultRootObject: 'index.html',
 			defaultBehavior: {
-				allowedMethods: Cf.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
-				cachedMethods: Cf.CachedMethods.CACHE_GET_HEAD,
-				compress: true,
-				smoothStreaming: false,
 				origin: s3Origin,
-				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-				edgeLambdas: [
-					{
-						functionVersion: clientAuthorizer.currentVersion,
-						eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
-					},
-				],
-				cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
-					defaultTtl: Duration.days(30),
-				}),
+				...defaultBehaviour,
 			},
 			enableIpv6: false, // For IP protected access
 			domainNames: [domainName],
@@ -125,11 +138,8 @@ export class HostingStack extends Stack {
 				`arn:aws:acm:us-east-1:${this.account}:certificate/${certificateId}`,
 			),
 		})
-		distribution.addBehavior('*.html', s3Origin, {
-			cachePolicy: new Cf.CachePolicy(this, 'htmlCachePolicy', {
-				defaultTtl: Duration.minutes(10),
-			}),
-		})
+		distribution.addBehavior('*.html', s3Origin, htmlBehaviour)
+		distribution.addBehavior('/', s3Origin, htmlBehaviour)
 
 		new CfnOutput(this, 'gitHubCdRoleArn', {
 			value: ghRole.roleArn,
