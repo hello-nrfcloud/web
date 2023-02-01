@@ -50,6 +50,7 @@ export class HostingStack extends Stack {
 		const ghProvider = new IAM.OpenIdConnectProvider(this, 'githubProvider', {
 			url: `https://${githubDomain}`,
 			clientIds: ['sts.amazonaws.com'],
+			thumbprints: ['6938fd4d98bab03faadb97b34396831e3780aea1'],
 		})
 
 		const ghRole = new IAM.Role(this, 'ghRole', {
@@ -58,7 +59,7 @@ export class HostingStack extends Stack {
 				ghProvider.openIdConnectProviderArn,
 				{
 					StringLike: {
-						[`${githubDomain}:sub`]: `repo:${r.owner}/${r.repo}:saga`,
+						[`${githubDomain}:sub`]: `repo:${r.owner.toLowerCase()}/${r.repo.toLowerCase()}:saga`,
 					},
 				},
 			),
