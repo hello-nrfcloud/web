@@ -1,9 +1,11 @@
+import { useCode } from '@context/Code'
 import { DK, useDevice } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
 import { toTag } from './Tags'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
-	const { device, clear } = useDevice()
+	const { device } = useDevice()
+	const { clear } = useCode()
 	return (
 		<div class="d-flex justify-content-between align-items-center">
 			<span>

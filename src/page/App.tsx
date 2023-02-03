@@ -1,28 +1,17 @@
 import { ConnectDK } from '@components/ConnectDK'
 import { DKSelector } from '@components/DKSelector'
+import { Footer } from '@components/Footer'
 import { Header } from '@components/Header'
+import { LeveledResources } from '@components/LeveledResources'
 import { Map } from '@components/Map'
 import { PreviewWarning } from '@components/PreviewWarning'
-import { Resources } from '@components/Resources'
 import { SelectedDK } from '@components/SelectedDK'
 import { WaitingForLocation } from '@components/WaitingForLocation'
 import { useDevice } from '@context/Device'
-import { Resource, useResources } from '@context/Resources'
-import { ExternalLink, Github, Laptop2 } from 'lucide-preact'
+import { ExternalLink } from 'lucide-preact'
 
 export const App = () => {
 	const { type, device } = useDevice()
-	const { resources } = useResources()
-
-	const bySelectedType = (resource: Resource): boolean => {
-		if (type === undefined) return true
-		return resource.tags.find((tag) => type.tags.includes(tag)) !== undefined
-	}
-
-	const byTag =
-		(tag: string) =>
-		(resource: Resource): boolean =>
-			resource.tags.includes(tag)
 
 	return (
 		<>
@@ -230,185 +219,8 @@ export const App = () => {
 							</div>
 						</section>
 					)}
-
-					<section
-						style={{
-							backgroundColor: 'var(--color-nordic-grass)',
-						}}
-						class="pt-4 pb-4"
-					>
-						<div class="container pt-4 pb-4">
-							<header class="mb-4">
-								<h2>Here is what's next</h2>
-								<p>
-									We've selected these 100-level introduction resources if this
-									is the first time using a Nordic Semiconductor Development
-									Kit:
-								</p>
-							</header>
-							<Resources
-								resources={resources
-									.filter(bySelectedType)
-									.filter(byTag('level:100'))}
-							/>
-						</div>
-					</section>
-					<section
-						style={{
-							backgroundColor: 'var(--color-nordic-lake)',
-						}}
-						class="pt-4 pb-4"
-					>
-						<div class="container pt-4 pb-4">
-							<header class="text-light">
-								<h2>200 level intermediate resources</h2>
-								<p>
-									Complete these advanced topics to get the most out of Nordic
-									Semiconductor's Development Kits:
-								</p>
-							</header>
-							<Resources
-								resources={resources
-									.filter(bySelectedType)
-									.filter(byTag('level:200'))}
-							/>
-						</div>
-					</section>
-					<section
-						style={{
-							backgroundColor: 'var(--color-nordic-blueslate)',
-						}}
-						class="pt-4 pb-4"
-					>
-						<div class="container pt-4 pb-4">
-							<header class="text-light">
-								<h2>300 level advanced resources</h2>
-								<p>
-									Building a successful, world-class IoT product requires you to
-									tackle these advanced topics:
-								</p>
-							</header>
-							<Resources
-								resources={resources
-									.filter(bySelectedType)
-									.filter(byTag('level:300'))}
-							/>
-						</div>
-					</section>
-					<section
-						style={{
-							backgroundColor: 'var(--color-nordic-dark-grey)',
-						}}
-						class="pt-4 pb-4"
-					>
-						<div class="container pt-4 pb-4 text-light">
-							<div class="row">
-								<div class="col">
-									<p>
-										<a href="https://devzone.nordicsemi.com/" target="_blank">
-											<img
-												src="/static/images/devzone-white.svg"
-												alt="{DevZone"
-												width="250"
-												height="150"
-											/>
-										</a>
-									</p>
-									<h2>Get support</h2>
-									<p>
-										In case you have any question, reach out to our community or
-										create a private support ticket.
-									</p>
-									<p>
-										<a
-											href="https://devzone.nordicsemi.com/"
-											target="_blank"
-											class="btn btn-secondary"
-										>
-											devzone.nordicsemi.com
-										</a>
-									</p>
-									<p>
-										Additionally, you can find a variety of tutorials and blog
-										posts:
-									</p>
-									<ul>
-										<li>
-											<a
-												href="https://devzone.nordicsemi.com/guides/cellular-iot-guides/"
-												target="_blank"
-												class="text-white"
-											>
-												Cellular IoT guides
-											</a>{' '}
-											(<em>important guides should be integrated above</em>)
-										</li>
-									</ul>
-								</div>
-								<div class="col">
-									<p class="mt-4 mb-4">
-										<Github
-											strokeWidth={1}
-											style={{ width: '100px', height: '100px' }}
-										/>
-									</p>
-									<h2>Nordic Semiconductor on Github</h2>
-									<ul>
-										<li>
-											<a
-												href="https://github.com/NordicSemiconductor"
-												target="_blank"
-												class="text-white"
-											>
-												<code>NordicSemiconductor</code>
-											</a>
-											: Officially supported repositories
-										</li>
-										<li>
-											<a
-												href="https://github.com/NordicPlayground"
-												target="_blank"
-												class="text-white"
-											>
-												<code>NordicPlayground</code>
-											</a>
-											: Emerging and unsupported projects
-										</li>
-										<li>
-											<a
-												href="https://github.com/sdk-nrf"
-												target="_blank"
-												class="text-white"
-											>
-												<code>sdk-nrf</code>
-											</a>
-											: nRF Connect SDK
-										</li>
-									</ul>
-								</div>
-								<div class="col">
-									<p class="mt-4 mb-4">
-										<Laptop2
-											strokeWidth={1}
-											style={{ width: '100px', height: '100px' }}
-										/>
-									</p>
-									<h2>Important Tools</h2>
-									<ul>
-										<li>
-											<a
-												href="https://nrfconnect.github.io/vscode-nrf-connect/"
-												target="_blank"
-												class="text-white"
-											>
-												nRF Connect SDK for Visual Studio Code
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</section>
+					<LeveledResources dk={type} />
+					<Footer />
 				</article>
 			</main>
 		</>

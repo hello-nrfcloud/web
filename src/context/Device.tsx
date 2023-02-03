@@ -1,5 +1,6 @@
 import { ComponentChildren, createContext } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
+import { useCode } from './Code'
 
 export type DK = {
 	model: string
@@ -19,14 +20,10 @@ export type Device = {
 export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
-	fromType: (type: string) => void
 	fromCode: (code: string) => void
-	clear: () => void
 	DKs: Record<string, DK>
 }>({
-	fromType: () => undefined,
 	fromCode: () => undefined,
-	clear: () => undefined,
 	DKs: {},
 })
 
@@ -39,6 +36,7 @@ export const Provider = ({
 }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
+	const { code } = useCode()
 
 	console.debug(`[Device]`, device)
 
@@ -53,6 +51,17 @@ export const Provider = ({
 		return () => clearTimeout(t)
 	}, [device])
 
+	useEffect(() => {
+		if (code === null) return
+		setDevice({
+			hasLocation: false,
+			code,
+			imei: '351234567890123',
+			type: DKs['PCA10090'] as DK,
+		})
+		setType('PCA10090')
+	}, [code])
+
 	return (
 		<DeviceContext.Provider
 			value={{
@@ -64,14 +73,6 @@ export const Provider = ({
 						type: DKs['PCA10090'] as DK,
 					})
 					setType('PCA10090')
-				},
-				clear: () => {
-					setDevice(undefined)
-					setType(undefined)
-				},
-				fromType: (type) => {
-					if (DKs[type] === undefined) return
-					setType(type)
 				},
 				device,
 				type: type === undefined ? undefined : DKs[type],
