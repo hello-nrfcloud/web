@@ -1,4 +1,10 @@
+import { isCode } from '@utils/isCode'
+
 export const Page = ({ is404 }: { is404: boolean }) => {
+	const maybeCode = document?.location.pathname?.slice(1)
+	if (isCode(maybeCode)) {
+		document.location.href = `/?code=${maybeCode}`
+	}
 	if (is404) {
 		return (
 			<>

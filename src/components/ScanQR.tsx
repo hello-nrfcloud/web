@@ -1,4 +1,5 @@
 import { useDevice } from '@context/Device'
+import { isCode } from '@utils/isCode'
 import { QrCode } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 
@@ -6,7 +7,7 @@ export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
 	const [token, setToken] = useState<string>('d3c4fb4d')
 	const code = `${productionRun}.${token}`
-	const isValid = /^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}/i.test(code)
+	const isValid = isCode(code)
 	const { fromCode } = useDevice()
 
 	return (

@@ -27,6 +27,7 @@
       "react-dom": ["../node_modules/preact/compat/"],
       "@components/*": ["components/*"],
       "@context/*": ["context/*"],
+      "@utils/*": ["utils/*"],
       "@page/*": ["page/*"]
     }
   }
