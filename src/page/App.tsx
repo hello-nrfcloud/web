@@ -6,12 +6,13 @@ import { PreviewWarning } from '@components/PreviewWarning'
 import { Resources } from '@components/Resources'
 import { SelectedDK } from '@components/SelectedDK'
 import { WaitingForLocation } from '@components/WaitingForLocation'
-import { Resource, resources } from '@content/resources'
 import { useDevice } from '@context/Device'
+import { Resource, useResources } from '@context/Resources'
 import { ExternalLink, Github, Laptop2 } from 'lucide-preact'
 
 export const App = () => {
 	const { type, device } = useDevice()
+	const { resources } = useResources()
 
 	const bySelectedType = (resource: Resource): boolean => {
 		if (type === undefined) return true

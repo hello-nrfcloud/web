@@ -1,5 +1,5 @@
 import { CloudOff } from 'lucide-preact'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const Placeholder = styled.div`
 	aspect-ratio: 2/1;

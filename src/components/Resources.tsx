@@ -1,4 +1,4 @@
-import type { Resource } from '@content/resources'
+import type { Resource } from '@context/Resources'
 import { toTag } from './Tags'
 
 export const Resources = ({ resources }: { resources: Resource[] }) => {
@@ -11,11 +11,15 @@ export const Resources = ({ resources }: { resources: Resource[] }) => {
 	return (
 		<div class="mt-4 card-group">
 			{resources.map(
-				({ tags, callToAction: { text, link }, title, description }) => (
+				({ tags, callToAction: { text, link }, title, descriptionHTML }) => (
 					<div class="card">
 						<h5 class="card-header">{title}</h5>
 						<div class="card-body d-flex justify-content-between flex-column">
-							<p class="card-text">{description}</p>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: descriptionHTML,
+								}}
+							/>
 							<div class="d-flex justify-content-end">{tags.map(toTag)}</div>
 						</div>
 						<div class="card-footer d-flex justify-content-end">

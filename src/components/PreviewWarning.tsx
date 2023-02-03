@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const W = styled.div`
 	background-color: #e10707;

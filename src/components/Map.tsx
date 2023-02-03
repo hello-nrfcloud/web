@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const MapContainer = styled.div`
 	aspect-ratio: 2/1;

@@ -39,7 +39,7 @@ jobs:
           VERSION: ${{ github.sha }}
         run: |
           npm run build
-          cp -r ./static ./build
+          cp -L -r ./static ./build/client
 
       - name: Cache AWS CLI (Linux)
         id: cache-aws-cli
@@ -71,7 +71,7 @@ jobs:
 
       - name: Upload build
         run: |
-          aws s3 sync build s3://${{ env.BUCKET_NAME }}
+          aws s3 sync build/client s3://${{ env.BUCKET_NAME }}
 
       - name: Set cache metadata
         run: |
