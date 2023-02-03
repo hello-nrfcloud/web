@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/NordicSemiconductor/nrf.guide/issues"
   },
-  "homepage": "https://github.com/NordicSemiconductor/nrf.guide#readme",
+  "homepage": "https://nrf.guide",
   "keywords": [
     "nordicsemiconductor",
     "cellular-iot",
