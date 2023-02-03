@@ -10,10 +10,6 @@ const allowedClients = Promise.all(
 
 exports.handler = (event, context, callback) => {
 	const request = event.Records[0].cf.request
-	const headers = request.headers
-	console.log(
-		JSON.stringify({ allowedClients: `%ALLOWED_CLIENTS%`, request, headers }),
-	)
 
 	allowedClients.then((addresses) => {
 		console.debug({ addresses })
@@ -26,6 +22,20 @@ exports.handler = (event, context, callback) => {
 				statusDescription: 'Forbidden',
 			})
 		}
+
+		// Check if it is a code request
+		const maybeCode =
+			event.Records?.[0]?.cf?.request?.querystring?.slice(1) ?? ''
+		if (/^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}$/i.test(maybeCode)) {
+			return callback(null, {
+				status: '307',
+				statusDescription: 'Temporary Redirect',
+				headers: {
+					location: `/?code=${maybeCode}`,
+				},
+			})
+		}
+
 		callback(null, request)
 	})
 }

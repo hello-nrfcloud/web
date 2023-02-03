@@ -84,6 +84,8 @@ export class HostingStack extends Stack {
 			{
 				runtime: Lambda.Runtime.NODEJS_18_X,
 				handler: 'index.handler',
+				description:
+					'Allows access to origin resources only for specific clients',
 				code: Lambda.Code.fromInline(
 					readFileSync(
 						path.join(process.cwd(), 'cdk', 'clientAuthorizer.js'),
