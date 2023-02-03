@@ -8,11 +8,7 @@ export default defineConfig({
 	plugins: [
 		preact(),
 		ssr({
-			prerender: {
-				// TODO: remove service with .html when protection is removed
-				// This is needed for CloudFront and a protected S3 bucket
-				noExtraDir: true,
-			},
+			prerender: true,
 		}),
 	],
 	base: `${(process.env.BASE_URL ?? '').replace(/\/+$/, '')}/`,

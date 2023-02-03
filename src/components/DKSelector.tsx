@@ -17,7 +17,7 @@ export const DKSelector = () => {
 								width: `${Math.floor(100 / Object.keys(DKs).length)}%`,
 							}}
 						>
-							<a href={`/dk/${id}.html`}>
+							<a href={`/dk/${id}`}>
 								<img
 									alt={`${title} (${id})`}
 									src={`/static/images/${id}.webp`}

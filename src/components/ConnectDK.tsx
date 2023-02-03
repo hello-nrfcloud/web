@@ -46,7 +46,7 @@ export const ConnectDK = ({ device }: { device: Device }) => {
 						<HelpCircle strokeWidth={1} />
 						No success?
 						<br />
-						<a href="/troubleshooting.html" class="btn btn-warning mt-2">
+						<a href="/troubleshooting" class="btn btn-warning mt-2">
 							Follow our troubleshooting guide
 						</a>
 					</li>
