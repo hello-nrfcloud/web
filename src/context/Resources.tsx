@@ -3,7 +3,7 @@ import { useContext } from 'preact/hooks'
 
 export type Resource = {
 	title: string
-	descriptionHTML: string
+	html: string
 	callToAction: {
 		text: string
 		link: string

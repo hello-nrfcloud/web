@@ -1,7 +1,6 @@
 import { useDevice } from '@context/Device'
 import { QrCode } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { DKs } from '../content/DKs'
 import { toTag } from './Tags'
 
 export const DKSelector = () => {
@@ -9,7 +8,7 @@ export const DKSelector = () => {
 	const [token, setToken] = useState<string>('d3c4fb4d')
 	const code = `${productionRun}.${token}`
 	const isValid = /^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}/i.test(code)
-	const { fromCode, fromType } = useDevice()
+	const { fromCode, fromType, DKs } = useDevice()
 
 	return (
 		<>
@@ -102,7 +101,7 @@ export const DKSelector = () => {
 			<h2 class="mt-4">... or select your hardware</h2>
 			<div class="d-flex flex-col justify-content-between">
 				{Object.entries(DKs).map(
-					([id, { title, description, tags, learnMoreLink }]) => (
+					([id, { title, html, tags, learnMoreLink }]) => (
 						<section
 							class={'p-1'}
 							style={{
@@ -123,7 +122,11 @@ export const DKSelector = () => {
 								/>
 								{title} <small>({id})</small>
 							</button>
-							<p>{description}</p>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: html,
+								}}
+							/>
 							<p>
 								<a href={learnMoreLink} target={'_blank'}>
 									Learn more

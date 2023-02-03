@@ -23,7 +23,6 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{ find: '@components/', replacement: '/src/components/' },
-			{ find: '@content/', replacement: '/src/content/' },
 			{ find: '@context/', replacement: '/src/context/' },
 			{ find: '@page/', replacement: '/src/page/' },
 		],

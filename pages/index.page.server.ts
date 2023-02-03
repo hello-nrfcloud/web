@@ -1,3 +1,4 @@
+import type { DK } from '@context/Device'
 import type { Resource } from '@context/Resources'
 import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -16,33 +17,56 @@ const parseMarkdown = remark()
 	.use(format)
 	.use(html)
 
-export type IndexPageProps = { resources: Resource[] }
+export type IndexPageProps = { resources: Resource[]; dks: Record<string, DK> }
 
-export const onBeforeRender = async (): Promise<{
-	pageContext: { pageProps: IndexPageProps }
-}> => {
-	const content = (await readdir(path.join(process.cwd(), 'content'))).filter(
-		(f) => f.endsWith('.md'),
-	)
+const loadMarkdownContent = async <
+	T extends {
+		html: string
+	},
+>(
+	dir: 'resources' | 'dks',
+): Promise<(T & { slug: string })[]> => {
+	const resourceFiles = (
+		await readdir(path.join(process.cwd(), 'content', dir))
+	).filter((f) => f.endsWith('.md'))
 
-	const resources: Resource[] = await Promise.all(
-		content.map(async (f) => {
+	return await Promise.all(
+		resourceFiles.map(async (f) => {
 			const source = await readFile(
-				path.join(process.cwd(), 'content', f),
+				path.join(process.cwd(), 'content', dir, f),
 				'utf-8',
 			)
 			const md = await parseMarkdown.process(source)
 			return {
 				...md.data,
-				descriptionHTML: md.value,
-			} as Resource
+				html: md.value,
+				slug: f.replace(/.md$/, ''),
+			} as T & { slug: string }
 		}),
 	)
+}
+
+export const onBeforeRender = async (): Promise<{
+	pageContext: { pageProps: IndexPageProps }
+}> => {
+	const resources = await loadMarkdownContent<Resource>('resources')
+	const dks = await loadMarkdownContent<DK>('dks')
 
 	return {
 		pageContext: {
 			pageProps: {
-				resources: resources,
+				resources,
+				dks: dks.reduce(
+					(dks, dk) => ({
+						...dks,
+						[dk.slug]: {
+							...dk,
+							model: dk.slug,
+							tags: [...dk.tags, `model:${dk.slug}`],
+						},
+					}),
+					{} as Record<string, DK>,
+				),
 			},
 		},
 	}
