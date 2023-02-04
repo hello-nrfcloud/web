@@ -80,7 +80,7 @@ export class HostingStack extends Stack {
 
 		const clientAuthorizer = new Cf.experimental.EdgeFunction(
 			this,
-			'IPAuthorizerLambda',
+			'clientAuthorizer',
 			{
 				runtime: Lambda.Runtime.NODEJS_18_X,
 				handler: 'index.handler',
@@ -91,6 +91,22 @@ export class HostingStack extends Stack {
 						path.join(process.cwd(), 'cdk', 'clientAuthorizer.js'),
 						'utf-8',
 					).replace('%ALLOWED_CLIENTS%', allowedClients.join(',')),
+				),
+			},
+		)
+
+		const codeRedirect = new Cf.experimental.EdgeFunction(
+			this,
+			'codeRedirect',
+			{
+				runtime: Lambda.Runtime.NODEJS_18_X,
+				handler: 'index.handler',
+				description: 'Redirects QR code URLs',
+				code: Lambda.Code.fromInline(
+					readFileSync(
+						path.join(process.cwd(), 'cdk', 'codeRedirect.js'),
+						'utf-8',
+					),
 				),
 			},
 		)
@@ -114,8 +130,12 @@ export class HostingStack extends Stack {
 			viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
 			edgeLambdas: [
 				{
-					functionVersion: clientAuthorizer.currentVersion,
+					functionVersion: codeRedirect.currentVersion,
 					eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
+				},
+				{
+					functionVersion: clientAuthorizer.currentVersion,
+					eventType: Cf.LambdaEdgeEventType.ORIGIN_REQUEST,
 				},
 			],
 			cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
