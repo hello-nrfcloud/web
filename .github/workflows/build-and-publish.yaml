@@ -1,6 +1,9 @@
 name: Build and Release
 
-on: push
+on:
+  push:
+    branches:
+      - saga
 
 permissions:
   id-token: write
@@ -12,7 +15,6 @@ env:
   AWS_REGION: eu-north-1
   AWS_ACCOUNT_ID: 812555912232
   STACK_NAME: nrf-guide-web
-  CLOUDFRONT_DISTRIBUTION: EWW417GN4G5NJ
 
 jobs:
   main:
