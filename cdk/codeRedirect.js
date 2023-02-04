@@ -1,20 +1,28 @@
 'use strict'
 
-exports.handler = (event) => {
-	const request = event.request
+exports.handler = (event, context, callback) => {
+	const request = event.Records[0].cf.request
 	const maybeCode = request?.uri?.slice(1) ?? ''
 	console.log(JSON.stringify({ maybeCode, request }))
 
 	if (/^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}$/i.test(maybeCode)) {
-		const host = request.headers.host.value
+		const host = request.headers.host[0].value
 		const redirectUrl = `https://${host}/?code=${maybeCode}`
-		return {
+		console.log(`Redirecting to`, redirectUrl)
+		// See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-generating-http-responses-in-requests.html#lambda-generating-http-responses-object
+		return callback(null, {
 			status: '307',
 			statusDescription: 'Temporary Redirect',
 			headers: {
-				location: { value: redirectUrl },
+				location: [
+					{
+						key: 'Location',
+						value: redirectUrl,
+					},
+				],
 			},
-		}
+		})
 	}
-	return request
+
+	callback(null, request)
 }
