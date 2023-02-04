@@ -39,6 +39,7 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # TODO: get next version
       - name: Build
         env:
           VERSION: ${{ github.sha }}
