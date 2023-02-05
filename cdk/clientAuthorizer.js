@@ -8,6 +8,8 @@ const allowedClients = Promise.all(
 		.map(async (clientAddress) => lookup(clientAddress, 4)),
 ).then((addresses) => addresses.map(({ address }) => address))
 
+// Lambda@Edge must use callback
+// see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-authoring-functions.html
 exports.handler = (event, context, callback) => {
 	const request = event.Records[0].cf.request
 

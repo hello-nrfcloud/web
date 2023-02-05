@@ -1,5 +1,7 @@
 'use strict'
 
+// Lambda@Edge must use callback
+// see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-authoring-functions.html
 exports.handler = (event, context, callback) => {
 	const request = event.Records[0].cf.request
 	const maybeCode = request?.uri?.slice(1) ?? ''
