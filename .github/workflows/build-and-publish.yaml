@@ -45,10 +45,16 @@ jobs:
       - name: Run end to end tests
         run: npm run test:e2e
 
-      # TODO: get next version
+      - name: Determine next release version
+        uses: nordicsemiconductor/cloud-get-next-version-action@saga
+        id: version
+        with:
+          branch: saga
+          defaultVersion: "0.0.0-development-${{ github.sha }}"
+
       - name: Build
         env:
-          VERSION: ${{ github.sha }}
+          VERSION: ${{ steps.version.outputs.nextRelease }}
         run: |
           npm run build
           cp -L -r ./static ./build/client
