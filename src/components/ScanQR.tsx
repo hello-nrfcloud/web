@@ -1,7 +1,7 @@
 import { useDevice } from '@context/Device'
 import { isCode } from '@utils/isCode'
-import { QrCode } from 'lucide-preact'
 import { useState } from 'preact/hooks'
+import { QRCodeScanner } from './QRCodeScanner'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
@@ -28,18 +28,7 @@ export const ScanQR = () => {
 					/>
 				</div>
 				<div class="col-4">
-					<p>
-						The QR code on the Development Kit encodes a link with a code (e.g.{' '}
-						<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
-						<code>42</code>) and a unique code (e.g. <code>d3c4fb4d</code>) that
-						will prove your ownership of the DK and will be used to look up the
-						IMEI in our database.
-					</p>
-					<p>
-						<a class="btn btn-primary" href="/?code=42.d3c4fb4d">
-							<QrCode /> Scan QR code
-						</a>
-					</p>
+					<QRCodeScanner />
 				</div>
 				<div class="col-4">
 					<h3>No QR code?</h3>
