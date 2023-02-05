@@ -98,14 +98,14 @@ export const QRCodeScanner = () => {
 							const cameras = await Html5Qrcode.getCameras()
 							console.log(cameras)
 							if (cameras.length > 0) {
-								setState('scanning')
-								setCameras(cameras)
 								setCurrentCamera(cameras[0])
+								setCameras(cameras)
+								setState('scanning')
 							} else {
 								setState('no_cameras_found')
 							}
 						} catch (err) {
-							console.error(err)
+							console.error(`[QR Code]`, err)
 							setState('no_cameras_found')
 						}
 					}}
@@ -124,31 +124,29 @@ export const QRCodeScanner = () => {
 				</p>
 			)}
 			{state === 'scanning' && cameras.length > 1 && (
-				<>
-					<select
-						value={currentCamera?.id}
-						onChange={(e) => {
-							setCurrentCamera(
-								cameras.find(
-									({ id }) => id === (e.target as HTMLSelectElement).value,
-								),
-							)
-						}}
-					>
-						{cameras.map((camera) => (
-							<option value={camera.id}>{camera.label}</option>
-						))}
-					</select>{' '}
-					<div
-						id={containerId}
-						style={{
-							width: `${viewFinderSize[0]}px`,
-							height: `${viewFinderSize[1]}px`,
-						}}
-						class="mt-4"
-					/>
-				</>
+				<select
+					value={currentCamera?.id}
+					onChange={(e) => {
+						setCurrentCamera(
+							cameras.find(
+								({ id }) => id === (e.target as HTMLSelectElement).value,
+							),
+						)
+					}}
+				>
+					{cameras.map((camera) => (
+						<option value={camera.id}>{camera.label}</option>
+					))}
+				</select>
 			)}
+			<div
+				id={containerId}
+				style={{
+					width: `${viewFinderSize[0]}px`,
+					height: `${viewFinderSize[1]}px`,
+				}}
+				class="mt-4"
+			/>
 		</>
 	)
 }
