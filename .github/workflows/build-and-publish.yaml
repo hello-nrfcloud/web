@@ -45,6 +45,13 @@ jobs:
       - name: Run end to end tests
         run: npm run test:e2e
 
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: e2e-test-results
+          path: |
+            test-results
+
       - name: Determine next release version
         uses: nordicsemiconductor/cloud-get-next-version-action@saga
         id: version
