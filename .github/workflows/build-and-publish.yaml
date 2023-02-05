@@ -22,6 +22,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
@@ -59,12 +61,16 @@ jobs:
           path: |
             test-results
 
+      - name: Get current release
+        run:
+          echo "currentRelease=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
       - name: Determine next release version
         uses: nordicsemiconductor/cloud-get-next-version-action@saga
         id: version
         with:
           branch: saga
-          defaultVersion: "0.0.0-development-${{ github.sha }}"
+          defaultVersion: "${{ env.currentRelease }}-${{ github.sha }}"
 
       - name: Build
         env:
