@@ -24,6 +24,14 @@ npm ci
 npm start
 ```
 
+### Running the tests
+
+You can run the tests using
+
+```bash
+npm run test:e2e
+```
+
 ## Deploy
 
 - register domain name, export as `DOMAIN_NAME`

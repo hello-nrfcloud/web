@@ -1,0 +1,15 @@
+{
+  "short_name": "nRF.guide",
+  "name": "nRF.guide · Your getting started guide for the Nordic Semiconductor Development Kits",
+  "icons": [
+    {
+      "src": "/static/favicon.webp",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/webp"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#00a9ce",
+  "background_color": "#ffffff"
+}

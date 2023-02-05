@@ -20,7 +20,7 @@ export const render = async (pageContext: PageContextCustom) => {
         <meta name="application-name" content="nRF.guide" />
         <title>
           nRF.guide · Your getting started guide for the Nordic Semiconductor
-          Development Kits.
+          Development Kits
         </title>
         <meta
           name="description"
