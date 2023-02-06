@@ -27,6 +27,7 @@ const config: PlaywrightTestConfig = {
 		timeout: 10 * 1000,
 		reuseExistingServer: process.env.CI === undefined,
 	},
+	// reporter: './e2e-tests/DocumentationReporter',
 }
 
 export default config

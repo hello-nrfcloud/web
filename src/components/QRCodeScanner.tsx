@@ -89,7 +89,7 @@ export const QRCodeScanner = () => {
 	}, [foundURL])
 
 	return (
-		<>
+		<section data-feature="qr-code-scanner">
 			<p>
 				The QR code on the Development Kit encodes a link with a code (e.g.{' '}
 				<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
@@ -159,6 +159,6 @@ export const QRCodeScanner = () => {
 				}}
 				class="mt-4"
 			/>
-		</>
+		</section>
 	)
 }
