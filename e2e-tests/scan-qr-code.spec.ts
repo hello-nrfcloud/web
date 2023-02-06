@@ -12,11 +12,11 @@ test('I can scan a QR code', async ({ page: _ }, testInfo) => {
 			'--use-fake-ui-for-media-stream',
 			'--use-fake-device-for-media-stream',
 			// Pass a video file converted from a still image using:
-			// ffmpeg -i qr-code.png -t 2 -pix_fmt yuv420p video-for-chrome.y4m
+			// ffmpeg -i qr-code.png -pix_fmt yuv420p video-for-chrome.mjpeg
 			`--use-file-for-fake-video-capture=${path.join(
 				process.cwd(),
 				'e2e-tests',
-				'qr-code.y4m',
+				'qr-code.mjpeg',
 			)}`,
 		],
 	})
