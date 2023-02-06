@@ -43,7 +43,7 @@
     "@types/jest": "29.4.0",
     "@types/node": "18.11.19",
     "@types/styled-components": "5.1.26",
-    "@typescript-eslint/eslint-plugin": "5.50.0",
+    "@typescript-eslint/eslint-plugin": "5.51.0",
     "aws-cdk": "2.63.2",
     "aws-cdk-lib": "2.63.2",
     "bootstrap": "5.2.3",
