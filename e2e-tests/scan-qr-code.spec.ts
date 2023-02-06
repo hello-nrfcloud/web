@@ -31,24 +31,6 @@ test('I can scan a QR code', async ({ page: _ }, testInfo) => {
 		'https://nrf.guide/42.d3c4fb4d',
 	)
 
-	const screenshot = await page
-		.locator('[data-feature=qr-code-scanner]')
-		.screenshot()
-	await testInfo.attach('story.json', {
-		contentType: 'application/vnd.nrfguide.story+json',
-		body: Buffer.from(
-			JSON.stringify({
-				feature: 'Scan QR code',
-				scenario: 'Successfully scanned a QR code',
-			}),
-			'utf8',
-		),
-	})
-	await testInfo.attach('screenshot', {
-		body: screenshot,
-		contentType: 'image/png',
-	})
-
 	// Do not check redirect page for now, forbidden to be access by GitHub servers
 	// await page.waitForURL('https://nrf.guide/')
 })

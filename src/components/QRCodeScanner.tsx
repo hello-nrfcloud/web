@@ -27,54 +27,51 @@ export const QRCodeScanner = () => {
 			verbose: true,
 		})
 
-		const t = setTimeout(() => {
-			html5QRCode
-				.start(
-					currentCamera.id,
-					{
-						fps: 1,
-						qrbox: (viewfinderWidth, viewfinderHeight) => {
-							setViewFinderSize([viewfinderWidth, viewfinderHeight])
-							const m = Math.floor(
-								Math.min(viewfinderHeight, viewfinderWidth) * 0.5,
-							)
-							return {
-								width: m,
-								height: m,
-							}
-						},
-					},
-					(decodedText) => {
-						try {
-							const u = new URL(decodedText)
-							if (u.hostname === 'nrf.guide' && isCode(u.pathname.slice(1))) {
-								setFoundURL(u)
-								console.log(`[QR code]`, `Found URL`, u)
-								stopped = true
-								html5QRCode.stop().catch((err) => {
-									console.error(`[QR Code]`, `Failed to stop`, err)
-								})
-								setState('idle')
-							}
-						} catch {
-							console.error(`[QR code]`, `Not a URL`, decodedText)
+		html5QRCode
+			.start(
+				currentCamera.id,
+				{
+					fps: 1,
+					qrbox: (viewfinderWidth, viewfinderHeight) => {
+						setViewFinderSize([viewfinderWidth, viewfinderHeight])
+						const m = Math.floor(
+							Math.min(viewfinderHeight, viewfinderWidth) * 0.5,
+						)
+						return {
+							width: m,
+							height: m,
 						}
 					},
-					(errorMessage) => {
-						console.warn(`[QR code]`, errorMessage)
-					},
-				)
-				.catch((err) => {
-					console.error(`[QR Code]`, `Failed to start`, err)
-				})
-		}, 1000)
+				},
+				(decodedText) => {
+					try {
+						const u = new URL(decodedText)
+						if (u.hostname === 'nrf.guide' && isCode(u.pathname.slice(1))) {
+							setFoundURL(u)
+							console.log(`[QR code]`, `Found URL`, u)
+							stopped = true
+							html5QRCode.stop().catch((err) => {
+								console.error(`[QR Code]`, `Failed to stop`, err)
+							})
+							setState('idle')
+						}
+					} catch {
+						console.error(`[QR code]`, `Not a URL`, decodedText)
+					}
+				},
+				(errorMessage) => {
+					console.warn(`[QR code]`, errorMessage)
+				},
+			)
+			.catch((err) => {
+				console.error(`[QR Code]`, `Failed to start`, err)
+			})
 
 		return () => {
 			if (!stopped)
 				html5QRCode.stop().catch((err) => {
 					console.error(`[QR Code]`, `Failed to stop`, err)
 				})
-			clearTimeout(t)
 		}
 	}, [currentCamera])
 
@@ -89,7 +86,7 @@ export const QRCodeScanner = () => {
 	}, [foundURL])
 
 	return (
-		<section data-feature="qr-code-scanner">
+		<section>
 			<p>
 				The QR code on the Development Kit encodes a link with a code (e.g.{' '}
 				<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
@@ -102,10 +99,10 @@ export const QRCodeScanner = () => {
 					class="btn btn-primary"
 					type="button"
 					onClick={async () => {
+						setFoundURL(undefined)
 						setState('waiting_for_cameras')
 						try {
 							const cameras = await Html5Qrcode.getCameras()
-							console.log(cameras)
 							if (cameras.length > 0) {
 								setCurrentCamera(cameras[0])
 								setCameras(cameras)
@@ -151,14 +148,17 @@ export const QRCodeScanner = () => {
 					))}
 				</select>
 			)}
-			<div
-				id={containerId}
-				style={{
-					width: `${viewFinderSize[0]}px`,
-					height: `${viewFinderSize[1]}px`,
-				}}
-				class="mt-4"
-			/>
+			{state === 'scanning' && foundURL === undefined && (
+				<div
+					data-testid="camera-view"
+					id={containerId}
+					style={{
+						width: `${viewFinderSize[0]}px`,
+						height: `${viewFinderSize[1]}px`,
+					}}
+					class="mt-4"
+				/>
+			)}
 		</section>
 	)
 }
