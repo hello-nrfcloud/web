@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const OpenSourceBG = styled.div`
 	background-color: var(--color-nordic-blue);
