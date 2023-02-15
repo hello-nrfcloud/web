@@ -5,10 +5,10 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NordicSemiconductor/nrf.guide.git"
+    "url": "git+https://github.com/bifravst/nrf.guide.git"
   },
   "bugs": {
-    "url": "https://github.com/NordicSemiconductor/nrf.guide/issues"
+    "url": "https://github.com/bifravst/nrf.guide/issues"
   },
   "homepage": "https://nrf.guide",
   "keywords": [

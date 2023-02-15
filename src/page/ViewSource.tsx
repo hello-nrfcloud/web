@@ -33,10 +33,7 @@ export const ViewSource = () => (
 							<p>
 								The web site is a static web app, and the source code is
 								published on{' '}
-								<a
-									href="https://github.com/NordicSemiconductor/nrf.guide"
-									target="_blank"
-								>
+								<a href="https://github.com/bifravst/nrf.guide" target="_blank">
 									GitHub
 								</a>
 								.
