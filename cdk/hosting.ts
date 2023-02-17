@@ -6,7 +6,12 @@ const certificateId =
 	process.env.CERTIFICATE_ID ?? 'bd04a7e8-6ce0-418e-b496-58971ab00637'
 const domainName = process.env.DOMAIN_NAME ?? 'nrf.guide'
 const allowedClients = (
-	process.env.ALLOWED_CLIENTS ?? '194.19.86.146,schlupp.sytes.net'
+	process.env.ALLOWED_CLIENTS ??
+	[
+		'194.19.86.146', // Nordic Norway
+		'173.11.12.233', // Nordic USA
+		'schlupp.sytes.net', // mata home
+	].join(',')
 ).split(',')
 
 const repoUrl = new URL(pJSON.repository.url)
