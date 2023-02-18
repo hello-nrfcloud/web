@@ -10,6 +10,7 @@ const allowedClients = (
 	[
 		'194.19.86.146', // Nordic Norway
 		'173.11.12.233', // Nordic USA
+		'173.11.12.234', // Nordic USA
 		'schlupp.sytes.net', // mata home
 	].join(',')
 ).split(',')
