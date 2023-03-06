@@ -78,6 +78,12 @@ type NoteNode = BaseNode & {
 type FigureNode = BaseNode & {
 	name: 'fig'
 }
+type TableNode = BaseNode & {
+	name: 'table'
+}
+type DefinitionListNode = BaseNode & {
+	name: 'dl'
+}
 type CommentNode = { type: 'comment'; comment: string }
 type XRefNode = BaseNode & {
 	name: 'xref'
@@ -108,6 +114,8 @@ type Element =
 	| SystemOutputNode
 	| CommentNode
 	| FigureNode
+	| TableNode
+	| DefinitionListNode
 
 const isTextNode = (element: Element): element is TextNode =>
 	typeof element === 'object' && 'type' in element && element.type === 'text'
@@ -190,6 +198,11 @@ const isParameterListEntryNode = (
 
 const isParagraphNode = (element: Element): element is ParagraphNode =>
 	nodeName(element) === 'p'
+const isTableNode = (element: Element): element is TableNode =>
+	nodeName(element) === 'table'
+const isDefinitionListNode = (
+	element: Element,
+): element is DefinitionListNode => nodeName(element) === 'dl'
 
 const hasElements = (
 	element: unknown,
@@ -290,19 +303,32 @@ const toMarkdown = (
 			onVersion,
 		)}\n\n`
 	}
-	if (isPhraseNode(element) && element.attributes?.conref !== undefined) {
-		const phraseIdParts = element.attributes.conref.split('#')
-		const phraseId = parse(phraseIdParts[0] ?? '')
-		const lookupName = `${phraseId.base}#${phraseIdParts[1]}`
-		const phrase = phrases[lookupName]
-		if (phrase === undefined) {
-			throw new Error(`Could not resolve phrase ${element.attributes.conref}!`)
+	if (isPhraseNode(element)) {
+		if (element.attributes?.conref !== undefined) {
+			const phraseIdParts = element.attributes.conref.split('#')
+			const phraseId = parse(phraseIdParts[0] ?? '')
+			const lookupName = `${phraseId.base}#${phraseIdParts[1]}`
+			const phrase = phrases[lookupName]
+			if (phrase === undefined) {
+				throw new Error(
+					`Could not resolve phrase ${element.attributes.conref}!`,
+				)
+			}
+			return phrase
 		}
-		return phrase
+		return formatAsMarkdown(element.elements, glossary, phrases, onVersion)
 	}
 	if (isCommentNode(element)) return `<!-- ${element.comment} -->`
 	if (isFigureNode(element)) {
 		console.debug(`Dropped figure: ${JSON.stringify(element)}.`)
+		return ''
+	}
+	if (isTableNode(element)) {
+		console.debug(`Dropped table: ${JSON.stringify(element)}.`)
+		return ''
+	}
+	if (isDefinitionListNode(element)) {
+		console.debug(`Dropped definition list: ${JSON.stringify(element)}.`)
 		return ''
 	}
 	throw new Error(`Unsupported element ${JSON.stringify(element)}!`)
@@ -352,6 +378,7 @@ for (const f of await glob('*.dita', {
 }
 
 glossary['pdpcont'] = glossary['pdn'] as string
+glossary['16qam'] = glossary['sixteen_qam'] as string
 
 const commandsDir = path.join(process.cwd(), 'infocenter', 'REF', 'at_commands')
 
