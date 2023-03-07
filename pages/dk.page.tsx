@@ -1,3 +1,4 @@
+import { DKResources } from '@components/DKResources'
 import { Footer } from '@components/Footer'
 import { Header } from '@components/Header'
 import { LeveledResources } from '@components/LeveledResources'
@@ -37,6 +38,7 @@ export const Page = ({ dk, resources }: DKPageProps) => (
 					</div>
 					<ScanQR />
 				</div>
+				<DKResources type={dk} />
 				<LeveledResources dk={dk} />
 				<Footer />
 			</article>
