@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import glob from 'glob'
+import { encode } from 'html-entities'
 import { JSONPath } from 'jsonpath-plus'
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
@@ -7,7 +8,7 @@ import path from 'node:path/posix'
 import xmlJS from 'xml-js'
 
 const debug = (...args: any[]) =>
-	console.debug(...args.map((s) => chalk.gray(s)))
+	console.error(...args.map((s) => chalk.gray(s)))
 
 const warn = (...args: any[]) =>
 	console.error(
@@ -186,7 +187,8 @@ const isFigureNode = isNodeWithName<FigureNode>('fig')
 const isUnorderedListNode = isNodeWithName<UnorderedListNode>('ul')
 const isListItemNode = isNodeWithName<ListItemNode>('li')
 const isValueNode = isNodeWithName<ValueNode>('value')
-const isParameterListEntryNode = isNodeWithName<ValueNode>('plentry')
+const isParameterListEntryNode =
+	isNodeWithName<ParameterListEntryNode>('plentry')
 const isParagraphNode = isNodeWithName<ParagraphNode>('p')
 const isTableNode = isNodeWithName<TableNode>('table')
 const isDefinitionListNode = isNodeWithName<TableNode>('dl')
@@ -202,14 +204,18 @@ const toMarkdown = (
 	glossary: Record<string, string>,
 	phrases: Record<string, string>,
 	onVersion?: (v: string) => unknown,
+	raw = false,
 ): string | null => {
 	const f = formatAsMarkdown(glossary, phrases, onVersion)
+	const fRaw = formatAsMarkdown(glossary, phrases, onVersion, true)
 	if (typeof element === 'string') return ''
-	if (isTextNode(element))
-		return element.text
+	if (isTextNode(element)) {
+		const t = element.text
 			.replace(/\n/g, ' ')
 			.replace(/ {2,}/, ' ')
 			.replace(/\t+/, ' ')
+		return raw ? t : encode(t)
+	}
 	if (isAbbreviatedForm(element))
 		return glossary[element.attributes.keyref] ?? null
 	if (
@@ -220,30 +226,30 @@ const toMarkdown = (
 		isParamNameNode(element) ||
 		isValueNode(element)
 	)
-		return `\`${f(element.elements)}\``
+		return `\`${fRaw(element.elements)}\``
 	if (isCiteNode(element)) {
 		return `*${f(element.elements)}*`
 	}
 	if (isSupNode(element) || isParagraphNode(element) || isSubNode(element))
 		return f(element.elements)
 	if (isCodeBlockNode(element))
-		return `\n\n\`\`\`\n${f(element.elements)}\n\`\`\`\n\n`
+		return `\n\n\`\`\`\n${fRaw(element.elements)}\n\`\`\`\n\n`
 	if (
 		isParameterListNode(element) ||
 		isUnorderedListNode(element) ||
 		isSimpleListNode(element)
 	)
 		return `\n\n${f(element.elements)}\n\n`
-	if (
-		isParameterListEntryNode(element) ||
-		isListItemNode(element) ||
-		isSimpleListItemNode(element)
-	)
+	if (isListItemNode(element) || isSimpleListItemNode(element))
 		return ` - ${f(element.elements)}\n`
-	if (isParameterDefinitionNode(element)) return `${f(element.elements)}`
-	if (isParameterTitleNode(element)) return `: ${f(element.elements)}`
+
+	if (isParameterListEntryNode(element)) {
+		return f(element.elements)
+	}
+	if (isParameterTitleNode(element)) return ` - ${f(element.elements)}\n`
+	if (isParameterDefinitionNode(element)) return `   - ${f(element.elements)}\n`
 	if (isNoteNode(element) || isFootnoteNode(element))
-		return `> *Note:*\n${f(element.elements)
+		return `\n\n> *Note:*\n${f(element.elements)
 			.split('\n')
 			.map((s) => `> ${s}`)
 			.join('\n')}\n\n`
@@ -285,17 +291,18 @@ const formatAsMarkdown =
 		glossary: Record<string, string>,
 		phrases: Record<string, string>,
 		onVersion?: (v: string) => unknown,
+		raw = false,
 	) =>
 	(elements: Element[]): string => {
 		return (elements ?? [])
 			.reduce((t, el) => {
 				if (isVersionNode(el)) {
 					onVersion?.(
-						formatAsMarkdown(glossary, phrases, onVersion)(el.elements),
+						formatAsMarkdown(glossary, phrases, onVersion, raw)(el.elements),
 					)
 					return t
 				}
-				const elText = toMarkdown(el, glossary, phrases)
+				const elText = toMarkdown(el, glossary, phrases, onVersion, raw)
 				if (elText === null)
 					throw new Error(`Could not convert ${JSON.stringify(el)} to text!`)
 				return [...t, elText]
