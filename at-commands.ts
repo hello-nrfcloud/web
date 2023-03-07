@@ -1,9 +1,19 @@
+import chalk from 'chalk'
 import glob from 'glob'
 import { JSONPath } from 'jsonpath-plus'
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
 import path from 'node:path/posix'
 import xmlJS from 'xml-js'
+
+const debug = (...args: any[]) =>
+	console.debug(...args.map((s) => chalk.gray(s)))
+
+const warn = (...args: any[]) =>
+	console.error(
+		chalk.bgGray.red.dim('[warn]'),
+		...args.map((s) => chalk.red.dim(s)),
+	)
 
 type BaseNode = {
 	type: 'element'
@@ -35,6 +45,9 @@ type SystemOutputNode = BaseNode & {
 type CodeNode = BaseNode & {
 	name: 'codeph'
 }
+type ElementNode = BaseNode & {
+	name: 'element'
+}
 type CodeBlockNode = BaseNode & {
 	name: 'codeblock'
 }
@@ -53,6 +66,12 @@ type ParameterListNode = BaseNode & {
 type UnorderedListNode = BaseNode & {
 	name: 'ul'
 }
+type SimpleListNode = BaseNode & {
+	name: 'sl'
+}
+type SimpleListItemNode = BaseNode & {
+	name: 'sli'
+}
 type ListItemNode = BaseNode & {
 	name: 'li'
 }
@@ -62,10 +81,10 @@ type ParameterListEntryNode = BaseNode & {
 type ParagraphNode = BaseNode & {
 	name: 'p'
 }
-type ParemeterTitleNode = BaseNode & {
+type ParameterTitleNode = BaseNode & {
 	name: 'pt'
 }
-type ParemeterDefinitionNode = BaseNode & {
+type ParameterDefinitionNode = BaseNode & {
 	name: 'pd'
 }
 type PhraseNode = BaseNode & {
@@ -81,8 +100,14 @@ type FigureNode = BaseNode & {
 type TableNode = BaseNode & {
 	name: 'table'
 }
+type ValueNode = BaseNode & {
+	name: 'value'
+}
 type DefinitionListNode = BaseNode & {
 	name: 'dl'
+}
+type FootnoteNode = BaseNode & {
+	name: 'fn'
 }
 type CommentNode = { type: 'comment'; comment: string }
 type XRefNode = BaseNode & {
@@ -104,8 +129,8 @@ type Element =
 	| CodeBlockNode
 	| ParameterListNode
 	| ParameterListEntryNode
-	| ParemeterDefinitionNode
-	| ParemeterTitleNode
+	| ParameterDefinitionNode
+	| ParameterTitleNode
 	| NoteNode
 	| XRefNode
 	| UnorderedListNode
@@ -116,93 +141,55 @@ type Element =
 	| FigureNode
 	| TableNode
 	| DefinitionListNode
+	| ValueNode
+	| SimpleListItemNode
+	| SimpleListNode
+	| ElementNode
+	| FootnoteNode
 
 const isTextNode = (element: Element): element is TextNode =>
 	typeof element === 'object' && 'type' in element && element.type === 'text'
 
-const nodeName = (element: Element): string | null =>
-	typeof element === 'object' &&
-	'type' in element &&
-	element.type === 'element' &&
-	'name' in element
-		? element.name
-		: null
-
-const isAbbreviatedForm = (element: Element): element is GlossaryNode =>
-	nodeName(element) === 'abbreviated-form'
-
-const isCommandName = (element: Element): element is CmdNameNode =>
-	nodeName(element) === 'cmdname'
-
-const isVersionNode = (element: Element): element is VersionNode =>
-	nodeName(element) === 'version'
-
-const isCiteNode = (element: Element): element is VersionNode =>
-	nodeName(element) === 'cite'
-
-const isPinNode = (element: Element): element is PinNode =>
-	nodeName(element) === 'pinname'
-
-const isSystemOutputNode = (element: Element): element is SystemOutputNode =>
-	nodeName(element) === 'systemoutput'
-
-const isCodeNode = (element: Element): element is CodeNode =>
-	nodeName(element) === 'codeph'
-
-const isCodeBlockNode = (element: Element): element is CodeBlockNode =>
-	nodeName(element) === 'codeblock'
-
-const isSupNode = (element: Element): element is SupNode =>
-	nodeName(element) === 'sup'
-
-const isSubNode = (element: Element): element is SubNode =>
-	nodeName(element) === 'sub'
-
-const isParamNameNode = (element: Element): element is ParmNameNode =>
-	nodeName(element) === 'parmname'
-
-const isNoteNode = (element: Element): element is NoteNode =>
-	nodeName(element) === 'note'
-
 const isCommentNode = (element: Element): element is CommentNode =>
 	element.type === 'comment'
 
-const isPhraseNode = (element: Element): element is PhraseNode =>
-	nodeName(element) === 'ph'
+const isNodeWithName =
+	<E extends Element>(name: string) =>
+	(element: Element): element is E =>
+		typeof element === 'object' &&
+		'type' in element &&
+		element.type === 'element' &&
+		'name' in element &&
+		element.name === name
 
-const isXRefNode = (element: Element): element is XRefNode =>
-	nodeName(element) === 'xref'
-
-const isParemeterTitleNode = (
-	element: Element,
-): element is ParemeterTitleNode => nodeName(element) === 'pt'
-
-const isParemeterDefinitionNode = (
-	element: Element,
-): element is ParemeterDefinitionNode => nodeName(element) === 'pd'
-
-const isParameterListNode = (element: Element): element is ParameterListNode =>
-	nodeName(element) === 'parml'
-const isFigureNode = (element: Element): element is FigureNode =>
-	nodeName(element) === 'fig'
-
-const isUnorderedListNode = (element: Element): element is UnorderedListNode =>
-	nodeName(element) === 'ul'
-
-const isListItemNode = (element: Element): element is ListItemNode =>
-	nodeName(element) === 'li'
-
-const isParameterListEntryNode = (
-	element: Element,
-): element is ParameterListEntryNode => nodeName(element) === 'plentry'
-
-const isParagraphNode = (element: Element): element is ParagraphNode =>
-	nodeName(element) === 'p'
-const isTableNode = (element: Element): element is TableNode =>
-	nodeName(element) === 'table'
-const isDefinitionListNode = (
-	element: Element,
-): element is DefinitionListNode => nodeName(element) === 'dl'
+const isSimpleListItemNode = isNodeWithName<SimpleListNode>('sli')
+const isSimpleListNode = isNodeWithName<SimpleListNode>('sl')
+const isFootnoteNode = isNodeWithName<FootnoteNode>('fn')
+const isAbbreviatedForm = isNodeWithName<GlossaryNode>('abbreviated-form')
+const isCommandName = isNodeWithName<CmdNameNode>('cmdname')
+const isVersionNode = isNodeWithName<VersionNode>('version')
+const isCiteNode = isNodeWithName<VersionNode>('cite')
+const isPinNode = isNodeWithName<PinNode>('pinname')
+const isSystemOutputNode = isNodeWithName<SystemOutputNode>('systemoutput')
+const isCodeNode = isNodeWithName<CodeNode>('codeph')
+const isCodeBlockNode = isNodeWithName<CodeBlockNode>('codeblock')
+const isSupNode = isNodeWithName<SupNode>('sup')
+const isSubNode = isNodeWithName<SubNode>('sub')
+const isParamNameNode = isNodeWithName<ParmNameNode>('parmname')
+const isNoteNode = isNodeWithName<NoteNode>('note')
+const isPhraseNode = isNodeWithName<PhraseNode>('ph')
+const isXRefNode = isNodeWithName<XRefNode>('xref')
+const isParameterDefinitionNode = isNodeWithName<ParameterDefinitionNode>('pd')
+const isParameterTitleNode = isNodeWithName<ParameterTitleNode>('pt')
+const isParameterListNode = isNodeWithName<ParameterListNode>('parml')
+const isFigureNode = isNodeWithName<FigureNode>('fig')
+const isUnorderedListNode = isNodeWithName<UnorderedListNode>('ul')
+const isListItemNode = isNodeWithName<ListItemNode>('li')
+const isValueNode = isNodeWithName<ValueNode>('value')
+const isParameterListEntryNode = isNodeWithName<ValueNode>('plentry')
+const isParagraphNode = isNodeWithName<ParagraphNode>('p')
+const isTableNode = isNodeWithName<TableNode>('table')
+const isDefinitionListNode = isNodeWithName<TableNode>('dl')
 
 const hasElements = (
 	element: unknown,
@@ -216,6 +203,7 @@ const toMarkdown = (
 	phrases: Record<string, string>,
 	onVersion?: (v: string) => unknown,
 ): string | null => {
+	const f = formatAsMarkdown(glossary, phrases, onVersion)
 	if (typeof element === 'string') return ''
 	if (isTextNode(element))
 		return element.text
@@ -229,79 +217,38 @@ const toMarkdown = (
 		isCodeNode(element) ||
 		isPinNode(element) ||
 		isSystemOutputNode(element) ||
-		isParamNameNode(element)
+		isParamNameNode(element) ||
+		isValueNode(element)
 	)
-		return `\`${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}\``
+		return `\`${f(element.elements)}\``
 	if (isCiteNode(element)) {
-		return `*${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}*`
+		return `*${f(element.elements)}*`
 	}
 	if (isSupNode(element) || isParagraphNode(element) || isSubNode(element))
-		return formatAsMarkdown(element.elements, glossary, phrases, onVersion)
+		return f(element.elements)
 	if (isCodeBlockNode(element))
-		return `\n\n\`\`\`\n${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}\n\`\`\`\n\n`
-	if (isParameterListNode(element))
-		return `\n\n${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}\n\n`
-	if (isParameterListEntryNode(element) || isListItemNode(element))
-		return ` - ${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}\n`
-	if (isParemeterDefinitionNode(element))
-		return `${formatAsMarkdown(element.elements, glossary, phrases, onVersion)}`
-	if (isParemeterTitleNode(element))
-		return `: ${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}`
-	if (isNoteNode(element))
-		return `> *Note:*\n${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)
+		return `\n\n\`\`\`\n${f(element.elements)}\n\`\`\`\n\n`
+	if (
+		isParameterListNode(element) ||
+		isUnorderedListNode(element) ||
+		isSimpleListNode(element)
+	)
+		return `\n\n${f(element.elements)}\n\n`
+	if (
+		isParameterListEntryNode(element) ||
+		isListItemNode(element) ||
+		isSimpleListItemNode(element)
+	)
+		return ` - ${f(element.elements)}\n`
+	if (isParameterDefinitionNode(element)) return `${f(element.elements)}`
+	if (isParameterTitleNode(element)) return `: ${f(element.elements)}`
+	if (isNoteNode(element) || isFootnoteNode(element))
+		return `> *Note:*\n${f(element.elements)
 			.split('\n')
 			.map((s) => `> ${s}`)
 			.join('\n')}\n\n`
 	if (isXRefNode(element)) {
-		return `[${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}](${element.attributes.href})`
-	}
-	if (isUnorderedListNode(element)) {
-		return `\n\n${formatAsMarkdown(
-			element.elements,
-			glossary,
-			phrases,
-			onVersion,
-		)}\n\n`
+		return `[${f(element.elements)}](${element.attributes.href})`
 	}
 	if (isPhraseNode(element)) {
 		if (element.attributes?.conref !== undefined) {
@@ -316,41 +263,45 @@ const toMarkdown = (
 			}
 			return phrase
 		}
-		return formatAsMarkdown(element.elements, glossary, phrases, onVersion)
+		return f(element.elements)
 	}
 	if (isCommentNode(element)) return `<!-- ${element.comment} -->`
 	if (isFigureNode(element)) {
-		console.debug(`Dropped figure: ${JSON.stringify(element)}.`)
+		debug(`Dropped figure: ${JSON.stringify(element)}.`)
 		return ''
 	}
 	if (isTableNode(element)) {
-		console.debug(`Dropped table: ${JSON.stringify(element)}.`)
+		debug(`Dropped table: ${JSON.stringify(element)}.`)
 		return ''
 	}
 	if (isDefinitionListNode(element)) {
-		console.debug(`Dropped definition list: ${JSON.stringify(element)}.`)
+		debug(`Dropped definition list: ${JSON.stringify(element)}.`)
 		return ''
 	}
 	throw new Error(`Unsupported element ${JSON.stringify(element)}!`)
 }
-const formatAsMarkdown = (
-	elements: Element[],
-	glossary: Record<string, string>,
-	phrases: Record<string, string>,
-	onVersion?: (v: string) => unknown,
-): string =>
-	(elements ?? [])
-		.reduce((t, el) => {
-			if (isVersionNode(el)) {
-				onVersion?.(formatAsMarkdown(el.elements, glossary, phrases, onVersion))
-				return t
-			}
-			const elText = toMarkdown(el, glossary, phrases)
-			if (elText === null)
-				throw new Error(`Could not convert ${JSON.stringify(el)} to text!`)
-			return [...t, elText]
-		}, [] as string[])
-		.join('')
+const formatAsMarkdown =
+	(
+		glossary: Record<string, string>,
+		phrases: Record<string, string>,
+		onVersion?: (v: string) => unknown,
+	) =>
+	(elements: Element[]): string => {
+		return (elements ?? [])
+			.reduce((t, el) => {
+				if (isVersionNode(el)) {
+					onVersion?.(
+						formatAsMarkdown(glossary, phrases, onVersion)(el.elements),
+					)
+					return t
+				}
+				const elText = toMarkdown(el, glossary, phrases)
+				if (elText === null)
+					throw new Error(`Could not convert ${JSON.stringify(el)} to text!`)
+				return [...t, elText]
+			}, [] as string[])
+			.join('')
+	}
 
 // Collect glossary
 
@@ -374,7 +325,7 @@ for (const f of await glob('*.dita', {
 		path: `$..elements[?(@parent.name === 'glossentry')].[?(@parent.name === 'glossterm')]`,
 		json: parsed,
 	})
-	glossary[id] = formatAsMarkdown(glossterm, glossary, {})
+	glossary[id] = formatAsMarkdown(glossary, {})(glossterm)
 }
 
 glossary['pdpcont'] = glossary['pdn'] as string
@@ -391,7 +342,7 @@ const collectPhrases = (
 ) => {
 	for (const el of elements) {
 		if (isPhraseNode(el) && el?.attributes?.id !== undefined) {
-			onPhrase(el.attributes.id, formatAsMarkdown(el.elements, glossary, {}))
+			onPhrase(el.attributes.id, formatAsMarkdown(glossary, {})(el.elements))
 		}
 		if (hasElements(el)) {
 			collectPhrases(el.elements, glossary, onPhrase)
@@ -454,11 +405,10 @@ for (const f of await glob('**/*.dita', { cwd: commandsDir })) {
 		json: parsed,
 	})
 	const versions: string[] = []
+	const format = formatAsMarkdown(glossary, phrases, (v) => versions.push(v))
 	atCommands[id] = {
-		title: formatAsMarkdown(title, glossary, phrases, (v) => versions.push(v)),
-		shortDesc: formatAsMarkdown(shortDesc, glossary, phrases, (v) =>
-			versions.push(v),
-		),
+		title: format(title),
+		shortDesc: format(shortDesc),
 		versions,
 		subCommands: {},
 	}
@@ -480,47 +430,39 @@ for (const f of await glob('**/*.dita', { cwd: commandsDir })) {
 		/^(?<atCmd>[a-z_]+)_(?<type>read|set|test)$/.exec(id)?.groups ?? {}
 
 	if (atCmd === undefined) {
-		console.debug(`[warn] Not an AT sub-command: ${id} from ${f}`)
+		warn(`Not an AT sub-command: ${id} from ${f}`)
 		continue
 	}
 
 	if (atCommands[atCmd] === undefined) {
-		console.debug(`[warn] Unknown AT command: ${atCmd}`)
+		warn(`Unknown AT command: ${atCmd}`)
 		continue
 	}
 
 	const aliasedAtCmd = atCommandAliasMap[atCmd] ?? atCmd
 
 	const versions: string[] = []
+	const format = formatAsMarkdown(glossary, phrases, (v) => versions.push(v))
 
-	const title = formatAsMarkdown(
+	const title = format(
 		JSONPath({
 			path: `$..elements[?(@parent.name === 'reference')].[?(@parent.name === 'title')]`,
 			json: parsed,
 		}),
-		glossary,
-		phrases,
-		(v) => versions.push(v),
 	)
 
-	const shortDesc = formatAsMarkdown(
+	const shortDesc = format(
 		JSONPath({
 			path: `$..elements[?(@parent.name === 'reference')].[?(@parent.name === 'shortdesc')]`,
 			json: parsed,
 		}),
-		glossary,
-		phrases,
-		(v) => versions.push(v),
 	)
 
-	const ref = formatAsMarkdown(
+	const ref = format(
 		JSONPath({
 			path: `$..elements[?(@parent.name === 'reference')].[?(@parent.name === 'refbody')].[?(@parent.name === 'section')]`,
 			json: parsed,
 		}),
-		glossary,
-		phrases,
-		(v) => versions.push(v),
 	)
 
 	;(atCommands[aliasedAtCmd] as ATCommand).subCommands[
@@ -530,6 +472,6 @@ for (const f of await glob('**/*.dita', { cwd: commandsDir })) {
 		shortDesc,
 		ref,
 	}
-
-	console.log(atCommands[aliasedAtCmd])
 }
+
+console.log(JSON.stringify(atCommands, null, 2))
