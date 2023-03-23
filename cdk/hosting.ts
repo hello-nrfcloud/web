@@ -12,6 +12,7 @@ const allowedClients = (
 		'173.11.12.233', // Nordic USA
 		'173.11.12.234', // Nordic USA
 		'schlupp.sytes.net', // mata home
+		'50.47.141.67', // Requested by Patrick Barnes
 	].join(',')
 ).split(',')
 
