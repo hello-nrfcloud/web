@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import type { VNode } from 'preact'
 import { hydrate } from 'preact'
-import type { PageContextBuiltInClient } from 'vite-plugin-ssr/client'
+import type { PageContextBuiltInClientWithClientRouting } from 'vite-plugin-ssr/types'
 
 type Page = (pageProps: PageProps) => VNode<any>
 type PageProps = Record<string, any>
@@ -18,7 +18,8 @@ export type PageContextCustom = {
 	}
 }
 
-type PageContextClient = PageContextBuiltInClient<Page> & PageContextCustom
+type PageContextClient = PageContextBuiltInClientWithClientRouting<Page> &
+	PageContextCustom
 
 export const render = (pageContext: PageContextClient) => {
 	const { Page, pageProps } = pageContext
@@ -34,6 +35,7 @@ export const render = (pageContext: PageContextClient) => {
 			addSuffix: true,
 		}),
 	)
+	console.debug('Registry Endpoint', REGISTRY_ENDPOINT)
 
 	hydrate(<Page {...pageProps} />, pageViewElement)
 }

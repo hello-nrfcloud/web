@@ -3,6 +3,8 @@
 declare const VERSION: string
 declare const HOMEPAGE: string
 declare const BUILD_TIME: string
+/** URL of the configuration registry. */
+declare const REGISTRY_ENDPOINT: string
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface ImportMeta {

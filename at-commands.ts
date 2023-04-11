@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import glob from 'glob'
+import { glob } from 'glob'
 import { encode } from 'html-entities'
 import { JSONPath } from 'jsonpath-plus'
 import { readFile } from 'node:fs/promises'

@@ -1,5 +1,5 @@
 import type { DK } from '@context/Device'
-import { Resource, useResources } from '@context/Resources'
+import { useResources, type Resource } from '@context/Resources'
 import { Resources } from './Resources'
 
 export const LeveledResources = ({ dk: type }: { dk?: DK }) => {

@@ -43,3 +43,27 @@ npm run test:e2e
 npx cdk bootstrap
 npx cdk deploy --all
 ```
+
+## Continuous Deployment with GitHub Actions
+
+<!-- FIXME: use environments once repo is public -->
+
+Store the registry endpoint as a GitHub Action variable:
+
+```bash
+gh variable set REGISTRY_ENDPOINT --body "<registry endpoint>"
+```
+
+Store the role used for continuous deployment as a secret:
+
+```bash
+CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-nrf-guide-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue' | sed -E 's/\/$//g'`
+gh secret set AWS_ROLE --body "${CD_ROLE_ARN}"
+```
+
+Store the stack name and the region as a variable:
+
+```bash
+gh variable set STACK_NAME --body "${STACK_NAME:-nrf-guide-web}"
+gh variable set AWS_REGION --body "eu-north-1"
+```

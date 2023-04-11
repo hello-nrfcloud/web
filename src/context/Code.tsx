@@ -1,4 +1,4 @@
-import { ComponentChildren, createContext } from 'preact'
+import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect } from 'preact/hooks'
 
 export const CodeContext = createContext<{

@@ -1,7 +1,12 @@
+import { fromEnv } from '@nordicsemiconductor/from-env'
 import preact from '@preact/preset-vite'
 import { defineConfig } from 'vite'
 import ssr from 'vite-plugin-ssr/plugin'
 import { homepage, version } from './siteInfo'
+
+const { registryEndpoint } = fromEnv({
+	registryEndpoint: 'REGISTRY_ENDPOINT',
+})(process.env)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,5 +45,6 @@ export default defineConfig({
 		HOMEPAGE: JSON.stringify(homepage),
 		VERSION: JSON.stringify(version),
 		BUILD_TIME: JSON.stringify(new Date().toISOString()),
+		REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
 	},
 })

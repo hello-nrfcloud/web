@@ -1,5 +1,5 @@
 import { useCode } from '@context/Code'
-import { DK, useDevice } from '@context/Device'
+import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
 import { toTag } from './Tags'
 
