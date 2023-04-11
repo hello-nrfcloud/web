@@ -37,5 +37,5 @@ new HostingApp('nrf-guide-web', {
 	repository,
 	certificateId,
 	domainName,
-	region: process.env.AWS_REGION ?? 'eu-north-1',
+	region: process.env.AWS_REGION ?? 'eu-central-1',
 })

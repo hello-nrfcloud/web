@@ -65,5 +65,5 @@ Store the stack name and the region as a variable:
 
 ```bash
 gh variable set STACK_NAME --body "${STACK_NAME:-nrf-guide-web}"
-gh variable set AWS_REGION --body "eu-north-1"
+gh variable set AWS_REGION --body "eu-central-1"
 ```
