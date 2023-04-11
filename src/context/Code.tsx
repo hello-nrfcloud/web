@@ -1,17 +1,23 @@
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 
 export const CodeContext = createContext<{
 	clear: () => void
+	set: (code: string) => void
 	code: string | null
 }>({
 	clear: () => undefined,
+	set: () => undefined,
 	code: null,
 })
 
 const storageKey = 'nrf.guide:code'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
+	const [code, setCode] = useState<string | null>(
+		localStorage.getItem(storageKey),
+	)
+
 	useEffect(() => {
 		const codeFromQuery = new URLSearchParams(document.location.search).get(
 			'code',
@@ -28,7 +34,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					localStorage.removeItem(storageKey)
 					document.location.href = '/'
 				},
-				code: localStorage.getItem(storageKey),
+				code,
+				set: (code: string) => {
+					localStorage.setItem(storageKey, code)
+					setCode(code)
+				},
 			}}
 		>
 			{children}

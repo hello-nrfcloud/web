@@ -1,6 +1,7 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useCode } from './Code'
+import { useParameters } from './Parameters'
 
 export type DK = {
 	model: string
@@ -36,7 +37,8 @@ export const Provider = ({
 }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
-	const { code } = useCode()
+	const { code, set } = useCode()
+	const { webSocketURI } = useParameters()
 
 	console.debug(`[Device]`, device)
 
@@ -62,17 +64,49 @@ export const Provider = ({
 		setType('PCA10090')
 	}, [code])
 
+	// Set up websocket connection
+	useEffect(() => {
+		console.log({ webSocketURI, code })
+		if (code === null) return
+		if (webSocketURI === undefined) return
+		const deviceURI = `${webSocketURI}?code=${code}`
+		console.debug(`[WS]`, 'connecting', deviceURI)
+		const ws = new WebSocket(deviceURI)
+
+		ws.addEventListener('open', () => {
+			console.debug(`[WS]`, 'connected')
+		})
+
+		ws.addEventListener('close', () => {
+			// This happens automatically after 2 hours
+			// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
+			console.debug(`[WS]`, 'disconnected')
+		})
+
+		ws.addEventListener('error', (err) => {
+			console.error(`[WS]`, err)
+		})
+		ws.addEventListener('message', (msg) => {
+			let message: any
+			try {
+				message = JSON.parse(msg.data)
+				console.debug(`[WS]`, message)
+			} catch (err) {
+				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
+				return
+			}
+		})
+
+		return () => {
+			ws.close()
+		}
+	}, [code, webSocketURI])
+
 	return (
 		<DeviceContext.Provider
 			value={{
 				fromCode: (code) => {
-					setDevice({
-						hasLocation: false,
-						code,
-						imei: '351234567890123',
-						type: DKs['PCA10090'] as DK,
-					})
-					setType('PCA10090')
+					set(code)
 				},
 				device,
 				type: type === undefined ? undefined : DKs[type],

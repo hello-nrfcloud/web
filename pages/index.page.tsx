@@ -6,13 +6,15 @@ import { App } from '@page/App'
 import type { IndexPageProps } from './index.page.server'
 
 export const Page = ({ resources, dks }: IndexPageProps) => (
-	<CodeProvider>
-		<DeviceProvider DKs={dks}>
-			<ResourcesProvider resources={resources}>
-				<ParametersProvider>
-					<App />
-				</ParametersProvider>
-			</ResourcesProvider>
-		</DeviceProvider>
-	</CodeProvider>
+	<ParametersProvider>
+		{() => (
+			<CodeProvider>
+				<DeviceProvider DKs={dks}>
+					<ResourcesProvider resources={resources}>
+						<App />
+					</ResourcesProvider>
+				</DeviceProvider>
+			</CodeProvider>
+		)}
+	</ParametersProvider>
 )
