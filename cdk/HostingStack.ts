@@ -1,14 +1,14 @@
 import {
 	App,
-	aws_certificatemanager as certificatemanager,
 	aws_cloudfront as Cf,
-	aws_iam as IAM,
-	aws_lambda as Lambda,
-	aws_s3 as S3,
 	CfnOutput,
 	Duration,
+	aws_iam as IAM,
+	aws_lambda as Lambda,
 	RemovalPolicy,
+	aws_s3 as S3,
 	Stack,
+	aws_certificatemanager as certificatemanager,
 } from 'aws-cdk-lib'
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins'
 import { readFileSync } from 'fs'
