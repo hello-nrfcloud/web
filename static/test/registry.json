@@ -1,0 +1,6 @@
+{
+  "@ts": "2023-04-11T11:38:35.609Z",
+  "@version": 1,
+  "@context": "https://github.com/bifravst/public-parameter-registry-aws-js",
+  "webSocketURI": "wss://example.com"
+}
