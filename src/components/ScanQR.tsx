@@ -42,8 +42,7 @@ export const ScanQR = () => {
 								<div class="input-group-text">nrf.guide/</div>
 								<input
 									type="text"
-									minLength={2}
-									maxLength={2}
+									minLength={1}
 									class="form-control form-control-sm"
 									id="productionRunInput"
 									placeholder="42"
