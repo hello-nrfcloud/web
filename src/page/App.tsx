@@ -8,6 +8,7 @@ import { Map } from '@components/Map'
 import { PreviewWarning } from '@components/PreviewWarning'
 import { SelectedDK } from '@components/SelectedDK'
 import { WaitingForLocation } from '@components/WaitingForLocation'
+import { WebsocketTerminal } from '@components/WebsocketTerminal'
 import { useDevice } from '@context/Device'
 import { ExternalLink } from 'lucide-preact'
 
@@ -17,6 +18,7 @@ export const App = () => {
 	return (
 		<>
 			<PreviewWarning />
+			<WebsocketTerminal />
 			<main>
 				<article>
 					<Header />

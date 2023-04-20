@@ -23,9 +23,13 @@ export const DeviceContext = createContext<{
 	device?: Device | undefined
 	fromCode: (code: string) => void
 	DKs: Record<string, DK>
+	connected: boolean
+	messages: Record<string, any>[]
 }>({
 	fromCode: () => undefined,
 	DKs: {},
+	connected: false,
+	messages: [],
 })
 
 export const Provider = ({
@@ -37,6 +41,8 @@ export const Provider = ({
 }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
+	const [connected, setConnected] = useState<boolean>(false)
+	const [messages, setMessages] = useState<Record<string, any>[]>([])
 	const { code, set } = useCode()
 	const { webSocketURI } = useParameters()
 
@@ -75,12 +81,14 @@ export const Provider = ({
 
 		ws.addEventListener('open', () => {
 			console.debug(`[WS]`, 'connected')
+			setConnected(true)
 		})
 
 		ws.addEventListener('close', () => {
 			// This happens automatically after 2 hours
 			// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
 			console.debug(`[WS]`, 'disconnected')
+			setConnected(false)
 		})
 
 		ws.addEventListener('error', (err) => {
@@ -91,6 +99,7 @@ export const Provider = ({
 			try {
 				message = JSON.parse(msg.data)
 				console.debug(`[WS]`, message)
+				setMessages((m) => [message, ...m].slice(0, 9))
 			} catch (err) {
 				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 				return
@@ -99,6 +108,7 @@ export const Provider = ({
 
 		return () => {
 			ws.close()
+			setConnected(false)
 		}
 	}, [code, webSocketURI])
 
@@ -111,6 +121,8 @@ export const Provider = ({
 				device,
 				type: type === undefined ? undefined : DKs[type],
 				DKs,
+				connected,
+				messages,
 			}}
 		>
 			{children}
