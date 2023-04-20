@@ -7,7 +7,11 @@ exports.handler = (event, context, callback) => {
 	const maybeCode = request?.uri?.slice(1) ?? ''
 	console.log(JSON.stringify({ maybeCode, request }))
 
-	if (/^[0-9]{2}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}$/i.test(maybeCode)) {
+	if (
+		/^[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{1,}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}$/i.test(
+			maybeCode,
+		)
+	) {
 		const host = request.headers.host[0].value
 		const redirectUrl = `https://${host}/?code=${maybeCode}`
 		console.log(`Redirecting to`, redirectUrl)
