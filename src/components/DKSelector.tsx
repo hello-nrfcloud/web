@@ -20,7 +20,7 @@ export const DKSelector = () => {
 							<a href={`/dk/${id}`}>
 								<img
 									alt={`${title} (${id})`}
-									src={`/static/images/${id}.webp`}
+									src={`/static/images/${encodeURIComponent(id)}.webp`}
 									class="img-fluid"
 								/>
 								{title} <small>({id})</small>

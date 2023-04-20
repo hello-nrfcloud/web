@@ -17,7 +17,7 @@ export const DKResources = ({ type }: { type: DK }) => (
 				<div class="col-4">
 					<img
 						alt={`${type.title} (${type.model})`}
-						src={`/static/images/${type.model}.webp`}
+						src={`/static/images/${encodeURIComponent(type.model)}.webp`}
 						class="img-fluid"
 					/>
 					{type.title} <small>({type.model})</small>

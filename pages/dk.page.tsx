@@ -31,7 +31,7 @@ export const Page = ({ dk, resources }: DKPageProps) => (
 						<div class="col-6">
 							<img
 								alt={`${dk.title} (${dk.model})`}
-								src={`/static/images/${dk.model}.webp`}
+								src={`/static/images/${encodeURIComponent(dk.model)}.webp`}
 								class="img-fluid"
 							/>
 						</div>
