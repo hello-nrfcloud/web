@@ -18,13 +18,22 @@ export type Device = {
 	type: DK
 }
 
+type Messages = {
+	ts: Date
+	message: {
+		['@context']: string
+		topic?: string
+		payload: Record<string, any>
+	}
+}[]
+
 export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
 	fromCode: (code: string) => void
 	DKs: Record<string, DK>
 	connected: boolean
-	messages: Record<string, any>[]
+	messages: Messages
 }>({
 	fromCode: () => undefined,
 	DKs: {},
@@ -42,7 +51,7 @@ export const Provider = ({
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connected, setConnected] = useState<boolean>(false)
-	const [messages, setMessages] = useState<Record<string, any>[]>([])
+	const [messages, setMessages] = useState<Messages>([])
 	const { code, set } = useCode()
 	const { webSocketURI } = useParameters()
 
@@ -99,7 +108,7 @@ export const Provider = ({
 			try {
 				message = JSON.parse(msg.data)
 				console.debug(`[WS]`, message)
-				setMessages((m) => [message, ...m].slice(0, 9))
+				setMessages((m) => [{ ts: new Date(), message }, ...m].slice(0, 9))
 			} catch (err) {
 				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 				return
