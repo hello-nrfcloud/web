@@ -25,12 +25,10 @@ const Connected = styled(W)`
 `
 
 export const WebsocketTerminal = () => {
-	const { connected, messages } = useDevice()
+	const { connected, messages, device } = useDevice()
 	const [collapsed, setCollapsed] = useState<boolean>(true)
-	const [index, setIndex] = useState<number>(messages.length - 1)
+	const [index, setIndex] = useState<number>(Math.max(messages.length - 1, 0))
 	const latestMessage = messages[index]
-
-	console.log({ index })
 
 	if (connected && latestMessage !== undefined) {
 		const {
@@ -41,8 +39,9 @@ export const WebsocketTerminal = () => {
 			<>
 				<Connected>
 					<div class="d-flex justify-content-between align-items-center">
-						<span>
+						<span class="d-flex align-items-center">
 							<Cloud />
+							<span class="ms-2">Connected: {device?.imei}</span>
 						</span>
 						<span>
 							{!collapsed && messages.length > 1 && (
@@ -50,11 +49,12 @@ export const WebsocketTerminal = () => {
 									<button
 										type="button"
 										class="btn btn-sm btn-secondary me-1"
-										disabled={index === 0}
+										disabled={index === messages.length - 1}
 										onClick={() =>
 											setIndex((i) => {
-												const newIndex = i - 1
-												if (newIndex < 0) return 0
+												const newIndex = i + 1
+												if (newIndex > messages.length - 1)
+													return messages.length - 1
 												return newIndex
 											})
 										}
@@ -64,12 +64,11 @@ export const WebsocketTerminal = () => {
 									<button
 										type="button"
 										class="btn btn-sm btn-secondary me-3"
-										disabled={index === messages.length - 1}
+										disabled={index === 0}
 										onClick={() =>
 											setIndex((i) => {
-												const newIndex = i + 1
-												if (newIndex > messages.length - 1)
-													return messages.length - 1
+												const newIndex = i - 1
+												if (newIndex < 0) return 0
 												return newIndex
 											})
 										}
