@@ -123,6 +123,17 @@ jobs:
           CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue' | sed -E 's/\/$//g'`
           aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html
 
+  semantic-release:
+    needs:
+      - main
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
       - name: Semantic release
         continue-on-error: true
         run: npx semantic-release
