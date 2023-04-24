@@ -46,7 +46,7 @@ export const QRCodeScanner = () => {
 				(decodedText) => {
 					try {
 						const u = new URL(decodedText)
-						if (u.hostname === 'nrf.guide' && isCode(u.pathname.slice(1))) {
+						if (u.hostname === DOMAIN_NAME && isCode(u.pathname.slice(1))) {
 							setFoundURL(u)
 							console.log(`[QR code]`, `Found URL`, u)
 							stopped = true

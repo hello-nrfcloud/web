@@ -17,9 +17,9 @@ export const render = async (pageContext: PageContextCustom) => {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <meta name="application-name" content="nRF.guide" />
+        <meta name="application-name" content="nRF Guide" />
         <title>
-          nRF.guide · Your getting started guide for the Nordic Semiconductor
+          nRF Guide · Your getting started guide for the Nordic Semiconductor
           Development Kits
         </title>
         <meta

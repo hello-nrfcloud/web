@@ -73,6 +73,7 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.nextRelease }}
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
+          DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
         run: |
           npm run build
           cp -L -r ./static ./build/client

@@ -46,5 +46,8 @@ export default defineConfig({
 		VERSION: JSON.stringify(version),
 		BUILD_TIME: JSON.stringify(new Date().toISOString()),
 		REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
+		DOMAIN_NAME: JSON.stringify(
+			process.env.DOMAIN_NAME ?? 'guide.nrfcloud.com',
+		),
 	},
 })

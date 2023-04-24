@@ -113,7 +113,7 @@ export const App = () => {
 													</button>
 													<a
 														class="btn btn-light ms-4"
-														href="https://world.nrf.guide/"
+														href="https://world.nrfcloud.com/"
 														target="_blank"
 													>
 														<ExternalLink class="me-2" />

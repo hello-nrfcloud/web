@@ -11,7 +11,7 @@ export const CodeContext = createContext<{
 	code: null,
 })
 
-const storageKey = 'nrf.guide:code'
+const storageKey = 'nrf-guide:code'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [code, setCode] = useState<string | null>(

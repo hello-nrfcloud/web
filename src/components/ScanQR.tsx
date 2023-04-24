@@ -39,7 +39,7 @@ export const ScanQR = () => {
 								Code
 							</label>
 							<div class="input-group">
-								<div class="input-group-text">nrf.guide/</div>
+								<div class="input-group-text">{DOMAIN_NAME}/</div>
 								<input
 									type="text"
 									minLength={1}

@@ -1,6 +1,6 @@
 {
-  "short_name": "nRF.guide",
-  "name": "nRF.guide · Your getting started guide for the Nordic Semiconductor Development Kits",
+  "short_name": "nRF Guide",
+  "name": "nRF Guide · Your getting started guide for the Nordic Semiconductor Development Kits",
   "icons": [
     {
       "src": "/static/favicon.webp",
