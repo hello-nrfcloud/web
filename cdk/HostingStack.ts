@@ -59,8 +59,8 @@ export class HostingStack extends Stack {
 				ghProvider.openIdConnectProviderArn,
 				{
 					StringEquals: {
-						[`${githubDomain}:sub`]: `repo:${r.owner}/${r.repo}:ref:refs/heads/saga`,
-						'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
+						[`${githubDomain}:sub`]: `repo:${r.owner}/${r.repo}:environment:production`,
+						[`${githubDomain}:aud`]: 'sts.amazonaws.com',
 					},
 				},
 			),
