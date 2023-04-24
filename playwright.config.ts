@@ -28,6 +28,7 @@ const config: PlaywrightTestConfig = {
 		reuseExistingServer: process.env.CI === undefined,
 		env: {
 			REGISTRY_ENDPOINT: `http://localhost:8080/static/test/registry.json`,
+			DOMAIN_NAME: 'nrf.guide',
 		},
 	},
 	// reporter: './e2e-tests/DocumentationReporter',
