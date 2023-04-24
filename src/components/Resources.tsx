@@ -1,5 +1,5 @@
 import type { Resource } from '@context/Resources'
-import { toTag } from './Tags'
+import { toTag } from './Tags.js'
 
 export const Resources = ({ resources }: { resources: Resource[] }) => {
 	if (resources.length === 0)

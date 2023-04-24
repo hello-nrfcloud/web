@@ -1,5 +1,5 @@
 import { App } from 'aws-cdk-lib'
-import { HostingStack } from './HostingStack'
+import { HostingStack } from './HostingStack.js'
 
 export class HostingApp extends App {
 	public constructor(

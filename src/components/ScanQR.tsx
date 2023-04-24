@@ -1,7 +1,7 @@
 import { useDevice } from '@context/Device'
 import { isCode } from '@utils/isCode'
 import { useState } from 'preact/hooks'
-import { QRCodeScanner } from './QRCodeScanner'
+import { QRCodeScanner } from './QRCodeScanner.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')

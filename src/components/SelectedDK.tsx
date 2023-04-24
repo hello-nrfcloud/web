@@ -1,7 +1,7 @@
 import { useCode } from '@context/Code'
 import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
-import { toTag } from './Tags'
+import { toTag } from './Tags.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()

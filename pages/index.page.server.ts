@@ -1,6 +1,6 @@
 import type { DK } from '@context/Device'
 import type { Resource } from '@context/Resources'
-import { loadMarkdownContent } from './loadMarkdownContent'
+import { loadMarkdownContent } from './loadMarkdownContent.js'
 
 export type IndexPageProps = { resources: Resource[]; dks: Record<string, DK> }
 

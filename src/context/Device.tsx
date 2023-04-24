@@ -1,7 +1,7 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useCode } from './Code'
-import { useParameters } from './Parameters'
+import { useCode } from './Code.js'
+import { useParameters } from './Parameters.js'
 
 export type DK = {
 	model: string

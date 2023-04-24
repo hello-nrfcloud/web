@@ -1,4 +1,4 @@
-import { isCode } from './isCode'
+import { isCode } from './isCode.js'
 
 describe('isCode()', () => {
 	it('should validate a valid code', () =>

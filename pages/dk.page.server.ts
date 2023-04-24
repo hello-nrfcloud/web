@@ -2,7 +2,7 @@ import type { DK } from '@context/Device'
 import type { Resource } from '@context/Resources'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { loadMarkdownContent } from './loadMarkdownContent'
+import { loadMarkdownContent } from './loadMarkdownContent.js'
 
 export type DKPageProps = { dk: DK; resources: Resource[] }
 

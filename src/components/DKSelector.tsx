@@ -1,6 +1,6 @@
 import { useDevice } from '@context/Device'
-import { ScanQR } from './ScanQR'
-import { toTag } from './Tags'
+import { ScanQR } from './ScanQR.js'
+import { toTag } from './Tags.js'
 
 export const DKSelector = () => {
 	const { DKs } = useDevice()
@@ -17,7 +17,7 @@ export const DKSelector = () => {
 								width: `${Math.floor(100 / Object.keys(DKs).length)}%`,
 							}}
 						>
-							<a href={`/dk/${id}`}>
+							<a href={`/dk/${encodeURIComponent(id)}`}>
 								<img
 									alt={`${title} (${id})`}
 									src={`/static/images/${encodeURIComponent(id)}.webp`}

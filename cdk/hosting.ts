@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import pJSON from '../package.json'
-import { HostingApp } from './HostingApp'
+import { HostingApp } from './HostingApp.js'
 
 const certificateId =
 	process.env.CERTIFICATE_ID ?? 'bd04a7e8-6ce0-418e-b496-58971ab00637'

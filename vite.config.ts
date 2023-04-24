@@ -2,7 +2,7 @@ import { fromEnv } from '@nordicsemiconductor/from-env'
 import preact from '@preact/preset-vite'
 import { defineConfig } from 'vite'
 import ssr from 'vite-plugin-ssr/plugin'
-import { homepage, version } from './siteInfo'
+import { homepage, version } from './siteInfo.js'
 
 const { registryEndpoint } = fromEnv({
 	registryEndpoint: 'REGISTRY_ENDPOINT',

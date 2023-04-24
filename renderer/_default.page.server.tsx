@@ -1,7 +1,7 @@
 import renderPreact from 'preact-render-to-string'
 import { ServerStyleSheet } from 'styled-components'
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
-import { version } from '../siteInfo'
+import { version } from '../siteInfo.js'
 import type { PageContextCustom } from './_default.page.client'
 
 export const render = async (pageContext: PageContextCustom) => {
