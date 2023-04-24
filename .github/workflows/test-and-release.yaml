@@ -1,0 +1,66 @@
+name: Test and Release
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Keep npm cache around to speed up installs
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
+      - name: Run tests
+        run: npm test
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run end to end tests
+        run: npm run test:e2e
+
+      # This generates a string containing the current date which is used in
+      # in artifact names to simplify locating and distinguishing them once they have
+      # been downloaded
+      - name: Generate date string
+        id: dateAsString
+        run: echo "dateAsString=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: e2e-test-results-${{ env.dateAsString }}-${{ github.sha }}
+          path: |
+            test-results
+
+      - name: Semantic release
+        continue-on-error: true
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger deployment workflow
+        if: github.ref == 'refs/heads/saga'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yaml
