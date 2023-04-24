@@ -124,6 +124,8 @@ jobs:
           aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html
 
   semantic-release:
+    runs-on: ubuntu-latest
+
     needs:
       - main
 
