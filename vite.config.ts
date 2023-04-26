@@ -30,6 +30,7 @@ export default defineConfig({
 			{ find: '@components/', replacement: '/src/components/' },
 			{ find: '@context/', replacement: '/src/context/' },
 			{ find: '@utils/', replacement: '/src/utils/' },
+			{ find: '@flows/', replacement: '/src/flows/' },
 			{ find: '@page/', replacement: '/src/page/' },
 		],
 	},

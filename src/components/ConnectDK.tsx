@@ -23,7 +23,7 @@ export const ConnectDK = ({ device }: { device: Device }) => {
 	return (
 		<>
 			<h2>
-				Getting started with your <strong>{device.type.title}</strong>:
+				Retrieve real-time data from your <strong>{device.type.title}</strong>:
 			</h2>
 			<section class="mt-4 mb-4">
 				<StepsWithIcons>

@@ -1,7 +1,7 @@
 {
   "name": "@nordicsemiconductor/nrf-guide-web",
   "version": "0.0.0-development",
-  "description": "A getting started guide for the Nordic Semiconductor Development Kits",
+  "description": "Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
   "type": "module",
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
     "test:e2e": "npx playwright test e2e-tests/"
   },
   "dependencies": {
+    "@nrf-guide/proto": "4.2.0",
+    "@sinclair/typebox": "^0.28.6",
     "date-fns": "2.29.3",
     "html5-qrcode": "2.3.8",
     "lucide-preact": "0.176.0",

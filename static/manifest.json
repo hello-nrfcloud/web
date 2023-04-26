@@ -1,6 +1,6 @@
 {
-  "short_name": "nRF Guide",
-  "name": "nRF Guide · Your getting started guide for the Nordic Semiconductor Development Kits",
+  "short_name": "Muninn",
+  "name": "Muninn · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
   "icons": [
     {
       "src": "/static/favicon.webp",

@@ -17,14 +17,13 @@ export const render = async (pageContext: PageContextCustom) => {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <meta name="application-name" content="nRF Guide" />
+        <meta name="application-name" content="Muninn" />
         <title>
-          nRF Guide · Your getting started guide for the Nordic Semiconductor
-          Development Kits
+          Muninn · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds
         </title>
         <meta
           name="description"
-          content="nRF Guide is a getting started guide for the Nordic Semiconductor Development Kits."
+          content="Muninn is Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds."
         />
         <link
           rel="stylesheet"

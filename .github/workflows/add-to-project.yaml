@@ -1,4 +1,4 @@
-name: Add PRs to the nRF Guide project
+name: Add PRs to the project
 
 on:
   pull_request:

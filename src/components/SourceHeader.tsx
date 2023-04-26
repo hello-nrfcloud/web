@@ -9,9 +9,9 @@ export const SourceHeader = () => (
 		<header class="container pt-4 pb-4 text-white">
 			<div class="row">
 				<div class="col-6">
-					<h1>nRF Guide: the source</h1>
+					<h1>Muninn: the source</h1>
 					<p>
-						Learn how we've built <em>nRF Guide</em>.
+						Learn how we've built <em>Muninn</em>.
 					</p>
 				</div>
 			</div>

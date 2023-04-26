@@ -1,4 +1,4 @@
-# nRF Guide
+# Muninn
 
 [![GitHub Actions](https://github.com/bifravst/nRF-Guide-frontend/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/bifravst/nRF-Guide-frontend/actions/workflows/test-and-release.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
@@ -7,7 +7,12 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier/)
 [![ESLint: TypeScript](https://img.shields.io/badge/ESLint-TypeScript-blue.svg)](https://github.com/typescript-eslint/typescript-eslint)
 
-A getting started guide for the Nordic Semiconductor Development Kits.
+Retrieve real-time data from your Nordic Semiconductor Development Kits within
+seconds.
+
+> Huginn and Muninn are two ravens that belong to Odin. They are said to fly
+> around the world and bring back information to Odin, who uses their insights
+> to guide his actions.
 
 ## Setup
 

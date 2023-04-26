@@ -46,10 +46,18 @@ export const Header = () => (
 			<header class="container pt-4 pb-4 text-white">
 				<div class="row">
 					<div class="col-6">
-						<h1>nRF Guide</h1>
+						<h1>Muninn</h1>
 						<p>
-							Welcome to <em>nRF Guide</em> your getting started guide for the
-							Nordic Semiconductor Development Kits.
+							Welcome to <em>Muninn</em>: retrieve real-time data from your
+							long-range Nordic Semiconductor Development Kits within seconds.
+						</p>
+						<p>
+							<small>
+								In Norse mythology, <em>Huginn</em> and <em>Muninn</em> are two
+								ravens that belong to Odin. They are said to fly around the
+								world and bring back information to Odin, who uses their
+								insights to guide his actions.
+							</small>
 						</p>
 					</div>
 					<div class="col-2"></div>

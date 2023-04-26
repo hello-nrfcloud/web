@@ -1,5 +1,12 @@
+import {
+	Context,
+	DeviceIdentity,
+	NRFGuideMessage,
+	validPassthrough,
+} from '@nrf-guide/proto/nrfGuide'
+import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { useCode } from './Code.js'
 import { useParameters } from './Parameters.js'
 
@@ -19,12 +26,8 @@ export type Device = {
 }
 
 type Messages = {
-	ts: Date
-	message: {
-		['@context']: string
-		topic?: string
-		payload: Record<string, any>
-	}
+	received: Date
+	message: Static<typeof NRFGuideMessage>
 }[]
 
 export const DeviceContext = createContext<{
@@ -34,12 +37,20 @@ export const DeviceContext = createContext<{
 	DKs: Record<string, DK>
 	connected: boolean
 	messages: Messages
+	addMessageListener: (listener: MessageListenerFn) => void
+	removeMessageListener: (listener: MessageListenerFn) => void
 }>({
 	fromCode: () => undefined,
 	DKs: {},
 	connected: false,
 	messages: [],
+	addMessageListener: () => undefined,
+	removeMessageListener: () => undefined,
 })
+
+export type MessageListenerFn = (
+	message: Static<typeof NRFGuideMessage>,
+) => unknown
 
 export const Provider = ({
 	children,
@@ -54,11 +65,14 @@ export const Provider = ({
 	const [messages, setMessages] = useState<Messages>([])
 	const { code, set } = useCode()
 	const { webSocketURI } = useParameters()
+	const listeners = useRef<MessageListenerFn[]>([])
 
 	console.debug(`[Device]`, device)
 
+	// Fake location for a DK
 	useEffect(() => {
 		if (device?.imei === undefined) return
+		if (type !== 'PCA10090') return
 		const t = setTimeout(() => {
 			setDevice((d) => ({
 				...(d as Device),
@@ -107,8 +121,26 @@ export const Provider = ({
 			let message: any
 			try {
 				message = JSON.parse(msg.data)
-				console.debug(`[WS]`, message)
-				setMessages((m) => [{ ts: new Date(), message }, ...m].slice(0, 9))
+				const maybeValid = validPassthrough(message, (message, errors) => {
+					console.error(`[WS]`, `message dropped`, message, errors)
+				})
+				if (maybeValid !== null) {
+					console.debug(`[WS]`, maybeValid)
+					setMessages((m) =>
+						[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
+					)
+					if (isDeviceIdentity(maybeValid)) {
+						const type = DKs[maybeValid.model] as DK
+						setDevice({
+							hasLocation: false,
+							code,
+							imei: maybeValid.id,
+							type,
+						})
+						setType(maybeValid.model)
+					}
+					listeners.current.map((listener) => listener(message))
+				}
 			} catch (err) {
 				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 				return
@@ -132,6 +164,12 @@ export const Provider = ({
 				DKs,
 				connected,
 				messages,
+				addMessageListener: (fn) => {
+					listeners.current.push(fn)
+				},
+				removeMessageListener: (fn) => {
+					listeners.current = listeners.current.filter((f) => f !== fn)
+				},
 			}}
 		>
 			{children}
@@ -142,3 +180,8 @@ export const Provider = ({
 export const Consumer = DeviceContext.Consumer
 
 export const useDevice = () => useContext(DeviceContext)
+
+const isDeviceIdentity = (
+	message: Static<typeof NRFGuideMessage>,
+): message is Static<typeof DeviceIdentity> =>
+	message['@context'] === Context.deviceIdentity.toString()

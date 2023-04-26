@@ -1,5 +1,4 @@
 import { useDevice } from '@context/Device'
-import { formatDistanceToNow } from 'date-fns'
 import {
 	ChevronLeft,
 	ChevronRight,
@@ -8,8 +7,9 @@ import {
 	Eye,
 	EyeOff,
 } from 'lucide-preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { styled } from 'styled-components'
+import { Ago } from './Ago.js'
 
 const W = styled.div`
 	color: white;
@@ -32,8 +32,8 @@ export const WebsocketTerminal = () => {
 
 	if (connected && latestMessage !== undefined) {
 		const {
-			ts,
-			message: { payload, topic, '@context': context },
+			received: ts,
+			message: { '@context': context, ...message },
 		} = latestMessage
 		return (
 			<>
@@ -88,19 +88,13 @@ export const WebsocketTerminal = () => {
 					</div>
 					{!collapsed && (
 						<dl>
-							<dt>Type</dt>
+							<dt>Context</dt>
 							<dd>
 								<code>{context}</code>
 							</dd>
-							{topic !== undefined && (
-								<>
-									<dt>topic</dt>
-									<dd>{topic}</dd>
-								</>
-							)}
-							<dt>Payload</dt>
+							<dt>Message</dt>
 							<dd>
-								<pre>{JSON.stringify(payload, null, 2)}</pre>
+								<pre>{JSON.stringify(message, null, 2)}</pre>
 							</dd>
 							<dt>Received</dt>
 							<dd>
@@ -119,22 +113,4 @@ export const WebsocketTerminal = () => {
 			</NotConnected>
 		</>
 	)
-}
-
-const Ago = ({ date }: { date: Date }) => {
-	const [relTime, setRelTime] = useState<string>(
-		formatDistanceToNow(date, { addSuffix: true }),
-	)
-
-	useEffect(() => {
-		const i = setInterval(() => {
-			setRelTime(formatDistanceToNow(date, { addSuffix: true }))
-		}, 10 * 1000)
-
-		return () => {
-			clearInterval(i)
-		}
-	}, [date])
-
-	return <time dateTime={date.toISOString()}>{relTime}</time>
 }
