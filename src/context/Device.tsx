@@ -1,9 +1,9 @@
 import {
 	Context,
 	DeviceIdentity,
-	NRFGuideMessage,
+	MuninnMessage,
 	validPassthrough,
-} from '@nrf-guide/proto/nrfGuide'
+} from '@bifravst/muninn-proto/Muninn'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
@@ -27,7 +27,7 @@ export type Device = {
 
 type Messages = {
 	received: Date
-	message: Static<typeof NRFGuideMessage>
+	message: Static<typeof MuninnMessage>
 }[]
 
 export const DeviceContext = createContext<{
@@ -49,7 +49,7 @@ export const DeviceContext = createContext<{
 })
 
 export type MessageListenerFn = (
-	message: Static<typeof NRFGuideMessage>,
+	message: Static<typeof MuninnMessage>,
 ) => unknown
 
 export const Provider = ({
@@ -182,6 +182,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof NRFGuideMessage>,
+	message: Static<typeof MuninnMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()

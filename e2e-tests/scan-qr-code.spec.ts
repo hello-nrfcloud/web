@@ -28,9 +28,9 @@ test('I can scan a QR code', async () => {
 	await page.goto('http://localhost:8080/')
 	await page.getByRole('button', { name: 'Scan QR code' }).click()
 	await expect(page.getByTestId('qr-code-scan')).toHaveText(
-		'https://nrf.guide/42.d3c4fb4d',
+		'https://muninn.thingy.rocks/est.5392db3e',
 	)
 
 	// Do not check redirect page for now, forbidden to be access by GitHub servers
-	// await page.waitForURL('https://nrf.guide/')
+	// await page.waitForURL('https://muninn.thingy.rocks/')
 })

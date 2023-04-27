@@ -34,7 +34,7 @@ export const ViewSource = () => (
 								The web site is a static web app, and the source code is
 								published on{' '}
 								<a
-									href="https://github.com/bifravst/nRF-Guide-frontend"
+									href="https://github.com/bifravst/Muninn-frontend"
 									target="_blank"
 								>
 									GitHub

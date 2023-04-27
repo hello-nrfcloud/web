@@ -1,6 +1,6 @@
 # Muninn
 
-[![GitHub Actions](https://github.com/bifravst/nRF-Guide-frontend/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/bifravst/nRF-Guide-frontend/actions/workflows/test-and-release.yaml)
+[![GitHub Actions](https://github.com/bifravst/Muninn-frontend/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/bifravst/Muninn-frontend/actions/workflows/test-and-release.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
@@ -58,21 +58,21 @@ Create a GitHub environment `production`.
 Store the registry endpoint as a GitHub Action variable:
 
 ```bash
-gh variable set REGISTRY_ENDPOINT --body "<registry endpoint>"
+gh variable set REGISTRY_ENDPOINT --env production --body "<registry endpoint>"
 # If using a custom domain name
-gh variable set DOMAIN_NAME --body "<domain name>"
+gh variable set DOMAIN_NAME --env production --body "<domain name>"
 ```
 
 Store the role used for continuous deployment as a secret:
 
 ```bash
-CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-nrf-guide-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue' | sed -E 's/\/$//g'`
+CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-muninn-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue' | sed -E 's/\/$//g'`
 gh secret set AWS_ROLE --env production --body "${CD_ROLE_ARN}"
 ```
 
 Store the stack name and the region as a variable:
 
 ```bash
-gh variable set STACK_NAME --env production --body "${STACK_NAME:-nrf-guide-web}"
+gh variable set STACK_NAME --env production --body "${STACK_NAME:-muninn-web}"
 gh variable set AWS_REGION --env production --body "eu-central-1"
 ```

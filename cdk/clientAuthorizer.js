@@ -46,7 +46,7 @@ exports.handler = (event, context, callback) => {
 		if (!addresses.includes(request.clientIp)) {
 			console.error(request.clientIp, `not allowed`)
 			return callback(null, {
-				body: `${request.clientIp} not allowed, sorry. Contact access@nrf.guide to request access.`,
+				body: `${request.clientIp} not allowed, sorry.`,
 				bodyEncoding: 'text',
 				status: '403',
 				statusDescription: 'Forbidden',

@@ -1,6 +1,6 @@
+import { Context, MuninnMessage } from '@bifravst/muninn-proto/Muninn'
 import { Ago } from '@components/Ago'
 import { useDevice, type Device, type MessageListenerFn } from '@context/Device'
-import { Context, NRFGuideMessage } from '@nrf-guide/proto/nrfGuide'
 import { type Static } from '@sinclair/typebox'
 import {
 	Clock1,
@@ -30,12 +30,10 @@ type Voltage = {
 	ts: number
 }
 const solarThingy = Context.model('PCA20035+solar')
-const isGain = (message: Static<typeof NRFGuideMessage>): message is Gain =>
+const isGain = (message: Static<typeof MuninnMessage>): message is Gain =>
 	message['@context'] === solarThingy.transformed('gain').toString()
 
-const isVoltage = (
-	message: Static<typeof NRFGuideMessage>,
-): message is Voltage =>
+const isVoltage = (message: Static<typeof MuninnMessage>): message is Voltage =>
 	message['@context'] === solarThingy.transformed('voltage').toString()
 
 export const SolarThingyFlow = ({ device }: { device: Device }) => {
