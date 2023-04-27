@@ -17,7 +17,6 @@ export const onBeforeRender = async (): Promise<{
 						[dk.slug]: {
 							...dk,
 							model: dk.slug,
-							tags: [...dk.tags, `model:${dk.slug}`],
 						},
 					}),
 					{} as Record<string, DK>,

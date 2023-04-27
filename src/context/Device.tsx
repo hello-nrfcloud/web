@@ -14,7 +14,6 @@ export type DK = {
 	model: string
 	title: string
 	html: string
-	tags: string[]
 	learnMoreLink: string
 }
 

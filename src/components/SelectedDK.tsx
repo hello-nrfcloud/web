@@ -1,7 +1,6 @@
 import { useCode } from '@context/Code'
 import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
-import { toTag } from './Tags.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()
@@ -10,7 +9,7 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 		<div class="d-flex justify-content-between align-items-center">
 			<span>
 				Your development kit: <strong>{selected.title}</strong> (
-				{selected.model}){selected.tags.map(toTag)}
+				{selected.model})
 				<br />
 				{device === undefined && (
 					<span>

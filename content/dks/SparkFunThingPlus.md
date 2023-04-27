@@ -1,8 +1,5 @@
 ---
 title: SparkFun Thing Plus - nRF9160
-tags:
-  - family:nRF9
-  - custom
 learnMoreLink: https://www.sparkfun.com/products/17354
 ---
 
