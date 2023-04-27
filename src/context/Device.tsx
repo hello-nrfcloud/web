@@ -71,30 +71,6 @@ export const Provider = ({
 
 	console.debug(`[Device]`, device)
 
-	// Fake location for a DK
-	useEffect(() => {
-		if (device?.imei === undefined) return
-		if (type !== 'PCA10090') return
-		const t = setTimeout(() => {
-			setDevice((d) => ({
-				...(d as Device),
-				hasLocation: true,
-			}))
-		}, 10000)
-		return () => clearTimeout(t)
-	}, [device])
-
-	useEffect(() => {
-		if (code === null) return
-		setDevice({
-			hasLocation: false,
-			code,
-			imei: '351234567890123',
-			type: DKs['PCA10090'] as DK,
-		})
-		setType('PCA10090')
-	}, [code])
-
 	// Set up websocket connection
 	useEffect(() => {
 		console.log({ webSocketURI, code })

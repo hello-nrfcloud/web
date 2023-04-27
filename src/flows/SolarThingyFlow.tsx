@@ -3,9 +3,10 @@ import { HistoryChart } from '@chart/HistoryChart'
 import type { ChartData } from '@chart/chartMath'
 import { Ago } from '@components/Ago'
 import { useDevice, type Device, type MessageListenerFn } from '@context/Device'
+import { WaitingForData } from '@flows/WaitingForData.js'
 import { type Static } from '@sinclair/typebox'
 import { format, subHours, subMilliseconds } from 'date-fns'
-import { BatteryCharging, Clock12, CloudOff, Sun } from 'lucide-preact'
+import { BatteryCharging, Sun } from 'lucide-preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 
 type Gain = {
@@ -163,31 +164,3 @@ export const SolarThingyFlow = ({ device }: { device: Device }) => {
 		</div>
 	)
 }
-
-const WaitingForData = () => {
-	const [seconds, setSeconds] = useState<number>(0)
-
-	useEffect(() => {
-		const i = setInterval(() => {
-			setSeconds((s) => ++s)
-		}, 1000)
-
-		return () => {
-			clearInterval(i)
-		}
-	}, [])
-
-	return (
-		<small>
-			<CloudOff /> waiting for data <ClockForNumber seconds={seconds} />{' '}
-			{seconds}s
-		</small>
-	)
-}
-
-const ClockForNumber = ({ seconds }: { seconds: number }) => (
-	<Clock12
-		style={{ rotate: `${Math.floor(((seconds % 60) / 60) * 360)}deg` }}
-		strokeWidth={1.5}
-	/>
-)

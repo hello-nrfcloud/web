@@ -9,7 +9,7 @@ export const GenericCellularFlow = ({ device }: { device: Device }) => (
 		{!device.hasLocation && (
 			<>
 				<div class="container p-4">
-					<ConnectDK device={device} />
+					<ConnectDK />
 				</div>
 				<WaitingForLocation />
 			</>

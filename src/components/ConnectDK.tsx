@@ -1,4 +1,5 @@
-import type { Device } from '@context/Device'
+import { useCode } from '@context/Code.js'
+import { WaitingForData } from '@flows/WaitingForData.js'
 import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
 import { SIMIcon } from './icons/SIMIcon.js'
@@ -19,11 +20,13 @@ const StepsWithIcons = styled.ol`
 	}
 `
 
-export const ConnectDK = ({ device }: { device: Device }) => {
+export const ConnectDK = () => {
+	const { clear } = useCode()
 	return (
 		<>
 			<h2>
-				Retrieve real-time data from your <strong>{device.type.title}</strong>:
+				Please follow these stops to start retrieving real-time data from your
+				kit:
 			</h2>
 			<section class="mt-4 mb-4">
 				<StepsWithIcons>
@@ -43,12 +46,25 @@ export const ConnectDK = ({ device }: { device: Device }) => {
 						Wait for the LED to turn solid green
 					</li>
 					<li>
+						<WaitingForData />
+					</li>
+					<li>
 						<HelpCircle strokeWidth={1} />
 						No success?
 						<br />
-						<a href="/troubleshooting" class="btn btn-warning mt-2">
-							Follow our troubleshooting guide
-						</a>
+						<span class="mt-2">
+							<button
+								class={'btn btn-outline-secondary me-2'}
+								onClick={() => {
+									clear()
+								}}
+							>
+								cancel
+							</button>
+							<a href="/troubleshooting" class="btn btn-warning">
+								Follow our troubleshooting guide
+							</a>
+						</span>
 					</li>
 				</StepsWithIcons>
 			</section>
