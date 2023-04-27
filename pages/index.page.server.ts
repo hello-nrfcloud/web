@@ -1,19 +1,16 @@
 import type { DK } from '@context/Device'
-import type { Resource } from '@context/Resources'
 import { loadMarkdownContent } from './loadMarkdownContent.js'
 
-export type IndexPageProps = { resources: Resource[]; dks: Record<string, DK> }
+export type IndexPageProps = { dks: Record<string, DK> }
 
 export const onBeforeRender = async (): Promise<{
 	pageContext: { pageProps: IndexPageProps }
 }> => {
-	const resources = await loadMarkdownContent<Resource>('resources')
 	const dks = await loadMarkdownContent<DK>('dks')
 
 	return {
 		pageContext: {
 			pageProps: {
-				resources,
 				dks: dks.reduce(
 					(dks, dk) => ({
 						...dks,

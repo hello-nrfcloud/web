@@ -2,7 +2,6 @@ import { DKResources } from '@components/DKResources'
 import { DKSelector } from '@components/DKSelector'
 import { Footer } from '@components/Footer'
 import { Header } from '@components/Header'
-import { LeveledResources } from '@components/LeveledResources'
 import { PreviewWarning } from '@components/PreviewWarning'
 import { SelectedDK } from '@components/SelectedDK'
 import { WebsocketTerminal } from '@components/WebsocketTerminal'
@@ -29,7 +28,6 @@ export const App = () => {
 						<DeviceFlow type={type} device={device} />
 					)}
 					{type !== undefined && <DKResources type={type} />}
-					<LeveledResources dk={type} />
 					<Footer />
 				</article>
 			</main>

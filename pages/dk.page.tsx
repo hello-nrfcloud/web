@@ -1,14 +1,12 @@
 import { DKResources } from '@components/DKResources'
 import { Footer } from '@components/Footer'
 import { Header } from '@components/Header'
-import { LeveledResources } from '@components/LeveledResources'
 import { PreviewWarning } from '@components/PreviewWarning'
 import { ScanQR } from '@components/ScanQR'
-import { Provider } from '@context/Resources'
 import type { DKPageProps } from './dk.page.server'
 
-export const Page = ({ dk, resources }: DKPageProps) => (
-	<Provider resources={resources}>
+export const Page = ({ dk }: DKPageProps) => (
+	<>
 		<PreviewWarning />
 		<main>
 			<article>
@@ -39,9 +37,8 @@ export const Page = ({ dk, resources }: DKPageProps) => (
 					<ScanQR />
 				</div>
 				<DKResources type={dk} />
-				<LeveledResources dk={dk} />
 				<Footer />
 			</article>
 		</main>
-	</Provider>
+	</>
 )
