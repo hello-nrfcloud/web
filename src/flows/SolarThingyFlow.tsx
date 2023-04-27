@@ -1,9 +1,12 @@
 import { Context, MuninnMessage } from '@bifravst/muninn-proto/Muninn'
+import { HistoryChart } from '@chart/HistoryChart'
+import type { ChartData } from '@chart/chartMath'
 import { Ago } from '@components/Ago'
 import { useDevice, type Device, type MessageListenerFn } from '@context/Device'
 import { type Static } from '@sinclair/typebox'
-import { Clock12, CloudOff } from 'lucide-preact'
-import { useEffect, useState } from 'preact/hooks'
+import { format, subHours, subMilliseconds } from 'date-fns'
+import { BatteryCharging, Clock12, CloudOff, Sun } from 'lucide-preact'
+import { useEffect, useRef, useState } from 'preact/hooks'
 
 type Gain = {
 	'@context': string
@@ -23,6 +26,10 @@ const isVoltage = (message: Static<typeof MuninnMessage>): message is Voltage =>
 	message['@context'] === solarThingy.transformed('voltage').toString()
 
 export const SolarThingyFlow = ({ device }: { device: Device }) => {
+	const containerRef = useRef<HTMLDivElement>(null)
+	const [chartSize, setChartSize] = useState<[width: number, height: number]>([
+		300, 200,
+	])
 	const { addMessageListener, removeMessageListener } = useDevice()
 
 	const [gain, setGain] = useState<{ mA: number; ts: number }[]>([])
@@ -47,59 +54,112 @@ export const SolarThingyFlow = ({ device }: { device: Device }) => {
 		}
 	}, [])
 
+	useEffect(() => {
+		if (containerRef.current === null) return
+		const { width } = containerRef.current.getBoundingClientRect()
+		setChartSize([width, width * 0.5])
+	}, [containerRef.current])
+
 	const currentGain = gain[0]
 	const currentVoltage = voltage[0]
 
+	const base = new Date(
+		gain[gain.length - 1]?.ts ?? subHours(new Date(), 1).getTime(),
+	)
+
+	const chartData: ChartData = {
+		xAxis: {
+			color: 'var(--color-nordic-light-grey)',
+			labelEvery: 10,
+			minutes: 60,
+			format: (d) => format(d, 'HH:mm'),
+			hideLabels: false,
+		},
+		datasets: [
+			// Gain
+			{
+				min: 0,
+				max: 5,
+				values: gain.map(({ mA, ts }) => [
+					mA,
+					subMilliseconds(base, base.getTime() - ts),
+				]),
+				color: 'var(--color-nordic-sun)',
+				format: (v) => `${v.toFixed(1)}mA`,
+				helperLines: [
+					{
+						label: '1m',
+						value: 3.4, // gainReferenceEveryMinute
+					},
+					{
+						label: '60m',
+						value: 2.3, // gainReferenceEveryHour
+					},
+				],
+			},
+			// Voltage
+			{
+				min: 2.5,
+				max: 5.5,
+				values: voltage.map(({ v, ts }) => [
+					v,
+					subMilliseconds(base, base.getTime() - ts),
+				]),
+				color: 'var(--color-nordic-grass)',
+				format: (v) => `${v.toFixed(1)}V`,
+			},
+		],
+	}
+
+	console.log({ base, chartData })
+
 	return (
-		<div class="container pt-4 pb-4">
-			<dl>
-				<>
-					<dt>Gain</dt>
-					<dd>
-						{currentGain === undefined && <WaitingForData />}
-						{currentGain !== undefined && (
-							<>
-								{currentGain.mA} mA{' '}
-								<small>
-									<Ago date={new Date(currentGain.ts)} />
-								</small>
-							</>
-						)}
-						{gain.length > 1 && (
-							<>
-								<br />
-								History:{' '}
-								{gain.slice(1).map(({ mA }) => (
-									<span>{mA}</span>
-								))}
-							</>
-						)}
-					</dd>
-				</>
-				<>
-					<dt>Voltage</dt>
-					<dd>
-						{currentVoltage === undefined && <WaitingForData />}
-						{currentVoltage !== undefined && (
-							<>
-								{currentVoltage.v} V{' '}
-								<small>
-									<Ago date={new Date(currentVoltage.ts)} />
-								</small>
-							</>
-						)}
-						{voltage.length > 1 && (
-							<>
-								<br />
-								History:{' '}
-								{voltage.slice(1).map(({ v }) => (
-									<span>{v}</span>
-								))}
-							</>
-						)}
-					</dd>
-				</>
-			</dl>
+		<div style={{ backgroundColor: 'var(--color-nordic-lake)' }}>
+			<div class="container pt-4 pb-4">
+				<dl>
+					<>
+						<dt style={{ color: 'var(--color-nordic-sun)' }}>
+							<Sun /> Gain
+						</dt>
+						<dd style={{ color: 'var(--color-nordic-sun)' }}>
+							{currentGain === undefined && <WaitingForData />}
+							{currentGain !== undefined && (
+								<>
+									{currentGain.mA} mA{' '}
+									<small>
+										(<Ago date={new Date(currentGain.ts)} />)
+									</small>
+								</>
+							)}
+						</dd>
+					</>
+					<>
+						<dt style={{ color: 'var(--color-nordic-grass)' }}>
+							<BatteryCharging /> Voltage
+						</dt>
+						<dd style={{ color: 'var(--color-nordic-grass)' }}>
+							{currentVoltage === undefined && <WaitingForData />}
+							{currentVoltage !== undefined && (
+								<>
+									{currentVoltage.v} V{' '}
+									<small>
+										(<Ago date={new Date(currentVoltage.ts)} />)
+									</small>
+								</>
+							)}
+						</dd>
+					</>
+				</dl>
+				{(voltage.length > 0 || gain.length > 0) && (
+					<div ref={containerRef}>
+						<HistoryChart
+							width={chartSize[0]}
+							height={chartSize[1]}
+							data={chartData}
+						/>
+					</div>
+				)}
+			</div>
 		</div>
 	)
 }

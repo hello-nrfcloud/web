@@ -27,6 +27,7 @@
       "@components/*": ["components/*"],
       "@context/*": ["context/*"],
       "@flows/*": ["flows/*"],
+      "@chart/*": ["chart/*"],
       "@utils/*": ["utils/*"],
       "@page/*": ["page/*"]
     }
