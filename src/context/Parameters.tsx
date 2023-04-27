@@ -5,11 +5,7 @@ export const ParametersContext = createContext<{
 	webSocketURI?: URL
 }>({})
 
-export const Provider = ({
-	children,
-}: {
-	children: (args: { webSocketURI: URL }) => ComponentChildren
-}) => {
+export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [webSocketURI, setWebsocketURI] = useState<URL>()
 	useEffect(() => {
 		fetch(REGISTRY_ENDPOINT)
@@ -33,7 +29,7 @@ export const Provider = ({
 				webSocketURI,
 			}}
 		>
-			{webSocketURI === undefined ? null : children({ webSocketURI })}
+			{children}
 		</ParametersContext.Provider>
 	)
 }

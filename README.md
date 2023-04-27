@@ -66,8 +66,17 @@ gh variable set DOMAIN_NAME --env production --body "<domain name>"
 Store the role used for continuous deployment as a secret:
 
 ```bash
-CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-muninn-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue' | sed -E 's/\/$//g'`
+CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-muninn-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue'`
 gh secret set AWS_ROLE --env production --body "${CD_ROLE_ARN}"
+```
+
+Store the map name and the identity pool as a variable:
+
+```bash
+MAP_NAME=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-muninn-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "mapName") | .OutputValue'`
+COGNITO_IDENTITY_POOL_ID=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-muninn-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "identityPoolId") | .OutputValue'`
+gh variable set MAP_NAME --env production --body "${MAP_NAME}"
+gh variable set COGNITO_IDENTITY_POOL_ID --env production --body "${COGNITO_IDENTITY_POOL_ID}"
 ```
 
 Store the stack name and the region as a variable:

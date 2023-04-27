@@ -2,7 +2,7 @@ import { Context, MuninnMessage } from '@bifravst/muninn-proto/Muninn'
 import { HistoryChart } from '@chart/HistoryChart'
 import type { ChartData } from '@chart/chartMath'
 import { Ago } from '@components/Ago'
-import { useDevice, type Device, type MessageListenerFn } from '@context/Device'
+import { useDevice, type MessageListenerFn } from '@context/Device'
 import { WaitingForData } from '@flows/WaitingForData.js'
 import { type Static } from '@sinclair/typebox'
 import { format, subHours, subMilliseconds } from 'date-fns'
@@ -26,7 +26,7 @@ const isGain = (message: Static<typeof MuninnMessage>): message is Gain =>
 const isVoltage = (message: Static<typeof MuninnMessage>): message is Voltage =>
 	message['@context'] === solarThingy.transformed('voltage').toString()
 
-export const SolarThingyFlow = ({ device }: { device: Device }) => {
+export const SolarThingyFlow = () => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [chartSize, setChartSize] = useState<[width: number, height: number]>([
 		300, 200,
@@ -111,8 +111,6 @@ export const SolarThingyFlow = ({ device }: { device: Device }) => {
 			},
 		],
 	}
-
-	console.log({ base, chartData })
 
 	return (
 		<div style={{ backgroundColor: 'var(--color-nordic-lake)' }}>

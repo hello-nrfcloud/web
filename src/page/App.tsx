@@ -9,6 +9,7 @@ import { WebsocketTerminal } from '@components/WebsocketTerminal'
 import { useCode } from '@context/Code'
 import { useDevice } from '@context/Device'
 import { DeviceFlow } from '@flows/DeviceFlow'
+import { Map } from '@map/Map'
 
 export const App = () => {
 	const { type, device } = useDevice()
@@ -28,7 +29,10 @@ export const App = () => {
 						</div>
 					</div>
 					{device !== undefined && type !== undefined && (
-						<DeviceFlow type={type} device={device} />
+						<>
+							<DeviceFlow type={type} device={device} />
+							<Map />
+						</>
 					)}
 					{type !== undefined && <DKResources type={type} />}
 					<Footer />

@@ -29,7 +29,8 @@
       "@flows/*": ["flows/*"],
       "@chart/*": ["chart/*"],
       "@utils/*": ["utils/*"],
-      "@page/*": ["page/*"]
+      "@page/*": ["page/*"],
+      "@map/*": ["map/*"]
     }
   }
 }

@@ -72,7 +72,7 @@ jobs:
         run:
           echo "BUCKET_NAME=`aws cloudformation describe-stacks --stack-name ${{
           vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey
-          == "bucketName") | .OutputValue' | sed -E 's/\/$//g'`" >> $GITHUB_ENV
+          == "bucketName") | .OutputValue'`" >> $GITHUB_ENV
 
       - name: Upload build
         run: |
@@ -89,5 +89,5 @@ jobs:
           Trigger CloudFront cache invalidation for index.html (all other files
           have unique names)
         run: |
-          CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue' | sed -E 's/\/$//g'`
+          CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue'`
           aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html

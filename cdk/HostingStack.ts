@@ -1,6 +1,7 @@
 import {
 	App,
 	aws_cloudfront as Cf,
+	aws_cloudfront_origins as CfOrigins,
 	CfnOutput,
 	Duration,
 	aws_iam as IAM,
@@ -10,9 +11,10 @@ import {
 	Stack,
 	aws_certificatemanager as certificatemanager,
 } from 'aws-cdk-lib'
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins'
 import { readFileSync } from 'fs'
 import path from 'path'
+import { Map } from './Map.js'
+import { UserAuthentication } from './UserAuthentication.js'
 
 export class HostingStack extends Stack {
 	public constructor(
@@ -116,7 +118,7 @@ export class HostingStack extends Stack {
 		})
 		websiteBucket.grantRead(oai)
 
-		const s3Origin = new S3Origin(websiteBucket, {
+		const s3Origin = new CfOrigins.S3Origin(websiteBucket, {
 			originId: 's3website',
 			originPath: '/',
 			originAccessIdentity: oai,
@@ -179,6 +181,13 @@ export class HostingStack extends Stack {
 		// Allow CD to create cache invalidation
 		distribution.grantCreateInvalidation(ghRole)
 
+		// Add resources to render maps
+		const userAuthentication = new UserAuthentication(this, 'users')
+		const map = new Map(this, 'map', {
+			domainName,
+			userAuthentication,
+		})
+
 		new CfnOutput(this, 'gitHubCdRoleArn', {
 			value: ghRole.roleArn,
 			exportName: `${this.stackName}:gitHubCdRoleArn`,
@@ -198,6 +207,16 @@ export class HostingStack extends Stack {
 			value: websiteBucket.bucketName,
 			exportName: `${this.stackName}:bucketName`,
 		})
+
+		new CfnOutput(this, 'mapName', {
+			value: map.mapName,
+			exportName: `${this.stackName}:mapName`,
+		})
+
+		new CfnOutput(this, 'identityPoolId', {
+			value: userAuthentication.identityPool.ref,
+			exportName: `${this.stackName}:identityPoolId`,
+		})
 	}
 }
 
@@ -206,4 +225,5 @@ export type StackOutputs = {
 	distributionDomainName: string
 	bucketName: string
 	distributionId: string
+	mapName: string
 }
