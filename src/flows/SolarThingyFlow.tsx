@@ -2,21 +2,7 @@ import { Context, MuninnMessage } from '@bifravst/muninn-proto/Muninn'
 import { Ago } from '@components/Ago'
 import { useDevice, type Device, type MessageListenerFn } from '@context/Device'
 import { type Static } from '@sinclair/typebox'
-import {
-	Clock1,
-	Clock10,
-	Clock11,
-	Clock12,
-	Clock2,
-	Clock3,
-	Clock4,
-	Clock5,
-	Clock6,
-	Clock7,
-	Clock8,
-	Clock9,
-	CloudOff,
-} from 'lucide-preact'
+import { Clock12, CloudOff } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 
 type Gain = {
@@ -139,31 +125,9 @@ const WaitingForData = () => {
 	)
 }
 
-const ClockForNumber = ({ seconds }: { seconds: number }) => {
-	switch (seconds % 12) {
-		case 1:
-			return <Clock1 />
-		case 2:
-			return <Clock2 />
-		case 3:
-			return <Clock3 />
-		case 4:
-			return <Clock4 />
-		case 5:
-			return <Clock5 />
-		case 6:
-			return <Clock6 />
-		case 7:
-			return <Clock7 />
-		case 8:
-			return <Clock8 />
-		case 9:
-			return <Clock9 />
-		case 10:
-			return <Clock10 />
-		case 11:
-			return <Clock11 />
-		default:
-			return <Clock12 />
-	}
-}
+const ClockForNumber = ({ seconds }: { seconds: number }) => (
+	<Clock12
+		style={{ rotate: `${Math.floor(((seconds % 60) / 60) * 360)}deg` }}
+		strokeWidth={1.5}
+	/>
+)

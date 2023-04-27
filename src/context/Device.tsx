@@ -14,7 +14,10 @@ export type DK = {
 	model: string
 	title: string
 	html: string
-	learnMoreLink: string
+	links: {
+		learnMore: string
+		documentation: string
+	}
 }
 
 export type Device = {

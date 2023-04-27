@@ -8,33 +8,42 @@ export const DKSelector = () => {
 			<ScanQR />
 			<h2 class="mt-4">... or select your hardware</h2>
 			<div class="d-flex flex-col justify-content-between">
-				{Object.entries(DKs).map(([id, { title, html, learnMoreLink }]) => (
-					<section
-						class={'p-1'}
-						style={{
-							width: `${Math.floor(100 / Object.keys(DKs).length)}%`,
-						}}
-					>
-						<a href={`/dk/${encodeURIComponent(id)}`}>
-							<img
-								alt={`${title} (${id})`}
-								src={`/static/images/${encodeURIComponent(id)}.webp`}
-								class="img-fluid"
-							/>
-							{title} <small>({id})</small>
-						</a>
-						<div
-							dangerouslySetInnerHTML={{
-								__html: html,
+				{Object.entries(DKs).map(
+					([
+						id,
+						{
+							title,
+							html,
+							links: { learnMore },
+						},
+					]) => (
+						<section
+							class={'p-1'}
+							style={{
+								width: `${Math.floor(100 / Object.keys(DKs).length)}%`,
 							}}
-						/>
-						<p>
-							<a href={learnMoreLink} target={'_blank'}>
-								Learn more
+						>
+							<a href={`/dk/${encodeURIComponent(id)}`}>
+								<img
+									alt={`${title} (${id})`}
+									src={`/static/images/${encodeURIComponent(id)}.webp`}
+									class="img-fluid"
+								/>
+								{title} <small>({id})</small>
 							</a>
-						</p>
-					</section>
-				))}
+							<div
+								dangerouslySetInnerHTML={{
+									__html: html,
+								}}
+							/>
+							<p>
+								<a href={learnMore} target={'_blank'}>
+									Learn more
+								</a>
+							</p>
+						</section>
+					),
+				)}
 			</div>
 		</>
 	)
