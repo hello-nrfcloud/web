@@ -43,6 +43,8 @@ jobs:
         run: |
           npm run build
           cp -L -r ./static ./build/client
+          mkdir -p build/client/node_modules/maplibre-gl/dist/
+          cp node_modules/maplibre-gl/dist/maplibre-gl.css build/client/node_modules/maplibre-gl/dist/
 
       - name: Store Playwright's Version
         run: |
