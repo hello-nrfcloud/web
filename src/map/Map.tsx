@@ -5,7 +5,8 @@ import type {
 	LngLatLike,
 	PropertyValueSpecification,
 } from 'maplibre-gl'
-import { Map as MapLibreGlMap } from 'maplibre-gl'
+// Needed for SSR build, named exports don't work
+import maplibregl from 'maplibre-gl'
 import { createContext } from 'preact'
 import { useContext, useEffect, useRef } from 'preact/hooks'
 import { styled } from 'styled-components'
@@ -82,7 +83,7 @@ let zooming = false
  * The `map` parameter is potentially undefined,
  * because it sometimes happens that the map instance is no longer available
  */
-export const deviceMap = (map: MapLibreGlMap | undefined): DeviceMap => {
+export const deviceMap = (map: maplibregl.Map | undefined): DeviceMap => {
 	const isLoaded = new Promise((resolve) => map?.on('load', resolve))
 	const centerOnDeviceZoomLevel = 12
 
@@ -306,7 +307,7 @@ export const Map = () => {
 	useEffect(() => {
 		if (containerRef.current === null) return
 
-		const map = new MapLibreGlMap({
+		const map = new maplibregl.Map({
 			container: 'map',
 			style: mapStyle({
 				region: REGION,

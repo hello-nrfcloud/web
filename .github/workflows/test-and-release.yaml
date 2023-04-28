@@ -35,6 +35,11 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Ensure it builds
+        env:
+          MAP_NAME: ${{ vars.MAP_NAME }}
+          COGNITO_IDENTITY_POOL_ID: ${{ vars.COGNITO_IDENTITY_POOL_ID }}
+
       - name: Store Playwright's Version
         run: |
           PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
