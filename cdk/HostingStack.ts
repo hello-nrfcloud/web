@@ -139,20 +139,19 @@ export class HostingStack extends Stack {
 				},
 			],
 			cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
-				defaultTtl: Duration.days(356),
-				minTtl: Duration.days(356),
-				queryStringBehavior: Cf.CacheQueryStringBehavior.allowList('v'),
+				defaultTtl: Duration.minutes(10),
 				enableAcceptEncodingBrotli: true,
 				enableAcceptEncodingGzip: true,
 			}),
 		}
 
-		const htmlBehaviour: Cf.AddBehaviorOptions = {
+		const staticFileBehaviour: Cf.AddBehaviorOptions = {
 			...defaultBehaviour,
-			cachePolicy: new Cf.CachePolicy(this, 'htmlCachePolicy', {
-				defaultTtl: Duration.minutes(10),
-				enableAcceptEncodingBrotli: true,
-				enableAcceptEncodingGzip: true,
+			cachePolicy: new Cf.CachePolicy(this, 'staticFileBehaviour', {
+				defaultTtl: Duration.days(356),
+				minTtl: Duration.days(356),
+				// Allow cache busting
+				queryStringBehavior: Cf.CacheQueryStringBehavior.allowList('v'),
 			}),
 		}
 
@@ -173,8 +172,12 @@ export class HostingStack extends Stack {
 				`arn:aws:acm:us-east-1:${this.account}:certificate/${certificateId}`,
 			),
 		})
-		distribution.addBehavior('*.html', s3Origin, htmlBehaviour)
-		distribution.addBehavior('/', s3Origin, htmlBehaviour)
+		distribution.addBehavior('*.js', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.map', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.css', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.webp', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.svg', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.png', s3Origin, staticFileBehaviour)
 
 		// Allow CD to create cache invalidation
 		distribution.grantCreateInvalidation(ghRole)
