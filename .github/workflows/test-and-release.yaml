@@ -12,6 +12,8 @@ jobs:
   main:
     runs-on: ubuntu-latest
 
+    environment: production
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -37,6 +39,9 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run end to end tests
+        env:
+          MAP_NAME: ${{ vars.MAP_NAME }}
+          COGNITO_IDENTITY_POOL_ID: ${{ vars.COGNITO_IDENTITY_POOL_ID }}
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in
