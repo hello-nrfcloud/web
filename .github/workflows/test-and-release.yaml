@@ -39,6 +39,7 @@ jobs:
         env:
           MAP_NAME: ${{ vars.MAP_NAME }}
           COGNITO_IDENTITY_POOL_ID: ${{ vars.COGNITO_IDENTITY_POOL_ID }}
+          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
         run: |
           npm run build
           cp -L -r ./static ./build/client
