@@ -37,8 +37,6 @@ jobs:
 
       - name: Ensure it builds
         env:
-          MAP_NAME: ${{ vars.MAP_NAME }}
-          COGNITO_IDENTITY_POOL_ID: ${{ vars.COGNITO_IDENTITY_POOL_ID }}
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
         run: |
           npm run build
@@ -64,9 +62,6 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run end to end tests
-        env:
-          MAP_NAME: ${{ vars.MAP_NAME }}
-          COGNITO_IDENTITY_POOL_ID: ${{ vars.COGNITO_IDENTITY_POOL_ID }}
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in

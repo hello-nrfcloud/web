@@ -7,10 +7,6 @@ declare const BUILD_TIME: string
 declare const REGISTRY_ENDPOINT: string
 /** Domain name where app is hosted. */
 declare const DOMAIN_NAME: string
-/** The AWS Location Services Maps provider name */
-declare const MAP_NAME: string
-declare const COGNITO_IDENTITY_POOL_ID: string
-declare const REGION: string
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface ImportMeta {

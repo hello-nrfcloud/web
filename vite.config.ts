@@ -4,10 +4,8 @@ import { defineConfig } from 'vite'
 import ssr from 'vite-plugin-ssr/plugin'
 import { homepage, version } from './siteInfo.js'
 
-const { registryEndpoint, mapName, cognitoIdentityPoolId } = fromEnv({
+const { registryEndpoint } = fromEnv({
 	registryEndpoint: 'REGISTRY_ENDPOINT',
-	mapName: 'MAP_NAME',
-	cognitoIdentityPoolId: 'COGNITO_IDENTITY_POOL_ID',
 })(process.env)
 
 // https://vitejs.dev/config/
@@ -54,8 +52,5 @@ export default defineConfig({
 		DOMAIN_NAME: JSON.stringify(
 			process.env.DOMAIN_NAME ?? 'muninn.thingy.rocks',
 		),
-		MAP_NAME: JSON.stringify(mapName),
-		COGNITO_IDENTITY_POOL_ID: JSON.stringify(cognitoIdentityPoolId),
-		REGION: JSON.stringify(cognitoIdentityPoolId.split(':')[0]),
 	},
 })

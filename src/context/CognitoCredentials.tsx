@@ -15,15 +15,19 @@ export const CognitoCredentialsContext = createContext<{
 
 export const CognitoCredentials = ({
 	children,
+	identityPoolId,
+	region,
 }: {
 	children: ComponentChildren
+	identityPoolId: string
+	region: string
 }) => {
 	const [credentials, setCredentials] = useState<CognitoIdentityCredentials>()
 
 	const refreshCredentials = async () =>
 		fromCognitoIdentityPool({
-			identityPoolId: COGNITO_IDENTITY_POOL_ID,
-			client: new CognitoIdentityClient({ region: REGION }),
+			identityPoolId,
+			client: new CognitoIdentityClient({ region }),
 		})()
 			.then((credentials) => setCredentials(credentials))
 			.catch(console.error)

@@ -7,12 +7,19 @@ import type { IndexPageProps } from './index.page.server'
 
 export const Page = ({ dks }: IndexPageProps) => (
 	<ParametersProvider>
-		<CognitoCredentials>
-			<CodeProvider>
-				<DeviceProvider DKs={dks}>
-					<App />
-				</DeviceProvider>
-			</CodeProvider>
-		</CognitoCredentials>
+		{({ cognitoIdentityPoolId, region }) => (
+			<>
+				<CognitoCredentials
+					region={region}
+					identityPoolId={cognitoIdentityPoolId}
+				>
+					<CodeProvider>
+						<DeviceProvider DKs={dks}>
+							<App />
+						</DeviceProvider>
+					</CodeProvider>
+				</CognitoCredentials>
+			</>
+		)}
 	</ParametersProvider>
 )

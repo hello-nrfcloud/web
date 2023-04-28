@@ -3,7 +3,7 @@ import type { CfnMap } from 'aws-cdk-lib/aws-location'
 import { Construct } from 'constructs'
 import type { UserAuthentication } from './UserAuthentication.js'
 
-export class Map extends Construct {
+export class MapResources extends Construct {
 	public readonly map: CfnMap
 	public readonly mapName: string
 

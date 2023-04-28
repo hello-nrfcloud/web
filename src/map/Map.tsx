@@ -6,6 +6,7 @@ import type {
 	PropertyValueSpecification,
 } from 'maplibre-gl'
 // Needed for SSR build, named exports don't work
+import { useParameters } from '@context/Parameters.js'
 import maplibregl from 'maplibre-gl'
 import { createContext } from 'preact'
 import { useContext, useEffect, useRef } from 'preact/hooks'
@@ -301,6 +302,7 @@ const NoLocation = styled.div`
 `
 
 export const Map = () => {
+	const { mapName, region } = useParameters()
 	const { credentials } = useCognitoCredentials()
 	const containerRef = useRef<HTMLDivElement>(null)
 
@@ -310,12 +312,12 @@ export const Map = () => {
 		const map = new maplibregl.Map({
 			container: 'map',
 			style: mapStyle({
-				region: REGION,
-				mapName: MAP_NAME,
+				region,
+				mapName,
 			}),
 			center: [10.437581513483195, 63.42148461054351],
 			zoom: 12,
-			transformRequest: transformRequest(credentials),
+			transformRequest: transformRequest(credentials, region),
 			refreshExpiredTiles: false,
 			trackResize: true,
 			keyboard: false,
