@@ -26,12 +26,7 @@ const config: PlaywrightTestConfig = {
 		url: 'http://localhost:8080/',
 		timeout: 10 * 1000,
 		reuseExistingServer: process.env.CI === undefined,
-		env: {
-			REGISTRY_ENDPOINT: `http://localhost:8080/static/test/registry.json`,
-			DOMAIN_NAME: 'muninn.thingy.rocks',
-		},
 	},
-	// reporter: './e2e-tests/DocumentationReporter',
 }
 
 export default config
