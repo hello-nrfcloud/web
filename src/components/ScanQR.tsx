@@ -2,6 +2,7 @@ import { useDevice } from '@context/Device'
 import { isCode } from '@utils/isCode'
 import { useState } from 'preact/hooks'
 import { QRCodeScanner } from './QRCodeScanner.js'
+import { PrimaryButton } from './StyleGuide.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
@@ -69,16 +70,14 @@ export const ScanQR = () => {
 							</div>
 						</div>
 						<div class="col-12">
-							<button
-								type="button"
-								class="btn btn-primary"
+							<PrimaryButton
 								disabled={!isValid}
 								onClick={() => {
 									fromCode(code)
 								}}
 							>
 								Submit
-							</button>
+							</PrimaryButton>
 						</div>
 					</form>
 				</div>

@@ -1,6 +1,6 @@
 import { PreviewWarning } from '@components/PreviewWarning'
 import { SourceHeader } from '@components/SourceHeader'
-import { StyleGuide } from '@components/StyleGuide.js'
+import { SecondaryButton, StyleGuide } from '@components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from './QRCodeGenerator.js'
 
@@ -151,9 +151,9 @@ const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
 						Great, that took you{' '}
 						{Math.round((endTime.getTime() - startTime.getTime()) / 1000)}s.
 					</span>
-					<button
-						type="button"
-						class="btn btn-outline-secondary btn-sm"
+					<SecondaryButton
+						outline
+						small
 						onClick={() => {
 							setStartTime(undefined)
 							setEndTime(undefined)
@@ -162,7 +162,7 @@ const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
 						}}
 					>
 						reset
-					</button>
+					</SecondaryButton>
 				</p>
 			)}
 		</form>

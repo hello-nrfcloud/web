@@ -1,6 +1,7 @@
 import { useCode } from '@context/Code'
 import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
+import { SecondaryButton } from './StyleGuide.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()
@@ -24,14 +25,14 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 					</span>
 				)}
 			</span>
-			<button
-				class={'btn btn-outline-secondary'}
+			<SecondaryButton
+				outline
 				onClick={() => {
 					clear()
 				}}
 			>
 				clear
-			</button>
+			</SecondaryButton>
 		</div>
 	)
 }

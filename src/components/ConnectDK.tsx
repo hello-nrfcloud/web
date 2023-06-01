@@ -2,6 +2,7 @@ import { useCode } from '@context/Code.js'
 import { WaitingForData } from '@flows/WaitingForData.js'
 import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
+import { SecondaryButton } from './StyleGuide.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 
 const StepsWithIcons = styled.ol`
@@ -53,14 +54,14 @@ export const ConnectDK = () => {
 						No success?
 						<br />
 						<span class="mt-2">
-							<button
-								class={'btn btn-outline-secondary me-2'}
+							<SecondaryButton
+								class="me-2"
 								onClick={() => {
 									clear()
 								}}
 							>
 								cancel
-							</button>
+							</SecondaryButton>
 							<a href="/troubleshooting" class="btn btn-warning">
 								Follow our troubleshooting guide
 							</a>

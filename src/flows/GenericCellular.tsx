@@ -1,5 +1,6 @@
 import { ConnectDK } from '@components/ConnectDK'
 import { Map } from '@components/Map'
+import { SuccessButton } from '@components/StyleGuide'
 import { WaitingForLocation } from '@components/WaitingForLocation'
 import { type Device } from '@context/Device'
 import { ExternalLink } from 'lucide-preact'
@@ -79,9 +80,7 @@ export const GenericCellularFlow = ({ device }: { device: Device }) => (
 								chance to win one of 10 Nordic IoTees every month!
 							</p>
 							<p>
-								<button type="button" class="btn btn-success">
-									Share my location!
-								</button>
+								<SuccessButton>Share my location!</SuccessButton>
 								<a
 									class="btn btn-light ms-4"
 									href="https://world.nrfcloud.com/"

@@ -2,6 +2,7 @@ import { isCode } from '@utils/isCode'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'
+import { PrimaryButton } from './StyleGuide.js'
 
 type Camera = { id: string; label: string }
 
@@ -95,9 +96,7 @@ export const QRCodeScanner = () => {
 				in our database.
 			</p>
 			<p>
-				<button
-					class="btn btn-primary"
-					type="button"
+				<PrimaryButton
 					onClick={async () => {
 						setFoundURL(undefined)
 						setState('waiting_for_cameras')
@@ -117,7 +116,7 @@ export const QRCodeScanner = () => {
 					}}
 				>
 					<QrCode /> Scan QR code
-				</button>
+				</PrimaryButton>
 			</p>
 			{foundURL !== undefined && (
 				<p>
