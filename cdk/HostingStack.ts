@@ -178,6 +178,7 @@ export class HostingStack extends Stack {
 		distribution.addBehavior('*.webp', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.svg', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.png', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.woff2', s3Origin, staticFileBehaviour)
 
 		// Allow CD to create cache invalidation
 		distribution.grantCreateInvalidation(ghRole)

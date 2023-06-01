@@ -1,8 +1,6 @@
 :root {
-  --sans-serif-font: "Inter", monospace;
-  --sans-serif-font-weight-bold: 700;
-  --monospace-font: "Overpass Mono", monospace;
-  --monospace-font-weight-bold: 700;
+  --sans-serif-font: "GT Eesti Display", monospace;
+  --monospace-font: "Pragmata Medium", monospace;
 
   /* Nordic Style Guide: Primary colors */
   --color-nordic-blue: #00a9ce;
@@ -45,9 +43,68 @@ abbr[title] {
 body {
   font-family: var(--sans-serif-font);
   font-size: 16px;
+  line-height: 22px;
+  font-weight: 300;
 }
 
 .lucide {
   width: 22px;
   height: 22px;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 27px;
+  font-family: "GT Eesti Display";
+  font-weight: 100;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 27px;
+  font-family: "GT Eesti Display";
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 22px;
+  font-family: "GT Eesti Display";
+  font-weight: 400;
+}
+
+code {
+  font-family: var(--monospace-font);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-ULight.woff2") format("woff2");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Light.woff2") format("woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Medium.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Pragmata Medium";
+  src: local("Pragmata Medium"),
+    url("/static/fonts/Pragmata-Medium.woff2") format("woff2");
+  font-weight: 400;
 }
