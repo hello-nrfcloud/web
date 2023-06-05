@@ -10,7 +10,7 @@ import {
 import { useState } from 'preact/hooks'
 import { styled } from 'styled-components'
 import { Ago } from './Ago.js'
-import { SecondaryButton } from './StyleGuide.js'
+import { Secondary } from './buttons/Button.js'
 
 const W = styled.div`
 	color: white;
@@ -47,7 +47,7 @@ export const WebsocketTerminal = () => {
 						<span>
 							{!collapsed && messages.length > 1 && (
 								<>
-									<SecondaryButton
+									<Secondary
 										small
 										class="me-1"
 										disabled={index === messages.length - 1}
@@ -61,8 +61,8 @@ export const WebsocketTerminal = () => {
 										}
 									>
 										<ChevronLeft />
-									</SecondaryButton>
-									<SecondaryButton
+									</Secondary>
+									<Secondary
 										small
 										class="me-3"
 										disabled={index === 0}
@@ -75,12 +75,12 @@ export const WebsocketTerminal = () => {
 										}
 									>
 										<ChevronRight />
-									</SecondaryButton>
+									</Secondary>
 								</>
 							)}
-							<SecondaryButton small onClick={() => setCollapsed((c) => !c)}>
+							<Secondary small onClick={() => setCollapsed((c) => !c)}>
 								{collapsed ? <EyeOff /> : <Eye />}
-							</SecondaryButton>
+							</Secondary>
 						</span>
 					</div>
 					{!collapsed && (

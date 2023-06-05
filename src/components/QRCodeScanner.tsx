@@ -2,7 +2,7 @@ import { isFingerprint } from '@utils/isFingerprint'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'
-import { PrimaryButton } from './StyleGuide.js'
+import { Primary } from './buttons/Button.js'
 
 type Camera = { id: string; label: string }
 
@@ -99,7 +99,7 @@ export const QRCodeScanner = () => {
 				our database.
 			</p>
 			<p>
-				<PrimaryButton
+				<Primary
 					onClick={async () => {
 						setFoundURL(undefined)
 						setState('waiting_for_cameras')
@@ -119,7 +119,7 @@ export const QRCodeScanner = () => {
 					}}
 				>
 					<QrCode /> Scan QR code
-				</PrimaryButton>
+				</Primary>
 			</p>
 			{foundURL !== undefined && (
 				<p>

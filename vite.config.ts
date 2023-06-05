@@ -27,6 +27,10 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: [
+			{
+				find: '@components/Button',
+				replacement: '/src/components/buttons/index.js',
+			},
 			{ find: '@components/', replacement: '/src/components/' },
 			{ find: '@context/', replacement: '/src/context/' },
 			{ find: '@utils/', replacement: '/src/utils/' },

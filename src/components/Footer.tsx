@@ -1,3 +1,5 @@
+import { SecondaryLink } from '@components/Button'
+
 export const Footer = () => (
 	<footer
 		style={{
@@ -24,13 +26,12 @@ export const Footer = () => (
 						a private support ticket.
 					</p>
 					<p>
-						<a
+						<SecondaryLink
 							href="https://devzone.nordicsemi.com/"
 							target="_blank"
-							class="btn btn-secondary"
 						>
 							devzone.nordicsemi.com
-						</a>
+						</SecondaryLink>
 					</p>
 				</div>
 			</div>

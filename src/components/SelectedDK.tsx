@@ -1,7 +1,7 @@
 import { useFingerprint } from '@context/Code'
 import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
-import { SecondaryButton } from './StyleGuide.js'
+import { Secondary } from './buttons/Button.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()
@@ -25,14 +25,14 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 					</span>
 				)}
 			</span>
-			<SecondaryButton
+			<Secondary
 				outline
 				onClick={() => {
 					clear()
 				}}
 			>
 				clear
-			</SecondaryButton>
+			</Secondary>
 		</div>
 	)
 }

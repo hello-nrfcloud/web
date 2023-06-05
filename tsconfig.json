@@ -25,6 +25,7 @@
       "react": ["../node_modules/preact/compat/"],
       "react-dom": ["../node_modules/preact/compat/"],
       "@components/*": ["components/*"],
+      "@components/Button": ["components/buttons/index"],
       "@context/*": ["context/*"],
       "@flows/*": ["flows/*"],
       "@chart/*": ["chart/*"],

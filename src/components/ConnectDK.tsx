@@ -2,7 +2,8 @@ import { useFingerprint } from '@context/Code.js'
 import { WaitingForData } from '@flows/WaitingForData.js'
 import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
-import { SecondaryButton } from './StyleGuide.js'
+import { Secondary } from './buttons/Button.js'
+import { WarningLink } from './buttons/ButtonlikeLink.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 
 const StepsWithIcons = styled.ol`
@@ -54,17 +55,17 @@ export const ConnectDK = () => {
 						No success?
 						<br />
 						<span class="mt-2">
-							<SecondaryButton
+							<Secondary
 								class="me-2"
 								onClick={() => {
 									clear()
 								}}
 							>
 								cancel
-							</SecondaryButton>
-							<a href="/troubleshooting" class="btn btn-warning">
+							</Secondary>
+							<WarningLink href="/troubleshooting">
 								Follow our troubleshooting guide
-							</a>
+							</WarningLink>
 						</span>
 					</li>
 				</StepsWithIcons>

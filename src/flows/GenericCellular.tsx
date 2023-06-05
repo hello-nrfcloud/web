@@ -1,6 +1,6 @@
+import { LightLink, Success } from '@components/Button'
 import { ConnectDK } from '@components/ConnectDK'
 import { Map } from '@components/Map'
-import { SuccessButton } from '@components/StyleGuide'
 import { WaitingForLocation } from '@components/WaitingForLocation'
 import { type Device } from '@context/Device'
 import { ExternalLink } from 'lucide-preact'
@@ -80,15 +80,15 @@ export const GenericCellularFlow = ({ device }: { device: Device }) => (
 								chance to win one of 10 Nordic IoTees every month!
 							</p>
 							<p>
-								<SuccessButton>Share my location!</SuccessButton>
-								<a
-									class="btn btn-light ms-4"
+								<Success>Share my location!</Success>
+								<LightLink
+									class="ms-4"
 									href="https://world.nrfcloud.com/"
 									target="_blank"
 								>
 									<ExternalLink class="me-2" />
 									Nordic World
-								</a>
+								</LightLink>
 							</p>
 						</section>
 						<aside class="flex-shrink-1">

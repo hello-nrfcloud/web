@@ -2,7 +2,7 @@ import { useDevice } from '@context/Device'
 import { isFingerprint } from '@utils/isFingerprint.js'
 import { useState } from 'preact/hooks'
 import { QRCodeScanner } from './QRCodeScanner.js'
-import { PrimaryButton } from './StyleGuide.js'
+import { Primary } from './buttons/Button.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
@@ -70,14 +70,14 @@ export const ScanQR = () => {
 							</div>
 						</div>
 						<div class="col-12">
-							<PrimaryButton
+							<Primary
 								disabled={!isValid}
 								onClick={() => {
 									fromFingerprint(fingerprint)
 								}}
 							>
 								Submit
-							</PrimaryButton>
+							</Primary>
 						</div>
 					</form>
 				</div>

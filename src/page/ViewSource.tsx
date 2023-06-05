@@ -1,6 +1,7 @@
+import { Secondary } from '@components/Button'
 import { PreviewWarning } from '@components/PreviewWarning'
 import { SourceHeader } from '@components/SourceHeader'
-import { SecondaryButton, StyleGuide } from '@components/StyleGuide.js'
+import { StyleGuide } from '@components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from './QRCodeGenerator.js'
 
@@ -12,7 +13,7 @@ export const ViewSource = () => (
 				<SourceHeader />
 				<div class="container mt-4">
 					<div class="row mt-4">
-						<div class="col-6">
+						<div class="col-12 col-md-6">
 							<section>
 								<h2>This sections explains how this project is built.</h2>
 								<p>
@@ -48,7 +49,7 @@ export const ViewSource = () => (
 							</section>
 							<StyleGuide />
 						</div>
-						<div class="col-6">
+						<div class="col-12 col-md-6">
 							<h2>QR codes</h2>
 							<p>
 								The easiest way to access the page for an individual device is
@@ -151,7 +152,7 @@ const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
 						Great, that took you{' '}
 						{Math.round((endTime.getTime() - startTime.getTime()) / 1000)}s.
 					</span>
-					<SecondaryButton
+					<Secondary
 						outline
 						small
 						onClick={() => {
@@ -162,7 +163,7 @@ const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
 						}}
 					>
 						reset
-					</SecondaryButton>
+					</Secondary>
 				</p>
 			)}
 		</form>
