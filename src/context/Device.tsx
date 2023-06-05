@@ -7,7 +7,7 @@ import {
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
-import { useCode } from './Code.js'
+import { useFingerprint } from './Code.js'
 import { useParameters } from './Parameters.js'
 
 export type DK = {
@@ -22,7 +22,7 @@ export type DK = {
 
 export type Device = {
 	imei: string
-	code: string
+	fingerprint: string
 	hasLocation: boolean
 	type: DK
 }
@@ -35,14 +35,14 @@ type Messages = {
 export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
-	fromCode: (code: string) => void
+	fromFingerprint: (fingerprint: string) => void
 	DKs: Record<string, DK>
 	connected: boolean
 	messages: Messages
 	addMessageListener: (listener: MessageListenerFn) => void
 	removeMessageListener: (listener: MessageListenerFn) => void
 }>({
-	fromCode: () => undefined,
+	fromFingerprint: () => undefined,
 	DKs: {},
 	connected: false,
 	messages: [],
@@ -65,7 +65,7 @@ export const Provider = ({
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connected, setConnected] = useState<boolean>(false)
 	const [messages, setMessages] = useState<Messages>([])
-	const { code, set } = useCode()
+	const { fingerprint, set } = useFingerprint()
 	const { webSocketURI } = useParameters()
 	const listeners = useRef<MessageListenerFn[]>([])
 
@@ -73,10 +73,10 @@ export const Provider = ({
 
 	// Set up websocket connection
 	useEffect(() => {
-		console.log({ webSocketURI, code })
-		if (code === null) return
+		console.log({ webSocketURI, fingerprint })
+		if (fingerprint === null) return
 		if (webSocketURI === undefined) return
-		const deviceURI = `${webSocketURI}?code=${code}`
+		const deviceURI = `${webSocketURI}?fingerprint=${fingerprint}`
 		console.debug(`[WS]`, 'connecting', deviceURI)
 		const ws = new WebSocket(deviceURI)
 
@@ -111,7 +111,7 @@ export const Provider = ({
 						const type = DKs[maybeValid.model] as DK
 						setDevice({
 							hasLocation: false,
-							code,
+							fingerprint,
 							imei: maybeValid.id,
 							type,
 						})
@@ -129,13 +129,13 @@ export const Provider = ({
 			ws.close()
 			setConnected(false)
 		}
-	}, [code, webSocketURI])
+	}, [fingerprint, webSocketURI])
 
 	return (
 		<DeviceContext.Provider
 			value={{
-				fromCode: (code) => {
-					set(code)
+				fromFingerprint: (fingerprint) => {
+					set(fingerprint)
 				},
 				device,
 				type: type === undefined ? undefined : DKs[type],

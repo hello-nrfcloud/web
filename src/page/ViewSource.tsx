@@ -52,23 +52,23 @@ export const ViewSource = () => (
 							<h2>QR codes</h2>
 							<p>
 								The easiest way to access the page for an individual device is
-								to scan a QR code, which encodes a <em>device code</em> (more
+								to scan a QR code, which encodes a <em>fingerprint</em> (more
 								about that later) and the URL of this page.
 							</p>
 							<p>Here is an example:</p>
 							<div class="mb-4">
 								<QRCodeGenerator />
 							</div>
-							<h3>Manually entering the code</h3>
+							<h3>Manually entering the fingerprint</h3>
 							<p>
 								If users cannot scan the QR code because they do not have a
-								camera, they have to enter the code manually.
+								camera, they have to enter the fingerprint manually.
 							</p>
 							<p>
-								The code is designed so that there are no ambiguous letters,
-								e.g. <code>o</code> (lowercase &quot;o&quot;) and <code>0</code>{' '}
-								(Zero), which enables the user to enter it manually without
-								making too many mistakes.
+								The fingerprint is designed so that there are no ambiguous
+								letters, e.g. <code>o</code> (lowercase &quot;o&quot;) and{' '}
+								<code>0</code> (Zero), which enables the user to enter it
+								manually without making too many mistakes.
 							</p>
 							<h4>Try it yourself</h4>
 							<CodeInputChallenge
@@ -78,7 +78,7 @@ export const ViewSource = () => (
 								]}
 							/>
 							<h4>Alternatives</h4>
-							<p>Now compare this to entering an IMEI and a code:</p>
+							<p>Now compare this to entering an IMEI and a PIN:</p>
 							<CodeInputChallenge
 								newCode={() => [generateIMEI(), generatePIN()]}
 							/>

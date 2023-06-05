@@ -95,16 +95,16 @@ export class HostingStack extends Stack {
 			},
 		)
 
-		const codeRedirect = new Cf.experimental.EdgeFunction(
+		const fingerprintRedirect = new Cf.experimental.EdgeFunction(
 			this,
-			'codeRedirect',
+			'fingerprintRedirect',
 			{
 				runtime: Lambda.Runtime.NODEJS_18_X,
 				handler: 'index.handler',
 				description: 'Redirects QR code URLs',
 				code: Lambda.Code.fromInline(
 					readFileSync(
-						path.join(process.cwd(), 'cdk', 'codeRedirect.js'),
+						path.join(process.cwd(), 'cdk', 'fingerprint.js'),
 						'utf-8',
 					),
 				),
@@ -130,7 +130,7 @@ export class HostingStack extends Stack {
 			viewerProtocolPolicy: Cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
 			edgeLambdas: [
 				{
-					functionVersion: codeRedirect.currentVersion,
+					functionVersion: fingerprintRedirect.currentVersion,
 					eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
 				},
 				{

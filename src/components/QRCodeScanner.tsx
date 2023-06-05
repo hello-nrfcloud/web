@@ -1,4 +1,4 @@
-import { isCode } from '@utils/isCode'
+import { isFingerprint } from '@utils/isFingerprint'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'
@@ -47,7 +47,10 @@ export const QRCodeScanner = () => {
 				(decodedText) => {
 					try {
 						const u = new URL(decodedText)
-						if (u.hostname === DOMAIN_NAME && isCode(u.pathname.slice(1))) {
+						if (
+							u.hostname === DOMAIN_NAME &&
+							isFingerprint(u.pathname.slice(1))
+						) {
 							setFoundURL(u)
 							console.log(`[QR code]`, `Found URL`, u)
 							stopped = true
@@ -89,11 +92,11 @@ export const QRCodeScanner = () => {
 	return (
 		<section>
 			<p>
-				The QR code on the Development Kit encodes a link with a code (e.g.{' '}
-				<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
-				<code>42</code>) and a unique code (e.g. <code>d3c4fb4d</code>) that
-				will prove your ownership of the DK and will be used to look up the IMEI
-				in our database.
+				The QR code on the Development Kit encodes a link with a fingerprint
+				(e.g. <code>42.d3c4fb</code>) that contains the production run ID (e.g.{' '}
+				<code>42</code>) and a unique code (e.g. <code>d3c4fb</code>) that will
+				prove your ownership of the DK and will be used to look up the IMEI in
+				our database.
 			</p>
 			<p>
 				<PrimaryButton

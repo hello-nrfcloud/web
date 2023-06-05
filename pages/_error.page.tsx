@@ -1,9 +1,9 @@
-import { isCode } from '@utils/isCode'
+import { isFingerprint } from '@utils/isFingerprint'
 
 export const Page = ({ is404 }: { is404: boolean }) => {
-	const maybeCode = document?.location.pathname?.slice(1)
-	if (isCode(maybeCode)) {
-		document.location.href = `/?code=${maybeCode}`
+	const maybeFingerprint = document?.location.pathname?.slice(1)
+	if (isFingerprint(maybeFingerprint)) {
+		document.location.href = `/?fingerprint=${maybeFingerprint}`
 	}
 	if (is404) {
 		return (

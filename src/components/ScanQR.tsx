@@ -1,15 +1,15 @@
 import { useDevice } from '@context/Device'
-import { isCode } from '@utils/isCode'
+import { isFingerprint } from '@utils/isFingerprint.js'
 import { useState } from 'preact/hooks'
 import { QRCodeScanner } from './QRCodeScanner.js'
 import { PrimaryButton } from './StyleGuide.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
-	const [token, setToken] = useState<string>('d3c4fb4d')
-	const code = `${productionRun}.${token}`
-	const isValid = isCode(code)
-	const { fromCode } = useDevice()
+	const [code, setCode] = useState<string>('d3c4fb')
+	const fingerprint = `${productionRun}.${code}`
+	const isValid = isFingerprint(fingerprint)
+	const { fromFingerprint: fromFingerprint } = useDevice()
 
 	return (
 		<>
@@ -33,11 +33,11 @@ export const ScanQR = () => {
 				</div>
 				<div class="col-4">
 					<h3>No QR code?</h3>
-					<p>Enter the code manually:</p>
+					<p>Enter the fingerprint manually:</p>
 					<form class="row row-cols-lg-auto g-3 align-items-center">
 						<div class="col-12">
 							<label class="visually-hidden" htmlFor="productionRunInput">
-								Code
+								Fingerprint
 							</label>
 							<div class="input-group">
 								<div class="input-group-text">{DOMAIN_NAME}/</div>
@@ -56,16 +56,16 @@ export const ScanQR = () => {
 								<div class="input-group-text">.</div>
 								<input
 									type="text"
-									minLength={8}
-									maxLength={8}
+									minLength={6}
+									maxLength={6}
 									class="form-control form-control-sm"
-									id="tokenInput"
-									placeholder="d3c4fb4d"
-									value={token}
+									id="codeInput"
+									placeholder="d3c4fb"
+									value={code}
 									onChange={(e) => {
-										setToken((e.target as HTMLInputElement).value)
+										setCode((e.target as HTMLInputElement).value)
 									}}
-									size={8}
+									size={6}
 								/>
 							</div>
 						</div>
@@ -73,7 +73,7 @@ export const ScanQR = () => {
 							<PrimaryButton
 								disabled={!isValid}
 								onClick={() => {
-									fromCode(code)
+									fromFingerprint(fingerprint)
 								}}
 							>
 								Submit

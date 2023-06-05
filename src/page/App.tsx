@@ -6,14 +6,14 @@ import { Header } from '@components/Header'
 import { PreviewWarning } from '@components/PreviewWarning'
 import { SelectedDK } from '@components/SelectedDK'
 import { WebsocketTerminal } from '@components/WebsocketTerminal'
-import { useCode } from '@context/Code'
+import { useFingerprint } from '@context/Code'
 import { useDevice } from '@context/Device'
 import { DeviceFlow } from '@flows/DeviceFlow'
 import { Map } from '@map/Map'
 
 export const App = () => {
 	const { type, device } = useDevice()
-	const { code } = useCode()
+	const { fingerprint } = useFingerprint()
 	return (
 		<>
 			<PreviewWarning />
@@ -23,9 +23,9 @@ export const App = () => {
 					<Header />
 					<div style={{ backgroundColor: '#eee' }} class="pt-4 pb-4">
 						<div class="container">
-							{code !== null && device === undefined && <ConnectDK />}
+							{fingerprint !== null && device === undefined && <ConnectDK />}
 							{type !== undefined && <SelectedDK selected={type} />}
-							{code === null && type === undefined && <DKSelector />}
+							{fingerprint === null && type === undefined && <DKSelector />}
 						</div>
 					</div>
 					{device !== undefined && type !== undefined && (

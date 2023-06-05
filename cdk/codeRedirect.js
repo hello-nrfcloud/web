@@ -4,16 +4,14 @@
 // see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-authoring-functions.html
 exports.handler = (event, context, callback) => {
 	const request = event.Records[0].cf.request
-	const maybeCode = request?.uri?.slice(1) ?? ''
-	console.log(JSON.stringify({ maybeCode, request }))
+	const maybeFingerprint = request?.uri?.slice(1) ?? ''
+	console.log(JSON.stringify({ maybeFingerprint, request }))
 
 	if (
-		/^[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{1,}\.[ABCDEFGHIJKLMNPQRSTUVWXYZ1-9]{8}$/i.test(
-			maybeCode,
-		)
+		/^[A-F0-9]{1,}\.[ABCDEFGHIJKMNPQRSTUVWXYZ2-9]{6}$/i.test(maybeFingerprint)
 	) {
 		const host = request.headers.host[0].value
-		const redirectUrl = `https://${host}/?code=${maybeCode}`
+		const redirectUrl = `https://${host}/?fingerprint=${maybeFingerprint}`
 		console.log(`Redirecting to`, redirectUrl)
 		// See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-generating-http-responses-in-requests.html#lambda-generating-http-responses-object
 		return callback(null, {

@@ -1,4 +1,4 @@
-import { useCode } from '@context/Code.js'
+import { useFingerprint } from '@context/Code.js'
 import { WaitingForData } from '@flows/WaitingForData.js'
 import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
@@ -22,7 +22,7 @@ const StepsWithIcons = styled.ol`
 `
 
 export const ConnectDK = () => {
-	const { clear } = useCode()
+	const { clear } = useFingerprint()
 	return (
 		<>
 			<h2>

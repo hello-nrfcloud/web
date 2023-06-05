@@ -1,11 +1,11 @@
-import { useCode } from '@context/Code'
+import { useFingerprint } from '@context/Code'
 import { useDevice, type DK } from '@context/Device'
 import { CloudLightning, CloudOff } from 'lucide-preact'
 import { SecondaryButton } from './StyleGuide.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()
-	const { clear } = useCode()
+	const { clear } = useFingerprint()
 	return (
 		<div class="d-flex justify-content-between align-items-center">
 			<span>

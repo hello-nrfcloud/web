@@ -3,27 +3,27 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 
 export const CodeContext = createContext<{
 	clear: () => void
-	set: (code: string) => void
-	code: string | null
+	set: (fingerprint: string) => void
+	fingerprint: string | null
 }>({
 	clear: () => undefined,
 	set: () => undefined,
-	code: null,
+	fingerprint: null,
 })
 
-const storageKey = 'muninn:code'
+const storageKey = 'muninn:fingerprint'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const [code, setCode] = useState<string | null>(
+	const [fingerprint, setFingerprint] = useState<string | null>(
 		localStorage.getItem(storageKey),
 	)
 
 	useEffect(() => {
-		const codeFromQuery = new URLSearchParams(document.location.search).get(
-			'code',
-		)
-		if (codeFromQuery === null) return
-		localStorage.setItem(storageKey, codeFromQuery)
+		const fingerprintFromQuery = new URLSearchParams(
+			document.location.search,
+		).get('fingerprint')
+		if (fingerprintFromQuery === null) return
+		localStorage.setItem(storageKey, fingerprintFromQuery)
 		document.location.href = '/'
 	}, [])
 
@@ -34,10 +34,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					localStorage.removeItem(storageKey)
 					document.location.href = '/'
 				},
-				code,
-				set: (code: string) => {
-					localStorage.setItem(storageKey, code)
-					setCode(code)
+				fingerprint,
+				set: (fingerprint: string) => {
+					localStorage.setItem(storageKey, fingerprint)
+					setFingerprint(fingerprint)
 				},
 			}}
 		>
@@ -48,4 +48,4 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 export const Consumer = CodeContext.Consumer
 
-export const useCode = () => useContext(CodeContext)
+export const useFingerprint = () => useContext(CodeContext)

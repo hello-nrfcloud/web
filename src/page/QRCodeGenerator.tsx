@@ -1,19 +1,19 @@
-import { isCode } from '@utils/isCode'
+import { isFingerprint } from '@utils/isFingerprint'
 import { useEffect, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
 
 export const QRCodeGenerator = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
 	const [token, setToken] = useState<string>('d3c4fb4d')
-	const code = `${productionRun}.${token}`
-	const isValid = isCode(code)
+	const fingerprint = `${productionRun}.${token}`
+	const isValid = isFingerprint(fingerprint)
 
 	return (
 		<section>
 			<form class="row">
 				<div class="col-4">
 					{isValid && (
-						<QrCode url={new URL(`https://${DOMAIN_NAME}/${code}`)} />
+						<QrCode url={new URL(`https://${DOMAIN_NAME}/${fingerprint}`)} />
 					)}
 				</div>
 				<div class="col-8">
@@ -50,9 +50,9 @@ export const QRCodeGenerator = () => {
 						/>
 					</div>
 					<div id="passwordHelpBlock" class="form-text">
-						The QR code encodes a link with a code (e.g.{' '}
-						<code>42.d3c4fb4d</code>) that contains the production run ID (e.g.{' '}
-						<code>42</code>) and a unique code (e.g. <code>d3c4fb4d</code>) that
+						The QR code encodes a link with a fingerprint (e.g.{' '}
+						<code>42.d3c4fb</code>) that contains the production run ID (e.g.{' '}
+						<code>42</code>) and a unique code (e.g. <code>d3c4fb</code>) that
 						will prove a user's ownership of the kit and will be used to look up
 						the device information in our database.
 					</div>
