@@ -5,59 +5,67 @@ import QRCode from 'qrcode'
 export const QRCodeGenerator = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
 	const [token, setToken] = useState<string>('d3c4fb')
-	const fingerprint = `${productionRun}.${token}`
+	const fingerprint = `${parseInt(productionRun, 10).toString(16)}.${token}`
 	const isValid = isFingerprint(fingerprint)
+
+	const url = isValid
+		? new URL(`https://${DOMAIN_NAME}/${fingerprint}`)
+		: undefined
 
 	return (
 		<section>
 			<form class="row">
-				<div class="col-4">
-					{isValid && (
-						<QrCode url={new URL(`https://${DOMAIN_NAME}/${fingerprint}`)} />
-					)}
-				</div>
+				<div class="col-4">{url !== undefined && <QrCode url={url} />}</div>
 				<div class="col-8">
-					<label class="visually-hidden" htmlFor="productionRunInput">
-						Code
-					</label>
-					<div class="input-group">
-						<div class="input-group-text">{DOMAIN_NAME}/</div>
-						<input
-							type="text"
-							minLength={1}
-							class="form-control form-control-sm"
-							id="productionRunInput"
-							placeholder="42"
-							value={productionRun}
-							onChange={(e) => {
-								setProductionRun((e.target as HTMLInputElement).value)
-							}}
-							size={2}
-						/>
-						<div class="input-group-text">.</div>
-						<input
-							type="text"
-							minLength={8}
-							maxLength={8}
-							class="form-control form-control-sm"
-							id="tokenInput"
-							placeholder="d3c4fb4d"
-							value={token}
-							onChange={(e) => {
-								setToken((e.target as HTMLInputElement).value)
-							}}
-							size={8}
-						/>
+					<div class="mb-2">
+						<label>
+							Production run number:
+							<input
+								type="number"
+								min={1}
+								class="form-control form-control"
+								id="productionRunInput"
+								placeholder="42"
+								value={productionRun}
+								onChange={(e) => {
+									setProductionRun((e.target as HTMLInputElement).value)
+								}}
+							/>
+						</label>
 					</div>
-					<div id="passwordHelpBlock" class="form-text">
-						The QR code encodes a link with a fingerprint (e.g.{' '}
-						<code>42.d3c4fb</code>) that contains the production run ID (e.g.{' '}
-						<code>42</code>) and a unique code (e.g. <code>d3c4fb</code>) that
-						will prove a user's ownership of the kit and will be used to look up
-						the device information in our database.
+					<div class="mb-2">
+						<label>
+							Unique token:
+							<input
+								type="text"
+								minLength={6}
+								maxLength={6}
+								class="form-control"
+								id="tokenInput"
+								placeholder="d3c4fb4d"
+								value={token}
+								onChange={(e) => {
+									setToken((e.target as HTMLInputElement).value)
+								}}
+							/>
+						</label>
 					</div>
 				</div>
 			</form>
+			{url !== undefined && (
+				<p>
+					<a href={url.toString()} target="_blank">
+						<code>{url.toString()}</code>
+					</a>
+				</p>
+			)}
+			<p class="mt-3">
+				The QR code encodes a link with a fingerprint (e.g.{' '}
+				<code>2f.d3c4fb</code>) that contains the production run ID (e.g.{' '}
+				<code>42</code>) and a unique token (e.g. <code>d3c4fb</code>) that will
+				prove a user's ownership of the kit and will be used to look up the
+				device information in our database.
+			</p>
 		</section>
 	)
 }
@@ -81,13 +89,6 @@ const QrCode = ({ url }: { url: URL }) => {
 
 	if (imageData === undefined) return null
 	return (
-		<div>
-			<img
-				src={imageData}
-				alt={`QR Code for ${url.toString()}`}
-				class="w-100"
-			/>
-			<small>{url.toString().replace(/https?:\/\//, '')}</small>
-		</div>
+		<img src={imageData} alt={`QR Code for ${url.toString()}`} class="w-100" />
 	)
 }
