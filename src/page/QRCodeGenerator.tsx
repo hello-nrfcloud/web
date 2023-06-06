@@ -4,7 +4,7 @@ import QRCode from 'qrcode'
 
 export const QRCodeGenerator = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
-	const [token, setToken] = useState<string>('d3c4fb4d')
+	const [token, setToken] = useState<string>('d3c4fb')
 	const fingerprint = `${productionRun}.${token}`
 	const isValid = isFingerprint(fingerprint)
 
