@@ -14,22 +14,24 @@ const Bg = styled.div`
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: var(--color-nordic-dark-grey);
-	width: 100%;
-	height: 100%;
-	&:before {
-		position: absolute;
-		content: ' ';
-		height: 100%;
-		width: 100%;
-		top: 0;
-		left: 0;
+	@media (min-width: 576px) {
 		background: var(--color-nordic-dark-grey);
-		background: linear-gradient(
-			225deg,
-			var(--color-nordic-dark-grey) 45%,
-			var(--color-nordic-blue) 45%
-		);
+		width: 100%;
+		height: 100%;
+		&:before {
+			position: absolute;
+			content: ' ';
+			height: 100%;
+			width: 100%;
+			top: 0;
+			left: 0;
+			background: var(--color-nordic-dark-grey);
+			background: linear-gradient(
+				225deg,
+				var(--color-nordic-dark-grey) 45%,
+				var(--color-nordic-blue) 45%
+			);
+		}
 	}
 `
 
@@ -43,7 +45,7 @@ export const AboutHeader = () => (
 		>
 			<header class="container pt-4 pb-4 text-white">
 				<div class="row d-flex align-items-center flex-direction-row">
-					<div class="col-4">
+					<div class="col-12 col-sm-6 col-md-4">
 						<h1>
 							<CloudLightning strokeWidth={1} size={35} /> Muninn
 						</h1>
@@ -60,8 +62,7 @@ export const AboutHeader = () => (
 							</small>
 						</p>
 					</div>
-					<div class="col-4"></div>
-					<aside class="col-4">
+					<aside class="col-12 col-sm-6 offset-md-4 col-md-4">
 						<h2 class="h4">This project is open-source</h2>
 						<p>
 							<a href="/view-source" class="text-white">

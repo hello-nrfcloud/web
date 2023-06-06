@@ -2,7 +2,7 @@ import { useDevice } from '@context/Device'
 import { isFingerprint } from '@utils/isFingerprint.js'
 import { useState } from 'preact/hooks'
 import { QRCodeScanner } from './QRCodeScanner.js'
-import { Primary } from './buttons/Button.js'
+import { Secondary } from './buttons/Button.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
@@ -14,7 +14,7 @@ export const ScanQR = () => {
 	return (
 		<>
 			<div class="row mt-4">
-				<div class="col-4">
+				<div class="col-12 col-md-4 mb-4">
 					<img
 						src="/static/images/qrcode.webp?v=2"
 						class="img-fluid"
@@ -23,10 +23,10 @@ export const ScanQR = () => {
 						height={629}
 					/>
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-md-4">
 					<QRCodeScanner />
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-md-4">
 					<h3>No QR code?</h3>
 					<p>Enter the fingerprint manually:</p>
 					<form class="row row-cols-lg-auto g-3 align-items-center">
@@ -65,14 +65,14 @@ export const ScanQR = () => {
 							</div>
 						</div>
 						<div class="col-12">
-							<Primary
+							<Secondary
 								disabled={!isValid}
 								onClick={() => {
 									fromFingerprint(fingerprint)
 								}}
 							>
 								Submit
-							</Primary>
+							</Secondary>
 						</div>
 					</form>
 				</div>
