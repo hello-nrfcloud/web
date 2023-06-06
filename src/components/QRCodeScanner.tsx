@@ -93,10 +93,10 @@ export const QRCodeScanner = () => {
 		<section>
 			<p>
 				The QR code on the Development Kit encodes a link with a fingerprint
-				(e.g. <code>42.d3c4fb</code>) that contains the production run ID (e.g.{' '}
-				<code>42</code>) and a unique code (e.g. <code>d3c4fb</code>) that will
-				prove your ownership of the DK and will be used to look up the IMEI in
-				our database.
+				(e.g. <code>42.d3c4fb</code>) that contains the production run number
+				(e.g. <code>42</code>) and a unique token (e.g. <code>d3c4fb</code>)
+				that will prove your ownership of the DK and will be used to look up the
+				IMEI in our database.
 			</p>
 			<p>
 				<Primary

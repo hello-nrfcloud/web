@@ -6,8 +6,8 @@ import { Secondary } from './buttons/Button.js'
 
 export const ScanQR = () => {
 	const [productionRun, setProductionRun] = useState<string>('42')
-	const [code, setCode] = useState<string>('d3c4fb')
-	const fingerprint = `${productionRun}.${code}`
+	const [token, setToken] = useState<string>('d3c4fb')
+	const fingerprint = `${productionRun}.${token}`
 	const isValid = isFingerprint(fingerprint)
 	const { fromFingerprint: fromFingerprint } = useDevice()
 
@@ -54,11 +54,11 @@ export const ScanQR = () => {
 									minLength={6}
 									maxLength={6}
 									class="form-control form-control-sm"
-									id="codeInput"
+									id="tokenInput"
 									placeholder="d3c4fb"
-									value={code}
+									value={token}
 									onChange={(e) => {
-										setCode((e.target as HTMLInputElement).value)
+										setToken((e.target as HTMLInputElement).value)
 									}}
 									size={6}
 								/>

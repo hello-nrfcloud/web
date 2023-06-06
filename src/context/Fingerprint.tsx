@@ -1,7 +1,7 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
-export const CodeContext = createContext<{
+export const FingerprintContext = createContext<{
 	clear: () => void
 	set: (fingerprint: string) => void
 	fingerprint: string | null
@@ -28,7 +28,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	}, [])
 
 	return (
-		<CodeContext.Provider
+		<FingerprintContext.Provider
 			value={{
 				clear: () => {
 					localStorage.removeItem(storageKey)
@@ -42,10 +42,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			}}
 		>
 			{children}
-		</CodeContext.Provider>
+		</FingerprintContext.Provider>
 	)
 }
 
-export const Consumer = CodeContext.Consumer
+export const Consumer = FingerprintContext.Consumer
 
-export const useFingerprint = () => useContext(CodeContext)
+export const useFingerprint = () => useContext(FingerprintContext)

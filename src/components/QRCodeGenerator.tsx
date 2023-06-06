@@ -61,7 +61,7 @@ export const QRCodeGenerator = () => {
 			)}
 			<p class="mt-3">
 				The QR code encodes a link with a fingerprint (e.g.{' '}
-				<code>2f.d3c4fb</code>) that contains the production run ID (e.g.{' '}
+				<code>2f.d3c4fb</code>) that contains the production run number (e.g.{' '}
 				<code>42</code>) and a unique token (e.g. <code>d3c4fb</code>) that will
 				prove a user's ownership of the kit and will be used to look up the
 				device information in our database.
