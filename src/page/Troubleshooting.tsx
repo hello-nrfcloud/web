@@ -1,12 +1,10 @@
-import { Header } from '@components/Header'
-import { PreviewWarning } from '@components/PreviewWarning'
+import { Navbar } from '@components/Navbar'
 
 export const Troubleshooting = () => (
 	<>
-		<PreviewWarning />
+		<Navbar />
 		<main>
 			<article>
-				<Header />
 				<div class="container mt-4">
 					<header>
 						<h1>Troubleshooting guide</h1>

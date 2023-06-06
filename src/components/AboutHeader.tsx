@@ -1,3 +1,4 @@
+import { CloudLightning } from 'lucide-preact'
 import { styled } from 'styled-components'
 
 const OpenSourceBG = styled.div`
@@ -5,14 +6,14 @@ const OpenSourceBG = styled.div`
 	position: relative;
 	header {
 		position: relative;
-		z-index: 100;
+		z-index: 2;
 	}
 	aside {
 		font-family: var(--monospace-font);
 	}
 `
 const Bg = styled.div`
-	z-index: 99;
+	z-index: 1;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -35,7 +36,7 @@ const Bg = styled.div`
 	}
 `
 
-export const Header = () => (
+export const AboutHeader = () => (
 	<OpenSourceBG>
 		<div
 			style={{
@@ -45,11 +46,13 @@ export const Header = () => (
 		>
 			<header class="container pt-4 pb-4 text-white">
 				<div class="row">
-					<div class="col-6">
-						<h1>Muninn</h1>
+					<div class="col-4">
+						<h1>
+							<CloudLightning strokeWidth={1} size={35} /> Muninn
+						</h1>
 						<p>
-							Welcome to <em>Muninn</em>: retrieve real-time data from your
-							long-range Nordic Semiconductor Development Kits within seconds.
+							Retrieve real-time data from your long-range Nordic Semiconductor
+							Development Kits within seconds.
 						</p>
 						<p>
 							<small>
@@ -60,7 +63,7 @@ export const Header = () => (
 							</small>
 						</p>
 					</div>
-					<div class="col-2"></div>
+					<div class="col-4"></div>
 					<aside class="col-4">
 						<h2 class="h4">This project is open-source</h2>
 						<p>

@@ -1,9 +1,9 @@
+import { AboutHeader } from '@components/AboutHeader'
 import { ConnectDK } from '@components/ConnectDK'
 import { DKResources } from '@components/DKResources'
 import { DKSelector } from '@components/DKSelector'
 import { Footer } from '@components/Footer'
-import { Header } from '@components/Header'
-import { PreviewWarning } from '@components/PreviewWarning'
+import { Navbar } from '@components/Navbar'
 import { SelectedDK } from '@components/SelectedDK'
 import { WebsocketTerminal } from '@components/WebsocketTerminal'
 import { useFingerprint } from '@context/Code'
@@ -16,11 +16,11 @@ export const App = () => {
 	const { fingerprint } = useFingerprint()
 	return (
 		<>
-			<PreviewWarning />
+			<Navbar />
+			<AboutHeader />
 			<WebsocketTerminal />
 			<main>
 				<article>
-					<Header />
 					<div style={{ backgroundColor: '#eee' }} class="pt-4 pb-4">
 						<div class="container">
 							{fingerprint !== null && device === undefined && <ConnectDK />}

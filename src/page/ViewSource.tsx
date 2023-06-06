@@ -1,5 +1,6 @@
 import { Secondary } from '@components/Button'
-import { PreviewWarning } from '@components/PreviewWarning'
+import { Footer } from '@components/Footer.js'
+import { Navbar } from '@components/Navbar.js'
 import { SourceHeader } from '@components/SourceHeader'
 import { StyleGuide } from '@components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
@@ -7,7 +8,7 @@ import { QRCodeGenerator } from './QRCodeGenerator.js'
 
 export const ViewSource = () => (
 	<>
-		<PreviewWarning />
+		<Navbar />
 		<main>
 			<article>
 				<SourceHeader />
@@ -90,6 +91,7 @@ export const ViewSource = () => (
 				</div>
 			</article>
 		</main>
+		<Footer />
 	</>
 )
 

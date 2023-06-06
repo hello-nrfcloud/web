@@ -1,16 +1,14 @@
 import { DKResources } from '@components/DKResources'
 import { Footer } from '@components/Footer'
-import { Header } from '@components/Header'
-import { PreviewWarning } from '@components/PreviewWarning'
+import { Navbar } from '@components/Navbar'
 import { ScanQR } from '@components/ScanQR'
 import type { DKPageProps } from './dk.page.server'
 
 export const Page = ({ dk }: DKPageProps) => (
 	<>
-		<PreviewWarning />
+		<Navbar />
 		<main>
 			<article>
-				<Header />
 				<div class="container mt-4 mb-4">
 					<div class="row">
 						<header class="col">

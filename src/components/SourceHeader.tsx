@@ -1,3 +1,5 @@
+import { CloudLightning } from 'lucide-preact'
+
 export const SourceHeader = () => (
 	<div
 		style={{
@@ -9,7 +11,9 @@ export const SourceHeader = () => (
 		<header class="container pt-4 pb-4 text-white">
 			<div class="row">
 				<div class="col-6">
-					<h1>Muninn: the source</h1>
+					<h1>
+						<CloudLightning strokeWidth={1} size={35} /> Muninn: the source
+					</h1>
 					<p>
 						Learn how we've built <em>Muninn</em>.
 					</p>

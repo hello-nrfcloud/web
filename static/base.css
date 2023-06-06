@@ -36,6 +36,10 @@
   --color-panel-bg: #0b0b0f75;
 }
 
+body {
+  margin-top: 54px;
+}
+
 abbr[title] {
   text-decoration: none;
 }
@@ -45,11 +49,6 @@ body {
   font-size: 16px;
   line-height: 22px;
   font-weight: 300;
-}
-
-.lucide {
-  width: 22px;
-  height: 22px;
 }
 
 h1 {

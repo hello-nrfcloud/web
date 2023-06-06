@@ -36,7 +36,7 @@ export const render = async (pageContext: PageContextCustom) => {
           href="/node_modules/maplibre-gl/dist/maplibre-gl.css"
         />
         <link rel="stylesheet" type="text/css" href="/static/base.css" />
-        <link rel="shortcut icon" href="/static/favicon.webp" />
+        <link rel="shortcut icon" href="/static/images/logo.svg" />
         <meta name="version" content="${version}" />
       </head>
       <body>
