@@ -13,11 +13,6 @@ export const ScanQR = () => {
 
 	return (
 		<>
-			<div class="row">
-				<div class="col-12">
-					<h2>Please scan the QR code on your DK</h2>
-				</div>
-			</div>
 			<div class="row mt-4">
 				<div class="col-4">
 					<img

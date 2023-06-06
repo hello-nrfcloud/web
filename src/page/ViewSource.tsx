@@ -1,98 +1,92 @@
 import { Secondary } from '@components/Button'
-import { Footer } from '@components/Footer.js'
-import { Navbar } from '@components/Navbar.js'
 import { SourceHeader } from '@components/SourceHeader'
 import { StyleGuide } from '@components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
-import { QRCodeGenerator } from './QRCodeGenerator.js'
+import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
 
 export const ViewSource = () => (
-	<>
-		<Navbar />
-		<main>
-			<article>
-				<SourceHeader />
-				<div class="container mt-4">
-					<div class="row mt-4">
-						<div class="col-12 col-md-6">
-							<section>
-								<h2>This sections explains how this project is built.</h2>
-								<p>
-									We consider this a reference implementation for a consumer
-									cellular IoT product, where the Nordic development kits are
-									treated like a consumer cellular IoT device, for example a{' '}
-									<em>Robot Lawnmower</em>, which is purchased by a consumer at
-									a retail store, and when turned on should work{' '}
-									<em>just like that</em>.
-								</p>
-								<p>
-									For this to work we use nRF Cloud's{' '}
-									<a
-										href="https://api.nrfcloud.com/v1/#tag/IP-Devices/operation/ProvisionDevices"
-										target="_blank"
-									>
-										ProvisionDevices
-									</a>{' '}
-									endpoint to pre-provision the devices to a nRF Cloud tenant
-									and ship a pre-activated SIM card.
-								</p>
-								<p>
-									The web site is a static web app, and the source code is
-									published on{' '}
-									<a
-										href="https://github.com/bifravst/Muninn-frontend"
-										target="_blank"
-									>
-										GitHub
-									</a>
-									.
-								</p>
-							</section>
-							<StyleGuide />
+	<main>
+		<article>
+			<SourceHeader />
+			<div class="container mt-4">
+				<div class="row mt-4">
+					<div class="col-12 col-md-6">
+						<section>
+							<h2>This sections explains how this project is built.</h2>
+							<p>
+								We consider this a reference implementation for a consumer
+								cellular IoT product, where the Nordic development kits are
+								treated like a consumer cellular IoT device, for example a{' '}
+								<em>Robot Lawnmower</em>, which is purchased by a consumer at a
+								retail store, and when turned on should work{' '}
+								<em>just like that</em>.
+							</p>
+							<p>
+								For this to work we use nRF Cloud's{' '}
+								<a
+									href="https://api.nrfcloud.com/v1/#tag/IP-Devices/operation/ProvisionDevices"
+									target="_blank"
+								>
+									ProvisionDevices
+								</a>{' '}
+								endpoint to pre-provision the devices to a nRF Cloud tenant and
+								ship a pre-activated SIM card.
+							</p>
+							<p>
+								The web site is a static web app, and the source code is
+								published on{' '}
+								<a
+									href="https://github.com/bifravst/Muninn-frontend"
+									target="_blank"
+								>
+									GitHub
+								</a>
+								.
+							</p>
+						</section>
+						<StyleGuide />
+					</div>
+					<div class="col-12 col-md-6">
+						<h2>QR codes</h2>
+						<p>
+							The easiest way to access the page for an individual device is to
+							scan a QR code, which encodes a <em>fingerprint</em> (more about
+							that later) and the URL of this page.
+						</p>
+						<p>Here is an example:</p>
+						<div class="mb-4">
+							<QRCodeGenerator />
 						</div>
-						<div class="col-12 col-md-6">
-							<h2>QR codes</h2>
-							<p>
-								The easiest way to access the page for an individual device is
-								to scan a QR code, which encodes a <em>fingerprint</em> (more
-								about that later) and the URL of this page.
-							</p>
-							<p>Here is an example:</p>
-							<div class="mb-4">
-								<QRCodeGenerator />
-							</div>
-							<h3>Manually entering the fingerprint</h3>
-							<p>
-								If users cannot scan the QR code because they do not have a
-								camera, they have to enter the fingerprint manually.
-							</p>
-							<p>
-								The fingerprint is designed so that there are no ambiguous
-								letters, e.g. <code>o</code> (lowercase &quot;o&quot;) and{' '}
-								<code>0</code> (Zero), which enables the user to enter it
-								manually without making too many mistakes.
-							</p>
-							<h4>Try it yourself</h4>
-							<CodeInputChallenge
-								newCode={() => [
-									Math.floor(Math.random() * 100).toString(16),
-									generateCode(),
-								]}
-							/>
-							<h4>Alternatives</h4>
-							<p>Now compare this to entering an IMEI and a PIN:</p>
-							<CodeInputChallenge
-								newCode={() => [generateIMEI(), generatePIN()]}
-							/>
-							<p>Or a device UUID</p>
-							<CodeInputChallenge newCode={() => [generateUUID()]} />
-						</div>
+						<h3>Manually entering the fingerprint</h3>
+						<p>
+							If users cannot scan the QR code because they do not have a
+							camera, they have to enter the fingerprint manually.
+						</p>
+						<p>
+							The fingerprint is designed so that there are no ambiguous
+							letters, e.g. <code>o</code> (lowercase &quot;o&quot;) and{' '}
+							<code>0</code> (Zero), which enables the user to enter it manually
+							without making too many mistakes.
+						</p>
+						<h4>Try it yourself</h4>
+						<CodeInputChallenge
+							newCode={() => [
+								Math.floor(Math.random() * 100).toString(16),
+								generateCode(),
+							]}
+						/>
+						<h4>Alternatives</h4>
+						<p>Now compare this to entering an IMEI and a PIN:</p>
+						<CodeInputChallenge
+							newCode={() => [generateIMEI(), generatePIN()]}
+						/>
+						<p>Or a device UUID</p>
+						<CodeInputChallenge newCode={() => [generateUUID()]} />
 					</div>
 				</div>
-			</article>
-		</main>
-		<Footer />
-	</>
+			</div>
+		</article>
+	</main>
 )
 
 const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {

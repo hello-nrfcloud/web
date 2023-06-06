@@ -1,4 +1,5 @@
-import type { DK, Device } from '@context/Device'
+import type { DK } from '@context/DKs'
+import type { Device } from '@context/Device'
 import { GenericCellularFlow } from '@flows/GenericCellular'
 import { SolarThingyFlow } from '@flows/SolarThingyFlow'
 

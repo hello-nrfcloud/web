@@ -1,12 +1,9 @@
-import { useDevice } from '@context/Device'
-import { ScanQR } from './ScanQR.js'
+import { useDKs } from '@context/DKs'
 
 export const DKSelector = () => {
-	const { DKs } = useDevice()
+	const { DKs } = useDKs()
 	return (
 		<>
-			<ScanQR />
-			<h2 class="mt-4">... or select your hardware</h2>
 			<div class="d-flex flex-col justify-content-between">
 				{Object.entries(DKs).map(
 					([

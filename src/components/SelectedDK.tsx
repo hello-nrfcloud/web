@@ -1,5 +1,6 @@
-import { useFingerprint } from '@context/Code'
-import { useDevice, type DK } from '@context/Device'
+import type { DK } from '@context/DKs.js'
+import { useDevice } from '@context/Device'
+import { useFingerprint } from '@context/Fingerprint'
 import { CloudLightning, CloudOff } from 'lucide-preact'
 import { Secondary } from './buttons/Button.js'
 

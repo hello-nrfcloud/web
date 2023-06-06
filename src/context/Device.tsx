@@ -7,18 +7,9 @@ import {
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
-import { useFingerprint } from './Code.js'
+import { useDKs, type DK } from './DKs.js'
+import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
-
-export type DK = {
-	model: string
-	title: string
-	html: string
-	links: {
-		learnMore: string
-		documentation: string
-	}
-}
 
 export type Device = {
 	imei: string
@@ -36,14 +27,12 @@ export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
 	fromFingerprint: (fingerprint: string) => void
-	DKs: Record<string, DK>
 	connected: boolean
 	messages: Messages
 	addMessageListener: (listener: MessageListenerFn) => void
 	removeMessageListener: (listener: MessageListenerFn) => void
 }>({
 	fromFingerprint: () => undefined,
-	DKs: {},
 	connected: false,
 	messages: [],
 	addMessageListener: () => undefined,
@@ -54,13 +43,7 @@ export type MessageListenerFn = (
 	message: Static<typeof MuninnMessage>,
 ) => unknown
 
-export const Provider = ({
-	children,
-	DKs,
-}: {
-	children: ComponentChildren
-	DKs: Record<string, DK>
-}) => {
+export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connected, setConnected] = useState<boolean>(false)
@@ -68,6 +51,7 @@ export const Provider = ({
 	const { fingerprint, set } = useFingerprint()
 	const { webSocketURI } = useParameters()
 	const listeners = useRef<MessageListenerFn[]>([])
+	const { DKs } = useDKs()
 
 	console.debug(`[Device]`, device)
 
@@ -139,7 +123,6 @@ export const Provider = ({
 				},
 				device,
 				type: type === undefined ? undefined : DKs[type],
-				DKs,
 				connected,
 				messages,
 				addMessageListener: (fn) => {

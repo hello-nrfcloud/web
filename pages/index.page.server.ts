@@ -1,4 +1,4 @@
-import type { DK } from '@context/Device'
+import type { DK } from '@context/DKs'
 import { loadMarkdownContent } from './loadMarkdownContent.js'
 
 export type IndexPageProps = { dks: Record<string, DK> }

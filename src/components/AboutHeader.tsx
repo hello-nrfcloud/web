@@ -8,9 +8,6 @@ const OpenSourceBG = styled.div`
 		position: relative;
 		z-index: 2;
 	}
-	aside {
-		font-family: var(--monospace-font);
-	}
 `
 const Bg = styled.div`
 	z-index: 1;
@@ -45,7 +42,7 @@ export const AboutHeader = () => (
 			class="pt-4 pb-4"
 		>
 			<header class="container pt-4 pb-4 text-white">
-				<div class="row">
+				<div class="row d-flex align-items-center flex-direction-row">
 					<div class="col-4">
 						<h1>
 							<CloudLightning strokeWidth={1} size={35} /> Muninn

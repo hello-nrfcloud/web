@@ -1,4 +1,4 @@
-import { useFingerprint } from '@context/Code.js'
+import { useFingerprint } from '@context/Fingerprint.js'
 import { WaitingForData } from '@flows/WaitingForData.js'
 import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
