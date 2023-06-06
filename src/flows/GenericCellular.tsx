@@ -1,8 +1,8 @@
-import { LightLink, Success } from '@components/Button'
-import { ConnectDK } from '@components/ConnectDK'
-import { Map } from '@components/Map'
-import { WaitingForLocation } from '@components/WaitingForLocation'
-import { type Device } from '@context/Device'
+import { LightLink, Success } from '#components/Buttons.js'
+import { ConnectDK } from '#components/ConnectDK.js'
+import { Map } from '#components/Map.js'
+import { WaitingForLocation } from '#components/WaitingForLocation.js'
+import { type Device } from '#context/Device.js'
 import { ExternalLink } from 'lucide-preact'
 
 export const GenericCellularFlow = ({ device }: { device: Device }) => (

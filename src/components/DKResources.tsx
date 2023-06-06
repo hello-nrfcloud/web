@@ -1,4 +1,4 @@
-import type { DK } from '@context/DKs'
+import type { DK } from '#context/DKs.js'
 import { FileText, Laptop2 } from 'lucide-preact'
 
 export const DKResources = ({ type }: { type: DK }) => (

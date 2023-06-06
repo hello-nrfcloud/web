@@ -1,4 +1,4 @@
-import { isFingerprint } from '@utils/isFingerprint'
+import { isFingerprint } from '#utils/isFingerprint.js'
 import { useEffect, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
 

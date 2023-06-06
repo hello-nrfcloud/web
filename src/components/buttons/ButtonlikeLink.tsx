@@ -3,7 +3,7 @@ import {
 	ButtonVariant,
 	buttonStyleClass,
 	type ButtonStyleArgs,
-} from '@components/buttons/Button'
+} from '#components/buttons/Button.js'
 
 import { type ComponentChild } from 'preact'
 import { useRef, type HTMLAttributes } from 'preact/compat'

@@ -1,6 +1,6 @@
-import { Footer } from '@components/Footer'
-import { Navbar } from '@components/Navbar'
-import { Troubleshooting } from '@page/Troubleshooting'
+import { Footer } from '#components/Footer.js'
+import { Navbar } from '#components/Navbar.js'
+import { Troubleshooting } from '#page/Troubleshooting.js'
 
 export const Page = () => (
 	<>

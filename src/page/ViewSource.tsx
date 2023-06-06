@@ -1,6 +1,6 @@
-import { Secondary } from '@components/Button'
-import { SourceHeader } from '@components/SourceHeader'
-import { StyleGuide } from '@components/StyleGuide.js'
+import { Secondary } from '#components/Buttons.js'
+import { SourceHeader } from '#components/SourceHeader.js'
+import { StyleGuide } from '#components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
 

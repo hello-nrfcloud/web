@@ -1,4 +1,4 @@
-import { isFingerprint } from '@utils/isFingerprint'
+import { isFingerprint } from '#utils/isFingerprint.js'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'

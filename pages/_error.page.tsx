@@ -1,4 +1,4 @@
-import { isFingerprint } from '@utils/isFingerprint'
+import { isFingerprint } from '#utils/isFingerprint.js'
 
 export const Page = ({ is404 }: { is404: boolean }) => {
 	const maybeFingerprint = document?.location.pathname?.slice(1)

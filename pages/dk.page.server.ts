@@ -1,4 +1,4 @@
-import type { DK } from '@context/DKs'
+import type { DK } from '#context/DKs.js'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { loadMarkdownContent } from './loadMarkdownContent.js'

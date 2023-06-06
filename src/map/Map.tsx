@@ -6,7 +6,7 @@ import type {
 	PropertyValueSpecification,
 } from 'maplibre-gl'
 // Needed for SSR build, named exports don't work
-import { useParameters } from '@context/Parameters.js'
+import { useParameters } from '#context/Parameters.js'
 import maplibregl from 'maplibre-gl'
 import { createContext } from 'preact'
 import { useContext, useEffect, useRef } from 'preact/hooks'

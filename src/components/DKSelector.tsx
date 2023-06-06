@@ -1,5 +1,5 @@
-import { SecondaryLink } from '@components/buttons'
-import { useDKs } from '@context/DKs'
+import { SecondaryLink } from '#components/Buttons.js'
+import { useDKs } from '#context/DKs.js'
 
 export const DKSelector = () => {
 	const { DKs } = useDKs()

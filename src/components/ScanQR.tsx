@@ -1,5 +1,5 @@
-import { useDevice } from '@context/Device'
-import { isFingerprint } from '@utils/isFingerprint.js'
+import { useDevice } from '#context/Device.js'
+import { isFingerprint } from '#utils/isFingerprint.js'
 import { useState } from 'preact/hooks'
 import { QRCodeScanner } from './QRCodeScanner.js'
 import { Secondary } from './buttons/Button.js'

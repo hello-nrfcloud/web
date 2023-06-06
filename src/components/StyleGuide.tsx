@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, ButtonlikeLink } from '@components/Button'
+import { Button, ButtonVariant, ButtonlikeLink } from '#components/Buttons.js'
 import { createElement } from 'preact'
 
 export const StyleGuide = () => {

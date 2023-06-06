@@ -1,4 +1,4 @@
-import type { DK } from '@context/DKs'
+import type { DK } from '#context/DKs.js'
 import { loadMarkdownContent } from './loadMarkdownContent.js'
 
 export type IndexPageProps = { dks: Record<string, DK> }

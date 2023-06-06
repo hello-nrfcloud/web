@@ -1,4 +1,4 @@
-import { SecondaryLink } from '@components/Button'
+import { SecondaryLink } from '#components/Buttons.js'
 
 export const Footer = () => (
 	<footer

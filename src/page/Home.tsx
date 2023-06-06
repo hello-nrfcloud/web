@@ -1,6 +1,6 @@
-import { AboutHeader } from '@components/AboutHeader'
-import { DKSelector } from '@components/DKSelector'
-import { ScanQR } from '@components/ScanQR'
+import { AboutHeader } from '#components/AboutHeader.js'
+import { DKSelector } from '#components/DKSelector.js'
+import { ScanQR } from '#components/ScanQR.js'
 
 export const Home = () => (
 	<>

@@ -1,6 +1,6 @@
-import { DKResources } from '@components/DKResources'
-import { ScanQR } from '@components/ScanQR'
-import { type DK as TDK } from '@context/DKs'
+import { DKResources } from '#components/DKResources.js'
+import { ScanQR } from '#components/ScanQR.js'
+import { type DK as TDK } from '#context/DKs.js'
 
 export const DK = ({ dk }: { dk: TDK }) => (
 	<main>

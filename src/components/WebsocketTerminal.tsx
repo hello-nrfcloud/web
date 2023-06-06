@@ -1,4 +1,4 @@
-import { useDevice } from '@context/Device'
+import { useDevice } from '#context/Device.js'
 import {
 	ChevronLeft,
 	ChevronRight,
