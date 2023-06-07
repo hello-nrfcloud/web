@@ -6,3 +6,5 @@ const { version: defaultVersion, homepage: hp } = JSON.parse(
 )
 export const version = process.env.VERSION ?? defaultVersion ?? Date.now()
 export const homepage = hp
+// Google Tag Manager ID
+export const GTMId = 'GTM-WF4CVFX'
