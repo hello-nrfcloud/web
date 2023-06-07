@@ -19,6 +19,27 @@ export const QRCodeScanner = () => {
 		500, 300,
 	])
 	const [foundURL, setFoundURL] = useState<URL | undefined>()
+	const [hasVideo, setHasVideo] = useState(false)
+
+	// Detect video devicesa
+	useEffect(() => {
+		if (navigator.mediaDevices?.enumerateDevices === undefined) {
+			console.debug('[DetectVideo]', 'enumerateDevices() not supported.')
+			return
+		}
+
+		// List cameras and microphones.
+		navigator.mediaDevices
+			.enumerateDevices()
+			.then((devices) => {
+				if (devices.find(({ kind }) => kind === 'videoinput') !== undefined) {
+					setHasVideo(true)
+				}
+			})
+			.catch((err) => {
+				console.error('[DetectVideo]', `${err.name}: ${err.message}`)
+			})
+	}, [])
 
 	useEffect(() => {
 		if (currentCamera === undefined) return
@@ -100,6 +121,7 @@ export const QRCodeScanner = () => {
 			</p>
 			<p>
 				<Primary
+					disabled={!hasVideo}
 					onClick={async () => {
 						setFoundURL(undefined)
 						setState('waiting_for_cameras')
@@ -120,6 +142,12 @@ export const QRCodeScanner = () => {
 				>
 					<QrCode /> Scan QR code
 				</Primary>
+				{!hasVideo && (
+					<>
+						<br />
+						<small class="text-muted">No camera detected.</small>
+					</>
+				)}
 			</p>
 			{foundURL !== undefined && (
 				<p>

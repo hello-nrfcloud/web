@@ -27,7 +27,7 @@ export const ScanQR = () => {
 					<QRCodeScanner />
 				</div>
 				<div class="col-12 col-md-4">
-					<h3>No QR code?</h3>
+					<h3>No QR code or camera?</h3>
 					<p>Enter the fingerprint manually:</p>
 					<form class="row row-cols-lg-auto g-3 align-items-center">
 						<div class="col-12">
