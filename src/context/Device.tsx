@@ -13,7 +13,6 @@ import { useParameters } from './Parameters.js'
 
 export type Device = {
 	imei: string
-	fingerprint: string
 	hasLocation: boolean
 	type: DK
 }
@@ -26,17 +25,17 @@ type Messages = {
 export const DeviceContext = createContext<{
 	type?: DK | undefined
 	device?: Device | undefined
-	fromFingerprint: (fingerprint: string) => void
 	connected: boolean
+	connectionFailed: boolean
 	messages: Messages
 	addMessageListener: (listener: MessageListenerFn) => void
 	removeMessageListener: (listener: MessageListenerFn) => void
 }>({
-	fromFingerprint: () => undefined,
 	connected: false,
 	messages: [],
 	addMessageListener: () => undefined,
 	removeMessageListener: () => undefined,
+	connectionFailed: false,
 })
 
 export type MessageListenerFn = (
@@ -47,9 +46,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connected, setConnected] = useState<boolean>(false)
+	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const [messages, setMessages] = useState<Messages>([])
-	const { fingerprint, set } = useFingerprint()
-	const { webSocketURI } = useParameters()
+	const { fingerprint } = useFingerprint()
+	const { onParameters } = useParameters()
 	const listeners = useRef<MessageListenerFn[]>([])
 	const { DKs } = useDKs()
 
@@ -57,70 +57,71 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 	// Set up websocket connection
 	useEffect(() => {
-		console.log({ webSocketURI, fingerprint })
 		if (fingerprint === null) return
-		if (webSocketURI === undefined) return
-		const deviceURI = `${webSocketURI}?fingerprint=${fingerprint}`
-		console.debug(`[WS]`, 'connecting', deviceURI)
-		const ws = new WebSocket(deviceURI)
 
-		ws.addEventListener('open', () => {
-			console.debug(`[WS]`, 'connected')
-			setConnected(true)
-		})
+		let ws: WebSocket | undefined = undefined
 
-		ws.addEventListener('close', () => {
-			// This happens automatically after 2 hours
-			// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
-			console.debug(`[WS]`, 'disconnected')
-			setConnected(false)
-		})
+		onParameters(({ webSocketURI }) => {
+			console.log({ webSocketURI, fingerprint })
+			const deviceURI = `${webSocketURI}?fingerprint=${fingerprint}`
+			console.debug(`[WS]`, 'connecting', deviceURI)
+			ws = new WebSocket(deviceURI)
 
-		ws.addEventListener('error', (err) => {
-			console.error(`[WS]`, err)
-		})
-		ws.addEventListener('message', (msg) => {
-			let message: any
-			try {
-				message = JSON.parse(msg.data)
-				const maybeValid = validPassthrough(message, (message, errors) => {
-					console.error(`[WS]`, `message dropped`, message, errors)
-				})
-				if (maybeValid !== null) {
-					console.debug(`[WS]`, maybeValid)
-					setMessages((m) =>
-						[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
-					)
-					if (isDeviceIdentity(maybeValid)) {
-						const type = DKs[maybeValid.model] as DK
-						setDevice({
-							hasLocation: false,
-							fingerprint,
-							imei: maybeValid.id,
-							type,
-						})
-						setType(maybeValid.model)
+			ws.addEventListener('open', () => {
+				console.debug(`[WS]`, 'connected')
+				setConnected(true)
+			})
+
+			ws.addEventListener('close', () => {
+				// This happens automatically after 2 hours
+				// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
+				console.debug(`[WS]`, 'disconnected')
+				setConnected(false)
+			})
+
+			ws.addEventListener('error', (err) => {
+				console.error(`[WS]`, err)
+				setConnectionFailed(true)
+			})
+			ws.addEventListener('message', (msg) => {
+				let message: any
+				try {
+					message = JSON.parse(msg.data)
+					const maybeValid = validPassthrough(message, (message, errors) => {
+						console.error(`[WS]`, `message dropped`, message, errors)
+					})
+					if (maybeValid !== null) {
+						console.debug(`[WS]`, maybeValid)
+						setMessages((m) =>
+							[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
+						)
+						if (isDeviceIdentity(maybeValid)) {
+							const type = DKs[maybeValid.model] as DK
+							setDevice({
+								hasLocation: false,
+								imei: maybeValid.id,
+								type,
+							})
+							setType(maybeValid.model)
+						}
+						listeners.current.map((listener) => listener(message))
 					}
-					listeners.current.map((listener) => listener(message))
+				} catch (err) {
+					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
+					return
 				}
-			} catch (err) {
-				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
-				return
-			}
+			})
 		})
 
 		return () => {
-			ws.close()
+			ws?.close()
 			setConnected(false)
 		}
-	}, [fingerprint, webSocketURI])
+	}, [fingerprint])
 
 	return (
 		<DeviceContext.Provider
 			value={{
-				fromFingerprint: (fingerprint) => {
-					set(fingerprint)
-				},
 				device,
 				type: type === undefined ? undefined : DKs[type],
 				connected,
@@ -131,6 +132,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				removeMessageListener: (fn) => {
 					listeners.current = listeners.current.filter((f) => f !== fn)
 				},
+				connectionFailed,
 			}}
 		>
 			{children}

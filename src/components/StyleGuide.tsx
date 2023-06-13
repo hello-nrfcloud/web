@@ -1,4 +1,9 @@
-import { Button, ButtonVariant, ButtonlikeLink } from '#components/Buttons.js'
+import {
+	Button,
+	ButtonVariant,
+	ButtonlikeLink,
+	Transparent,
+} from '#components/Buttons.js'
 import { createElement } from 'preact'
 
 export const StyleGuide = () => {
@@ -128,6 +133,8 @@ export const StyleGuide = () => {
 						))}
 					</>
 				))}
+				<h3 class={'mt-3'}>Other</h3>
+				<Transparent>Transparent button</Transparent>
 			</div>
 			<h2>Links (that look like buttons)</h2>
 			<div class="mb-4">

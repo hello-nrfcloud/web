@@ -5,6 +5,7 @@ import {
 	useRef,
 	useState,
 	type HTMLAttributes,
+	type PropsWithChildren,
 	type RefObject,
 } from 'preact/compat'
 
@@ -122,4 +123,24 @@ export const Dark = (args: Omit<Parameters<typeof Button>[0], 'variant'>) => (
 )
 export const Link = (args: Omit<Parameters<typeof Button>[0], 'variant'>) => (
 	<Button variant={ButtonVariant.link} {...args} />
+)
+
+export const Transparent = ({
+	children,
+	class: c,
+	...rest
+}: PropsWithChildren<HTMLAttributes<HTMLButtonElement>>) => (
+	<button
+		type="button"
+		class={c ?? ''}
+		style={{
+			border: 0,
+			background: 'transparent',
+			padding: 0,
+			margin: 0,
+		}}
+		{...rest}
+	>
+		{children}
+	</button>
 )

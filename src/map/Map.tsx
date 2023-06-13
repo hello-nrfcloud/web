@@ -302,28 +302,30 @@ const NoLocation = styled.div`
 `
 
 export const Map = () => {
-	const { mapName, region } = useParameters()
+	const { onParameters } = useParameters()
 	const { credentials } = useCognitoCredentials()
 	const containerRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		if (containerRef.current === null) return
-
-		const map = new maplibregl.Map({
-			container: 'map',
-			style: mapStyle({
-				region,
-				mapName,
-			}),
-			center: [10.437581513483195, 63.42148461054351],
-			zoom: 12,
-			transformRequest: transformRequest(credentials, region),
-			refreshExpiredTiles: false,
-			trackResize: true,
-			keyboard: false,
-			renderWorldCopies: false,
-			// Static map, no mouse interaction at all
-			interactive: false,
+		let map: maplibregl.Map | undefined = undefined
+		onParameters(({ region, mapName }) => {
+			map = new maplibregl.Map({
+				container: 'map',
+				style: mapStyle({
+					region,
+					mapName,
+				}),
+				center: [10.437581513483195, 63.42148461054351],
+				zoom: 12,
+				transformRequest: transformRequest(credentials, region),
+				refreshExpiredTiles: false,
+				trackResize: true,
+				keyboard: false,
+				renderWorldCopies: false,
+				// Static map, no mouse interaction at all
+				interactive: false,
+			})
 		})
 
 		return () => {

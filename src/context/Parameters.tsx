@@ -1,5 +1,5 @@
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import { useContext } from 'preact/hooks'
 
 type Parameters = {
 	webSocketURI: URL
@@ -8,42 +8,50 @@ type Parameters = {
 	cognitoIdentityPoolId: string
 	region: string
 }
-export const ParametersContext = createContext<Parameters>({} as Parameters)
+export const ParametersContext = createContext<{
+	onParameters: (listener: (parameters: Parameters) => void) => void
+}>({
+	onParameters: () => undefined,
+})
 
-export const Provider = ({
-	children,
-}: {
-	children: (parameters: Parameters) => ComponentChildren
-}) => {
-	const [parameters, setParameters] = useState<Parameters>()
+const parametersPromise: Promise<
+	{ parameters: Parameters } | { error: Error }
+> = (async (): Promise<{ parameters: Parameters } | { error: Error }> => {
+	try {
+		const res = await fetch(REGISTRY_ENDPOINT)
+		const parameters = await res.json()
+		const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
+		const parsed = {
+			webSocketURI: new URL(webSocketURI),
+			mapName,
+			cognitoIdentityPoolId,
+			region: cognitoIdentityPoolId.split(':')[0],
+		}
+		Object.entries(parsed).forEach(([k, v]) =>
+			console.debug('[Parameters]', k, v.toString()),
+		)
+		return { parameters: parsed }
+	} catch (error) {
+		console.error(`[Parameters]`, error)
+		return { error: error as Error }
+	}
+})()
 
-	useEffect(() => {
-		fetch(REGISTRY_ENDPOINT)
-			.then(async (res) => res.json())
-			.then((parameters) => {
-				console.debug('[Parameters]', parameters)
-				const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
-				const parsed = {
-					webSocketURI: new URL(webSocketURI),
-					mapName,
-					cognitoIdentityPoolId,
-					region: cognitoIdentityPoolId.split(':')[0],
-				}
-				setParameters(parsed)
-			})
-			.catch(console.error)
-	}, [REGISTRY_ENDPOINT])
-
-	if (parameters === undefined) return null
-	Object.entries(parameters).forEach(([k, v]) =>
-		console.debug('[Parameters]', k, v),
-	)
-	return (
-		<ParametersContext.Provider value={parameters}>
-			{children(parameters)}
-		</ParametersContext.Provider>
-	)
-}
+export const Provider = ({ children }: { children: ComponentChildren }) => (
+	<ParametersContext.Provider
+		value={{
+			onParameters: (listener) => {
+				parametersPromise
+					.then((res) => {
+						if ('parameters' in res) listener(res.parameters)
+					})
+					.catch((error) => console.error(`[Parameters]`, error))
+			},
+		}}
+	>
+		{children}
+	</ParametersContext.Provider>
+)
 
 export const Consumer = ParametersContext.Consumer
 

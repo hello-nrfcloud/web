@@ -24,7 +24,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		).get('fingerprint')
 		if (fingerprintFromQuery === null) return
 		localStorage.setItem(storageKey, fingerprintFromQuery)
-		document.location.href = '/'
+		document.location.assign('/recognizing-fingerprint')
 	}, [])
 
 	return (
@@ -32,7 +32,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			value={{
 				clear: () => {
 					localStorage.removeItem(storageKey)
-					document.location.href = '/'
+					document.location.assign(
+						`/?${new URLSearchParams({
+							from: 'clear-fingerprint',
+						}).toString()}`,
+					)
 				},
 				fingerprint,
 				set: (fingerprint: string) => {

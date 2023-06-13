@@ -1,27 +1,59 @@
+import { useDevice } from '#context/Device.js'
+import { useFingerprint } from '#context/Fingerprint.js'
 import cx from 'classnames'
+import { CloudSun, Code2, Fingerprint, Home } from 'lucide-preact'
+import type { PropsWithChildren } from 'preact/compat'
 import { useState } from 'preact/hooks'
 import { PreviewWarning } from './PreviewWarning.js'
 
-const Link = ({ href, label }: { href: string; label: string }) => {
+const Link = ({
+	href,
+	children,
+	title,
+}: PropsWithChildren<{ href: string; title?: string }>) => {
 	return (
-		<li class="nav-item">
+		<li class="nav-item me-2">
 			<a
-				class={cx('nav-link', {
+				class={cx('nav-link d-flex align-items-center', {
 					active: document.location.href.endsWith(href),
 				})}
 				href={href}
+				title={title}
 			>
-				{label}
+				{children}
 			</a>
 		</li>
 	)
 }
-const Navigation = () => (
-	<>
-		<Link href="/" label="Home" />
-		<Link href="/view-source" label="View Source" />
-	</>
-)
+const Navigation = () => {
+	const { device } = useDevice()
+	const { fingerprint } = useFingerprint()
+	return (
+		<>
+			<Link href="/">
+				<Home class="me-1" /> Home
+			</Link>
+			{fingerprint !== null && device === undefined && (
+				<Link
+					href="/recognizing-fingerprint"
+					title="Device fingerprint was provided."
+				>
+					<span style={{ color: 'var(--color-nordic-fall)' }}>
+						<Fingerprint class="me-1" size={22} /> Checking fingerprint...
+					</span>
+				</Link>
+			)}
+			{fingerprint !== null && device !== undefined && (
+				<Link href="/device" title="Device fingerprint was provided">
+					<CloudSun class="me-1" /> Your Development Kit
+				</Link>
+			)}
+			<Link href="/view-source">
+				<Code2 class="me-1" /> View Source
+			</Link>
+		</>
+	)
+}
 export const Navbar = () => {
 	const [collapsed, setCollapsed] = useState(true)
 
