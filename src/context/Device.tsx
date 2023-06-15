@@ -53,8 +53,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const listeners = useRef<MessageListenerFn[]>([])
 	const { DKs } = useDKs()
 
-	console.debug(`[Device]`, device)
-
 	// Set up websocket connection
 	useEffect(() => {
 		if (fingerprint === null) return
