@@ -153,6 +153,7 @@ export class HostingStack extends Stack {
 				// Allow cache busting
 				queryStringBehavior: Cf.CacheQueryStringBehavior.allowList('v'),
 			}),
+			edgeLambdas: [],
 		}
 
 		const distribution = new Cf.Distribution(this, 'cloudFront', {
