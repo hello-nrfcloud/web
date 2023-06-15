@@ -12,7 +12,7 @@ import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
 
 export type Device = {
-	imei: string
+	id: string
 	hasLocation: boolean
 	type: DK
 }
@@ -99,7 +99,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							const type = DKs[maybeValid.model] as DK
 							setDevice({
 								hasLocation: false,
-								imei: maybeValid.id,
+								id: maybeValid.id,
 								type,
 							})
 							setType(maybeValid.model)

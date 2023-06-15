@@ -10,7 +10,7 @@ export const ViewSource = () => (
 			<SourceHeader />
 			<div class="container mt-4">
 				<div class="row mt-4">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-lg-6">
 						<section>
 							<h2>This sections explains how this project is built.</h2>
 							<p>
@@ -46,7 +46,7 @@ export const ViewSource = () => (
 						</section>
 						<StyleGuide />
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-lg-6">
 						<h2>QR codes</h2>
 						<p>
 							The easiest way to access the page for an individual device is to

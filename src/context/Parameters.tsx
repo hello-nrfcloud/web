@@ -1,5 +1,5 @@
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 
 type Parameters = {
 	webSocketURI: URL
@@ -56,3 +56,20 @@ export const Provider = ({ children }: { children: ComponentChildren }) => (
 export const Consumer = ParametersContext.Consumer
 
 export const useParameters = () => useContext(ParametersContext)
+
+export const WithParameters = ({
+	children,
+}: {
+	children: (parameters: Parameters) => preact.ComponentChild
+}) => {
+	const { onParameters } = useParameters()
+
+	const [params, setParams] = useState<Parameters>()
+
+	useEffect(() => {
+		onParameters(setParams)
+	}, [])
+
+	if (params === undefined) return null
+	return <>{children(params)}</>
+}

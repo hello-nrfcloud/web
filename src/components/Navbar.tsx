@@ -44,7 +44,10 @@ const Navigation = () => {
 				</Link>
 			)}
 			{fingerprint !== null && device !== undefined && (
-				<Link href="/device" title="Device fingerprint was provided">
+				<Link
+					href={`/device#${device.id}`}
+					title="Device fingerprint was provided"
+				>
 					<CloudSun class="me-1" /> Your Development Kit
 				</Link>
 			)}

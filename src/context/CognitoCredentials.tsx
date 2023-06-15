@@ -1,3 +1,4 @@
+import { WithParameters } from '#context/Parameters.js'
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity'
 import {
 	fromCognitoIdentityPool,
@@ -5,6 +6,7 @@ import {
 } from '@aws-sdk/credential-provider-cognito-identity'
 import type { ComponentChildren } from 'preact'
 import { createContext } from 'preact'
+import type { PropsWithChildren } from 'preact/compat'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
 export const CognitoCredentialsContext = createContext<{
@@ -13,7 +15,7 @@ export const CognitoCredentialsContext = createContext<{
 	credentials: undefined as unknown as CognitoIdentityCredentials,
 })
 
-export const CognitoCredentials = ({
+export const Provider = ({
 	children,
 	identityPoolId,
 	region,
@@ -66,3 +68,18 @@ export const CognitoCredentials = ({
 export const Consumer = CognitoCredentialsContext.Consumer
 
 export const useCognitoCredentials = () => useContext(CognitoCredentialsContext)
+
+export const WithCognitoCredentials = ({
+	children,
+}: PropsWithChildren<unknown>) => (
+	<WithParameters>
+		{(params) => (
+			<Provider
+				identityPoolId={params.cognitoIdentityPoolId}
+				region={params.region}
+			>
+				{children}
+			</Provider>
+		)}
+	</WithParameters>
+)

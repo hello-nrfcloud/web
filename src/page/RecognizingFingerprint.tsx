@@ -1,16 +1,28 @@
 import { Transparent } from '#components/Buttons.js'
 import { FingerprintForm } from '#components/FingerprintForm.js'
+import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { Trash } from 'lucide-preact'
+import { useEffect } from 'preact/hooks'
 
 export const RecognizingFingerprint = () => {
 	const { fingerprint, clear } = useFingerprint()
-	const { connectionFailed } = useDevice()
+	const { connectionFailed, device, connected } = useDevice()
+	useEffect(() => {
+		if (!device) return
+		const t = setTimeout(() => {
+			document.location.assign(`/device#${device.id}`)
+		}, 1000)
+
+		return () => {
+			clearTimeout(t)
+		}
+	}, [device])
 	return (
 		<main class="container py-4">
 			<div class="row py-4">
-				<div class="col-12 col-md-6 offset-md-3">
+				<div class="col-12 col-lg-6 offset-lg-3">
 					<h1 class="mb-4 d-flex align-items-center justify-content-between">
 						<span>
 							Fingerprint: <code>{fingerprint}</code>
@@ -22,8 +34,10 @@ export const RecognizingFingerprint = () => {
 							<Trash size={25} strokeWidth={1} class="me-1" /> clear
 						</Transparent>
 					</h1>
+					{!connected && !connectionFailed && <WaitingForDevice />}
 					{connectionFailed && (
 						<>
+							<h3>Connection failed.</h3>
 							<p>
 								The fingerprint you have provided is not recognized, and we were
 								unable to identify the device it belongs to.
@@ -39,6 +53,15 @@ export const RecognizingFingerprint = () => {
 									contact our support
 								</a>
 								.
+							</p>
+						</>
+					)}
+					{connected && device !== undefined && (
+						<>
+							<h2>Connected!</h2>
+							<p>
+								We are taking you{' '}
+								<a href={`/device#${device.id}`}>to your device</a>...
 							</p>
 						</>
 					)}

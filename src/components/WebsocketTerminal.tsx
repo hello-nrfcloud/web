@@ -42,7 +42,7 @@ export const WebsocketTerminal = () => {
 					<div class="d-flex justify-content-between align-items-center">
 						<span class="d-flex align-items-center">
 							<Cloud />
-							<span class="ms-2">Connected: {device?.imei}</span>
+							<span class="ms-2">Connected: {device?.id}</span>
 						</span>
 						<span>
 							{!collapsed && messages.length > 1 && (

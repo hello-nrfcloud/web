@@ -22,7 +22,7 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 				{device !== undefined && (
 					<span>
 						<CloudLightning />
-						<span class="ms-2">IMEI: {device.imei}</span>
+						<span class="ms-2">ID: {device.id}</span>
 					</span>
 				)}
 			</span>
