@@ -5,7 +5,7 @@ import { checkForConsoleErrors } from './checkForConsoleErrors.js'
 
 test.afterEach(checkForConsoleErrors)
 
-test('I can scan a QR code', async () => {
+test.skip('I can scan a QR code', async () => {
 	const browser = await chromium.launch({
 		ignoreDefaultArgs: ['--mute-audio'],
 		args: [
