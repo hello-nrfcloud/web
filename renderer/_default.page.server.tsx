@@ -53,6 +53,8 @@ const isDevelopment = import.meta.env.MODE === 'development'
 const GTMScript = () => {
 	if (isDevelopment)
 		return escapeInject`<!-- Google Tag Manager disabled during development -->`
+	if (GTMId === undefined)
+		return escapeInject`<!-- Google Tag Manager disabled (no ID defined) -->`
 	return escapeInject`
   <!-- Cookie Consent -->
   <script id="CookieConsent" src="https://policy.app.cookieinformation.com/uc.js" data-culture="EN" type="text/javascript"></script>
@@ -68,6 +70,8 @@ const GTMScript = () => {
 const GTMNoScript = () => {
 	if (isDevelopment)
 		return escapeInject`<!-- Google Tag Manager (noscript) disabled during development -->`
+	if (GTMId === undefined)
+		return escapeInject`<!-- Google Tag Manager disabled (no ID defined) -->`
 	return escapeInject`<!-- Google Tag Manager (noscript) -->
     <noscript><iframe src=https://www.googletagmanager.com/ns.html?id=${GTMId}
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
