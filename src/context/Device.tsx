@@ -60,7 +60,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onParameters } = useParameters()
 	const { DKs } = useDKs()
 
-	const reportedListener = useCallback<MessageListenerFn>(
+	const deviceListener = useCallback<MessageListenerFn>(
 		(message) => {
 			if (device === undefined) return
 			if (isState(message, device.type.model)) {
@@ -70,7 +70,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		[device],
 	)
 
-	const listeners = useRef<MessageListenerFn[]>([reportedListener])
+	const listeners = useRef<MessageListenerFn[]>([])
 
 	// Set up websocket connection
 	useEffect(() => {
@@ -122,6 +122,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							setType(maybeValid.model)
 						}
 						listeners.current.map((listener) => listener(message))
+						deviceListener(message)
 					}
 				} catch (err) {
 					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
