@@ -35,6 +35,7 @@ export const RecognizingFingerprint = () => {
 						</Transparent>
 					</h1>
 					{!connected && !connectionFailed && <WaitingForDevice />}
+					{connected && !device && <WaitingForDevice />}
 					{connectionFailed && (
 						<>
 							<h3>Connection failed.</h3>

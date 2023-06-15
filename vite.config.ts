@@ -11,7 +11,11 @@ const { registryEndpoint } = fromEnv({
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		preact(),
+		preact({
+			babel: {
+				plugins: ['@babel/plugin-syntax-import-assertions'],
+			},
+		}),
 		ssr({
 			prerender: true,
 		}),

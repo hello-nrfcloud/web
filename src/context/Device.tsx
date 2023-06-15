@@ -2,11 +2,18 @@ import {
 	Context,
 	DeviceIdentity,
 	MuninnMessage,
+	Reported,
 	validPassthrough,
 } from '@bifravst/muninn-proto/Muninn'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect, useRef, useState } from 'preact/hooks'
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'preact/hooks'
 import { useDKs, type DK } from './DKs.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
@@ -15,6 +22,7 @@ export type Device = {
 	id: string
 	hasLocation: boolean
 	type: DK
+	state?: Static<typeof Reported>
 }
 
 type Messages = {
@@ -50,8 +58,19 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [messages, setMessages] = useState<Messages>([])
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
-	const listeners = useRef<MessageListenerFn[]>([])
 	const { DKs } = useDKs()
+
+	const reportedListener = useCallback<MessageListenerFn>(
+		(message) => {
+			if (device === undefined) return
+			if (isState(message, device.type.model)) {
+				setDevice((device) => ({ ...(device as Device), state: message }))
+			}
+		},
+		[device],
+	)
+
+	const listeners = useRef<MessageListenerFn[]>([reportedListener])
 
 	// Set up websocket connection
 	useEffect(() => {
@@ -146,3 +165,10 @@ const isDeviceIdentity = (
 	message: Static<typeof MuninnMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()
+
+const isState = (
+	message: Static<typeof MuninnMessage>,
+	model: string,
+): message is Static<typeof Reported> =>
+	message['@context'] ===
+	Context.model(model).transformed('reported').toString()
