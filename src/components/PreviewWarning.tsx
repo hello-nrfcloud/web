@@ -14,7 +14,6 @@ export const PreviewWarning = () => (
 				Development preview: this project is under development and not ready to
 				use.
 			</strong>
-			<span>NORDIC INTERNAL</span>
 		</div>
 	</W>
 )
