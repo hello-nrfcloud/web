@@ -12,5 +12,5 @@ for (const [k, v] of Object.entries({
 
 new MapApp(stackName, {
 	domainName,
-	region: process.env.AWS_REGION ?? 'eu-central-1',
+	region: process.env.AWS_REGION ?? 'eu-west-1',
 })

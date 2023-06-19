@@ -31,7 +31,7 @@ new HostingApp(stackName, {
 		domainName !== undefined && certificateId !== undefined
 			? { certificateId, domainName }
 			: undefined,
-	region: process.env.AWS_REGION ?? 'eu-central-1',
+	region: process.env.AWS_REGION ?? 'eu-west-1',
 	gitHubOICDProviderArn: await ensureGitHubOIDCProvider({
 		iam,
 	}),

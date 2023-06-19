@@ -76,5 +76,5 @@ Store the stack name and the region as a variable:
 
 ```bash
 gh variable set STACK_NAME --env production --body "${STACK_NAME:-hello-nrfcloud-web}"
-gh variable set AWS_REGION --env production --body "eu-central-1"
+gh variable set AWS_REGION --env production --body "eu-west-1"
 ```
