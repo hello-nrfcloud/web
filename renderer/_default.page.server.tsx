@@ -19,11 +19,11 @@ export const render = async (pageContext: PageContextCustom) => {
         />
         <meta name="application-name" content="hello.nrfcloud.com" />
         <title>
-        🌤 hello.nrfcloud.com
+        hello.nrfcloud.com
         </title>
         <meta
           name="description"
-          content="🌤 hello.nrfcloud.com · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds."
+          content="hello.nrfcloud.com · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds."
         />
         <link
           rel="stylesheet"
