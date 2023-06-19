@@ -23,11 +23,13 @@ export class HostingStack extends Stack {
 			domainName,
 			region,
 			certificateId,
+			gitHubOICDProviderArn,
 		}: {
 			repository: {
 				owner: string
 				repo: string
 			}
+			gitHubOICDProviderArn: string
 			domainName: string
 			certificateId: string
 			region: string
@@ -44,21 +46,20 @@ export class HostingStack extends Stack {
 			removalPolicy: RemovalPolicy.DESTROY,
 		})
 
-		const githubDomain = 'token.actions.githubusercontent.com'
-		const ghProvider = new IAM.OpenIdConnectProvider(this, 'githubProvider', {
-			url: `https://${githubDomain}`,
-			clientIds: ['sts.amazonaws.com'],
-			thumbprints: ['6938fd4d98bab03faadb97b34396831e3780aea1'],
-		})
+		const gitHubOIDC = IAM.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
+			this,
+			'gitHubOICDProvider',
+			gitHubOICDProviderArn,
+		)
 
 		const ghRole = new IAM.Role(this, 'ghRole', {
 			roleName: `${stackName}-cd`,
 			assumedBy: new IAM.WebIdentityPrincipal(
-				ghProvider.openIdConnectProviderArn,
+				gitHubOIDC.openIdConnectProviderArn,
 				{
 					StringEquals: {
-						[`${githubDomain}:sub`]: `repo:${r.owner}/${r.repo}:environment:production`,
-						[`${githubDomain}:aud`]: 'sts.amazonaws.com',
+						[`token.actions.githubusercontent.com:sub`]: `repo:${r.owner}/${r.repo}:environment:production`,
+						[`token.actions.githubusercontent.com:aud`]: 'sts.amazonaws.com',
 					},
 				},
 			),
