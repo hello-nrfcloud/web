@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { MapApp } from './MapApp.js'
 
-const stackName = process.env.MAP_STACK_NAME ?? 'muninn-map'
-const domainName = process.env.DOMAIN_NAME ?? 'muninn.thingy.rocks'
+const stackName = process.env.MAP_STACK_NAME ?? 'hello-nrfcloud-map'
+const domainName = process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com'
 
 for (const [k, v] of Object.entries({
 	Domain: domainName,

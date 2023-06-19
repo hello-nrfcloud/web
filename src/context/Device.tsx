@@ -1,10 +1,10 @@
 import {
 	Context,
 	DeviceIdentity,
-	MuninnMessage,
+	HelloMessage,
 	Reported,
 	validPassthrough,
-} from '@bifravst/muninn-proto/Muninn'
+} from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import {
@@ -27,7 +27,7 @@ export type Device = {
 
 type Messages = {
 	received: Date
-	message: Static<typeof MuninnMessage>
+	message: Static<typeof HelloMessage>
 }[]
 
 export const DeviceContext = createContext<{
@@ -47,7 +47,7 @@ export const DeviceContext = createContext<{
 })
 
 export type MessageListenerFn = (
-	message: Static<typeof MuninnMessage>,
+	message: Static<typeof HelloMessage>,
 ) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
@@ -163,12 +163,12 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof MuninnMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()
 
 const isState = (
-	message: Static<typeof MuninnMessage>,
+	message: Static<typeof HelloMessage>,
 	model: string,
 ): message is Static<typeof Reported> =>
 	message['@context'] ===

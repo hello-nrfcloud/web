@@ -4,7 +4,7 @@ This folder contains end-to-end tests implemented using
 ## Create a QR code
 
 ```bash
-npx qrcode -t png -o qr-code.png -e L "https://muninn.thingy.rocks/29a.5392db"
+npx qrcode -t png -o qr-code.png -e L "https://hello.nrfcloud.com/29a.5392db"
 ```
 
 ## Converting PNG files to MJPEG

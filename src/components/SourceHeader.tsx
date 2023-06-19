@@ -1,4 +1,4 @@
-import { CloudLightning } from 'lucide-preact'
+import { CloudSun } from 'lucide-preact'
 
 export const SourceHeader = () => (
 	<div
@@ -12,10 +12,11 @@ export const SourceHeader = () => (
 			<div class="row">
 				<div class="col-6">
 					<h1>
-						<CloudLightning strokeWidth={1} size={35} /> Muninn: the source
+						<CloudSun strokeWidth={1} size={35} /> hello.nrfcloud.com: the
+						source
 					</h1>
 					<p>
-						Learn how we've built <em>Muninn</em>.
+						Learn how we've built <em>hello.nrfcloud.com</em>.
 					</p>
 				</div>
 			</div>

@@ -1,20 +1,20 @@
 {
-  "name": "@nordicsemiconductor/muninn-web",
+  "name": "@hello.nrfcloud.com/web",
   "version": "0.0.0-development",
   "description": "Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bifravst/Muninn-frontend.git"
+    "url": "git+https://github.com/hello-nrfcloud/web.git"
   },
   "bugs": {
-    "url": "https://github.com/bifravst/Muninn-frontend/issues"
+    "url": "https://github.com/hello-nrfcloud/web/issues"
   },
-  "homepage": "https://muninn.thingy.rocks",
+  "homepage": "https://hello.nrfcloud.com",
   "keywords": [
     "nordicsemiconductor",
     "cellular-iot",
-    "muninn"
+    "hello-nrfcloud"
   ],
   "author": "Nordic Semiconductor ASA | nordicsemi.no",
   "license": "BSD-3-Clause",
@@ -29,7 +29,7 @@
     "@aws-amplify/core": "5.4.0",
     "@aws-sdk/client-cognito-identity": "3.352.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.352.0",
-    "@bifravst/muninn-proto": "5.2.0",
+    "@hello.nrfcloud.com/proto": "1.0.0",
     "@sinclair/typebox": "0.28.15",
     "classnames": "2.3.2",
     "date-fns": "2.30.0",

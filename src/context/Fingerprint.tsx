@@ -11,7 +11,7 @@ export const FingerprintContext = createContext<{
 	fingerprint: null,
 })
 
-const storageKey = 'muninn:fingerprint'
+const storageKey = 'hello:fingerprint'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [fingerprint, setFingerprint] = useState<string | null>(

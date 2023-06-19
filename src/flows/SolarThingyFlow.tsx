@@ -3,7 +3,7 @@ import type { ChartData } from '#chart/chartMath.js'
 import { Ago } from '#components/Ago.js'
 import { useDevice, type MessageListenerFn } from '#context/Device.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
-import { Context, MuninnMessage } from '@bifravst/muninn-proto/Muninn'
+import { Context, HelloMessage } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { format, subHours, subMilliseconds } from 'date-fns'
 import { BatteryCharging, Sun } from 'lucide-preact'
@@ -20,10 +20,10 @@ type Voltage = {
 	ts: number
 }
 const solarThingy = Context.model('PCA20035+solar')
-const isGain = (message: Static<typeof MuninnMessage>): message is Gain =>
+const isGain = (message: Static<typeof HelloMessage>): message is Gain =>
 	message['@context'] === solarThingy.transformed('gain').toString()
 
-const isVoltage = (message: Static<typeof MuninnMessage>): message is Voltage =>
+const isVoltage = (message: Static<typeof HelloMessage>): message is Voltage =>
 	message['@context'] === solarThingy.transformed('voltage').toString()
 
 export const SolarThingyFlow = () => {

@@ -54,7 +54,7 @@ export default defineConfig({
 		BUILD_TIME: JSON.stringify(new Date().toISOString()),
 		REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
 		DOMAIN_NAME: JSON.stringify(
-			process.env.DOMAIN_NAME ?? 'muninn.thingy.rocks',
+			process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com',
 		),
 	},
 })

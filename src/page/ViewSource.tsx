@@ -35,10 +35,7 @@ export const ViewSource = () => (
 							<p>
 								The web site is a static web app, and the source code is
 								published on{' '}
-								<a
-									href="https://github.com/bifravst/Muninn-frontend"
-									target="_blank"
-								>
+								<a href="https://github.com/hello-nrfcloud/web" target="_blank">
 									GitHub
 								</a>
 								.

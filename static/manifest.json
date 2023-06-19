@@ -1,6 +1,6 @@
 {
-  "short_name": "Muninn",
-  "name": "Muninn · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
+  "short_name": "hello.nrfcloud.com",
+  "name": "hello.nrfcloud.com · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
   "icons": [
     {
       "src": "/static/favicon.webp",

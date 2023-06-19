@@ -66,7 +66,7 @@ jobs:
           VERSION: ${{ env.VERSION }}
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           # Encoded in QR code
-          DOMAIN_NAME: muninn.thingy.rocks
+          DOMAIN_NAME: hello.nrfcloud.com
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in

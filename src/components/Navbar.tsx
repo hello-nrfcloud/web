@@ -72,7 +72,7 @@ export const Navbar = () => {
 							height="24"
 							class="d-inline-block align-text-top me-1"
 						/>
-						Muninn
+						hello.nrfcloud.com
 					</a>
 					<div class="collapse navbar-collapse" id="navbarNav">
 						<ul class="navbar-nav">
@@ -108,7 +108,7 @@ export const Navbar = () => {
 									height="24"
 									class="d-inline-block align-text-top me-1"
 								/>
-								Muninn
+								hello.nrfcloud.com
 							</h5>
 							<button
 								type="button"

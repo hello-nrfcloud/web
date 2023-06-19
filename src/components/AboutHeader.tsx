@@ -1,4 +1,4 @@
-import { CloudLightning } from 'lucide-preact'
+import { CloudSun } from 'lucide-preact'
 import { styled } from 'styled-components'
 
 const OpenSourceBG = styled.div`
@@ -47,19 +47,11 @@ export const AboutHeader = () => (
 				<div class="row d-flex align-items-center flex-direction-row">
 					<div class="col-12 col-sm-6 col-md-4">
 						<h1>
-							<CloudLightning strokeWidth={1} size={35} /> Muninn
+							<CloudSun strokeWidth={1} size={35} /> hello.nrfcloud.com
 						</h1>
 						<p>
 							Retrieve real-time data from your long-range Nordic Semiconductor
 							Development Kits within seconds.
-						</p>
-						<p>
-							<small>
-								In Norse mythology, <em>Huginn</em> and <em>Muninn</em> are two
-								ravens that belong to Odin. They are said to fly around the
-								world and bring back information to Odin, who uses their
-								insights to guide his actions.
-							</small>
 						</p>
 					</div>
 					<aside class="col-12 col-sm-6 offset-md-4 col-md-4">
