@@ -35,7 +35,8 @@ npm run test:e2e
 ## Deploy
 
 - register domain name, export as `DOMAIN_NAME`
-- create certificate in `us-east-1` region, export as `CERTIFICATE_ID`
+- [create certificate in `us-east-1` region](https://us-east-1.console.aws.amazon.com/acm/home?region=us-east-1#/certificates/request),
+  export as `CERTIFICATE_ID`
 
 ```bash
 npx cdk bootstrap
