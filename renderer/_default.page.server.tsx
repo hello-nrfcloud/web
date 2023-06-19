@@ -23,7 +23,7 @@ export const render = async (pageContext: PageContextCustom) => {
         </title>
         <meta
           name="description"
-          content="Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds."
+          content="🌤 hello.nrfcloud.com · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds."
         />
         <link
           rel="stylesheet"
