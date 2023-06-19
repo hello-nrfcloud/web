@@ -1,4 +1,4 @@
-import { CloudSun } from 'lucide-preact'
+import { Logo } from './icons/Logo.js'
 
 export const SourceHeader = () => (
 	<div
@@ -12,8 +12,8 @@ export const SourceHeader = () => (
 			<div class="row">
 				<div class="col-6">
 					<h1>
-						<CloudSun strokeWidth={1} size={35} /> hello.nrfcloud.com: the
-						source
+						<Logo color={'white'} strokeWidth={1} class="me-2" />
+						hello.nrfcloud.com: the source
 					</h1>
 					<p>
 						Learn how we've built <em>hello.nrfcloud.com</em>.

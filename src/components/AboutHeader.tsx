@@ -1,5 +1,5 @@
-import { CloudSun } from 'lucide-preact'
 import { styled } from 'styled-components'
+import { Logo } from './icons/Logo.js'
 
 const OpenSourceBG = styled.div`
 	background-color: var(--color-nordic-blue);
@@ -47,7 +47,7 @@ export const AboutHeader = () => (
 				<div class="row d-flex align-items-center flex-direction-row">
 					<div class="col-12 col-sm-6 col-md-4">
 						<h1>
-							<CloudSun strokeWidth={1} size={35} /> hello.nrfcloud.com
+							<Logo strokeWidth={2} color={'white'} /> hello.nrfcloud.com
 						</h1>
 						<p>
 							Retrieve real-time data from your long-range Nordic Semiconductor
