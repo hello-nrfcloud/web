@@ -19,6 +19,9 @@ const parametersPromise: Promise<
 > = (async (): Promise<{ parameters: Parameters } | { error: Error }> => {
 	try {
 		const res = await fetch(REGISTRY_ENDPOINT)
+		if (res.status >= 400) {
+			throw new Error(`Failed to fetch parameters: ${await res.text()}`)
+		}
 		const parameters = await res.json()
 		const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
 		const parsed = {
