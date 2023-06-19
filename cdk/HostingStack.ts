@@ -1,5 +1,6 @@
 import {
 	App,
+	aws_certificatemanager as CertificateManager,
 	aws_cloudfront as Cf,
 	aws_cloudfront_origins as CfOrigins,
 	CfnOutput,
@@ -9,7 +10,6 @@ import {
 	RemovalPolicy,
 	aws_s3 as S3,
 	Stack,
-	aws_certificatemanager as certificatemanager,
 } from 'aws-cdk-lib'
 import { readFileSync } from 'fs'
 import path from 'path'
@@ -20,9 +20,8 @@ export class HostingStack extends Stack {
 		stackName: string,
 		{
 			repository: r,
-			domainName,
 			region,
-			certificateId,
+			customDomain,
 			gitHubOICDProviderArn,
 		}: {
 			repository: {
@@ -30,8 +29,10 @@ export class HostingStack extends Stack {
 				repo: string
 			}
 			gitHubOICDProviderArn: string
-			domainName: string
-			certificateId: string
+			customDomain?: {
+				domainName: string
+				certificateId: string
+			}
 			region: string
 		},
 	) {
@@ -94,7 +95,7 @@ export class HostingStack extends Stack {
 		)
 
 		const oai = new Cf.OriginAccessIdentity(this, 'originAccessIdentity', {
-			comment: `OAI for ${domainName} CloudFront distribution.`,
+			comment: `OAI for hello.nrfcloud.com CloudFront distribution.`,
 		})
 		websiteBucket.grantRead(oai)
 
@@ -143,13 +144,17 @@ export class HostingStack extends Stack {
 				...defaultBehaviour,
 			},
 			enableIpv6: false, // For IP protected access
-			domainNames: [domainName],
-			certificate: certificatemanager.Certificate.fromCertificateArn(
-				this,
-				'distributionCert',
-				// us-east-1 is required for CloudFront
-				`arn:aws:acm:us-east-1:${this.account}:certificate/${certificateId}`,
-			),
+			domainNames:
+				customDomain === undefined ? undefined : [customDomain.domainName],
+			certificate:
+				customDomain === undefined
+					? undefined
+					: CertificateManager.Certificate.fromCertificateArn(
+							this,
+							'distributionCert',
+							// us-east-1 is required for CloudFront
+							`arn:aws:acm:us-east-1:${this.account}:certificate/${customDomain.certificateId}`,
+					  ),
 		})
 		distribution.addBehavior('*.js', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.map', s3Origin, staticFileBehaviour)
