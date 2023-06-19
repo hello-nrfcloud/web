@@ -45,6 +45,15 @@ export class HostingStack extends Stack {
 		const websiteBucket = new S3.Bucket(this, 'bucket', {
 			autoDeleteObjects: true,
 			removalPolicy: RemovalPolicy.DESTROY,
+			publicReadAccess: true,
+			websiteIndexDocument: 'index.html',
+			blockPublicAccess: {
+				blockPublicAcls: false,
+				ignorePublicAcls: false,
+				restrictPublicBuckets: false,
+				blockPublicPolicy: false,
+			},
+			objectOwnership: S3.ObjectOwnership.OBJECT_WRITER,
 		})
 
 		const gitHubOIDC = IAM.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
