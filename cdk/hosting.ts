@@ -6,16 +6,6 @@ const stackName = process.env.STACK_NAME ?? 'hello-nrfcloud-web'
 const certificateId =
 	process.env.CERTIFICATE_ID ?? 'a30ee0ef-413f-4dce-bf06-fca9d167e3de'
 const domainName = process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com'
-const allowedClients = (
-	process.env.ALLOWED_CLIENTS ??
-	[
-		'194.19.86.146', // Nordic Norway
-		'173.11.12.233', // Nordic USA
-		'173.11.12.234', // Nordic USA
-		'schlupp.sytes.net', // mata home
-		'50.47.141.67', // Requested by Patrick Barnes
-	].join(',')
-).split(',')
 
 const repoUrl = new URL(pJSON.repository.url)
 const repository = {
@@ -30,13 +20,11 @@ for (const [k, v] of Object.entries({
 	'Certificate ID': certificateId,
 	'OICD Owner': repository.owner,
 	'OICD Repo': repository.repo,
-	'Allowed clients': allowedClients.join(', '),
 })) {
 	console.debug(chalk.magenta(k), chalk.green(v))
 }
 
 new HostingApp(stackName, {
-	allowedClients,
 	repository,
 	certificateId,
 	domainName,

@@ -20,7 +20,6 @@ export class HostingStack extends Stack {
 		stackName: string,
 		{
 			repository: r,
-			allowedClients,
 			domainName,
 			region,
 			certificateId,
@@ -29,7 +28,6 @@ export class HostingStack extends Stack {
 				owner: string
 				repo: string
 			}
-			allowedClients: string[]
 			domainName: string
 			certificateId: string
 			region: string
@@ -78,23 +76,6 @@ export class HostingStack extends Stack {
 			}),
 		)
 
-		const clientAuthorizer = new Cf.experimental.EdgeFunction(
-			this,
-			'clientAuthorizer',
-			{
-				runtime: Lambda.Runtime.NODEJS_18_X,
-				handler: 'index.handler',
-				description:
-					'Allows access to origin resources only for specific clients',
-				code: Lambda.Code.fromInline(
-					readFileSync(
-						path.join(process.cwd(), 'cdk', 'clientAuthorizer.js'),
-						'utf-8',
-					).replace('%ALLOWED_CLIENTS%', allowedClients.join(',')),
-				),
-			},
-		)
-
 		const fingerprintRedirect = new Cf.experimental.EdgeFunction(
 			this,
 			'fingerprintRedirect',
@@ -132,10 +113,6 @@ export class HostingStack extends Stack {
 				{
 					functionVersion: fingerprintRedirect.currentVersion,
 					eventType: Cf.LambdaEdgeEventType.VIEWER_REQUEST,
-				},
-				{
-					functionVersion: clientAuthorizer.currentVersion,
-					eventType: Cf.LambdaEdgeEventType.ORIGIN_REQUEST,
 				},
 			],
 			cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
