@@ -12,10 +12,8 @@ const domainName = process.env.DOMAIN_NAME
 
 const repoUrl = new URL(pJSON.repository.url)
 const repository = {
-	owner: repoUrl.pathname.split('/')[1] ?? 'bifravst',
-	repo:
-		repoUrl.pathname.split('/')[2]?.replace(/\.git$/, '') ??
-		'hello-nrfcloud-web',
+	owner: repoUrl.pathname.split('/')[1] ?? 'hello-nrfcloud',
+	repo: repoUrl.pathname.split('/')[2]?.replace(/\.git$/, '') ?? 'web',
 }
 
 for (const [k, v] of Object.entries({
