@@ -54,7 +54,7 @@ export const Footer = () => (
 					<div>
 						<a href="https://nordicsemi.com/" target="_blank">
 							<img
-								src="/static/images/nordic-logo.svg"
+								src={`/static/images/nordic-logo.svg?v=${VERSION}`}
 								alt="Nordic Semiconductor"
 								width="100"
 							/>

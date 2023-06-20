@@ -68,7 +68,7 @@ export const Navbar = () => {
 				<div class="container">
 					<a class="navbar-brand" href="/">
 						<img
-							src="/static/images/logo.svg"
+							src={`/static/images/logo.svg?v=${VERSION}`}
 							alt="Logo"
 							width="30"
 							height="24"
@@ -104,7 +104,7 @@ export const Navbar = () => {
 						<div class="offcanvas-header">
 							<h5 class="offcanvas-title" id="offcanvasNavbarLabel">
 								<img
-									src="/static/images/logo.svg"
+									src={`/static/images/logo.svg?v=${VERSION}`}
 									alt="Logo"
 									width="30"
 									height="24"

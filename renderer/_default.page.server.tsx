@@ -33,10 +33,10 @@ export const render = async (pageContext: PageContextCustom) => {
         <link
           rel="stylesheet"
           type="text/css"
-          href="/node_modules/maplibre-gl/dist/maplibre-gl.css"
+          href="/node_modules/maplibre-gl/dist/maplibre-gl.css?v=${version}"
         />
-        <link rel="stylesheet" type="text/css" href="/static/base.css" />
-        <link rel="shortcut icon" href="/static/images/logo.svg" />
+        <link rel="stylesheet" type="text/css" href="/static/base.css?v=${version}" />
+        <link rel="shortcut icon" href="/static/images/logo.svg?v=${version}" />
         <meta name="version" content="${version}" />
         ${GTMScript()}
       </head>
