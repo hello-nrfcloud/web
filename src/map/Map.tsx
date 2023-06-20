@@ -1,11 +1,12 @@
 import { isEqual } from 'lodash-es'
-import { MapPinOff } from 'lucide-preact'
+import { MapPin, MapPinOff } from 'lucide-preact'
 import type {
 	GeoJSONSource,
 	LngLatLike,
 	PropertyValueSpecification,
 } from 'maplibre-gl'
 // Needed for SSR build, named exports don't work
+import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useParameters } from '#context/Parameters.js'
 import maplibregl from 'maplibre-gl'
 import { createContext } from 'preact'
@@ -305,6 +306,8 @@ export const Map = () => {
 	const { onParameters } = useParameters()
 	const { credentials } = useCognitoCredentials()
 	const containerRef = useRef<HTMLDivElement>(null)
+	const { location } = useDeviceLocation()
+	console.log(`[Map]`, location)
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -336,11 +339,17 @@ export const Map = () => {
 	return (
 		<MapSection>
 			<MapContainer id="map" ref={containerRef} />
-			<NoLocation>
-				<p>
+			{location === undefined && (
+				<NoLocation>
 					<MapPinOff strokeWidth={1} style={{ zoom: 4 }} /> waiting for location
-				</p>
-			</NoLocation>
+				</NoLocation>
+			)}
+			{location !== undefined && (
+				<NoLocation>
+					<MapPin strokeWidth={1} style={{ zoom: 4 }} /> {location.lat},
+					{location.lng}
+				</NoLocation>
+			)}
 		</MapSection>
 	)
 }

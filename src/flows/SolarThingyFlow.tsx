@@ -31,7 +31,7 @@ export const SolarThingyFlow = () => {
 	const [chartSize, setChartSize] = useState<[width: number, height: number]>([
 		300, 200,
 	])
-	const { addMessageListener, removeMessageListener } = useDevice()
+	const { addMessageListener } = useDevice()
 
 	const [gain, setGain] = useState<{ mA: number; ts: number }[]>([])
 	const [voltage, setVoltage] = useState<{ v: number; ts: number }[]>([])
@@ -50,10 +50,10 @@ export const SolarThingyFlow = () => {
 	}
 
 	useEffect(() => {
-		addMessageListener(onMessage)
+		const { remove } = addMessageListener(onMessage)
 
 		return () => {
-			removeMessageListener(onMessage)
+			remove()
 		}
 	}, [])
 

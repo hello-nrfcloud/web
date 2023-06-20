@@ -1,11 +1,10 @@
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import cx from 'classnames'
-import { Code2, Fingerprint, Home } from 'lucide-preact'
+import { Code2, Cpu, Fingerprint, Home } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useState } from 'preact/hooks'
 import { PreviewWarning } from './PreviewWarning.js'
-import { Logo } from './icons/Logo.js'
 
 const Link = ({
 	href,
@@ -49,8 +48,7 @@ const Navigation = () => {
 					href={`/device#${device.id}`}
 					title="Device fingerprint was provided"
 				>
-					<Logo color={'white'} strokeWidth={1} class="me-1" /> Your Development
-					Kit
+					<Cpu class="me-1" /> Your Development Kit
 				</Link>
 			)}
 			<Link href="/view-source">

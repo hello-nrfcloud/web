@@ -2,18 +2,11 @@ import {
 	Context,
 	DeviceIdentity,
 	HelloMessage,
-	Reported,
 	validPassthrough,
 } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
-import {
-	useCallback,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'preact/hooks'
+import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { useDKs, type DK } from './DKs.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
@@ -22,7 +15,6 @@ export type Device = {
 	id: string
 	hasLocation: boolean
 	type: DK
-	state?: Static<typeof Reported>
 }
 
 type Messages = {
@@ -36,13 +28,15 @@ export const DeviceContext = createContext<{
 	connected: boolean
 	connectionFailed: boolean
 	messages: Messages
-	addMessageListener: (listener: MessageListenerFn) => void
-	removeMessageListener: (listener: MessageListenerFn) => void
+	addMessageListener: (listener: MessageListenerFn) => {
+		remove: () => void
+	}
 }>({
 	connected: false,
 	messages: [],
-	addMessageListener: () => undefined,
-	removeMessageListener: () => undefined,
+	addMessageListener: () => ({
+		remove: () => undefined,
+	}),
 	connectionFailed: false,
 })
 
@@ -59,16 +53,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { DKs } = useDKs()
-
-	const deviceListener = useCallback<MessageListenerFn>(
-		(message) => {
-			if (device === undefined) return
-			if (isState(message, device.type.model)) {
-				setDevice((device) => ({ ...(device as Device), state: message }))
-			}
-		},
-		[device],
-	)
 
 	const listeners = useRef<MessageListenerFn[]>([])
 
@@ -122,7 +106,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							setType(maybeValid.model)
 						}
 						listeners.current.map((listener) => listener(message))
-						deviceListener(message)
 					}
 				} catch (err) {
 					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
@@ -146,9 +129,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				messages,
 				addMessageListener: (fn) => {
 					listeners.current.push(fn)
-				},
-				removeMessageListener: (fn) => {
-					listeners.current = listeners.current.filter((f) => f !== fn)
+					return {
+						remove: () => {
+							listeners.current = listeners.current.filter((f) => f !== fn)
+						},
+					}
 				},
 				connectionFailed,
 			}}
@@ -166,10 +151,3 @@ const isDeviceIdentity = (
 	message: Static<typeof HelloMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()
-
-const isState = (
-	message: Static<typeof HelloMessage>,
-	model: string,
-): message is Static<typeof Reported> =>
-	message['@context'] ===
-	Context.model(model).transformed('reported').toString()

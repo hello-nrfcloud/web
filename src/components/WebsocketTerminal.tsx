@@ -1,8 +1,9 @@
 import { useDevice } from '#context/Device.js'
+import { useDeviceState } from '#context/DeviceState.js'
 import {
 	ChevronLeft,
 	ChevronRight,
-	Cloud,
+	CloudLightning,
 	CloudOff,
 	Eye,
 	EyeOff,
@@ -30,6 +31,9 @@ export const WebsocketTerminal = () => {
 	const [collapsed, setCollapsed] = useState<boolean>(true)
 	const [index, setIndex] = useState<number>(Math.max(messages.length - 1, 0))
 	const latestMessage = messages[index]
+	const { state } = useDeviceState()
+
+	console.log(state)
 
 	if (connected && latestMessage !== undefined) {
 		const {
@@ -41,7 +45,7 @@ export const WebsocketTerminal = () => {
 				<Connected>
 					<div class="d-flex justify-content-between align-items-center">
 						<span class="d-flex align-items-center">
-							<Cloud />
+							<CloudLightning />
 							<span class="ms-2">Connected: {device?.id}</span>
 						</span>
 						<span>
