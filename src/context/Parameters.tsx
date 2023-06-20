@@ -14,36 +14,41 @@ export const ParametersContext = createContext<{
 	onParameters: () => undefined,
 })
 
-const parametersPromise: Promise<
-	{ parameters: Parameters } | { error: Error }
-> = (async (): Promise<{ parameters: Parameters } | { error: Error }> => {
-	try {
-		const res = await fetch(REGISTRY_ENDPOINT)
-		if (res.status >= 400) {
-			throw new Error(`Failed to fetch parameters: ${await res.text()}`)
-		}
-		const parameters = await res.json()
-		const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
-		const parsed = {
-			webSocketURI: new URL(webSocketURI),
-			mapName,
-			cognitoIdentityPoolId,
-			region: cognitoIdentityPoolId.split(':')[0],
-		}
-		Object.entries(parsed).forEach(([k, v]) =>
-			console.debug('[Parameters]', k, v.toString()),
-		)
-		return { parameters: parsed }
-	} catch (error) {
-		console.error(`[Parameters]`, error)
-		return { error: error as Error }
-	}
-})()
+const isSSR = typeof window === 'undefined'
+
+const parametersPromise:
+	| Promise<{ parameters: Parameters } | { error: Error }>
+	| undefined = isSSR
+	? undefined
+	: (async (): Promise<{ parameters: Parameters } | { error: Error }> => {
+			try {
+				const res = await fetch(REGISTRY_ENDPOINT)
+				if (res.status >= 400) {
+					throw new Error(`Failed to fetch parameters: ${await res.text()}`)
+				}
+				const parameters = await res.json()
+				const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
+				const parsed = {
+					webSocketURI: new URL(webSocketURI),
+					mapName,
+					cognitoIdentityPoolId,
+					region: cognitoIdentityPoolId.split(':')[0],
+				}
+				Object.entries(parsed).forEach(([k, v]) =>
+					console.debug('[Parameters]', k, v.toString()),
+				)
+				return { parameters: parsed }
+			} catch (error) {
+				console.error(`[Parameters]`, error)
+				return { error: error as Error }
+			}
+	  })()
 
 export const Provider = ({ children }: { children: ComponentChildren }) => (
 	<ParametersContext.Provider
 		value={{
 			onParameters: (listener) => {
+				if (parametersPromise === undefined) return
 				parametersPromise
 					.then((res) => {
 						if ('parameters' in res) listener(res.parameters)
