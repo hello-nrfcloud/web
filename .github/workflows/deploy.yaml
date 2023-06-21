@@ -88,8 +88,8 @@ jobs:
           aws s3 cp s3://${{ env.BUCKET_NAME }} s3://${{ env.BUCKET_NAME }} --exclude "*" --include "*.html" --recursive --cache-control max-age=600,public
 
       - name:
-          Trigger CloudFront cache invalidation for index.html (all other files
-          have unique names)
+          Trigger CloudFront cache invalidation for fixed resources (all other
+          files have unique names)
         run: |
           CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue'`
-          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html
+          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html,/manifest.json
