@@ -7,8 +7,9 @@ import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.js'
 const iam = new IAMClient({})
 
 const stackName = process.env.STACK_NAME ?? 'hello-nrfcloud-web'
-const certificateId = process.env.CERTIFICATE_ID
-const domainName = process.env.DOMAIN_NAME
+const certificateId =
+	process.env.CERTIFICATE_ID ?? 'b4faa8c2-7e5e-4f5a-8e34-b227d0d8ef67'
+const domainName = process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com'
 
 const repoUrl = new URL(pJSON.repository.url)
 const repository = {
