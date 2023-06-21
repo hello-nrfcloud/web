@@ -81,7 +81,6 @@ const QrCode = ({ url }: { url: URL }) => {
 			scale: 10,
 		})
 			.then((dataUrl) => {
-				console.log(dataUrl)
 				setImageData(dataUrl)
 			})
 			.catch((err) => console.error(`[QRCode]`, err))

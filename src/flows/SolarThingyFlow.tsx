@@ -39,11 +39,9 @@ export const SolarThingyFlow = () => {
 
 	const onMessage: MessageListenerFn = (message) => {
 		if (isGain(message)) {
-			console.log(`[Solar]`, message)
 			setGain((g) => [message, ...g].sort(({ ts: t1 }, { ts: t2 }) => t2 - t1))
 		}
 		if (isVoltage(message)) {
-			console.log(`[Solar]`, message)
 			setVoltage((v) =>
 				[message, ...v].sort(({ ts: t1 }, { ts: t2 }) => t2 - t1),
 			)
