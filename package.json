@@ -26,7 +26,7 @@
     "test:e2e": "npx playwright test e2e-tests/"
   },
   "dependencies": {
-    "@aws-amplify/core": "5.5.0",
+    "@aws-amplify/core": "5.5.1",
     "@aws-sdk/client-cognito-identity": "3.354.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.354.0",
     "@hello.nrfcloud.com/proto": "1.3.3",
