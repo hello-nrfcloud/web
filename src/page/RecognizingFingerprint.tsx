@@ -22,7 +22,7 @@ export const RecognizingFingerprint = () => {
 	return (
 		<main class="container py-4">
 			<div class="row py-4">
-				<div class="col-12 col-lg-6 offset-lg-3">
+				<div class="col-12">
 					<h1 class="mb-4 d-flex align-items-center justify-content-between">
 						<span>
 							Fingerprint: <code>{fingerprint}</code>

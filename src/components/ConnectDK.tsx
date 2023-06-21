@@ -1,6 +1,6 @@
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
-import { HelpCircle, PlugZap, Sun, ToggleRight } from 'lucide-preact'
+import { BatteryFull, HelpCircle, Sun, ToggleRight } from 'lucide-preact'
 import { styled } from 'styled-components'
 import { Secondary } from './buttons/Button.js'
 import { WarningLink } from './buttons/ButtonlikeLink.js'
@@ -36,12 +36,12 @@ export const ConnectDK = () => {
 						<SIMIcon /> Insert the SIM card
 					</li>
 					<li>
-						<PlugZap strokeWidth={1} />
-						Plug into a USB power source
+						<BatteryFull />
+						Make sure the battery is charged
 					</li>
 					<li>
-						<ToggleRight strokeWidth={1} />
-						Turn on
+						<ToggleRight />
+						Turn the kit on
 					</li>
 					<li>
 						<Sun strokeWidth={2} color="var(--color-nordic-power)" />
@@ -51,10 +51,10 @@ export const ConnectDK = () => {
 						<WaitingForData />
 					</li>
 					<li>
-						<HelpCircle strokeWidth={1} />
+						<HelpCircle />
 						No success?
 						<br />
-						<span class="mt-2">
+						<span class="mt-4">
 							<Secondary
 								class="me-2"
 								onClick={() => {

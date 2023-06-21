@@ -1,6 +1,7 @@
 import { HistoryChart } from '#chart/HistoryChart.js'
 import type { ChartData } from '#chart/chartMath.js'
 import { Ago } from '#components/Ago.js'
+import { ConnectDK } from '#components/ConnectDK.js'
 import { useDevice, type MessageListenerFn } from '#context/Device.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
 import { Context, HelloMessage } from '@hello.nrfcloud.com/proto/hello'
@@ -115,52 +116,68 @@ export const SolarThingyFlow = () => {
 	}
 
 	return (
-		<div style={{ backgroundColor: 'var(--color-nordic-lake)' }}>
-			<div class="container pt-4 pb-4">
-				<dl>
-					<>
-						<dt style={{ color: 'var(--color-nordic-sun)' }}>
-							<Sun /> Gain
-						</dt>
-						<dd style={{ color: 'var(--color-nordic-sun)' }}>
-							{currentGain === undefined && <WaitingForData />}
-							{currentGain !== undefined && (
-								<>
-									{currentGain.mA} mA{' '}
-									<small>
-										(<Ago date={new Date(currentGain.ts)} />)
-									</small>
-								</>
-							)}
-						</dd>
-					</>
-					<>
-						<dt style={{ color: 'var(--color-nordic-grass)' }}>
-							<BatteryCharging /> Voltage
-						</dt>
-						<dd style={{ color: 'var(--color-nordic-grass)' }}>
-							{currentVoltage === undefined && <WaitingForData />}
-							{currentVoltage !== undefined && (
-								<>
-									{currentVoltage.v} V{' '}
-									<small>
-										(<Ago date={new Date(currentVoltage.ts)} />)
-									</small>
-								</>
-							)}
-						</dd>
-					</>
-				</dl>
-				{(voltage.length > 0 || gain.length > 0) && (
-					<div ref={containerRef}>
-						<HistoryChart
-							width={chartSize[0]}
-							height={chartSize[1]}
-							data={chartData}
-						/>
+		<>
+			{currentGain === undefined && currentVoltage === undefined && (
+				<div
+					style={{ backgroundColor: 'var(--color-nordic-light-grey)' }}
+					class="py-4"
+				>
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<ConnectDK />
+							</div>
+						</div>
 					</div>
-				)}
+				</div>
+			)}
+			<div style={{ backgroundColor: 'var(--color-nordic-lake)' }}>
+				<div class="container pt-4 pb-4">
+					<dl>
+						<>
+							<dt style={{ color: 'var(--color-nordic-sun)' }}>
+								<Sun /> Gain
+							</dt>
+							<dd style={{ color: 'var(--color-nordic-sun)' }}>
+								{currentGain === undefined && <WaitingForData />}
+								{currentGain !== undefined && (
+									<>
+										{currentGain.mA} mA{' '}
+										<small>
+											(<Ago date={new Date(currentGain.ts)} />)
+										</small>
+									</>
+								)}
+							</dd>
+						</>
+						<>
+							<dt style={{ color: 'var(--color-nordic-grass)' }}>
+								<BatteryCharging /> Voltage
+							</dt>
+							<dd style={{ color: 'var(--color-nordic-grass)' }}>
+								{currentVoltage === undefined && <WaitingForData />}
+								{currentVoltage !== undefined && (
+									<>
+										{currentVoltage.v} V{' '}
+										<small>
+											(<Ago date={new Date(currentVoltage.ts)} />)
+										</small>
+									</>
+								)}
+							</dd>
+						</>
+					</dl>
+					{(voltage.length > 0 || gain.length > 0) && (
+						<div ref={containerRef}>
+							<HistoryChart
+								width={chartSize[0]}
+								height={chartSize[1]}
+								data={chartData}
+							/>
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
+		</>
 	)
 }
