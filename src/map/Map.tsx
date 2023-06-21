@@ -10,7 +10,7 @@ import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useParameters } from '#context/Parameters.js'
 import maplibregl from 'maplibre-gl'
 import { createContext } from 'preact'
-import { useContext, useEffect, useRef } from 'preact/hooks'
+import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { styled } from 'styled-components'
 import { useCognitoCredentials } from '../context/CognitoCredentials.js'
 import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
@@ -307,34 +307,45 @@ export const Map = () => {
 	const { credentials } = useCognitoCredentials()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { location } = useDeviceLocation()
-	console.log(`[Map]`, location)
+	const [map, setMap] = useState<maplibregl.Map>()
 
 	useEffect(() => {
 		if (containerRef.current === null) return
-		let map: maplibregl.Map | undefined = undefined
 		onParameters(({ region, mapName }) => {
-			map = new maplibregl.Map({
-				container: 'map',
-				style: mapStyle({
-					region,
-					mapName,
+			setMap(
+				new maplibregl.Map({
+					container: 'map',
+					style: mapStyle({
+						region,
+						mapName,
+					}),
+					center: [10.437581513483195, 63.42148461054351],
+					zoom: 12,
+					transformRequest: transformRequest(credentials, region),
+					refreshExpiredTiles: false,
+					trackResize: true,
+					keyboard: false,
+					renderWorldCopies: false,
+					// Static map, no mouse interaction at all
+					interactive: false,
 				}),
-				center: [10.437581513483195, 63.42148461054351],
-				zoom: 12,
-				transformRequest: transformRequest(credentials, region),
-				refreshExpiredTiles: false,
-				trackResize: true,
-				keyboard: false,
-				renderWorldCopies: false,
-				// Static map, no mouse interaction at all
-				interactive: false,
-			})
+			)
 		})
 
 		return () => {
 			map?.remove()
 		}
 	}, [containerRef.current])
+
+	useEffect(() => {
+		if (location === undefined) return
+		if (map === undefined) return
+		console.log(`[Map]`, location)
+		map.flyTo({
+			center: location,
+			zoom: 12,
+		})
+	}, [location, map])
 
 	return (
 		<MapSection>
@@ -346,8 +357,9 @@ export const Map = () => {
 			)}
 			{location !== undefined && (
 				<NoLocation>
-					<MapPin strokeWidth={1} style={{ zoom: 4 }} /> {location.lat},
-					{location.lng}
+					<MapPin strokeWidth={1} style={{ zoom: 4 }} />
+					<br />
+					{location.lat},{location.lng}
 				</NoLocation>
 			)}
 		</MapSection>
