@@ -8,10 +8,7 @@ test.afterEach(checkForConsoleErrors)
 test('The page metadata should be set', async ({ page }) => {
 	await page.goto('http://localhost:8080/')
 	const { short_name } = JSON.parse(
-		await fs.readFile(
-			path.join(process.cwd(), 'static', 'manifest.json'),
-			'utf-8',
-		),
+		await fs.readFile(path.join(process.cwd(), 'manifest.json'), 'utf-8'),
 	)
 	await expect(page).toHaveTitle(short_name)
 	// FIXME: test other metadata as well

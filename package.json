@@ -20,7 +20,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "vite",
-    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir",
+    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && node --no-warnings merge-manifest.json.js",
     "prepare": "husky install",
     "test": "jest",
     "test:e2e": "npx playwright test e2e-tests/"
