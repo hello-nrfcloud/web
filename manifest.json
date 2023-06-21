@@ -3,9 +3,9 @@
   "name": "hello.nrfcloud.com · Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
   "icons": [
     {
-      "src": "/static/favicon.webp",
+      "src": "/static/images/logo.svg?v=2",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/webp"
+      "type": "image/svg+xml"
     }
   ],
   "start_url": ".",
