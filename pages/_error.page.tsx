@@ -1,4 +1,4 @@
-import { isFingerprint } from '#utils/isFingerprint.js'
+import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 
 export const Page = ({ is404 }: { is404: boolean }) => {
 	const maybeFingerprint = document?.location.pathname?.slice(1)

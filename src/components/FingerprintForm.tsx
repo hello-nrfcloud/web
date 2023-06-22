@@ -1,4 +1,4 @@
-import { isFingerprint } from '#utils/isFingerprint.js'
+import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { useState } from 'preact/hooks'
 import { Secondary } from './buttons/Button.js'
 
