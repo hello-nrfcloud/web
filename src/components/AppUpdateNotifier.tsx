@@ -14,7 +14,7 @@ export const AppUpdateNotifier = () => {
 	const [ignored, setIgnored] = useState<string[]>(getStored())
 
 	const checkVersion = useCallback(() => {
-		fetch('./.well-known/release')
+		fetch('/.well-known/release')
 			.then(async (res) => (await res.text()).trim())
 			.then(parse)
 			.then((releasedVersion) => {
