@@ -1,11 +1,14 @@
+import { useAppSettings } from '#context/AppSettings.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import cx from 'classnames'
-import { Code2, Cpu, Fingerprint, Home } from 'lucide-preact'
+import { Code2, Cpu, Fingerprint, Home, TerminalSquare } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useState } from 'preact/hooks'
 import { AppUpdateNotifier } from './AppUpdateNotifier.js'
+import { Transparent } from './Buttons.js'
 import { PreviewWarning } from './PreviewWarning.js'
+import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
 
 const Link = ({
 	href,
@@ -58,6 +61,35 @@ const Navigation = () => {
 		</>
 	)
 }
+
+const Options = ({ onClick }: { onClick?: () => void }) => {
+	const { mqttTerminalVisible, showMqttTerminal } = useAppSettings()
+	return (
+		<>
+			{!mqttTerminalVisible && (
+				<Transparent
+					onClick={() => {
+						showMqttTerminal(true)
+						onClick?.()
+					}}
+				>
+					<TerminalSquare /> show MQTT terminal
+				</Transparent>
+			)}
+			{mqttTerminalVisible && (
+				<Transparent
+					onClick={() => {
+						showMqttTerminal(false)
+						onClick?.()
+					}}
+				>
+					<TerminalSquare /> hide MQTT terminal
+				</Transparent>
+			)}
+		</>
+	)
+}
+
 export const Navbar = () => {
 	const [collapsed, setCollapsed] = useState(true)
 
@@ -76,9 +108,14 @@ export const Navbar = () => {
 						hello.nrfcloud.com
 					</a>
 					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
-							<Navigation />
-						</ul>
+						<div class="navbar-nav d-flex justify-content-between w-100">
+							<div class="d-flex">
+								<Navigation />
+							</div>
+							<div class="d-flex">
+								<Options />
+							</div>
+						</div>
 					</div>
 					<button
 						class="navbar-toggler"
@@ -123,6 +160,22 @@ export const Navbar = () => {
 							<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 								<Navigation />
 							</ul>
+							<hr />
+							<Options
+								onClick={() => {
+									setCollapsed(true)
+								}}
+							/>
+							<hr />
+							<p>
+								<a
+									href="https://nrfcloud.com/"
+									class="text-body-tertiary text-decoration-none"
+									target="_blank"
+								>
+									<NRFCloudLogo style={{ height: '18px' }} />
+								</a>
+							</p>
 						</div>
 					</div>
 				)}

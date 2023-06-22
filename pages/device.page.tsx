@@ -1,5 +1,6 @@
 import { Footer } from '#components/Footer.js'
 import { Navbar } from '#components/Navbar.js'
+import { Provider as AppSettingsProvider } from '#context/AppSettings.js'
 import { Provider as DKsProvider } from '#context/DKs.js'
 import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
@@ -16,9 +17,11 @@ export const Page = ({ dks }: IndexPageProps) => (
 				<DeviceProvider>
 					<DeviceStateProvider>
 						<DeviceLocationProvider>
-							<Navbar />
-							<Device />
-							<Footer />
+							<AppSettingsProvider>
+								<Navbar />
+								<Device />
+								<Footer />
+							</AppSettingsProvider>
 						</DeviceLocationProvider>
 					</DeviceStateProvider>
 				</DeviceProvider>

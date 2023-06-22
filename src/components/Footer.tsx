@@ -1,3 +1,5 @@
+import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
+
 const CopyrightYear = () => {
 	const startYear = 2023
 	const currentYear = new Date().getFullYear()
@@ -16,8 +18,17 @@ export const Footer = () => (
 		<div class="container pt-4">
 			<div class="row">
 				<div class="col-12">
-					<h2 class="text-body-secondary">About</h2>
-					<p class="mb-1">
+					<h2 class="text-body-secondary mt-3">About</h2>
+					<p class="mb-2">
+						<a
+							href="https://nrfcloud.com/"
+							class="text-body-tertiary text-decoration-none"
+							target="_blank"
+						>
+							<NRFCloudLogo style={{ height: '16px' }} />
+						</a>
+					</p>
+					<p class="mb-2">
 						<a
 							href="https://www.nordicsemi.com/Privacy"
 							class="text-body-tertiary text-decoration-none"
@@ -26,7 +37,7 @@ export const Footer = () => (
 							Privacy Policy
 						</a>
 					</p>
-					<p class="mb-1">
+					<p class="mb-2">
 						<a
 							href="https://www.nordicsemi.com/About-us/Contact-Us"
 							class="text-body-tertiary text-decoration-none"
