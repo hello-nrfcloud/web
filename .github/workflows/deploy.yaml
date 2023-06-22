@@ -48,6 +48,8 @@ jobs:
           cp -L -r ./static ./build/client
           mkdir -p build/client/node_modules/maplibre-gl/dist/
           cp node_modules/maplibre-gl/dist/maplibre-gl.css build/client/node_modules/maplibre-gl/dist/
+          mkdir  ./build/client/.well-known
+          echo ${{ env.VERSION }} > ./build/client/.well-known/release
 
       - name: Cache AWS CLI (Linux)
         id: cache-aws-cli
@@ -92,4 +94,4 @@ jobs:
           files have unique names)
         run: |
           CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue'`
-          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html,/manifest.json
+          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html,/manifest.json,/.well-known/release

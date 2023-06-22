@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { Code2, Cpu, Fingerprint, Home } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useState } from 'preact/hooks'
+import { AppUpdateNotifier } from './AppUpdateNotifier.js'
 import { PreviewWarning } from './PreviewWarning.js'
 
 const Link = ({
@@ -127,6 +128,7 @@ export const Navbar = () => {
 				)}
 			</nav>
 			<PreviewWarning />
+			<AppUpdateNotifier />
 		</>
 	)
 }
