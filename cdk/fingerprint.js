@@ -24,7 +24,20 @@ exports.handler = (event, context, callback) => {
 						value: redirectUrl,
 					},
 				],
+				['content-type']: [
+					{ key: 'Content-Type', value: 'text/html; charset=utf-8' },
+				],
 			},
+			body: [
+				`<!DOCTYPE html>`,
+				`<html lang=en>`,
+				`<head>`,
+				`<title>${host}/${maybeFingerprint}</title>`,
+				`<meta http-equiv="Refresh" content="0; URL=${redirectUrl}">`,
+				`</head>`,
+				`<p>Connecting you to your device <code>${maybeFingerprint}</code> ...`,
+			].join('\n'),
+			bodyEncoding: 'text',
 		})
 	}
 
