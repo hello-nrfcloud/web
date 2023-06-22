@@ -39,7 +39,7 @@
     "maplibre-gl": "3.1.0",
     "preact": "10.15.1",
     "qrcode": "1.5.3",
-    "styled-components": "6.0.0-rc.3"
+    "styled-components": "6.0.0-rc.5"
   },
   "devDependencies": {
     "@aws-sdk/client-iam": "3.357.0",
