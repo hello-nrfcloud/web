@@ -152,7 +152,6 @@ export class HostingStack extends Stack {
 				origin: s3Origin,
 				...defaultBehaviour,
 			},
-			enableIpv6: false, // For IP protected access
 			domainNames:
 				customDomain === undefined ? undefined : [customDomain.domainName],
 			certificate:
