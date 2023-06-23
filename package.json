@@ -40,7 +40,7 @@
     "preact": "10.15.1",
     "qrcode": "1.5.3",
     "semver": "7.5.3",
-    "styled-components": "6.0.0-rc.5"
+    "styled-components": "6.0.0-rc.6"
   },
   "devDependencies": {
     "@aws-sdk/client-iam": "3.357.0",
