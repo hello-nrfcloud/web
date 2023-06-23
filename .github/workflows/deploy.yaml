@@ -86,8 +86,8 @@ jobs:
         run: |
           # All files to 1 year
           aws s3 cp s3://${{ env.BUCKET_NAME }} s3://${{ env.BUCKET_NAME }} --recursive --cache-control max-age=30758400,public
-          # HTML files to 10 minutes
-          aws s3 cp s3://${{ env.BUCKET_NAME }} s3://${{ env.BUCKET_NAME }} --exclude "*" --include "*.html" --recursive --cache-control max-age=600,public
+          # HTML files and .well-known/ to 10 minutes
+          aws s3 cp s3://${{ env.BUCKET_NAME }} s3://${{ env.BUCKET_NAME }} --exclude "*" --include "*.html" --include ".well-known/*" --recursive --cache-control max-age=600,public
 
       - name:
           Trigger CloudFront cache invalidation for fixed resources (all other
