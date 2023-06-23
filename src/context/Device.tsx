@@ -61,6 +61,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (fingerprint === null) return
 
 		let ws: WebSocket | undefined = undefined
+		let pingInterval: NodeJS.Timeout
 
 		onParameters(({ webSocketURI }) => {
 			console.log({ webSocketURI, fingerprint })
@@ -71,6 +72,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			ws.addEventListener('open', () => {
 				console.debug(`[WS]`, 'connected')
 				setConnected(true)
+				pingInterval = setInterval(() => {
+					ws?.send(
+						JSON.stringify({
+							message: 'message',
+							data: 'PING',
+						}),
+					)
+				}, 0.95 * 5 * 60 * 1000) // every ~5 minutes
 			})
 
 			ws.addEventListener('close', () => {
@@ -117,6 +126,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		return () => {
 			ws?.close()
 			setConnected(false)
+			pingInterval !== undefined && clearInterval(pingInterval)
 		}
 	}, [fingerprint])
 
