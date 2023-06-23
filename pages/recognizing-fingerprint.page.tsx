@@ -1,5 +1,6 @@
 import { Footer } from '#components/Footer.js'
 import { Navbar } from '#components/Navbar.js'
+import { Provider as AppSettingsProvider } from '#context/AppSettings.js'
 import { Provider as DKsProvider } from '#context/DKs.js'
 import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
@@ -12,9 +13,11 @@ export const Page = ({ dks }: IndexPageProps) => (
 		<FingerprintProvider>
 			<DKsProvider DKs={dks}>
 				<DeviceProvider>
-					<Navbar />
-					<RecognizingFingerprint />
-					<Footer />
+					<AppSettingsProvider>
+						<Navbar />
+						<RecognizingFingerprint />
+						<Footer />
+					</AppSettingsProvider>
 				</DeviceProvider>
 			</DKsProvider>
 		</FingerprintProvider>

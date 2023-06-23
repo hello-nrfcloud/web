@@ -9,7 +9,7 @@ import { Map } from '#map/Map.js'
 
 export const Device = () => {
 	const { device } = useDevice()
-	const { mqttTerminalVisible } = useAppSettings()
+	const { terminalVisible } = useAppSettings()
 
 	if (device === undefined)
 		return (
@@ -24,7 +24,7 @@ export const Device = () => {
 
 	return (
 		<>
-			{mqttTerminalVisible && <WebsocketTerminal />}
+			{terminalVisible && <WebsocketTerminal />}
 			<aside class="container">
 				<div class="row">
 					<div class="col my-4">

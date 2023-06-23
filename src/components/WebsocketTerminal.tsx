@@ -4,8 +4,6 @@ import {
 	ChevronRight,
 	CloudLightning,
 	CloudOff,
-	Eye,
-	EyeOff,
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { styled } from 'styled-components'
@@ -27,7 +25,6 @@ const Connected = styled(W)`
 
 export const WebsocketTerminal = () => {
 	const { connected, messages, device } = useDevice()
-	const [collapsed, setCollapsed] = useState<boolean>(true)
 	const [index, setIndex] = useState<number>(Math.max(messages.length - 1, 0))
 	const latestMessage = messages[index]
 
@@ -45,7 +42,7 @@ export const WebsocketTerminal = () => {
 							<span class="ms-2">Connected: {device?.id}</span>
 						</span>
 						<span>
-							{!collapsed && messages.length > 1 && (
+							{messages.length > 1 && (
 								<>
 									<Secondary
 										small
@@ -78,27 +75,23 @@ export const WebsocketTerminal = () => {
 									</Secondary>
 								</>
 							)}
-							<Secondary small onClick={() => setCollapsed((c) => !c)}>
-								{collapsed ? <EyeOff /> : <Eye />}
-							</Secondary>
 						</span>
 					</div>
-					{!collapsed && (
-						<dl>
-							<dt>Context</dt>
-							<dd>
-								<code>{context}</code>
-							</dd>
-							<dt>Message</dt>
-							<dd>
-								<pre>{JSON.stringify(message, null, 2)}</pre>
-							</dd>
-							<dt>Received</dt>
-							<dd>
-								<Ago date={ts} />
-							</dd>
-						</dl>
-					)}
+					<dl>
+						<dt>Context</dt>
+						<dd>
+							<code>{context}</code>
+						</dd>
+						<dt>Message</dt>
+						<dd>
+							<pre>{JSON.stringify(message, null, 2)}</pre>
+						</dd>
+						<dt>Received</dt>
+						<dd>
+							<Ago date={ts} />
+						</dd>
+					</dl>
+					)
 				</Connected>
 			</>
 		)

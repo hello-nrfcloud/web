@@ -62,28 +62,28 @@ const Navigation = () => {
 	)
 }
 
-const Options = ({ onClick }: { onClick?: () => void }) => {
-	const { mqttTerminalVisible, showMqttTerminal } = useAppSettings()
+const DeveloperMenu = ({ onClick }: { onClick?: () => void }) => {
+	const { terminalVisible, showTerminal } = useAppSettings()
 	return (
 		<>
-			{!mqttTerminalVisible && (
+			{!terminalVisible && (
 				<Transparent
 					onClick={() => {
-						showMqttTerminal(true)
+						showTerminal(true)
 						onClick?.()
 					}}
 				>
-					<TerminalSquare /> show MQTT terminal
+					<TerminalSquare /> show terminal
 				</Transparent>
 			)}
-			{mqttTerminalVisible && (
+			{terminalVisible && (
 				<Transparent
 					onClick={() => {
-						showMqttTerminal(false)
+						showTerminal(false)
 						onClick?.()
 					}}
 				>
-					<TerminalSquare /> hide MQTT terminal
+					<TerminalSquare /> hide terminal
 				</Transparent>
 			)}
 		</>
@@ -92,6 +92,7 @@ const Options = ({ onClick }: { onClick?: () => void }) => {
 
 export const Navbar = () => {
 	const [collapsed, setCollapsed] = useState(true)
+	const { devModeEnabled } = useAppSettings()
 
 	return (
 		<>
@@ -112,9 +113,11 @@ export const Navbar = () => {
 							<div class="d-flex">
 								<Navigation />
 							</div>
-							<div class="d-flex">
-								<Options />
-							</div>
+							{devModeEnabled && (
+								<div class="d-flex">
+									<DeveloperMenu />
+								</div>
+							)}
 						</div>
 					</div>
 					<button
@@ -160,12 +163,17 @@ export const Navbar = () => {
 							<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 								<Navigation />
 							</ul>
-							<hr />
-							<Options
-								onClick={() => {
-									setCollapsed(true)
-								}}
-							/>
+							{devModeEnabled && (
+								<>
+									<hr />
+									<DeveloperMenu
+										onClick={() => {
+											setCollapsed(true)
+										}}
+									/>
+								</>
+							)}
+
 							<hr />
 							<p>
 								<a

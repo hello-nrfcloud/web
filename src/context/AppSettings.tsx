@@ -1,34 +1,49 @@
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useState } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 
 export const AppSettingsContext = createContext<{
-	mqttTerminalVisible: boolean
-	showMqttTerminal: (visible: boolean) => void
+	terminalVisible: boolean
+	showTerminal: (visible: boolean) => void
+	devModeEnabled: boolean
+	enableDevMode: () => void
 }>({
-	mqttTerminalVisible: false,
-	showMqttTerminal: () => undefined,
+	terminalVisible: false,
+	showTerminal: () => undefined,
+	devModeEnabled: false,
+	enableDevMode: () => undefined,
 })
 
-const storageKey = 'app:settings'
+const storageKey = 'app:settings:2'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [appSettings, setAppSettings] = useState<{
-		mqttTerminalVisible: boolean
+		terminalVisible: boolean
+		devModeEnabled: boolean
 	}>(
 		JSON.parse(
 			localStorage.getItem(storageKey) ??
-				JSON.stringify({ mqttTerminalVisible: false }),
+				JSON.stringify({ terminalVisible: false, devModeEnabled: false }),
 		),
 	)
+
+	useEffect(() => {
+		localStorage.setItem(storageKey, JSON.stringify(appSettings))
+	}, [appSettings])
 
 	return (
 		<AppSettingsContext.Provider
 			value={{
-				mqttTerminalVisible: appSettings.mqttTerminalVisible,
-				showMqttTerminal: (visible) =>
+				terminalVisible: appSettings.terminalVisible,
+				devModeEnabled: appSettings.devModeEnabled,
+				showTerminal: (visible) =>
 					setAppSettings((settings) => ({
 						...settings,
-						mqttTerminalVisible: visible,
+						terminalVisible: visible,
+					})),
+				enableDevMode: () =>
+					setAppSettings((settings) => ({
+						...settings,
+						devModeEnabled: true,
 					})),
 			}}
 		>
