@@ -84,7 +84,7 @@
     "remark-rehype": "10.1.0",
     "tsx": "3.12.7",
     "typescript": "5.1.3",
-    "vite-plugin-ssr": "0.4.131",
+    "vite-plugin-ssr": "0.4.132",
     "xml-js": "1.6.11",
     "yaml": "2.3.1"
   },
