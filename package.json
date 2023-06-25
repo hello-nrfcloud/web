@@ -43,9 +43,12 @@
     "styled-components": "6.0.0-rc.6"
   },
   "devDependencies": {
+    "@aws-sdk/client-cloudformation": "3.359.0",
+    "@aws-sdk/client-cloudfront": "3.359.0",
     "@aws-sdk/client-iam": "3.357.0",
     "@babel/plugin-syntax-import-assertions": "7.22.5",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.44",
+    "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "15.0.10",
     "@nordicsemiconductor/from-env": "2.0.0",
     "@playwright/test": "1.35.1",

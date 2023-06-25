@@ -92,6 +92,6 @@ jobs:
       - name:
           Trigger CloudFront cache invalidation for fixed resources (all other
           files have unique names)
-        run: |
-          CLOUDFRONT_DISTRIBUTION=`aws cloudformation describe-stacks --stack-name ${{ vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "distributionId") | .OutputValue'`
-          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION} --paths /,/index.html,/manifest.json,/.well-known/release
+        env:
+          STACK_NAME: ${{ vars.STACK_NAME }}
+        run: npx tsx .github/workflows/invalidate-cloudfront.ts
