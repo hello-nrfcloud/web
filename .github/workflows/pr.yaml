@@ -7,6 +7,8 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    environment: production
+
     steps:
       - uses: actions/checkout@v3
 
@@ -30,10 +32,13 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run end to end tests
+        env:
+          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
         run: npm run test:e2e
 
       - name: Build
         env:
           VERSION: ${{ github.sha }}
+          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
         run: |
           npm run build
