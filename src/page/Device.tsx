@@ -27,7 +27,7 @@ export const Device = () => {
 			{terminalVisible && <WebsocketTerminal />}
 			<aside class="container">
 				<div class="row">
-					<div class="col my-4">
+					<div class="col">
 						<SelectedDK selected={device.type} />
 					</div>
 				</div>

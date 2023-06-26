@@ -9,6 +9,14 @@ export type DK = {
 		learnMore: string
 		documentation: string
 	}
+	firmware: {
+		version: string
+		link: string
+	}
+	mfw: {
+		version: string
+		link: string
+	}
 }
 
 export const DKsContext = createContext<{
