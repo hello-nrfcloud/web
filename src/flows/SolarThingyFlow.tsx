@@ -4,6 +4,7 @@ import { Ago } from '#components/Ago.js'
 import { ConnectDK } from '#components/ConnectDK.js'
 import { useDevice, type MessageListenerFn } from '#context/Device.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
+import { formatFloat } from '#utils/formatFloat.js'
 import {
 	Battery,
 	Context,
@@ -139,7 +140,7 @@ export const SolarThingyFlow = () => {
 								{currentGain === undefined && <WaitingForData />}
 								{currentGain !== undefined && (
 									<>
-										{currentGain.mA} mA{' '}
+										{formatFloat(currentGain.mA)} mA{' '}
 										<small>
 											(<Ago date={new Date(currentGain.ts)} />)
 										</small>
