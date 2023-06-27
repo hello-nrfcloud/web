@@ -277,7 +277,7 @@ const NetworkLocation = () => {
 			<h2>Network location: {<CountryFlag mccmnc={mccmnc} />}</h2>
 			<p>
 				Based on the network code (<code>{mccmnc}</code>) your device is
-				registered to, it can already be coarsely located in {country}.
+				registered to, it can be coarsely located in {country}.
 			</p>
 		</>
 	)
