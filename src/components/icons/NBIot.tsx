@@ -1,7 +1,6 @@
 export const NBIot = () => (
 	<svg
 		version="1.1"
-		id="svg2"
 		width="487.35013"
 		height="169.6812"
 		viewBox="0 0 487.35013 169.6812"

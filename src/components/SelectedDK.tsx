@@ -5,16 +5,21 @@ import { useFingerprint } from '#context/Fingerprint.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { compareVersions } from 'compare-versions'
 import { identifyIssuer } from 'e118-iin-list'
-import {
-	AlertTriangle,
-	CheckCircle2,
-	CloudLightning,
-	CloudOff,
-	CpuIcon,
-} from 'lucide-preact'
+import { AlertTriangle, CheckCircle2, CpuIcon } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
+import { styled } from 'styled-components'
+import { SignalQuality } from './SignalQuality.js'
 import { Secondary } from './buttons/Button.js'
+import { LTEm } from './icons/LTE-m.js'
+import { NBIot } from './icons/NBIot.js'
 import { SIMIcon } from './icons/SIMIcon.js'
+
+const NetworkModeIcon = styled.abbr`
+	svg {
+		max-width: 100px;
+		height: auto;
+	}
+`
 
 export const SelectedDK = ({
 	selected,
@@ -44,20 +49,61 @@ export const SelectedDK = ({
 		needsFwUpdate = true
 	}
 
+	const networkInfo = state?.device?.networkInfo
+
 	return (
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="mt-3">
-				<header class="d-flex align-items-center">
-					<span class="me-1">
-						{device === undefined && <CloudOff />}
-						{device !== undefined && <CloudLightning />}
-					</span>
-					<span>Your development kit:</span>
-					<strong class="ms-1">{selected.title}</strong>
-					<small class="text-muted ms-1">({selected.model})</small>
+				<header class="my-4">
+					<h1>
+						<span>Your development kit:</span>
+						<strong class="ms-1">{selected.title}</strong>
+						<small class="text-muted ms-1">({selected.model})</small>
+					</h1>
 				</header>
 				{device !== undefined && (
 					<section class="mt-2">
+						{networkInfo?.networkMode !== undefined &&
+							networkInfo?.currentBand !== undefined && (
+								<>
+									<h2>Network mode</h2>
+									<p class="mb-0">
+										<NetworkModeIcon
+											title={`Band ${networkInfo.currentBand}`}
+											class="me-2"
+										>
+											{networkInfo.networkMode?.includes('LTE-M') ?? false ? (
+												<LTEm />
+											) : (
+												<NBIot />
+											)}
+										</NetworkModeIcon>
+									</p>
+									{(networkInfo.networkMode?.includes('LTE-M') ?? false) && (
+										<p>
+											<small class="text-muted">
+												Low Power, Mobility, and Low Latency for Your
+												Applications
+											</small>
+										</p>
+									)}
+									{(networkInfo.networkMode?.includes('NB-IoT') ?? false) && (
+										<p>
+											<small class="text-muted">
+												Low Power, Range, and Adaptability for Your Applications
+											</small>
+										</p>
+									)}
+								</>
+							)}
+						{networkInfo?.eest !== undefined && (
+							<>
+								<h2>Signal Quality</h2>
+								<p>
+									<SignalQuality eest={networkInfo.eest} />
+								</p>
+							</>
+						)}
 						{state?.device?.deviceInfo?.imei !== undefined && (
 							<>
 								<h2>IMEI</h2>
