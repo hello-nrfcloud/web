@@ -6,6 +6,15 @@ import { WithCognitoCredentials } from '#context/CognitoCredentials.js'
 import { useDevice } from '#context/Device.js'
 import { DeviceFlow } from '#flows/DeviceFlow.js'
 import { Map } from '#map/Map.js'
+import { styled } from 'styled-components'
+
+const Main = styled.main`
+	@media (min-width: 992px) {
+		display: grid;
+		grid-template: auto auto / 1fr 1fr;
+		grid-auto-flow: column;
+	}
+`
 
 export const Device = () => {
 	const { device } = useDevice()
@@ -32,12 +41,12 @@ export const Device = () => {
 					</div>
 				</div>
 			</aside>
-			<main>
+			<Main>
 				<DeviceFlow device={device} />
 				<WithCognitoCredentials>
 					<Map />
 				</WithCognitoCredentials>
-			</main>
+			</Main>
 		</>
 	)
 }

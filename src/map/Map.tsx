@@ -36,13 +36,15 @@ const glyphFonts = {
 
 const MapContainer = styled.div`
 	width: 100%;
-	height: 50vh;
+	height: 100%;
+	min-height: 50vh;
 `
 
 const MapSection = styled.section`
 	position: relative;
 	width: 100%;
-	height: 50vh;
+	height: 100%;
+	min-height: 50vh;
 `
 
 const NoLocation = styled.div`
@@ -199,6 +201,23 @@ export const Map = () => {
 					</NoLocation>
 				)}
 			</MapSection>
+			{location === undefined && (
+				<div
+					style={{
+						backgroundColor: 'var(--color-nordic-dark-grey)',
+						color: '#ccc',
+					}}
+				>
+					<div class="container py-4">
+						<div class="row">
+							<div class="col-12 col-lg-6">
+								<h2>Device location</h2>
+								<p>Waiting for your device to send location information ...</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 			{location !== undefined && (
 				<div
 					style={{

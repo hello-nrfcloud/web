@@ -129,52 +129,58 @@ export const SolarThingyFlow = () => {
 					</div>
 				</div>
 			)}
-			<div style={{ backgroundColor: 'var(--color-nordic-lake)' }}>
-				<div class="container pt-4 pb-4">
-					<dl>
-						<>
-							<dt style={{ color: 'var(--color-nordic-sun)' }}>
-								<Sun /> Gain
-							</dt>
-							<dd style={{ color: 'var(--color-nordic-sun)' }}>
-								{currentGain === undefined && <WaitingForData />}
-								{currentGain !== undefined && (
-									<>
-										{formatFloat(currentGain.mA)} mA{' '}
-										<small>
-											(<Ago date={new Date(currentGain.ts)} />)
-										</small>
-									</>
-								)}
-							</dd>
-						</>
-						<>
-							<dt style={{ color: 'var(--color-nordic-grass)' }}>
-								<BatteryCharging /> Battery
-							</dt>
-							<dd style={{ color: 'var(--color-nordic-grass)' }}>
-								{currentBattery === undefined && <WaitingForData />}
-								{currentBattery !== undefined && (
-									<>
-										{currentBattery['%']} %{' '}
-										<small>
-											(<Ago date={new Date(currentBattery.ts)} />)
-										</small>
-									</>
-								)}
-							</dd>
-						</>
-					</dl>
-					{(battery.length > 0 || gain.length > 0) && (
-						<div ref={containerRef}>
-							<HistoryChart
-								width={chartSize[0]}
-								height={chartSize[1]}
-								data={chartData}
-							/>
-						</div>
-					)}
+			{(battery.length > 0 || gain.length > 0) && (
+				<div
+					class="container pt-4 pb-4"
+					style={{ backgroundColor: 'var(--color-nordic-lake)' }}
+				>
+					<div ref={containerRef}>
+						<HistoryChart
+							width={chartSize[0]}
+							height={chartSize[1]}
+							data={chartData}
+						/>
+					</div>
 				</div>
+			)}
+			<div
+				class="container pt-4 pb-4"
+				style={{ backgroundColor: 'var(--color-nordic-blueslate)' }}
+			>
+				<dl>
+					<>
+						<dt style={{ color: 'var(--color-nordic-sun)' }}>
+							<Sun /> Gain
+						</dt>
+						<dd style={{ color: 'var(--color-nordic-sun)' }}>
+							{currentGain === undefined && <WaitingForData />}
+							{currentGain !== undefined && (
+								<>
+									{formatFloat(currentGain.mA)} mA{' '}
+									<small>
+										(<Ago date={new Date(currentGain.ts)} />)
+									</small>
+								</>
+							)}
+						</dd>
+					</>
+					<>
+						<dt style={{ color: 'var(--color-nordic-grass)' }}>
+							<BatteryCharging /> Battery
+						</dt>
+						<dd style={{ color: 'var(--color-nordic-grass)' }}>
+							{currentBattery === undefined && <WaitingForData />}
+							{currentBattery !== undefined && (
+								<>
+									{currentBattery['%']} %{' '}
+									<small>
+										(<Ago date={new Date(currentBattery.ts)} />)
+									</small>
+								</>
+							)}
+						</dd>
+					</>
+				</dl>
 			</div>
 		</>
 	)
