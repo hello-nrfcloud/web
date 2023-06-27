@@ -1,7 +1,14 @@
 // w: 740.15002
 // h: 871.71997
 
-export const SIMIcon = ({ size, ...props }: { size?: number }) => (
+export const SIMIcon = ({
+	size,
+	class: c,
+	...props
+}: {
+	size?: number
+	class?: string
+}) => (
 	<svg
 		version="1.1"
 		x="0px"
@@ -10,6 +17,7 @@ export const SIMIcon = ({ size, ...props }: { size?: number }) => (
 		width={size ?? 22}
 		height={((size ?? 22) * 871.71997) / 740.15002}
 		xmlns="http://www.w3.org/2000/svg"
+		class={c}
 		{...props}
 	>
 		<path

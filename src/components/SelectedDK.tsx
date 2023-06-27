@@ -4,13 +4,16 @@ import { useDeviceState } from '#context/DeviceState.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { compareVersions } from 'compare-versions'
+import { identifyIssuer } from 'e118-iin-list'
 import {
 	AlertTriangle,
 	CheckCircle2,
 	CloudLightning,
 	CloudOff,
+	CpuIcon,
 } from 'lucide-preact'
 import { Secondary } from './buttons/Button.js'
+import { SIMIcon } from './icons/SIMIcon.js'
 
 export const SelectedDK = ({ selected }: { selected: DK }) => {
 	const { device } = useDevice()
@@ -47,17 +50,49 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 				Your development kit: <strong>{selected.title}</strong> (
 				{selected.model})
 				{device !== undefined && (
-					<dl class="mt-2">
+					<section class="mt-2">
 						{state?.device?.deviceInfo?.imei !== undefined && (
 							<>
-								<dt>IMEI</dt>
-								<dd>{state.device.deviceInfo.imei}</dd>
+								<h2>IMEI</h2>
+								<p class="d-flex align-items-center">
+									<CpuIcon strokeWidth={1} class="me-1" />{' '}
+									{state.device.deviceInfo.imei}
+								</p>
+							</>
+						)}
+						{state?.device?.simInfo?.iccid !== undefined && (
+							<>
+								<h2>ICCID</h2>
+								<p class="mb-0">
+									<span class="d-flex align-items-center">
+										<SIMIcon class="me-2" />
+										{state.device.simInfo.iccid}
+										<small class="text-muted ms-2">
+											(
+											{identifyIssuer(state.device.simInfo.iccid)
+												?.companyName ?? '?'}
+											)
+										</small>
+									</span>
+								</p>
+								<p>
+									<small class="text-muted">
+										SIM card vendors are identified using this{' '}
+										<a
+											href="https://github.com/NordicSemiconductor/e118-iin-list-js"
+											target="_blank"
+										>
+											e.118 database
+										</a>
+										.
+									</small>
+								</p>
 							</>
 						)}
 						{state?.device?.deviceInfo?.appVersion !== undefined && (
 							<>
-								<dt>Application firmware version</dt>
-								<dd>
+								<h2>Application firmware version</h2>
+								<p class="mb-0">
 									{appV}
 									{needsFwUpdate && (
 										<abbr
@@ -74,7 +109,6 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 											</a>
 										</abbr>
 									)}
-
 									{!needsFwUpdate && (
 										<abbr
 											style={{ color: 'var(--color-nordic-power)' }}
@@ -82,24 +116,27 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 											title={'Application firmware is up to date.'}
 										>
 											<CheckCircle2 size={20} />
-											<br />
-											<small class="text-muted">
-												You can download the latest application firmware version
-												for your kit{' '}
-												<a href={selected.firmware.link} target="_blank">
-													here
-												</a>
-												.
-											</small>
 										</abbr>
 									)}
-								</dd>
+								</p>
 							</>
+						)}
+						{!needsFwUpdate && (
+							<p>
+								<small class="text-muted">
+									You can download the latest application firmware version for
+									your kit{' '}
+									<a href={selected.firmware.link} target="_blank">
+										here
+									</a>
+									.
+								</small>
+							</p>
 						)}
 						{state?.device?.deviceInfo?.modemFirmware !== undefined && (
 							<>
-								<dt>Modem firmware version</dt>
-								<dd>
+								<h2>Modem firmware version</h2>
+								<p class="mb-0">
 									<span>{modV}</span>
 									{needsMfwUpdate && (
 										<abbr
@@ -123,21 +160,24 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 											title={'Modem firmware is up to date.'}
 										>
 											<CheckCircle2 size={20} />
-											<br />
-											<small class="text-muted">
-												You can download the latest modem firmware version for
-												your kit{' '}
-												<a href={selected.mfw.link} target="_blank">
-													here
-												</a>
-												.
-											</small>
 										</abbr>
 									)}
-								</dd>
+								</p>
+								{!needsMfwUpdate && (
+									<p>
+										<small class="text-muted">
+											You can download the latest modem firmware version for
+											your kit{' '}
+											<a href={selected.mfw.link} target="_blank">
+												here
+											</a>
+											.
+										</small>
+									</p>
+								)}
 							</>
 						)}
-					</dl>
+					</section>
 				)}
 			</div>
 			<Secondary
