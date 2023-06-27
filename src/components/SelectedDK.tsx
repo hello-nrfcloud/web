@@ -58,9 +58,15 @@ export const SelectedDK = ({
 						{state?.device?.deviceInfo?.imei !== undefined && (
 							<>
 								<h2>IMEI</h2>
-								<p class="d-flex align-items-center">
+								<p class="mb-0 d-flex align-items-center">
 									<CpuIcon strokeWidth={1} class="me-1" />{' '}
 									{state.device.deviceInfo.imei}
+								</p>
+								<p>
+									<small class="text-muted">
+										This is the International Mobile Equipment Identity of your
+										DK and uniquely identifies the device in a cellular network.
+									</small>
 								</p>
 							</>
 						)}
