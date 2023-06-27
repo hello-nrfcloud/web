@@ -12,10 +12,14 @@ import {
 	CloudOff,
 	CpuIcon,
 } from 'lucide-preact'
+import type { PropsWithChildren } from 'preact/compat'
 import { Secondary } from './buttons/Button.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 
-export const SelectedDK = ({ selected }: { selected: DK }) => {
+export const SelectedDK = ({
+	selected,
+	children,
+}: PropsWithChildren<{ selected: DK }>) => {
 	const { device } = useDevice()
 	const { clear } = useFingerprint()
 	const { state } = useDeviceState()
@@ -177,6 +181,7 @@ export const SelectedDK = ({ selected }: { selected: DK }) => {
 								)}
 							</>
 						)}
+						{children}
 					</section>
 				)}
 			</div>
