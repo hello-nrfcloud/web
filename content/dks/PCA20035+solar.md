@@ -13,3 +13,9 @@ mfw:
 
 The Nordic Thingy:91 has been fitted with a light harvesting add-on, giving the
 platforms autonomous charging capabilities.
+
+## Demo devices
+
+Here are some demo devices you can view:
+
+- [Trondheim, Norway](/1.phxf9c)
