@@ -23,7 +23,8 @@
     "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && node --no-warnings merge-manifest.json.js",
     "prepare": "husky install",
     "test": "jest --passWithNoTests",
-    "test:e2e": "npx playwright test e2e-tests/"
+    "test:e2e": "npx playwright test e2e-tests/",
+    "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
     "@aws-amplify/core": "5.5.1",
@@ -42,7 +43,8 @@
     "preact": "10.15.1",
     "qrcode": "1.5.3",
     "semver": "7.5.3",
-    "styled-components": "6.0.0-rc.6"
+    "styled-components": "6.0.0-rc.6",
+    "svg-country-flags": "1.2.10"
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.360.0",

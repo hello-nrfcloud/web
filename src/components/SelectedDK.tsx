@@ -13,6 +13,7 @@ import {
 	CpuIcon,
 } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
+import { CountryFlag } from './CountryFlag.js'
 import { Secondary } from './buttons/Button.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 
@@ -47,12 +48,16 @@ export const SelectedDK = ({
 	return (
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="mt-3">
-				<span class="me-1">
-					{device === undefined && <CloudOff />}
-					{device !== undefined && <CloudLightning />}
-				</span>
-				Your development kit: <strong>{selected.title}</strong> (
-				{selected.model})
+				<header class="d-flex align-items-center">
+					<span class="me-1">
+						{device === undefined && <CloudOff />}
+						{device !== undefined && <CloudLightning />}
+					</span>
+					<span>Your development kit:</span>
+					<strong class="ms-1">{selected.title}</strong>
+					<small class="text-muted ms-1">({selected.model})</small>
+					{state !== undefined && <CountryFlag state={state} />}
+				</header>
 				{device !== undefined && (
 					<section class="mt-2">
 						{state?.device?.deviceInfo?.imei !== undefined && (

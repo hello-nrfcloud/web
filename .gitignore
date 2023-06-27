@@ -1,5 +1,4 @@
 node_modules/
 build/
 cdk.out/
-test-results/
-infocenter/
+static/flags/
