@@ -150,7 +150,7 @@ export const HistoryChart = ({
 								<text
 									fill={data.xAxis.color}
 									font-size={fontSize * 0.8}
-									y={y + 3}
+									y={y - 4}
 									x={m.paddingLeft - 3}
 									text-anchor="end"
 								>
@@ -159,9 +159,9 @@ export const HistoryChart = ({
 								<text
 									fill={data.xAxis.color}
 									font-size={fontSize * 0.8}
-									y={y + 3}
-									x={m.paddingLeft + 3 + m.xAxisWidth}
-									text-anchor="start"
+									y={y + 8}
+									x={m.paddingLeft - 3}
+									text-anchor="end"
 								>
 									{label}
 								</text>
