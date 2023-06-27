@@ -1,7 +1,10 @@
 import { MapPinOff } from 'lucide-preact'
 // Needed for SSR build, named exports don't work
+import { CountryFlag } from '#components/CountryFlag.js'
+import { mccmnc2country } from '#components/mccmnc2country.js'
 import { useDevice } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
 import { LocationSource } from '@hello.nrfcloud.com/proto/hello'
 import maplibregl from 'maplibre-gl'
@@ -213,6 +216,7 @@ export const Map = () => {
 							<div class="col-12 col-lg-6">
 								<h2>Device location</h2>
 								<p>Waiting for your device to send location information ...</p>
+								<NetworkLocation />
 							</div>
 						</div>
 					</div>
@@ -252,11 +256,29 @@ export const Map = () => {
 									</a>{' '}
 									with an accuracy of {location.acc} m.
 								</p>
+								<NetworkLocation />
 							</div>
 						</div>
 					</div>
 				</div>
 			)}
+		</>
+	)
+}
+
+const NetworkLocation = () => {
+	const { state } = useDeviceState()
+	const mccmnc = state?.device?.networkInfo?.mccmnc
+	if (mccmnc === undefined) return null
+	const country = mccmnc2country(mccmnc)?.name
+	if (country === undefined) return null
+	return (
+		<>
+			<h2>Network location: {<CountryFlag mccmnc={mccmnc} />}</h2>
+			<p>
+				Based on the network code (<code>{mccmnc}</code>) your device is
+				registered to, it can already be coarsely located in {country}.
+			</p>
 		</>
 	)
 }
