@@ -10,7 +10,7 @@ import { DeviceFlow } from '#flows/DeviceFlow.js'
 import { Map } from '#map/Map.js'
 import { styled } from 'styled-components'
 
-const Main = styled.main`
+const Grid = styled.div`
 	@media (min-width: 992px) {
 		display: grid;
 		grid-template: auto auto / 1fr 1fr;
@@ -36,21 +36,17 @@ export const Device = () => {
 	return (
 		<SolarThingyHistoryProvider>
 			{terminalVisible && <WebsocketTerminal />}
-			<aside class="container">
-				<div class="row">
-					<div class="col">
-						<SelectedDK selected={device.type}>
-							<SolarThingyBattery />
-						</SelectedDK>
-					</div>
-				</div>
-			</aside>
-			<Main>
-				<DeviceFlow device={device} />
-				<WithCognitoCredentials>
-					<Map />
-				</WithCognitoCredentials>
-			</Main>
+			<main>
+				<SelectedDK selected={device.type}>
+					<SolarThingyBattery />
+				</SelectedDK>
+				<Grid>
+					<DeviceFlow device={device} />
+					<WithCognitoCredentials>
+						<Map />
+					</WithCognitoCredentials>
+				</Grid>
+			</main>
 		</SolarThingyHistoryProvider>
 	)
 }

@@ -5,11 +5,12 @@ import { useFingerprint } from '#context/Fingerprint.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { compareVersions } from 'compare-versions'
 import { identifyIssuer } from 'e118-iin-list'
-import { AlertTriangle, CheckCircle2, CpuIcon } from 'lucide-preact'
+import { AlertTriangle, CheckCircle2, CpuIcon, Link2Icon } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { styled } from 'styled-components'
+import { SecondaryLink } from './Buttons.js'
 import { SignalQuality } from './SignalQuality.js'
-import { Secondary } from './buttons/Button.js'
+import { Danger } from './buttons/Button.js'
 import { LTEm } from './icons/LTE-m.js'
 import { NBIot } from './icons/NBIot.js'
 import { SIMIcon } from './icons/SIMIcon.js'
@@ -26,7 +27,7 @@ export const SelectedDK = ({
 	children,
 }: PropsWithChildren<{ selected: DK }>) => {
 	const { device } = useDevice()
-	const { clear } = useFingerprint()
+	const { clear, fingerprint } = useFingerprint()
 	const { state } = useDeviceState()
 
 	let needsMfwUpdate = false
@@ -52,17 +53,36 @@ export const SelectedDK = ({
 	const networkInfo = state?.device?.networkInfo
 
 	return (
-		<div class="d-flex justify-content-between align-items-center">
-			<div class="mt-3">
-				<header class="my-4">
+		<div class="container my-4">
+			<header class="row mt-4">
+				<div class="col d-flex justify-content-between align-items-center">
 					<h1>
 						<span>Your development kit:</span>
 						<strong class="ms-1">{selected.title}</strong>
 						<small class="text-muted ms-1">({selected.model})</small>
 					</h1>
-				</header>
-				{device !== undefined && (
-					<section class="mt-2">
+					<div>
+						<SecondaryLink
+							class="me-2"
+							href={`https://${DOMAIN_NAME}/${fingerprint}`}
+							title="Use this link to share your device with someone else"
+						>
+							<Link2Icon />
+						</SecondaryLink>
+						<Danger
+							outline
+							onClick={() => {
+								clear()
+							}}
+						>
+							clear
+						</Danger>
+					</div>
+				</div>
+			</header>
+			{device !== undefined && (
+				<div class="row mb-4">
+					<section class="col">
 						{networkInfo?.networkMode !== undefined &&
 							networkInfo?.currentBand !== undefined && (
 								<>
@@ -238,16 +258,8 @@ export const SelectedDK = ({
 						)}
 						{children}
 					</section>
-				)}
-			</div>
-			<Secondary
-				outline
-				onClick={() => {
-					clear()
-				}}
-			>
-				clear
-			</Secondary>
+				</div>
+			)}
 		</div>
 	)
 }
