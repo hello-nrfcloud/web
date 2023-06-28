@@ -38,7 +38,7 @@ export const BME680 = () => {
 			<h2>Environment</h2>
 			{updateTime === undefined && <LoadingIndicator />}
 			{updateTime !== undefined && (
-				<p class="d-flex align-items-center">
+				<p class="mb-0 d-flex align-items-center">
 					{c !== undefined && (
 						<span class="me-2">
 							<ThermometerIcon /> {c} °C
