@@ -12,7 +12,7 @@ import {
 } from 'lucide-preact'
 import { LoadingIndicator } from './ValueLoading.js'
 
-const EnergyEstimateIcons: Record<
+export const EnergyEstimateIcons: Record<
 	EnergyEstimate,
 	(props: LucideProps) => JSX.Element
 > = {
@@ -24,7 +24,7 @@ const EnergyEstimateIcons: Record<
 	[EnergyEstimate.Unknown]: Ban,
 } as const
 
-const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
+export const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Bad]:
 		'Bad conditions. Difficulties in setting up connections. Maximum number of repetitions might be needed for data.',
 	[EnergyEstimate.Poor]:
@@ -38,7 +38,7 @@ const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Unknown]: `Unknown. The device could not determine the energy estimate.`,
 } as const
 
-const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
+export const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Bad]: 'Bad',
 	[EnergyEstimate.Poor]: 'Poor',
 	[EnergyEstimate.Normal]: 'Normal',

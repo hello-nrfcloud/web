@@ -1,4 +1,3 @@
-import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
 import {
@@ -18,7 +17,7 @@ import {
 export const BME680 = () => (
 	<>
 		<h2>Environment</h2>
-		<EnvironmentInfo />
+		<EnvironmentReadings />
 		<p>
 			<small class="text-muted">
 				These values are reported by the devices'{' '}
@@ -43,7 +42,7 @@ export const BME680 = () => (
 	</>
 )
 
-export const EnvironmentInfo = () => {
+export const EnvironmentReadings = () => {
 	const { airHumidity, airPressure, airQuality, airTemperature } =
 		useSolarThingyHistory()
 	const airHumidityReading = airHumidity[0]
@@ -86,11 +85,6 @@ export const EnvironmentInfo = () => {
 							<IAQ iaq={iaq} />
 						</span>
 					)}
-					{updateTime !== undefined && (
-						<small class="text-muted">
-							(<Ago date={new Date(updateTime)} />)
-						</small>
-					)}
 				</span>
 			)}
 		</>
@@ -98,7 +92,7 @@ export const EnvironmentInfo = () => {
 }
 
 // See https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
-const IAQ = ({ iaq }: { iaq: number }) => {
+export const IAQ = ({ iaq }: { iaq: number }) => {
 	let iaqLabel = 'unknown'
 	let Icon = BanIcon
 	if (iaq >= 0 && iaq <= 50) {

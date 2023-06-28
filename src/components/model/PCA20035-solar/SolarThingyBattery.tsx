@@ -24,7 +24,7 @@ export const SolarThingyBattery = () => (
 	</>
 )
 
-export const BatteryInfo = () => {
+const BatteryInfo = () => {
 	const { battery } = useSolarThingyHistory()
 	const batteryReading = battery[0]
 	if (batteryReading === undefined) return <LoadingIndicator width={150} />
@@ -39,7 +39,7 @@ export const BatteryInfo = () => {
 	)
 }
 
-const BatteryIndicator = ({ percentage }: { percentage: number }) => {
+export const BatteryIndicator = ({ percentage }: { percentage: number }) => {
 	if (percentage < 10)
 		return (
 			<BatteryWarning

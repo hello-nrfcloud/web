@@ -1,10 +1,13 @@
-export const NBIot = () => (
+import type { CSSProperties } from 'preact/compat'
+
+export const NBIot = ({ style }: { style?: CSSProperties }) => (
 	<svg
 		version="1.1"
 		width="487.35013"
 		height="169.6812"
 		viewBox="0 0 487.35013 169.6812"
 		xmlns="http://www.w3.org/2000/svg"
+		style={style}
 	>
 		<g transform="matrix(1.3333333,0,0,-1.3333333,-153.65906,481.19412)">
 			<path

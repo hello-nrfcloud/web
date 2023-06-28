@@ -1,10 +1,13 @@
-export const LTEm = () => (
+import type { CSSProperties } from 'preact/compat'
+
+export const LTEm = ({ style }: { style?: CSSProperties }) => (
 	<svg
 		width="264.57819pt"
 		height="97.728813pt"
 		viewBox="0 0 264.57818 97.728808"
 		version="1.2"
 		xmlns="http://www.w3.org/2000/svg"
+		style={style}
 	>
 		<path
 			style="fill:#b50c0a;fill-opacity:1;fill-rule:nonzero;stroke:none"

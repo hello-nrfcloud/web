@@ -2,7 +2,15 @@ import { useAppSettings } from '#context/AppSettings.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import cx from 'classnames'
-import { Code2, Cpu, Fingerprint, Home, TerminalSquare } from 'lucide-preact'
+import {
+	Code2,
+	Cpu,
+	Fingerprint,
+	Home,
+	Link2Icon,
+	TerminalSquare,
+	TrashIcon,
+} from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useState } from 'preact/hooks'
 import { AppUpdateNotifier } from './AppUpdateNotifier.js'
@@ -31,7 +39,7 @@ const Link = ({
 }
 const Navigation = () => {
 	const { device } = useDevice()
-	const { fingerprint } = useFingerprint()
+	const { fingerprint, clear } = useFingerprint()
 	return (
 		<>
 			<Link href="/">
@@ -48,12 +56,28 @@ const Navigation = () => {
 				</Link>
 			)}
 			{fingerprint !== null && device !== undefined && (
-				<Link
-					href={`/device#${device.id}`}
-					title="Device fingerprint was provided"
-				>
-					<Cpu class="me-1" /> Your Development Kit
-				</Link>
+				<>
+					<Link
+						href={`/device#${device.id}`}
+						title="Device fingerprint was provided"
+					>
+						<Cpu class="me-1" /> Your Development Kit
+					</Link>
+					<Transparent
+						onClick={() => {
+							clear()
+						}}
+						class="fw-light text-muted me-1 d-flex align-items-center"
+					>
+						<TrashIcon class="me-1" /> Forget Development Kit
+					</Transparent>
+					<Link
+						href={`https://${DOMAIN_NAME}/${fingerprint}`}
+						title="Use this link to share your device with someone else"
+					>
+						<Link2Icon class="me-1" /> Share
+					</Link>
+				</>
 			)}
 			<Link href="/view-source">
 				<Code2 class="me-1" /> View Source
