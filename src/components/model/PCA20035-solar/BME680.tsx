@@ -51,7 +51,7 @@ export const BME680 = () => {
 					)}
 					{mbar !== undefined && (
 						<span class="me-2">
-							<CloudSunRainIcon /> {mbar} mbar
+							<CloudSunRainIcon /> {Math.round(mbar)} mbar
 						</span>
 					)}
 					{iaq !== undefined && (
