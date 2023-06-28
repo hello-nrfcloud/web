@@ -1,6 +1,7 @@
 import { SelectedDK } from '#components/SelectedDK.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { WebsocketTerminal } from '#components/WebsocketTerminal.js'
+import { BME680 } from '#components/model/PCA20035-solar/BME680.js'
 import { SolarThingyBattery } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
 import { useAppSettings } from '#context/AppSettings.js'
 import { WithCognitoCredentials } from '#context/CognitoCredentials.js'
@@ -39,6 +40,7 @@ export const Device = () => {
 			<main>
 				<SelectedDK selected={device.type}>
 					<SolarThingyBattery />
+					<BME680 />
 				</SelectedDK>
 				<Grid>
 					<DeviceFlow device={device} />

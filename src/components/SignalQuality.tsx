@@ -1,5 +1,6 @@
 import { EnergyEstimate } from '@hello.nrfcloud.com/proto/hello'
 import {
+	Ban,
 	Signal,
 	SignalHigh,
 	SignalLow,
@@ -18,6 +19,7 @@ const EnergyEstimateIcons: Record<
 	[EnergyEstimate.Normal]: SignalMedium,
 	[EnergyEstimate.Good]: SignalHigh,
 	[EnergyEstimate.Excellent]: Signal,
+	[EnergyEstimate.Unknown]: Ban,
 } as const
 
 const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
@@ -31,6 +33,7 @@ const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
 		'Good conditions. Possibly very good conditions for small amounts of data.',
 	[EnergyEstimate.Excellent]:
 		'Excellent conditions. Efficient data transfer estimated also for larger amounts of data.',
+	[EnergyEstimate.Unknown]: `Unknown. The device could not determine the energy estimate.`,
 } as const
 
 const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
@@ -39,6 +42,7 @@ const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Normal]: 'Normal',
 	[EnergyEstimate.Good]: 'Good',
 	[EnergyEstimate.Excellent]: 'Excellent',
+	[EnergyEstimate.Unknown]: 'Unknown',
 } as const
 
 export const SignalQuality = ({ eest }: { eest: EnergyEstimate }) => {
