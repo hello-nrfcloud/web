@@ -49,7 +49,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 const SignalQualityInfo = () => {
 	const { state } = useDeviceState()
 	const { eest } = state?.device?.networkInfo ?? {}
-	const eestTs = (state as any)?.lastUpdate?.device?.networkInfo?.eest
+	const eestTs = state?.lastUpdate?.device?.networkInfo?.eest
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
@@ -122,8 +122,7 @@ const EnvironmentInfo = () => {
 const NetworkModeInfo = () => {
 	const { state } = useDeviceState()
 	const { networkMode, currentBand } = state?.device?.networkInfo ?? {}
-	const networkModeTs = (state as any)?.lastUpdate?.device?.networkInfo
-		?.networkMode
+	const networkModeTs = state?.lastUpdate?.device?.networkInfo?.networkMode
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
