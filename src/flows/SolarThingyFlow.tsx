@@ -2,7 +2,7 @@ import { HistoryChart } from '#chart/HistoryChart.js'
 import type { ChartData } from '#chart/chartMath.js'
 import { Ago } from '#components/Ago.js'
 import { ConnectDK } from '#components/ConnectDK.js'
-import { WaitingForData } from '#flows/WaitingForData.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
 import { formatFloat } from '#utils/formatFloat.js'
 import { format, subHours, subMilliseconds } from 'date-fns'
 import { BatteryCharging, Sun } from 'lucide-preact'
@@ -113,7 +113,7 @@ export const SolarThingyFlow = () => {
 							<Sun /> Gain
 						</dt>
 						<dd style={{ color: 'var(--color-nordic-sun)' }}>
-							{currentGain === undefined && <WaitingForData />}
+							{currentGain === undefined && <LoadingIndicator light />}
 							{currentGain !== undefined && (
 								<>
 									{formatFloat(currentGain.mA)} mA{' '}
@@ -129,7 +129,7 @@ export const SolarThingyFlow = () => {
 							<BatteryCharging /> Battery
 						</dt>
 						<dd style={{ color: 'var(--color-nordic-grass)' }}>
-							{currentBattery === undefined && <WaitingForData />}
+							{currentBattery === undefined && <LoadingIndicator light />}
 							{currentBattery !== undefined && (
 								<>
 									{currentBattery['%']} %{' '}

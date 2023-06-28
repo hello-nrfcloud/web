@@ -1,6 +1,7 @@
 import { MapPinOff } from 'lucide-preact'
 // Needed for SSR build, named exports don't work
 import { CountryFlag } from '#components/CountryFlag.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
 import { useDevice } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
@@ -204,64 +205,58 @@ export const Map = () => {
 					</NoLocation>
 				)}
 			</MapSection>
-			{location === undefined && (
-				<div
-					style={{
-						backgroundColor: 'var(--color-nordic-dark-grey)',
-						color: '#ccc',
-					}}
-				>
-					<div class="container py-4">
-						<div class="row">
-							<div class="col-12 col-lg-6">
-								<h2>Device location</h2>
-								<p>Waiting for your device to send location information ...</p>
-								<NetworkLocation />
-							</div>
+			<div
+				style={{
+					backgroundColor: 'var(--color-nordic-dark-grey)',
+					color: '#ccc',
+				}}
+			>
+				<div class="container py-4">
+					<div class="row">
+						<div class="col">
+							<NetworkLocation />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<h2>Device location</h2>
+
+							{location === undefined && (
+								<p>
+									<LoadingIndicator light height={60} />
+								</p>
+							)}
+							{location !== undefined && (
+								<>
+									<p>
+										Using {LocationSourceLabels[location.src]}, the location was
+										determined to be{' '}
+										<a
+											href={`https://google.com/maps/search/${location.lat},${location.lng}`}
+											target="_blank"
+										>
+											{location.lat},{location.lng}
+										</a>{' '}
+										with an accuracy of {location.acc} m.
+									</p>
+								</>
+							)}
+							<p>
+								A more precise device located can be determined using{' '}
+								<a
+									href="https://www.nordicsemi.com/Products/Cloud-services"
+									target="_blank"
+								>
+									nRF Cloud Location services
+								</a>{' '}
+								based on the device scanning the network and reporting
+								neighboring cell information and Wi-Fi access points it can
+								detect and reporting this information to the cloud.
+							</p>
 						</div>
 					</div>
 				</div>
-			)}
-			{location !== undefined && (
-				<div
-					style={{
-						backgroundColor: 'var(--color-nordic-dark-grey)',
-						color: '#ccc',
-					}}
-				>
-					<div class="container py-4">
-						<div class="row">
-							<div class="col-12 col-lg-6">
-								<h2>Device location</h2>
-								<p>
-									Your device was located using{' '}
-									<a
-										href="https://www.nordicsemi.com/Products/Cloud-services"
-										target="_blank"
-									>
-										nRF Cloud Location services
-									</a>{' '}
-									based on the device scanning the network and reporting
-									neighboring cell information and Wi-Fi access points it can
-									detect and reporting this information to the cloud.
-								</p>
-								<p>
-									Using {LocationSourceLabels[location.src]}, the location was
-									determined to be{' '}
-									<a
-										href={`https://google.com/maps/search/${location.lat},${location.lng}`}
-										target="_blank"
-									>
-										{location.lat},{location.lng}
-									</a>{' '}
-									with an accuracy of {location.acc} m.
-								</p>
-								<NetworkLocation />
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
+			</div>
 		</>
 	)
 }
@@ -269,9 +264,20 @@ export const Map = () => {
 const NetworkLocation = () => {
 	const { state } = useDeviceState()
 	const mccmnc = state?.device?.networkInfo?.mccmnc
-	if (mccmnc === undefined) return null
-	const country = mccmnc2country(mccmnc)?.name
-	if (country === undefined) return null
+	const country =
+		mccmnc === undefined ? undefined : mccmnc2country(mccmnc)?.name
+	if (mccmnc === undefined || country === undefined)
+		return (
+			<>
+				<h2>
+					Network location <LoadingIndicator light width={20} height={15} />
+				</h2>
+				<p>
+					Based on the network your device is connected to, it can be coarsely
+					located in a country right after it connected.
+				</p>
+			</>
+		)
 	return (
 		<>
 			<h2>Network location: {<CountryFlag mccmnc={mccmnc} />}</h2>

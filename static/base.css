@@ -3,8 +3,8 @@
   --monospace-font: "Pragmata Medium", monospace;
 
   /* Nordic Style Guide: Primary colors */
-  --color-nordic-blue: #00a9ce;
-  --color-nordic-sky: #6ad1e3;
+  --color-nordic-blue: rgb(0, 169, 206);
+  --color-nordic-sky: rgb(106, 209, 227);
   --color-nordic-blueslate: #0032a0;
   --color-nordic-lake: #0077c8;
 
@@ -232,4 +232,64 @@ code {
 .card-header h5,
 .card-header h6 {
   margin-bottom: 0;
+}
+
+.value-loading-light {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 44;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.value-loading {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 44;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.progress-animation {
+  position: absolute;
+  left: -45%;
+  height: 100%;
+  width: 45%;
+  background-image: linear-gradient(
+    to left,
+    rgba(106, 209, 227, 0.05),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.6),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.05)
+  );
+  background-image: -moz-linear-gradient(
+    to left,
+    rgba(106, 209, 227, 0.05),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.6),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.05)
+  );
+  background-image: -webkit-linear-gradient(
+    to left,
+    rgba(106, 209, 227, 0.05),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.6),
+    rgba(106, 209, 227, 0.3),
+    rgba(106, 209, 227, 0.05)
+  );
+  animation: loading 1s infinite;
+  z-index: 45;
+}
+
+@keyframes loading {
+  0% {
+    left: -45%;
+  }
+  100% {
+    left: 100%;
+  }
 }

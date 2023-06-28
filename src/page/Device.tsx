@@ -38,7 +38,7 @@ export const Device = () => {
 		<SolarThingyHistoryProvider>
 			{terminalVisible && <WebsocketTerminal />}
 			<main>
-				<SelectedDK selected={device.type}>
+				<SelectedDK device={device}>
 					<SolarThingyBattery />
 					<BME680 />
 				</SelectedDK>

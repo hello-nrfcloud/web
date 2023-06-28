@@ -1,6 +1,6 @@
 import { Ago } from '#components/Ago.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
-import { WaitingForData } from '#flows/WaitingForData.js'
 import {
 	AngryIcon,
 	AnnoyedIcon,
@@ -36,7 +36,7 @@ export const BME680 = () => {
 	return (
 		<>
 			<h2>Environment</h2>
-			{updateTime === undefined && <WaitingForData />}
+			{updateTime === undefined && <LoadingIndicator />}
 			{updateTime !== undefined && (
 				<p class="d-flex align-items-center">
 					{c !== undefined && (
