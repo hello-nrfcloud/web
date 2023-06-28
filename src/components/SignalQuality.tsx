@@ -1,3 +1,4 @@
+import { useDeviceState } from '#context/DeviceState.js'
 import { EnergyEstimate } from '@hello.nrfcloud.com/proto/hello'
 import {
 	Ban,
@@ -9,6 +10,7 @@ import {
 	Slash,
 	type LucideProps,
 } from 'lucide-preact'
+import { LoadingIndicator } from './ValueLoading.js'
 
 const EnergyEstimateIcons: Record<
 	EnergyEstimate,
@@ -45,19 +47,43 @@ const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Unknown]: 'Unknown',
 } as const
 
-export const SignalQuality = ({ eest }: { eest: EnergyEstimate }) => {
-	const SignalIcon = EnergyEstimateIcons[eest] ?? Slash
+export const SignalQuality = () => {
+	const { state } = useDeviceState()
+	const { eest } = state?.device?.networkInfo ?? {}
 	return (
 		<>
 			<p class="mb-0">
-				<span class="d-flex align-items-center">
-					<SignalIcon strokeWidth={2} />
-					<span>{EnergyEstimateLabel[eest]}</span>
-				</span>
+				<SignalQualityIcon />
 			</p>
-			<p>
-				<small class="text-muted">{EnergyEstimateDescription[eest]}</small>
-			</p>
+			{eest === undefined && (
+				<p>
+					<LoadingIndicator height={16} />
+				</p>
+			)}
+			{eest !== undefined && <SignalQualityDescription eest={eest} />}
 		</>
 	)
 }
+
+export const SignalQualityIcon = () => {
+	const { state } = useDeviceState()
+	const { eest } = state?.device?.networkInfo ?? {}
+	if (eest === undefined) return <LoadingIndicator height={24} width={75} />
+	const SignalIcon = EnergyEstimateIcons[eest] ?? Slash
+	return (
+		<span class="d-flex align-items-center">
+			<SignalIcon strokeWidth={2} />
+			<span>{EnergyEstimateLabel[eest]}</span>
+		</span>
+	)
+}
+
+export const SignalQualityDescription = ({
+	eest,
+}: {
+	eest: EnergyEstimate
+}) => (
+	<p>
+		<small class="text-muted">{EnergyEstimateDescription[eest]}</small>
+	</p>
+)

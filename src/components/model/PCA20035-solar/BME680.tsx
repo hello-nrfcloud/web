@@ -15,7 +15,35 @@ import {
 	ThermometerIcon,
 } from 'lucide-preact'
 
-export const BME680 = () => {
+export const BME680 = () => (
+	<>
+		<h2>Environment</h2>
+		<EnvironmentInfo />
+		<p>
+			<small class="text-muted">
+				These values are reported by the devices'{' '}
+				<a
+					href="https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/"
+					target="_blank"
+				>
+					Bosch BME680 environment sensor
+				</a>
+				.<br />
+				The air quality rating is based on a proprietary algorithm. See page 8
+				in{' '}
+				<a
+					href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf"
+					target="_blank"
+				>
+					the BME680 datasheet
+				</a>
+				.
+			</small>
+		</p>
+	</>
+)
+
+export const EnvironmentInfo = () => {
 	const { airHumidity, airPressure, airQuality, airTemperature } =
 		useSolarThingyHistory()
 	const airHumidityReading = airHumidity[0]
@@ -35,10 +63,9 @@ export const BME680 = () => {
 
 	return (
 		<>
-			<h2>Environment</h2>
-			{updateTime === undefined && <LoadingIndicator />}
+			{updateTime === undefined && <LoadingIndicator width={500} />}
 			{updateTime !== undefined && (
-				<p class="mb-0 d-flex align-items-center">
+				<span>
 					{c !== undefined && (
 						<span class="me-2">
 							<ThermometerIcon /> {c} °C
@@ -64,30 +91,8 @@ export const BME680 = () => {
 							(<Ago date={new Date(updateTime)} />)
 						</small>
 					)}
-				</p>
+				</span>
 			)}
-
-			<p>
-				<small class="text-muted">
-					These values are reported by the devices'{' '}
-					<a
-						href="https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/"
-						target="_blank"
-					>
-						Bosch BME680 environment sensor
-					</a>
-					.<br />
-					The air quality rating is based on a proprietary algorithm. See page 8
-					in{' '}
-					<a
-						href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf"
-						target="_blank"
-					>
-						the BME680 datasheet
-					</a>
-					.
-				</small>
-			</p>
 		</>
 	)
 }
@@ -120,8 +125,8 @@ const IAQ = ({ iaq }: { iaq: number }) => {
 	}
 
 	return (
-		<abbr title={iaqLabel}>
-			<Icon strokeWidth={2} /> {iaqLabel} air quality
+		<abbr title={iaqLabel} class="text-nowrap">
+			<Icon strokeWidth={2} /> <span>{iaqLabel} air quality</span>
 		</abbr>
 	)
 }

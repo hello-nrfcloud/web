@@ -2,39 +2,21 @@ import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
-import { NetworkModeIcon } from '../SelectedDK.js'
 import { SignalQuality } from '../SignalQuality.js'
-import { LTEm } from '../icons/LTE-m.js'
-import { NBIot } from '../icons/NBIot.js'
 import { SIMIcon } from '../icons/SIMIcon.js'
+import { NetworkModeInfo } from './NetworkModeInfo.js'
 
 export const NetworkInfo = () => {
 	const { state } = useDeviceState()
 
-	const { networkMode, currentBand, eest } = state?.device?.networkInfo ?? {}
+	const { networkMode } = state?.device?.networkInfo ?? {}
 	const { iccid } = state?.device?.simInfo ?? {}
 	const { imei } = state?.device?.deviceInfo ?? {}
 	return (
 		<>
 			<h2>Network information</h2>
 			<h3>Network mode</h3>
-			{networkMode === undefined && <LoadingIndicator height={60} />}
-			{networkMode !== undefined && (
-				<>
-					<p class="mb-0">
-						<NetworkModeIcon title={`Band ${currentBand}`} class="me-2">
-							{networkMode?.includes('LTE-M') ?? false ? <LTEm /> : <NBIot />}
-						</NetworkModeIcon>
-					</p>
-					{(networkMode?.includes('LTE-M') ?? false) && (
-						<p>
-							<small class="text-muted">
-								Low Power, Mobility, and Low Latency for Your Applications
-							</small>
-						</p>
-					)}
-				</>
-			)}
+			<NetworkModeInfo />
 
 			{(networkMode?.includes('NB-IoT') ?? false) && (
 				<p>
@@ -44,10 +26,7 @@ export const NetworkInfo = () => {
 				</p>
 			)}
 			<h3>Signal Quality</h3>
-			<p>
-				{eest === undefined && <LoadingIndicator height={50} />}
-				{eest !== undefined && <SignalQuality eest={eest} />}
-			</p>
+			<SignalQuality />
 			<h3>IMEI</h3>
 			<p class="mb-0 d-flex align-items-center">
 				{imei === undefined && <LoadingIndicator />}

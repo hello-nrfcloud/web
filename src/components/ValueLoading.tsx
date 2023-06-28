@@ -31,6 +31,7 @@ export const LoadingIndicator = ({
 				width: width ?? 'auto',
 				display: 'inline-block',
 				aspectRatio: '5/1',
+				maxWidth: '100%',
 			}}
 		>
 			<span class={'progress-animation'}></span>
