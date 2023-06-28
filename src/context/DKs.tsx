@@ -4,6 +4,7 @@ import { useContext } from 'preact/hooks'
 export type DK = {
 	model: string
 	title: string
+	abstract: string
 	html: string
 	links: {
 		learnMore: string

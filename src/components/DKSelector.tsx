@@ -11,7 +11,7 @@ export const DKSelector = () => {
 						id,
 						{
 							title,
-							html,
+							abstract,
 							links: { learnMore },
 						},
 					]) => (
@@ -30,11 +30,7 @@ export const DKSelector = () => {
 									/>
 								</a>
 								<div class="card-body">
-									<div
-										dangerouslySetInnerHTML={{
-											__html: html,
-										}}
-									/>
+									<p>{abstract}</p>
 									<p>
 										<a href={learnMore} target={'_blank'}>
 											Learn more

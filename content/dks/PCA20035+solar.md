@@ -9,10 +9,10 @@ firmware:
 mfw:
   version: 1.3.4
   link: https://www.nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91/Download?lang=en#infotabs
+abstract: >-
+  The Nordic Thingy:91 has been fitted with a light harvesting add-on, giving
+  the platforms autonomous charging capabilities.
 ---
-
-The Nordic Thingy:91 has been fitted with a light harvesting add-on, giving the
-platforms autonomous charging capabilities.
 
 ## Demo devices
 

@@ -26,6 +26,7 @@ export const DK = ({ dk }: { dk: TDK }) => (
 							src={`/static/images/${encodeURIComponent(dk.model)}.webp`}
 							class="img-fluid"
 						/>
+						<p class="my-4">{dk.abstract}</p>
 					</div>
 				</div>
 				<ScanQR />
