@@ -33,7 +33,7 @@
     "@hello.nrfcloud.com/proto": "2.2.7",
     "@sinclair/typebox": "0.28.20",
     "classnames": "2.3.2",
-    "compare-versions": "6.0.0-rc.1",
+    "compare-versions": "6.0.0-rc.2",
     "date-fns": "2.30.0",
     "e118-iin-list": "3.1.0",
     "html5-qrcode": "2.3.8",
