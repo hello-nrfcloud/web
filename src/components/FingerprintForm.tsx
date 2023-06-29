@@ -3,7 +3,7 @@ import { useState } from 'preact/hooks'
 import { Secondary } from './buttons/Button.js'
 
 export const FingerprintForm = () => {
-	const [productionRun, setProductionRun] = useState<string>('42')
+	const [productionRun, setProductionRun] = useState<string>('92b')
 	const [token, setToken] = useState<string>('d3c4fb')
 	const fingerprint = `${productionRun}.${token}`
 	const isValid = isFingerprint(fingerprint)
@@ -20,7 +20,7 @@ export const FingerprintForm = () => {
 						minLength={1}
 						class="form-control form-control-sm"
 						id="productionRunInput"
-						placeholder="42"
+						placeholder="92b"
 						value={productionRun}
 						onChange={(e) => {
 							setProductionRun((e.target as HTMLInputElement).value)

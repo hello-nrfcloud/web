@@ -66,7 +66,10 @@ export const ViewSource = () => (
 						<h4>Try it yourself</h4>
 						<CodeInputChallenge
 							newCode={() => [
-								Math.floor(Math.random() * 100).toString(16),
+								parseInt(
+									`23${1 + Math.floor(Math.random() * 53)}`,
+									10,
+								).toString(16),
 								generateCode(),
 							]}
 						/>
@@ -161,7 +164,7 @@ const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
 	)
 }
 
-const generateCode = (len = 6) => {
+export const generateCode = (len = 6) => {
 	const alphabet = 'abcdefghijkmnpqrstuvwxyz' // Removed o
 	const numbers = '23456789' // Removed 0
 	const characters = `${alphabet}${numbers}`
