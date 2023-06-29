@@ -83,7 +83,19 @@ export const SignalQualityDescription = ({
 }: {
 	eest: EnergyEstimate
 }) => (
-	<p>
-		<small class="text-muted">{EnergyEstimateDescription[eest]}</small>
-	</p>
+	<>
+		<p class="text-muted mb-0">{EnergyEstimateDescription[eest]}</p>
+		<p>
+			<small class="text-muted">
+				Signal quality is reported by the modem using the{' '}
+				<a
+					href="https://infocenter.nordicsemi.com/topic/nwp_043/WP/nwp_043/intro.html"
+					target="_blank"
+				>
+					Nordic-proprietary <code>%CONEVAL</code> AT command
+				</a>
+				.
+			</small>
+		</p>
+	</>
 )
