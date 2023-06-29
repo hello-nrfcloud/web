@@ -107,18 +107,33 @@ export const SolarThingyFlow = () => {
 				class="container pt-4 pb-4"
 				style={{ backgroundColor: 'var(--color-nordic-blueslate)' }}
 			>
+				<p class="text-light">
+					The Thingy:91 runs the{' '}
+					<a
+						href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
+						target="_blank"
+					>
+						<code>asset_tracker_v2</code>
+					</a>{' '}
+					application configured in low-power mode, requires 3.4 mA when sending
+					updates to the cloud every minute, or 2.3 mA when sending updates to
+					the cloud.
+				</p>
 				<dl>
 					<>
 						<dt style={{ color: 'var(--color-nordic-sun)' }}>
 							<Sun /> Gain
 						</dt>
-						<dd style={{ color: 'var(--color-nordic-sun)' }}>
+						<dd
+							style={{ color: 'var(--color-nordic-sun)' }}
+							class="d-flex flex-direction-column"
+						>
 							{currentGain === undefined && <LoadingIndicator light />}
 							{currentGain !== undefined && (
 								<>
-									{formatFloat(currentGain.mA)} mA{' '}
+									<span>{formatFloat(currentGain.mA)} mA</span>
 									<small>
-										(<Ago date={new Date(currentGain.ts)} />)
+										<Ago date={new Date(currentGain.ts)} />
 									</small>
 								</>
 							)}
@@ -128,13 +143,16 @@ export const SolarThingyFlow = () => {
 						<dt style={{ color: 'var(--color-nordic-grass)' }}>
 							<BatteryCharging /> Battery
 						</dt>
-						<dd style={{ color: 'var(--color-nordic-grass)' }}>
+						<dd
+							style={{ color: 'var(--color-nordic-grass)' }}
+							class="d-flex flex-direction-column"
+						>
 							{currentBattery === undefined && <LoadingIndicator light />}
 							{currentBattery !== undefined && (
 								<>
 									{currentBattery['%']} %{' '}
 									<small>
-										(<Ago date={new Date(currentBattery.ts)} />)
+										<Ago date={new Date(currentBattery.ts)} />
 									</small>
 								</>
 							)}

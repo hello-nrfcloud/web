@@ -10,22 +10,14 @@ export const DKResources = ({ type }: { type: DK }) => (
 	>
 		<div class="container">
 			<div class="row  justify-content-center">
-				<div class="col-12">
-					<h3>
-						Here's what's next for your <em>{type.title}</em>:
-					</h3>
+				<div class="col-12  text-center">
+					<h2>
+						Here's what's next for your <em>{type.title}</em>
+					</h2>
 				</div>
 			</div>
 			<div class="row mt-4">
-				<div class="col-4">
-					<img
-						alt={`${type.title} (${type.model})`}
-						src={`/static/images/${encodeURIComponent(type.model)}.webp`}
-						class="img-fluid"
-					/>
-					{type.title} <small>({type.model})</small>
-				</div>
-				<div class="col-4 text-center">
+				<div class="col-6 text-center">
 					<p>
 						<Laptop2 strokeWidth={1} style={{ zoom: 4 }} />
 					</p>
@@ -40,7 +32,7 @@ export const DKResources = ({ type }: { type: DK }) => (
 						in nRF Connect for Desktop.
 					</p>
 				</div>
-				<div class="col-4 text-center">
+				<div class="col-6 text-center">
 					<p>
 						<FileText strokeWidth={1} style={{ zoom: 4 }} />
 					</p>
