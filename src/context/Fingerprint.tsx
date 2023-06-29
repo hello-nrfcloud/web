@@ -1,3 +1,4 @@
+import { getItem, removeItem, setItem } from '#utils/localStorage.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
@@ -11,11 +12,11 @@ export const FingerprintContext = createContext<{
 	fingerprint: null,
 })
 
-const storageKey = 'hello:fingerprint'
+const storageKey = 'fingerprint'
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [fingerprint, setFingerprint] = useState<string | null>(
-		localStorage.getItem(storageKey),
+		getItem(storageKey),
 	)
 
 	useEffect(() => {
@@ -23,7 +24,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			document.location.search,
 		).get('fingerprint')
 		if (fingerprintFromQuery === null) return
-		localStorage.setItem(storageKey, fingerprintFromQuery)
+		setItem(storageKey, fingerprintFromQuery)
 		document.location.assign('/recognizing-fingerprint')
 	}, [])
 
@@ -31,7 +32,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		<FingerprintContext.Provider
 			value={{
 				clear: () => {
-					localStorage.removeItem(storageKey)
+					removeItem(storageKey)
 					document.location.assign(
 						`/?${new URLSearchParams({
 							from: 'clear-fingerprint',
@@ -40,7 +41,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				},
 				fingerprint,
 				set: (fingerprint: string) => {
-					localStorage.setItem(storageKey, fingerprint)
+					setItem(storageKey, fingerprint)
 					setFingerprint(fingerprint)
 				},
 			}}

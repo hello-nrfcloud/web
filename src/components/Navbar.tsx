@@ -1,6 +1,7 @@
 import { useAppSettings } from '#context/AppSettings.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
+import { isSSR } from '#utils/isSSR.js'
 import cx from 'classnames'
 import {
 	Code2,
@@ -26,7 +27,7 @@ const Link = ({
 		<li class="nav-item me-2">
 			<a
 				class={cx('nav-link d-flex align-items-center', {
-					active: document.location.href.endsWith(href),
+					active: isSSR ? false : document.location.href.endsWith(href),
 				})}
 				href={href}
 				title={title}

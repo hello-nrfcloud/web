@@ -1,17 +1,12 @@
+import { getItem, setItem } from '#utils/localStorage.js'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import { compare, parse } from 'semver'
 
-const getStored = (): string[] => {
-	try {
-		return JSON.parse(localStorage.getItem('app:ignored_versions') ?? '[]')
-	} catch {
-		return []
-	}
-}
-
 export const AppUpdateNotifier = () => {
 	const [newerVersion, setNewerVersion] = useState<string | undefined>()
-	const [ignored, setIgnored] = useState<string[]>(getStored())
+	const [ignored, setIgnored] = useState<string[]>(
+		getItem<string[]>('app:ignored_versions') ?? [],
+	)
 
 	const checkVersion = useCallback(() => {
 		fetch(`/.well-known/release?v=${VERSION}`)
@@ -69,10 +64,9 @@ export const AppUpdateNotifier = () => {
 						class="btn btn-outline-danger"
 						onClick={() => {
 							if (newerVersion === undefined) return
-							localStorage.setItem(
-								'app:ignored_versions',
-								JSON.stringify([...new Set([...ignored, newerVersion])]),
-							)
+							setItem('app:ignored_versions', [
+								...new Set([...ignored, newerVersion]),
+							])
 							setIgnored((i) => [...new Set([...i, newerVersion])])
 							setNewerVersion(undefined)
 							console.log(`[App]`, `ignored newer version`, newerVersion)

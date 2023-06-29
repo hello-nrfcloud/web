@@ -1,13 +1,11 @@
 import renderPreact from 'preact-render-to-string'
-import { ServerStyleSheet } from 'styled-components'
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
 import { GTMId, version } from '../siteInfo.js'
 import type { PageContextCustom } from './_default.page.client'
 
 export const render = async (pageContext: PageContextCustom) => {
 	const { Page, pageProps } = pageContext
-	const sheet = new ServerStyleSheet()
-	const viewHtml = renderPreact(sheet.collectStyles(<Page {...pageProps} />))
+	const viewHtml = renderPreact(<Page {...pageProps} />)
 
 	return escapeInject`<!DOCTYPE html>
     <html lang="en">

@@ -1,42 +1,8 @@
-import { styled } from 'styled-components'
+import './AboutHeader.css'
 import { Logo } from './icons/Logo.js'
 
-const OpenSourceBG = styled.div`
-	background-color: var(--color-nordic-blue);
-	position: relative;
-	header {
-		position: relative;
-		z-index: 2;
-	}
-`
-const Bg = styled.div`
-	z-index: 1;
-	position: absolute;
-	top: 0;
-	right: 0;
-	@media (min-width: 576px) {
-		background: var(--color-nordic-dark-grey);
-		width: 100%;
-		height: 100%;
-		&:before {
-			position: absolute;
-			content: ' ';
-			height: 100%;
-			width: 100%;
-			top: 0;
-			left: 0;
-			background: var(--color-nordic-dark-grey);
-			background: linear-gradient(
-				225deg,
-				var(--color-nordic-dark-grey) 45%,
-				var(--color-nordic-blue) 45%
-			);
-		}
-	}
-`
-
 export const AboutHeader = () => (
-	<OpenSourceBG>
+	<div class="openSourceBg">
 		<div
 			style={{
 				backgroundColor: 'var(--color-nordic-blue)',
@@ -64,7 +30,7 @@ export const AboutHeader = () => (
 					</aside>
 				</div>
 			</header>
-			<Bg />
+			<div class="bg" />
 		</div>
-	</OpenSourceBG>
+	</div>
 )

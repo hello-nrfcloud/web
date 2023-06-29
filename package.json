@@ -43,7 +43,6 @@
     "preact": "10.15.1",
     "qrcode": "1.5.3",
     "semver": "7.5.3",
-    "styled-components": "6.0.1",
     "svg-country-flags": "1.2.10"
   },
   "devDependencies": {
@@ -63,7 +62,6 @@
     "@types/lodash-es": "4.17.7",
     "@types/node": "20.3.2",
     "@types/qrcode": "1.5.0",
-    "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "aws-cdk": "2.85.0",
     "aws-cdk-lib": "2.85.0",

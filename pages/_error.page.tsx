@@ -1,9 +1,12 @@
+import { isSSR } from '#utils/isSSR.js'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 
 export const Page = ({ is404 }: { is404: boolean }) => {
-	const maybeFingerprint = document?.location.pathname?.slice(1)
-	if (isFingerprint(maybeFingerprint)) {
-		document.location.href = `/?fingerprint=${maybeFingerprint}`
+	if (!isSSR) {
+		const maybeFingerprint = document.location.pathname?.slice(1)
+		if (isFingerprint(maybeFingerprint)) {
+			document.location.href = `/?fingerprint=${maybeFingerprint}`
+		}
 	}
 	if (is404) {
 		return (

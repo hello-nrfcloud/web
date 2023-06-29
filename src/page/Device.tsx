@@ -9,17 +9,9 @@ import { useAppSettings } from '#context/AppSettings.js'
 import { WithCognitoCredentials } from '#context/CognitoCredentials.js'
 import { useDevice } from '#context/Device.js'
 import { Provider as SolarThingyHistoryProvider } from '#context/models/PCA20035-solar.js'
-import { DeviceFlow } from '#flows/DeviceFlow.js'
+import { SolarThingyFlow } from '#flows/SolarThingyFlow.js'
 import { Map } from '#map/Map.js'
-import { styled } from 'styled-components'
-
-const Grid = styled.div`
-	@media (min-width: 992px) {
-		display: grid;
-		grid-template: auto auto / 1fr 1fr;
-		grid-auto-flow: column;
-	}
-`
+import './Device.css'
 
 export const Device = () => {
 	const { device } = useDevice()
@@ -41,12 +33,12 @@ export const Device = () => {
 			{terminalVisible && <WebsocketTerminal />}
 			<main>
 				<DeviceHeader device={device} />
-				<Grid>
-					<DeviceFlow device={device} />
+				<div class="grid">
+					<SolarThingyFlow />
 					<WithCognitoCredentials>
 						<Map />
 					</WithCognitoCredentials>
-				</Grid>
+				</div>
 				<div class="container my-4">
 					<div class="row mb-4">
 						<section class="col-12 col-md-6">

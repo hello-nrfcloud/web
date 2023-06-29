@@ -1,15 +1,7 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDeviceState } from '#context/DeviceState.js'
-import { styled } from 'styled-components'
 import { LTEm } from '../icons/LTE-m.js'
 import { NBIot } from '../icons/NBIot.js'
-
-const Abbr = styled.abbr`
-	svg {
-		height: 25px;
-		width: auto;
-	}
-`
 
 export const NetworkModeInfo = () => {
 	const { state } = useDeviceState()
@@ -46,9 +38,13 @@ export const NetworkModeIcon = () => {
 		return <LoadingIndicator height={25} width={70} />
 	return (
 		<span>
-			<Abbr title={`Band ${currentBand}`} class="me-2">
-				{networkMode?.includes('LTE-M') ?? false ? <LTEm /> : <NBIot />}
-			</Abbr>
+			<abbr title={`Band ${currentBand}`} class="me-2">
+				{networkMode?.includes('LTE-M') ?? false ? (
+					<LTEm style={{ width: 'auto', height: '25px' }} />
+				) : (
+					<NBIot style={{ width: 'auto', height: '25px' }} />
+				)}
+			</abbr>
 		</span>
 	)
 }

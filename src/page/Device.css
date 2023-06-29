@@ -1,0 +1,7 @@
+.grid {
+  @media (min-width: 992px) {
+    display: grid;
+    grid-template: auto auto / 1fr 1fr;
+    grid-auto-flow: column;
+  }
+}

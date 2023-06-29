@@ -1,3 +1,4 @@
+import { getItem, setItem } from '#utils/localStorage.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
@@ -19,15 +20,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [appSettings, setAppSettings] = useState<{
 		terminalVisible: boolean
 		devModeEnabled: boolean
-	}>(
-		JSON.parse(
-			localStorage.getItem(storageKey) ??
-				JSON.stringify({ terminalVisible: false, devModeEnabled: false }),
-		),
-	)
+	}>(getItem(storageKey) ?? { terminalVisible: false, devModeEnabled: false })
 
 	useEffect(() => {
-		localStorage.setItem(storageKey, JSON.stringify(appSettings))
+		setItem(storageKey, appSettings)
 	}, [appSettings])
 
 	return (

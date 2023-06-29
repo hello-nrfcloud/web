@@ -10,6 +10,7 @@ import {
 	Slash,
 	type LucideProps,
 } from 'lucide-preact'
+import type { JSX } from 'preact/jsx-runtime'
 import { LoadingIndicator } from './ValueLoading.js'
 
 export const EnergyEstimateIcons: Record<

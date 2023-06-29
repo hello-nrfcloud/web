@@ -1,19 +1,6 @@
-import { styled } from 'styled-components'
-
-const MapContainer = styled.div`
-	aspect-ratio: 2/1;
-	background: url(/static/images/map.png);
-	background-color: #353636;
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	aside {
-		color: white;
-		font-style: italic;
-	}
-`
+import './Map.css'
 export const Map = () => (
-	<MapContainer>
+	<div class="MapContainer">
 		<aside class="container">
 			<div class="row pt-4">
 				<div class="col-6">
@@ -37,5 +24,5 @@ export const Map = () => (
 				</div>
 			</div>
 		</aside>
-	</MapContainer>
+	</div>
 )

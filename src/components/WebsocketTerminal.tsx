@@ -6,22 +6,8 @@ import {
 	CloudOff,
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { styled } from 'styled-components'
 import { Ago } from './Ago.js'
 import { Secondary } from './buttons/Button.js'
-
-const W = styled.div`
-	color: white;
-	padding: 1rem;
-`
-
-const NotConnected = styled(W)`
-	background-color: #50481e;
-`
-
-const Connected = styled(W)`
-	background-color: #2f501e;
-`
 
 export const WebsocketTerminal = () => {
 	const { connected, messages, device } = useDevice()
@@ -35,11 +21,11 @@ export const WebsocketTerminal = () => {
 		} = latestMessage
 		return (
 			<>
-				<Connected>
+				<div style={{ backgroundColor: '#2f501e' }} class="text-white p-2">
 					<div class="d-flex justify-content-between align-items-center">
 						<span class="d-flex align-items-center">
 							<CloudLightning />
-							<span class="ms-2">Connected: {device?.id}</span>
+							<span class="ms-2">div: {device?.id}</span>
 						</span>
 						<span>
 							{messages.length > 1 && (
@@ -92,15 +78,13 @@ export const WebsocketTerminal = () => {
 						</dd>
 					</dl>
 					)
-				</Connected>
+				</div>
 			</>
 		)
 	}
 	return (
-		<>
-			<NotConnected>
-				<CloudOff />
-			</NotConnected>
-		</>
+		<div style={{ backgroundColor: '#50481e' }} class="text-white p-2">
+			<CloudOff />
+		</div>
 	)
 }

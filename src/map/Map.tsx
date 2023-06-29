@@ -10,8 +10,8 @@ import { useParameters } from '#context/Parameters.js'
 import { LocationSource } from '@hello.nrfcloud.com/proto/hello'
 import maplibregl from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { styled } from 'styled-components'
 import { useCognitoCredentials } from '../context/CognitoCredentials.js'
+import './Map.css'
 import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
 import { mapStyle } from './style.js'
 import { transformRequest } from './transformRequest.js'
@@ -37,32 +37,6 @@ const glyphFonts = {
 	regular: 'Ubuntu Regular',
 	bold: 'Ubuntu Medium',
 } as const
-
-const MapContainer = styled.div`
-	width: 100%;
-	height: 100%;
-	min-height: 50vh;
-`
-
-const MapSection = styled.section`
-	position: relative;
-	width: 100%;
-	height: 100%;
-	min-height: 50vh;
-`
-
-const NoLocation = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 50vh;
-	font-size: 200%;
-	color: #ffffff80;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`
 
 export const Map = () => {
 	const { onParameters } = useParameters()
@@ -196,15 +170,15 @@ export const Map = () => {
 
 	return (
 		<>
-			<MapSection>
-				<MapContainer id="map" ref={containerRef} />
+			<section class="map">
+				<div id="map" ref={containerRef} />
 				{location === undefined && (
-					<NoLocation>
+					<div class="noLocation">
 						<MapPinOff strokeWidth={1} style={{ zoom: 2 }} /> waiting for
 						location
-					</NoLocation>
+					</div>
 				)}
-			</MapSection>
+			</section>
 			<div
 				style={{
 					backgroundColor: 'var(--color-nordic-dark-grey)',

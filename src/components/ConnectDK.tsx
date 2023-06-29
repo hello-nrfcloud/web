@@ -1,26 +1,10 @@
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
 import { BatteryFull, HelpCircle, Sun, ToggleRight } from 'lucide-preact'
-import { styled } from 'styled-components'
+import './ConnectDK.css'
 import { Secondary } from './buttons/Button.js'
 import { WarningLink } from './buttons/ButtonlikeLink.js'
 import { SIMIcon } from './icons/SIMIcon.js'
-
-const StepsWithIcons = styled.ol`
-	text-align: center;
-	list-style: none;
-	padding: 0;
-	svg {
-		width: 48px;
-		height: 48px;
-	}
-	li {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-bottom: 1rem;
-	}
-`
 
 export const ConnectDK = () => {
 	const { clear } = useFingerprint()
@@ -31,7 +15,7 @@ export const ConnectDK = () => {
 				kit:
 			</h2>
 			<section class="mt-4 mb-4">
-				<StepsWithIcons>
+				<ol class="StepsWithIcons">
 					<li>
 						<SIMIcon /> Insert the SIM card
 					</li>
@@ -68,7 +52,7 @@ export const ConnectDK = () => {
 							</WarningLink>
 						</span>
 					</li>
-				</StepsWithIcons>
+				</ol>
 			</section>
 		</>
 	)

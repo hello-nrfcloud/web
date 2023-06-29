@@ -1,0 +1,15 @@
+ol.StepsWithIcons {
+  text-align: center;
+  list-style: none;
+  padding: 0;
+}
+ol.StepsWithIcons svg {
+  width: 48px;
+  height: 48px;
+}
+ol.StepsWithIcons li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
