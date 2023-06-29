@@ -90,7 +90,7 @@
     "remark-frontmatter": "4.0.1",
     "remark-rehype": "10.1.0",
     "tsx": "3.12.7",
-    "typescript": "5.1.5",
+    "typescript": "5.1.6",
     "vite-plugin-ssr": "0.4.132",
     "xml-js": "1.6.11",
     "yaml": "2.3.1"
