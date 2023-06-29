@@ -33,7 +33,7 @@ const BatteryInfo = () => {
 			<BatteryIndicator percentage={batteryReading['%']} />
 			{batteryReading['%']} %{' '}
 			<small class="text-muted ms-1">
-				(<Ago date={new Date(batteryReading.ts)} />)
+				<Ago date={new Date(batteryReading.ts)} />
 			</small>
 		</span>
 	)
