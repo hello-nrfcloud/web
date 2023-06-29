@@ -92,7 +92,7 @@ export const Button = ({
 	return (
 		<button type="button" {...rest} class={buttonStyleClass(rest)} ref={ref}>
 			<ButtonAngledEffect parentRef={ref} />
-			<span style={{ position: 'relative', zIndex: 99 }}>{children}</span>
+			<span style={{ position: 'relative', zIndex: 2 }}>{children}</span>
 		</button>
 	)
 }

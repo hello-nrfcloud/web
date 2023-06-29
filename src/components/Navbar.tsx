@@ -6,7 +6,6 @@ import {
 	Code2,
 	Cpu,
 	Fingerprint,
-	Home,
 	Link2Icon,
 	TerminalSquare,
 	TrashIcon,
@@ -42,9 +41,6 @@ const Navigation = () => {
 	const { fingerprint, clear } = useFingerprint()
 	return (
 		<>
-			<Link href="/">
-				<Home class="me-1" /> Home
-			</Link>
 			{fingerprint !== null && device === undefined && (
 				<Link
 					href="/recognizing-fingerprint"

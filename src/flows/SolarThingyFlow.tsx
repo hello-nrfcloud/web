@@ -126,7 +126,7 @@ export const SolarThingyFlow = () => {
 						</dt>
 						<dd
 							style={{ color: 'var(--color-nordic-sun)' }}
-							class="d-flex flex-direction-column"
+							class="d-flex flex-column"
 						>
 							{currentGain === undefined && <LoadingIndicator light />}
 							{currentGain !== undefined && (
@@ -145,7 +145,7 @@ export const SolarThingyFlow = () => {
 						</dt>
 						<dd
 							style={{ color: 'var(--color-nordic-grass)' }}
-							class="d-flex flex-direction-column"
+							class="d-flex flex-column"
 						>
 							{currentBattery === undefined && <LoadingIndicator light />}
 							{currentBattery !== undefined && (

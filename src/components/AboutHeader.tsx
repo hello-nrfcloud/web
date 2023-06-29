@@ -44,7 +44,7 @@ export const AboutHeader = () => (
 			class="pt-4 pb-4"
 		>
 			<header class="container pt-4 pb-4 text-white">
-				<div class="row d-flex align-items-center flex-direction-row">
+				<div class="row d-flex align-items-center flex-row">
 					<div class="col-12 col-sm-6 col-md-4">
 						<h1>
 							<Logo strokeWidth={2} color={'white'} /> hello.nrfcloud.com

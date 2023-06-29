@@ -1,5 +1,5 @@
 import { formatDistanceToNowStrict } from 'date-fns'
-import { UploadCloudIcon } from 'lucide-preact'
+import { HistoryIcon } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 
 export const Ago = ({ date }: { date: Date }) => {
@@ -17,7 +17,7 @@ export const Ago = ({ date }: { date: Date }) => {
 
 	return (
 		<time dateTime={date.toISOString()} class="text-nowrap">
-			<UploadCloudIcon strokeWidth={1} size={20} class="me-1" />
+			<HistoryIcon strokeWidth={1} size={20} class="me-1" />
 			{relTime}
 		</time>
 	)

@@ -1,6 +1,5 @@
 import { Secondary } from '#components/Buttons.js'
 import { SourceHeader } from '#components/SourceHeader.js'
-import { StyleGuide } from '#components/StyleGuide.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
 
@@ -41,7 +40,6 @@ export const ViewSource = () => (
 								.
 							</p>
 						</section>
-						<StyleGuide />
 					</div>
 					<div class="col-12 col-lg-6">
 						<h2>QR codes</h2>
