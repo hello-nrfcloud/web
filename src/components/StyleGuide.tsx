@@ -4,6 +4,7 @@ import {
 	ButtonlikeLink,
 	Transparent,
 } from '#components/Buttons.js'
+import { ValueLoading } from '#components/ValueLoading.js'
 import { createElement } from 'preact'
 
 export const StyleGuide = () => {
@@ -14,6 +15,19 @@ export const StyleGuide = () => {
 				Nordic Semiconductor's web platforms should follow the corporate style
 				guide. Below are the individual components used on this website that
 				have the style guide applied.
+			</p>
+			<h2>Loading indicators</h2>
+			<p>
+				This element can be used as a placeholder for a value that is not yet
+				available so that there is no large layout shift once the value arrives.
+			</p>
+			<p>
+				It should always be used with a description about the value to be shown.
+			</p>
+			<p>
+				<strong>Battery</strong>
+				<br />
+				<ValueLoading />
 			</p>
 			<h2>Colors</h2>
 			<p>We use CSS variables to set the colors:</p>

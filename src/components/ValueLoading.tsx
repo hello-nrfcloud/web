@@ -1,4 +1,6 @@
 import cx from 'classnames'
+import './ValueLoading.css'
+
 export const ValueLoading = ({
 	value,
 	height,
