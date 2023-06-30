@@ -7,7 +7,7 @@ export const Feedback = () => (
 	>
 		<div class="container mt-4">
 			<div class="row">
-				<div class="col-6">
+				<div class="col-12 col-md-6">
 					<h2>Got feedback? Get a t-shirt!</h2>
 					<p>
 						We'd love to hear your feedback. We are interested to learn what you
@@ -41,7 +41,7 @@ export const Feedback = () => (
 					</p>
 				</div>
 
-				<div class="col-3">
+				<div class="col-12 col-md-3">
 					<p>
 						<img
 							src="/static/images/t-shirt.webp"
