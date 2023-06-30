@@ -33,6 +33,9 @@ export const render = async (pageContext: PageContextCustom) => {
           type="text/css"
           href="/node_modules/maplibre-gl/dist/maplibre-gl.css?v=${version}"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Libre+Barcode+128&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/static/base.css?v=${version}" />
         <link rel="shortcut icon" href="/static/images/logo.svg?v=${version}" />
         <meta name="version" content="${version}" />

@@ -1,5 +1,6 @@
 import { Secondary } from '#components/Buttons.js'
 import { SourceHeader } from '#components/SourceHeader.js'
+import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
 
@@ -52,6 +53,7 @@ export const ViewSource = () => (
 						<div class="mb-4">
 							<QRCodeGenerator />
 						</div>
+						<ThingyWithQRCode />
 						<h3>Manually entering the fingerprint</h3>
 						<p>
 							If users cannot scan the QR code because they do not have a
@@ -176,7 +178,8 @@ export const generateCode = (len = 6) => {
 	return code
 }
 
-const generateIMEI = () => `3566642${Math.floor(Math.random() * 100000000)}`
+export const generateIMEI = () =>
+	`3566642${Math.floor(Math.random() * 100000000)}`
 
 const generatePIN = () => {
 	const pin = []

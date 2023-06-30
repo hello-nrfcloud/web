@@ -5,7 +5,7 @@ import { useEffect, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
 
 export const QRCodeGenerator = () => {
-	const [year, setYear] = useState<string>('2023')
+	const [year, setYear] = useState<string>(format(new Date(), 'yyyy'))
 	const [week, setWeek] = useState<string>(format(new Date(), 'w'))
 	const [token, setToken] = useState<string>(generateCode())
 	const fingerprint = `${parseInt(
