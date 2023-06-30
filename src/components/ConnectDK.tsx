@@ -33,6 +33,10 @@ export const ConnectDK = () => {
 					</li>
 					<li>
 						<WaitingForData />
+						<br />
+						<small class="text-muted">
+							Your device should send data to the cloud every 60 seconds.
+						</small>
 					</li>
 					<li>
 						<HelpCircle />

@@ -1,4 +1,10 @@
-import { MapPinOff } from 'lucide-preact'
+import {
+	LockIcon,
+	MapPinOff,
+	MinusIcon,
+	PlusIcon,
+	UnlockIcon,
+} from 'lucide-preact'
 // Needed for SSR build, named exports don't work
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
@@ -49,24 +55,26 @@ export const Map = () => {
 	useEffect(() => {
 		if (containerRef.current === null) return
 		onParameters(({ region, mapName }) => {
-			setMap(
-				new maplibregl.Map({
-					container: 'map',
-					style: mapStyle({
-						region,
-						mapName,
-					}),
-					center: [10.437581513483195, 63.42148461054351],
-					zoom: 12,
-					transformRequest: transformRequest(credentials, region),
-					refreshExpiredTiles: false,
-					trackResize: true,
-					keyboard: false,
-					renderWorldCopies: false,
-					// Static map, no mouse interaction at all
-					interactive: false,
+			const map = new maplibregl.Map({
+				container: 'map',
+				style: mapStyle({
+					region,
+					mapName,
 				}),
-			)
+				center: [10.437581513483195, 63.42148461054351],
+				zoom: 12,
+				transformRequest: transformRequest(credentials, region),
+				refreshExpiredTiles: false,
+				trackResize: true,
+				keyboard: false,
+				renderWorldCopies: false,
+			})
+
+			map.dragRotate.disable()
+			map.scrollZoom.disable()
+			map.dragPan.disable()
+
+			setMap(map)
 		})
 
 		return () => {
@@ -87,7 +95,7 @@ export const Map = () => {
 		const centerSource = map.getSource(centerSourceId)
 		map.flyTo({
 			center: location,
-			zoom: 12,
+			zoom: map.getZoom(),
 		})
 
 		if (centerSource === undefined) {
@@ -178,6 +186,7 @@ export const Map = () => {
 						location
 					</div>
 				)}
+				{location !== undefined && map !== undefined && <MapZoom map={map} />}
 			</section>
 			<div
 				style={{
@@ -259,6 +268,65 @@ const NetworkLocation = () => {
 				Based on the network code (<code>{mccmnc}</code>) your device is
 				registered to, it can be coarsely located in {country}.
 			</p>
+		</>
+	)
+}
+
+const MapZoom = ({ map }: { map: maplibregl.Map }) => {
+	const [locked, setLocked] = useState<boolean>(true)
+
+	useEffect(() => {
+		if (locked) {
+			map.dragPan.disable()
+		} else {
+			map.dragPan.enable()
+		}
+	}, [locked])
+
+	return (
+		<>
+			{locked && (
+				<div class="dragCatcher">
+					<span>
+						Click the{' '}
+						<button
+							type="button"
+							onClick={() => {
+								setLocked(false)
+							}}
+						>
+							<UnlockIcon />
+						</button>{' '}
+						to enable the map.
+					</span>
+				</div>
+			)}
+			<div class="mapZoom">
+				<button
+					type="button"
+					onClick={() => {
+						map.setZoom(map.getZoom() + 1)
+					}}
+				>
+					<PlusIcon />
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						map.setZoom(map.getZoom() - 1)
+					}}
+				>
+					<MinusIcon />
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						setLocked((locked) => !locked)
+					}}
+				>
+					{locked ? <UnlockIcon /> : <LockIcon />}
+				</button>
+			</div>
 		</>
 	)
 }
