@@ -1,0 +1,38 @@
+header.brand {
+  display: none;
+  background-color: var(--color-nordic-dark-grey);
+  height: 175px;
+  grid-template-columns: 200px auto 200px;
+}
+
+header.brand .logo {
+  height: 150px;
+  width: auto;
+  margin-left: 25px;
+}
+
+header.brand .hello-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  color: white;
+}
+
+header.brand .hello-logo h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header.brand .hello-logo p {
+  max-width: 500px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  header.brand {
+    display: grid;
+  }
+}

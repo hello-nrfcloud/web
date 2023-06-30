@@ -47,7 +47,7 @@ export const FingerprintForm = () => {
 				<Secondary
 					disabled={!isValid}
 					onClick={() => {
-						window.location.assign(`/${fingerprint}`)
+						window?.location.assign(`/${fingerprint}`)
 					}}
 				>
 					Submit
