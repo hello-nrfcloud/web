@@ -1,8 +1,14 @@
 import { type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
-import { Slash, ThermometerIcon } from 'lucide-preact'
+import {
+	ActivitySquareIcon,
+	ChevronDownSquareIcon,
+	Slash,
+	ThermometerIcon,
+} from 'lucide-preact'
 import { Ago } from './Ago.js'
+import './DeviceHeader.css'
 import { EnergyEstimateIcons, EnergyEstimateLabel } from './SignalQuality.js'
 import { LoadingIndicator } from './ValueLoading.js'
 import { LTEm } from './icons/LTE-m.js'
@@ -16,7 +22,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 	return (
 		<div class="container my-md-4">
 			<header class="mt-md-4">
-				<div class="row">
+				<div class="row mt-3">
 					<div class="col d-flex justify-content-between align-items-center">
 						<h1>
 							<small class="text-muted" style={{ fontSize: '16px' }}>
@@ -27,18 +33,21 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 						</h1>
 					</div>
 				</div>
-				<div class="row mt-2">
-					<div class="col-4 col-lg-3 mb-2">
+				<div class="row my-4">
+					<div class="col-4 col-lg-2 mb-2">
 						<NetworkModeInfo />
 					</div>
-					<div class="col-4 col-lg-3 mb-2">
+					<div class="col-4 col-lg-2 mb-2">
 						<SignalQualityInfo />
 					</div>
-					<div class="col-4 col-lg-3 mb-2">
+					<div class="col-4 col-lg-2 mb-2">
 						<BatteryInfo />
 					</div>
-					<div class="col-12 col-lg-3 mb-2">
+					<div class="col-6 col-lg-3 mb-2">
 						<EnvironmentInfo />
+					</div>
+					<div class="col-6 col-lg-2 mb-2">
+						<Interact />
 					</div>
 				</div>
 			</header>
@@ -188,6 +197,37 @@ const BatteryInfo = () => {
 				<small class="text-muted">
 					<Ago date={new Date(batteryReading.ts)} />
 				</small>
+			)}
+		</span>
+	)
+}
+
+const Interact = () => {
+	const { button } = useSolarThingyHistory()
+	const buttonPress = button[0]
+	return (
+		<span class="d-flex flex-column">
+			<small class="text-muted">
+				<strong>Interact</strong>
+			</small>
+			{buttonPress === undefined && (
+				<small class="d-flex">
+					<ActivitySquareIcon class="me-1" />
+					<span>Press the button on your DK!</span>
+				</small>
+			)}
+			{buttonPress !== undefined && (
+				<>
+					<small class="d-flex hot" key={`button-${buttonPress.ts}`}>
+						<ChevronDownSquareIcon class="me-1" />
+						<span>
+							Button <strong>#{buttonPress.id}</strong> pressed
+						</span>
+					</small>
+					<small class="text-muted">
+						<Ago date={new Date(buttonPress.ts)} withSeconds />
+					</small>
+				</>
 			)}
 		</span>
 	)

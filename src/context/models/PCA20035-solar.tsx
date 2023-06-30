@@ -4,6 +4,7 @@ import {
 	AirQuality,
 	AirTemperature,
 	Battery,
+	Button,
 	Context,
 	Gain,
 	HelloMessage,
@@ -40,6 +41,10 @@ const isAirTemperature = (
 	message: Static<typeof HelloMessage>,
 ): message is Static<typeof AirTemperature> =>
 	message['@context'] === solarThingy.transformed('airTemperature').toString()
+const isButton = (
+	message: Static<typeof HelloMessage>,
+): message is Static<typeof Button> =>
+	message['@context'] === solarThingy.transformed('button').toString()
 
 export const SolarThingyHistoryContext = createContext<{
 	gain: Static<typeof Gain>[]
@@ -48,6 +53,7 @@ export const SolarThingyHistoryContext = createContext<{
 	airPressure: Static<typeof AirPressure>[]
 	airQuality: Static<typeof AirQuality>[]
 	airTemperature: Static<typeof AirTemperature>[]
+	button: Static<typeof Button>[]
 }>({
 	gain: [],
 	battery: [],
@@ -55,6 +61,7 @@ export const SolarThingyHistoryContext = createContext<{
 	airPressure: [],
 	airQuality: [],
 	airTemperature: [],
+	button: [],
 })
 
 const byTs = ({ ts: t1 }: { ts: number }, { ts: t2 }: { ts: number }) => t2 - t1
@@ -74,6 +81,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [airTemperature, setAirTemperature] = useState<
 		Static<typeof AirTemperature>[]
 	>([])
+	const [button, setButton] = useState<Static<typeof Button>[]>([])
 
 	const onMessage: MessageListenerFn = (message) => {
 		if (isGain(message)) {
@@ -94,6 +102,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (isAirTemperature(message)) {
 			setAirTemperature((m) => [message, ...m].sort(byTs))
 		}
+		if (isButton(message)) {
+			setButton((m) => [message, ...m].sort(byTs))
+		}
 	}
 
 	useEffect(() => {
@@ -113,6 +124,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				airPressure,
 				airQuality,
 				airTemperature,
+				button,
 			}}
 		>
 			{children}

@@ -1,0 +1,13 @@
+.hot {
+  animation: coolOff 5s ease-in;
+}
+
+@keyframes coolOff {
+  from {
+    color: var(--color-nordic-power);
+  }
+
+  to {
+    color: inherit;
+  }
+}
