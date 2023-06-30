@@ -1,7 +1,6 @@
 import { useDeviceState } from '#context/DeviceState.js'
 import { EnergyEstimate } from '@hello.nrfcloud.com/proto/hello'
 import {
-	Ban,
 	Signal,
 	SignalHigh,
 	SignalLow,
@@ -22,7 +21,6 @@ export const EnergyEstimateIcons: Record<
 	[EnergyEstimate.Normal]: SignalMedium,
 	[EnergyEstimate.Good]: SignalHigh,
 	[EnergyEstimate.Excellent]: Signal,
-	[EnergyEstimate.Unknown]: Ban,
 } as const
 
 export const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
@@ -36,7 +34,6 @@ export const EnergyEstimateDescription: Record<EnergyEstimate, string> = {
 		'Good conditions. Possibly very good conditions for small amounts of data.',
 	[EnergyEstimate.Excellent]:
 		'Excellent conditions. Efficient data transfer estimated also for larger amounts of data.',
-	[EnergyEstimate.Unknown]: `Unknown. The device could not determine the energy estimate.`,
 } as const
 
 export const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
@@ -45,7 +42,6 @@ export const EnergyEstimateLabel: Record<EnergyEstimate, string> = {
 	[EnergyEstimate.Normal]: 'Normal',
 	[EnergyEstimate.Good]: 'Good',
 	[EnergyEstimate.Excellent]: 'Excellent',
-	[EnergyEstimate.Unknown]: 'Unknown',
 } as const
 
 export const SignalQuality = () => {
