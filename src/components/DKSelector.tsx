@@ -6,13 +6,15 @@ export const DKSelector = () => {
 	return (
 		<>
 			<div class="row">
-				{Object.entries(DKs).map(([id, { title, abstract }]) => (
+				{Object.entries(DKs).map(([id, { title, abstract, tagline }]) => (
 					<div class="col-12 col-sm-6 col-lg-4">
 						<div class="card">
 							<div class="card-header">
-								<h2>
-									{title} <small>({id})</small>
-								</h2>
+								<h2>{title}</h2>
+								<p class="mb-1">{tagline}</p>
+								<p class="mb-0">
+									<code class="text-muted">{id}</code>
+								</p>
 							</div>
 							<a href={`/dk/${encodeURIComponent(id)}`}>
 								<img

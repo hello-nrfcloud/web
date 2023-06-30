@@ -1,5 +1,6 @@
 ---
 title: Thingy:91 with Solar Shield
+tagline: Powerfoyle solar cell converts any form of light to electrical energy
 links:
   learnMore: https://www.exeger.com/updates/exeger-and-nordic-semiconductor-in-partnership/
   documentation: https://infocenter.nordicsemi.com/index.jsp?topic=%2Fug_thingy91%2FUG%2Fthingy91%2Fintro%2Ffrontpage.html
@@ -18,9 +19,11 @@ The Thingy:91 has been fitted with Exeger's Nordic Thingy Powerfoyle add-on
 which is available for the Nordic Thingy:52, Thingy:53, and Thingy:91
 prototyping platforms, giving the platforms autonomous charging capabilities.
 
-Exeger’s Powerfoyle photovoltaic cells harvest all forms of light and convert it
-into electrical energy. This allows the battery life of the device to be
-extended indefinitely as long as there is sufficient ambient light available.
+Exeger’s groundbreaking solar cell technology, Powerfoyle, is a flexible and
+resilient photovoltaic cell which converts all forms of light - both artificial
+indoor and natural outdoor - into clean, endless energy. To learn more the
+innovation and application areas, visit
+[www.exeger.com](https://www.exeger.com/).
 
 The Thingy:91 runs the
 [`asset_tracker_v2` application](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html)

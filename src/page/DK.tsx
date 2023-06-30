@@ -7,14 +7,9 @@ export const DK = ({ dk }: { dk: TDK }) => (
 		<article>
 			<div class="container my-4">
 				<header class="row">
-					<div class="col d-flex justify-content-between align-items-center">
-						<h1>
-							<small class="text-muted" style={{ fontSize: '16px' }}>
-								{dk.model}
-							</small>
-							<br />
-							<strong class="ms-1">{dk.title}</strong>
-						</h1>
+					<div class="col">
+						<h1>{dk.title}</h1>
+						<p>{dk.tagline}</p>
 					</div>
 				</header>
 				<div class="row mt-4">
@@ -29,6 +24,10 @@ export const DK = ({ dk }: { dk: TDK }) => (
 						<div class="card">
 							<div class="card-header">
 								<h2>{dk.title}</h2>
+								<p class="mb-1">{dk.tagline}</p>
+								<p class="mb-0">
+									<code class="text-muted">{dk.model}</code>
+								</p>
 							</div>
 							<img
 								alt={`${dk.title} (${dk.model})`}
