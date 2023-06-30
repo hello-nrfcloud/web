@@ -1,3 +1,4 @@
+import { DKResources } from '#components/DKResources.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { WebsocketTerminal } from '#components/WebsocketTerminal.js'
@@ -52,6 +53,7 @@ export const Device = () => {
 					</div>
 				</div>
 			</main>
+			<DKResources type={device.type} />
 		</SolarThingyHistoryProvider>
 	)
 }
