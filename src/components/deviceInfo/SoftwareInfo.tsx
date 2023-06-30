@@ -9,7 +9,7 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
 	const type = device.type
 
-	const appV = state?.device?.deviceInfo?.appVersion?.slice(1)
+	const appV = state?.device?.deviceInfo?.appVersion
 	const modV = parseModemFirmwareVersion(
 		state?.device?.deviceInfo?.modemFirmware ?? '',
 	)
