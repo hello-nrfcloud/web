@@ -30,7 +30,7 @@
     "@aws-amplify/core": "5.5.2",
     "@aws-sdk/client-cognito-identity": "3.363.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.363.0",
-    "@hello.nrfcloud.com/proto": "2.4.3",
+    "@hello.nrfcloud.com/proto": "2.4.4",
     "@sinclair/typebox": "0.29.0",
     "classnames": "2.3.2",
     "code-128-encoder": "3.1.1",
