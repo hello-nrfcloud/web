@@ -31,7 +31,7 @@
     "@aws-sdk/client-cognito-identity": "3.363.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.363.0",
     "@hello.nrfcloud.com/proto": "2.4.3",
-    "@sinclair/typebox": "0.28.20",
+    "@sinclair/typebox": "0.29.0",
     "classnames": "2.3.2",
     "code-128-encoder": "3.1.1",
     "compare-versions": "6.0.0-rc.2",
