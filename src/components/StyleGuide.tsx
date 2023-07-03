@@ -1,11 +1,50 @@
 import {
-	Button,
-	ButtonVariant,
-	ButtonlikeLink,
+	Danger,
+	DangerLink,
+	Dark,
+	DarkLink,
+	Info,
+	InfoLink,
+	Light,
+	LightLink,
+	Link,
+	LinkLink,
+	Primary,
+	PrimaryLink,
+	Secondary,
+	SecondaryLink,
+	Success,
+	SuccessLink,
 	Transparent,
+	Warning,
+	WarningLink,
 } from '#components/Buttons.js'
 import { ValueLoading } from '#components/ValueLoading.js'
 import { createElement } from 'preact'
+
+const buttonVariants = [
+	Primary,
+	Secondary,
+	Success,
+	Danger,
+	Warning,
+	Info,
+	Light,
+	Dark,
+	Link,
+]
+
+const linkVariants = [
+	DangerLink,
+	DarkLink,
+	InfoLink,
+	LightLink,
+	LinkLink,
+	PrimaryLink,
+	SecondaryLink,
+	SuccessLink,
+	WarningLink,
+]
 
 export const StyleGuide = () => {
 	return (
@@ -139,11 +178,11 @@ export const StyleGuide = () => {
 				].map(({ label, props }) => (
 					<>
 						<h3 class={'mt-3'}>{label}</h3>
-						{buttonVariants.map((variant) => (
-							<Button variant={variant} class={`me-1 mt-1`} {...props}>
-								{variant.slice(0, 1).toUpperCase()}
-								{variant.slice(1)} Button
-							</Button>
+						{buttonVariants.map((Variant) => (
+							<Variant class={`me-1 mt-1`} {...props}>
+								{Variant.name.slice(0, 1).toUpperCase()}
+								{Variant.name.slice(1)} Button
+							</Variant>
 						))}
 					</>
 				))}
@@ -158,16 +197,11 @@ export const StyleGuide = () => {
 				].map(({ label, props }) => (
 					<>
 						<h3 class={'mt-3'}>{label}</h3>
-						{buttonVariants.map((variant) => (
-							<ButtonlikeLink
-								href="/view-source"
-								variant={variant}
-								class={`me-1 mt-1`}
-								{...props}
-							>
-								{variant.slice(0, 1).toUpperCase()}
-								{variant.slice(1)} Link
-							</ButtonlikeLink>
+						{linkVariants.map((Variant) => (
+							<Variant href="/view-source" class={`me-1 mt-1`} {...props}>
+								{Variant.name.slice(0, 1).toUpperCase()}
+								{Variant.name.slice(1)}
+							</Variant>
 						))}
 					</>
 				))}
@@ -175,15 +209,3 @@ export const StyleGuide = () => {
 		</section>
 	)
 }
-
-const buttonVariants = [
-	ButtonVariant.primary,
-	ButtonVariant.secondary,
-	ButtonVariant.success,
-	ButtonVariant.danger,
-	ButtonVariant.warning,
-	ButtonVariant.info,
-	ButtonVariant.light,
-	ButtonVariant.dark,
-	ButtonVariant.link,
-]

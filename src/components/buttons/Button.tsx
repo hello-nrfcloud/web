@@ -8,6 +8,7 @@ import {
 	type PropsWithChildren,
 	type RefObject,
 } from 'preact/compat'
+import './Button.css'
 
 export enum ButtonVariant {
 	primary = 'primary',
@@ -82,16 +83,20 @@ export type ButtonStyleArgs = {
 	outline?: boolean
 	small?: boolean
 	class?: string
+	// disable the angled effect
+	noAngleEffect?: true
 }
 export const Button = ({
 	children,
+	noAngleEffect,
 	...rest
 }: HTMLAttributes<HTMLButtonElement> &
 	ButtonStyleArgs & { children: ComponentChild }) => {
+	const angleEffect = !(noAngleEffect ?? false) && !(rest.outline ?? false)
 	const ref = useRef<HTMLButtonElement>(null)
 	return (
 		<button type="button" {...rest} class={buttonStyleClass(rest)} ref={ref}>
-			<ButtonAngledEffect parentRef={ref} />
+			{angleEffect && <ButtonAngledEffect parentRef={ref} />}
 			<span style={{ position: 'relative', zIndex: 2 }}>{children}</span>
 		</button>
 	)
@@ -102,7 +107,7 @@ export const Primary = (
 ) => <Button variant={ButtonVariant.primary} {...args} />
 export const Secondary = (
 	args: Omit<Parameters<typeof Button>[0], 'variant'>,
-) => <Button variant={ButtonVariant.secondary} {...args} />
+) => <Button variant={ButtonVariant.secondary} {...args} noAngleEffect />
 export const Success = (
 	args: Omit<Parameters<typeof Button>[0], 'variant'>,
 ) => <Button variant={ButtonVariant.success} {...args} />
@@ -138,6 +143,7 @@ export const Transparent = ({
 			background: 'transparent',
 			padding: 0,
 			margin: 0,
+			fontWeight: 'inherit',
 		}}
 		{...rest}
 	>

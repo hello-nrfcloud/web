@@ -10,14 +10,16 @@ import { useRef, type HTMLAttributes } from 'preact/compat'
 
 export const ButtonlikeLink = ({
 	children,
+	noAngleEffect,
 	...rest
 }: HTMLAttributes<HTMLAnchorElement> &
 	ButtonStyleArgs & { children: ComponentChild }) => {
 	const ref = useRef<HTMLAnchorElement>(null)
+	const angleEffect = !(noAngleEffect ?? false) && !(rest.outline ?? false)
 	return (
 		<a {...rest} class={buttonStyleClass(rest)} ref={ref}>
-			<ButtonAngledEffect parentRef={ref} />
-			<span style={{ position: 'relative', zIndex: 99 }}>{children}</span>
+			{angleEffect && <ButtonAngledEffect parentRef={ref} />}
+			<span style={{ position: 'relative', zIndex: 2 }}>{children}</span>
 		</a>
 	)
 }
@@ -27,7 +29,9 @@ export const PrimaryLink = (
 ) => <ButtonlikeLink variant={ButtonVariant.primary} {...args} />
 export const SecondaryLink = (
 	args: Omit<Parameters<typeof ButtonlikeLink>[0], 'variant'>,
-) => <ButtonlikeLink variant={ButtonVariant.secondary} {...args} />
+) => (
+	<ButtonlikeLink variant={ButtonVariant.secondary} {...args} noAngleEffect />
+)
 export const SuccessLink = (
 	args: Omit<Parameters<typeof ButtonlikeLink>[0], 'variant'>,
 ) => <ButtonlikeLink variant={ButtonVariant.success} {...args} />
