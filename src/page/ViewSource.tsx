@@ -1,5 +1,4 @@
 import { Secondary } from '#components/Buttons.js'
-import { SourceHeader } from '#components/SourceHeader.js'
 import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
 import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
@@ -7,12 +6,18 @@ import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
 export const ViewSource = () => (
 	<main>
 		<article>
-			<SourceHeader />
 			<div class="container mt-4">
+				<header class="row">
+					<div class="colr-12 col-lg-6 offset-lg-6">
+						<h1>
+							View source: how <code>hello.nrfcloud.com</code> is built.
+						</h1>
+					</div>
+				</header>
 				<div class="row mt-4">
-					<div class="col-12 col-lg-6">
+					<div class="col-12 col-lg-6 offset-lg-3">
 						<section>
-							<h2>This sections explains how this project is built.</h2>
+							<h2>About the project</h2>
 							<p>
 								We consider this a reference implementation for a consumer
 								cellular IoT product, where the Nordic development kits are
@@ -21,6 +26,7 @@ export const ViewSource = () => (
 								retail store, and when turned on should work{' '}
 								<em>just like that</em>.
 							</p>
+							<h2>The backend</h2>
 							<p>
 								For this to work we use nRF Cloud's{' '}
 								<a
@@ -33,6 +39,77 @@ export const ViewSource = () => (
 								ship a pre-activated SIM card.
 							</p>
 							<p>
+								We have set up a{' '}
+								<a
+									href="https://docs.nrfcloud.com/Devices/MessagesAndAlerts/SetupMessageBridge/"
+									target="_blank"
+								>
+									Message Bridge
+								</a>{' '}
+								that forwards messages from these devices to our backend, which
+								is in charge of transforming these messages into the format that
+								is understood by the web application.
+							</p>
+							<p>
+								This includes regularly fetching the shadow of the devices using
+								the{' '}
+								<a
+									href="https://api.nrfcloud.com/v1#tag/All-Devices/operation/FetchDevice"
+									target="_blank"
+								>
+									nRF Cloud REST API
+								</a>
+								.
+							</p>
+							<p>
+								It also maintains the database of devices that can be access on
+								this website using their <em>fingerprint</em>.
+							</p>
+							<p>
+								Check out{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/backend"
+									target="_blank"
+								>
+									the source code of the project on GitHub
+								</a>
+								, and especially the{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/backend/tree/saga/features"
+									target="_blank"
+								>
+									feature files
+								</a>{' '}
+								that document the functionality that has been implemented.
+							</p>
+							<h2>The firmware</h2>
+							<p>
+								Devices connect directly to the{' '}
+								<a
+									href="https://docs.nrfcloud.com/APIs/MQTT/MQTTIntro/"
+									target="_blank"
+								>
+									nRF Cloud MQTT endpoint
+								</a>{' '}
+								and are running the{' '}
+								<a
+									href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
+									target="_blank"
+								>
+									<code>asset_tracker_v2</code> application
+								</a>
+								. Firmware builds are published in an{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/firmware"
+									target="_blank"
+								>
+									out-of-tree repository on GitHub
+								</a>{' '}
+								so we can provide pre-compiled builds with the configuration
+								that is optimal for the out-of-box experience. .
+							</p>
+							<h2>The frontend</h2>
+							<p>
 								The web site is a static web app, and the source code is
 								published on{' '}
 								<a href="https://github.com/hello-nrfcloud/web" target="_blank">
@@ -42,7 +119,9 @@ export const ViewSource = () => (
 							</p>
 						</section>
 					</div>
-					<div class="col-12 col-lg-6">
+				</div>
+				<div class="row my-4">
+					<div class="col-12 col-lg-6 offset-lg-3">
 						<h2>QR codes</h2>
 						<p>
 							The easiest way to access the page for an individual device is to
