@@ -43,6 +43,7 @@ jobs:
           VERSION: ${{ env.VERSION }}
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
         run: |
           npm run build
           cp -L -r ./static ./build/client
