@@ -1,8 +1,12 @@
 header.brand {
   display: none;
-  background-color: var(--color-nordic-dark-grey);
+  background-color: var(--color-nordic-blueslate);
   height: 175px;
   grid-template-columns: 200px auto 200px;
+  background-image: url(/static/images/world.webp);
+  background-position: center;
+  background-attachment: unset;
+  background-size: cover;
 }
 
 header.brand .logo {
