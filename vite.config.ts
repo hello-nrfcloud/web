@@ -1,5 +1,6 @@
 import { fromEnv } from '@nordicsemiconductor/from-env'
 import preact from '@preact/preset-vite'
+import chalk from 'chalk'
 import { defineConfig } from 'vite'
 import ssr from 'vite-plugin-ssr/plugin'
 import { homepage, version } from './siteInfo.js'
@@ -7,6 +8,14 @@ import { homepage, version } from './siteInfo.js'
 const { registryEndpoint } = fromEnv({
 	registryEndpoint: 'REGISTRY_ENDPOINT',
 })(process.env)
+
+// Optional environment variables
+const sentryDSN = process.env.SENTRY_DSN
+if (sentryDSN === undefined) {
+	console.debug(chalk.yellow(`Sentry`), chalk.red('disabled'))
+} else {
+	console.debug(chalk.yellow(`Sentry DSN`), chalk.blue(sentryDSN))
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -56,5 +65,6 @@ export default defineConfig({
 		DOMAIN_NAME: JSON.stringify(
 			process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com',
 		),
+		SENTRY_DSN: JSON.stringify(sentryDSN),
 	},
 })

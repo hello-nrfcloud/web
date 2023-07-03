@@ -2,6 +2,7 @@ import { formatDistanceToNow } from 'date-fns'
 import type { VNode } from 'preact'
 import { hydrate } from 'preact'
 import type { PageContextBuiltInClientWithClientRouting } from 'vite-plugin-ssr/types'
+import '../src/utils/sentry.js'
 
 type Page = (pageProps: PageProps) => VNode<any>
 type PageProps = Record<string, any>

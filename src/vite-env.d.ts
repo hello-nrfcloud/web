@@ -8,6 +8,8 @@ declare const BUILD_TIME: string
 declare const REGISTRY_ENDPOINT: string
 /** Domain name where app is hosted. */
 declare const DOMAIN_NAME: string
+/** Sentry DSN, optional */
+declare const SENTRY_DSN: string | undefined
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface ImportMeta {
