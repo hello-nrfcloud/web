@@ -1,12 +1,20 @@
+import { Ago } from '#components/Ago.js'
+import { type Device } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WaitingForData } from '#flows/WaitingForData.js'
-import { BatteryFull, HelpCircle, Sun, ToggleRight } from 'lucide-preact'
+import {
+	BatteryFull,
+	CloudOff,
+	HelpCircle,
+	Sun,
+	ToggleRight,
+} from 'lucide-preact'
 import './ConnectDK.css'
 import { Secondary } from './buttons/Button.js'
 import { WarningLink } from './buttons/ButtonlikeLink.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 
-export const ConnectDK = () => {
+export const ConnectDK = ({ device }: { device: Device }) => {
 	const { clear } = useFingerprint()
 	return (
 		<>
@@ -37,6 +45,20 @@ export const ConnectDK = () => {
 						<small class="text-muted">
 							Your device should send data to the cloud every 60 seconds.
 						</small>
+					</li>
+					<li>
+						{device.lastSeen === undefined && (
+							<>
+								<CloudOff class="me-1" /> The device has not yet connected to
+								the cloud.
+							</>
+						)}
+						{device.lastSeen !== undefined && (
+							<>
+								<Ago date={device.lastSeen} /> was when the device has last sent
+								data to the cloud.
+							</>
+						)}
 					</li>
 					<li>
 						<HelpCircle />

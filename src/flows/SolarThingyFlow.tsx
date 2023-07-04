@@ -3,13 +3,14 @@ import type { ChartData } from '#chart/chartMath.js'
 import { Ago } from '#components/Ago.js'
 import { ConnectDK } from '#components/ConnectDK.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
+import type { Device } from '#context/Device.js'
 import { formatFloat } from '#utils/formatFloat.js'
 import { format, subHours, subMilliseconds } from 'date-fns'
 import { BatteryCharging, Sun } from 'lucide-preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useSolarThingyHistory } from '../context/models/PCA20035-solar.js'
 
-export const SolarThingyFlow = () => {
+export const SolarThingyFlow = ({ device }: { device: Device }) => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [chartSize, setChartSize] = useState<[width: number, height: number]>([
 		300, 200,
@@ -83,7 +84,7 @@ export const SolarThingyFlow = () => {
 					<div class="container">
 						<div class="row">
 							<div class="col-12">
-								<ConnectDK />
+								<ConnectDK device={device} />
 							</div>
 						</div>
 					</div>

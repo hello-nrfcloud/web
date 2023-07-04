@@ -13,8 +13,8 @@ import { useParameters } from './Parameters.js'
 
 export type Device = {
 	id: string
-	hasLocation: boolean
 	type: DK
+	lastSeen?: Date
 }
 
 type Messages = {
@@ -107,8 +107,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						if (isDeviceIdentity(maybeValid)) {
 							const type = DKs[maybeValid.model] as DK
 							setDevice({
-								hasLocation: false,
 								id: maybeValid.id,
+								lastSeen:
+									maybeValid.lastSeen !== undefined
+										? new Date(maybeValid.lastSeen)
+										: undefined,
 								type,
 							})
 							setType(maybeValid.model)

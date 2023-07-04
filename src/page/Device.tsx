@@ -36,7 +36,7 @@ export const Device = () => {
 			<main>
 				<DeviceHeader device={device} />
 				<div class="grid">
-					<SolarThingyFlow />
+					<SolarThingyFlow device={device} />
 					<WithCognitoCredentials>
 						<Map />
 					</WithCognitoCredentials>
