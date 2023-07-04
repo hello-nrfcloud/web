@@ -49,14 +49,15 @@ export const ConnectDK = ({ device }: { device: Device }) => {
 					<li>
 						{device.lastSeen === undefined && (
 							<>
-								<CloudOff class="me-1" /> The device has not yet connected to
-								the cloud.
+								<CloudOff /> The device has not yet connected to the cloud.
 							</>
 						)}
 						{device.lastSeen !== undefined && (
 							<>
-								<Ago date={device.lastSeen} /> was when the device has last sent
-								data to the cloud.
+								<span>
+									<Ago date={device.lastSeen} strokeWidth={2} size={24} /> ago
+								</span>
+								was when the device has last sent data to the cloud
 							</>
 						)}
 					</li>

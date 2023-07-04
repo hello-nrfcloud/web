@@ -5,9 +5,13 @@ import { useEffect, useState } from 'preact/hooks'
 export const Ago = ({
 	date,
 	withSeconds,
+	strokeWidth,
+	size,
 }: {
 	date: Date
 	withSeconds?: true
+	strokeWidth?: number
+	size?: number
 }) => {
 	const [relTime, setRelTime] = useState<string>(distance(date, withSeconds))
 
@@ -33,13 +37,17 @@ export const Ago = ({
 
 	return (
 		<time dateTime={date.toISOString()} class="text-nowrap">
-			<HistoryIcon strokeWidth={1} size={20} class="me-1" />
+			<HistoryIcon
+				strokeWidth={strokeWidth ?? 1}
+				size={size ?? 20}
+				class="me-1"
+			/>
 			{relTime}
 		</time>
 	)
 }
 
-const distance = (to: Date, withSeconds?: true) =>
+export const distance = (to: Date, withSeconds?: true) =>
 	withSeconds ?? false
 		? formatDistanceToNowStrict(to)
 		: Date.now() - to.getTime() < 60 * 1000
