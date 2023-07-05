@@ -13,6 +13,10 @@ mfw:
 abstract: >-
   The Nordic Thingy:91 has been fitted with a light harvesting add-on, giving
   the platforms autonomous charging capabilities.
+video:
+  youtube:
+    id: 5f10sjTznlc
+    title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
 ---
 
 The Thingy:91 has been fitted with Exeger's Nordic Thingy Powerfoyle add-on

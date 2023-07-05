@@ -1,0 +1,7 @@
+.yt-consent {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-position: center;
+  background-size: cover;
+  background-color: var(--color-nordic-dark-gray);
+}

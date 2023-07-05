@@ -1,5 +1,6 @@
 import { DKResources } from '#components/DKResources.js'
 import { ScanQR } from '#components/ScanQR.js'
+import { YouTubeVideo } from '#components/YouTubeVideo.js'
 import { type DK as TDK } from '#context/DKs.js'
 
 export const DK = ({ dk }: { dk: TDK }) => (
@@ -18,6 +19,12 @@ export const DK = ({ dk }: { dk: TDK }) => (
 							__html: dk.html,
 						}}
 					/>
+					{dk.video?.youtube !== undefined && (
+						<YouTubeVideo
+							id={dk.video.youtube.id}
+							title={dk.video.youtube.title}
+						/>
+					)}
 				</section>
 				<aside class="col-12 col-md-6 col-lg-4 offset-lg-2">
 					<div class="card">

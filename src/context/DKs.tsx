@@ -19,6 +19,12 @@ export type DK = {
 		version: string
 		link: string
 	}
+	video?: {
+		youtube?: {
+			id: string
+			title: string
+		}
+	}
 }
 
 export const DKsContext = createContext<{
