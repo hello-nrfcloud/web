@@ -43,9 +43,12 @@ export const Provider = ({
 	useEffect(() => {
 		if (credentials === undefined) return
 
-		const t = setTimeout(() => {
-			refreshCredentials().catch(console.error)
-		}, (credentials.expiration as Date).getTime() - new Date().getTime())
+		const t = setTimeout(
+			() => {
+				refreshCredentials().catch(console.error)
+			},
+			(credentials.expiration as Date).getTime() - new Date().getTime(),
+		)
 
 		return () => {
 			clearTimeout(t)

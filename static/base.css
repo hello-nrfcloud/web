@@ -107,7 +107,8 @@ code {
 
 @font-face {
   font-family: "Pragmata Medium";
-  src: local("Pragmata Medium"),
+  src:
+    local("Pragmata Medium"),
     url("/static/fonts/Pragmata-Medium.woff2") format("woff2");
   font-weight: 400;
 }

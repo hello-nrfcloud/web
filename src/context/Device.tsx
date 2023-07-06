@@ -71,14 +71,17 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			ws.addEventListener('open', () => {
 				console.debug(`[WS]`, 'connected')
 				setConnected(true)
-				pingInterval = setInterval(() => {
-					ws?.send(
-						JSON.stringify({
-							message: 'message',
-							data: 'PING',
-						}),
-					)
-				}, 0.95 * 5 * 60 * 1000) // every ~5 minutes
+				pingInterval = setInterval(
+					() => {
+						ws?.send(
+							JSON.stringify({
+								message: 'message',
+								data: 'PING',
+							}),
+						)
+					},
+					0.95 * 5 * 60 * 1000,
+				) // every ~5 minutes
 			})
 
 			ws.addEventListener('close', () => {
