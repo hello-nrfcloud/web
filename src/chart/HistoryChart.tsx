@@ -136,38 +136,39 @@ export const HistoryChart = ({
 			{/* helper lines */}
 			{data.datasets
 				.filter(({ helperLines }) => helperLines !== undefined)
-				.map(({ helperLines, min, max, format }) =>
-					helperLines?.map(({ label, value }) => {
-						const y = m.yPosition({ min, max }, value)
-						return (
-							<g>
-								<path
-									stroke={data.xAxis.color}
-									stroke-width={1}
-									stroke-dasharray={'2 2'}
-									d={`M ${m.paddingLeft},${y} h ${m.xAxisWidth}`}
-								/>
-								<text
-									fill={data.xAxis.color}
-									font-size={fontSize * 0.8}
-									y={y - 4}
-									x={m.paddingLeft - 3}
-									text-anchor="end"
-								>
-									{format(value)}
-								</text>
-								<text
-									fill={data.xAxis.color}
-									font-size={fontSize * 0.8}
-									y={y + 8}
-									x={m.paddingLeft - 3}
-									text-anchor="end"
-								>
-									{label}
-								</text>
-							</g>
-						)
-					}),
+				.map(
+					({ helperLines, min, max, format }) =>
+						helperLines?.map(({ label, value }) => {
+							const y = m.yPosition({ min, max }, value)
+							return (
+								<g>
+									<path
+										stroke={data.xAxis.color}
+										stroke-width={1}
+										stroke-dasharray={'2 2'}
+										d={`M ${m.paddingLeft},${y} h ${m.xAxisWidth}`}
+									/>
+									<text
+										fill={data.xAxis.color}
+										font-size={fontSize * 0.8}
+										y={y - 4}
+										x={m.paddingLeft - 3}
+										text-anchor="end"
+									>
+										{format(value)}
+									</text>
+									<text
+										fill={data.xAxis.color}
+										font-size={fontSize * 0.8}
+										y={y + 8}
+										x={m.paddingLeft - 3}
+										text-anchor="end"
+									>
+										{label}
+									</text>
+								</g>
+							)
+						}),
 				)}
 			{/* datasets lines */}
 			{data.datasets.map((dataset) => {
