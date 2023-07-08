@@ -35,7 +35,7 @@
     "@sinclair/typebox": "0.29.4",
     "classnames": "2.3.2",
     "code-128-encoder": "3.1.1",
-    "compare-versions": "6.0.0-rc.3",
+    "compare-versions": "6.0.0",
     "date-fns": "2.30.0",
     "e118-iin-list": "3.1.0",
     "html5-qrcode": "2.3.8",
