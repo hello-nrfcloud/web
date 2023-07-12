@@ -27,6 +27,7 @@ if (SENTRY_DSN !== undefined) {
 		})
 		.catch((err) => {
 			console.error(`[Sentry]`, `Failed to load @sentry/browser`)
+			console.error(`[Sentry]`, err)
 		})
 } else {
 	console.debug(`[Sentry]`, `disabled`)
