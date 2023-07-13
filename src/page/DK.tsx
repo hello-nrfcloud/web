@@ -44,7 +44,9 @@ export const DK = ({ dk }: { dk: TDK }) => (
 						/>
 						<div class="card-body">
 							<p>{dk.abstract}</p>
-							<h2>Links</h2>
+						</div>
+						<div class="card-footer">
+							<h2 class="mt-2">Links</h2>
 							<ul>
 								<li>
 									<a href={dk.links.learnMore} target={'_blank'}>
@@ -52,7 +54,7 @@ export const DK = ({ dk }: { dk: TDK }) => (
 									</a>
 								</li>
 								<li>
-									<a href={dk.links.learnMore} target={'_blank'}>
+									<a href={dk.links.documentation} target={'_blank'}>
 										Documentation
 									</a>
 								</li>
