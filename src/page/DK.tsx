@@ -37,7 +37,9 @@ export const DK = ({ dk }: { dk: TDK }) => (
 						</div>
 						<img
 							alt={`${dk.title} (${dk.model})`}
-							src={`/static/images/${encodeURIComponent(dk.model)}.webp`}
+							src={`/static/images/${encodeURIComponent(
+								dk.model,
+							)}.webp?v=${VERSION}`}
 							class="img-fluid"
 						/>
 						<div class="card-body">

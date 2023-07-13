@@ -19,7 +19,9 @@ export const DKSelector = () => {
 							<a href={`/dk/${encodeURIComponent(id)}`}>
 								<img
 									alt={`${title} (${id})`}
-									src={`/static/images/${encodeURIComponent(id)}.webp`}
+									src={`/static/images/${encodeURIComponent(
+										id,
+									)}.webp?v=${VERSION}`}
 									class="img-fluid"
 								/>
 							</a>
