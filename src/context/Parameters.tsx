@@ -5,8 +5,8 @@ type Parameters = {
 	webSocketURI: URL
 	// Map resources
 	mapName: string
-	cognitoIdentityPoolId: string
-	region: string
+	mapApiKey: string
+	mapRegion: string
 }
 export const ParametersContext = createContext<{
 	onParameters: (listener: (parameters: Parameters) => void) => void
@@ -27,12 +27,12 @@ const parametersPromise:
 					throw new Error(`Failed to fetch parameters: ${await res.text()}`)
 				}
 				const parameters = await res.json()
-				const { webSocketURI, mapName, cognitoIdentityPoolId } = parameters
+				const { webSocketURI, mapName, mapApiKey, mapRegion } = parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
 					mapName,
-					cognitoIdentityPoolId,
-					region: cognitoIdentityPoolId.split(':')[0],
+					mapApiKey,
+					mapRegion,
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),

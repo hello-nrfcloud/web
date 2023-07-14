@@ -16,7 +16,6 @@ import { useParameters } from '#context/Parameters.js'
 import { LocationSource } from '@hello.nrfcloud.com/proto/hello'
 import maplibregl from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { useCognitoCredentials } from '../context/CognitoCredentials.js'
 import './Map.css'
 import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
 import { mapStyle } from './style.js'
@@ -47,23 +46,22 @@ const glyphFonts = {
 export const Map = () => {
 	const { onParameters } = useParameters()
 	const { device } = useDevice()
-	const { credentials } = useCognitoCredentials()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { location } = useDeviceLocation()
 	const [map, setMap] = useState<maplibregl.Map>()
 
 	useEffect(() => {
 		if (containerRef.current === null) return
-		onParameters(({ region, mapName }) => {
+		onParameters(({ mapRegion, mapName, mapApiKey }) => {
 			const map = new maplibregl.Map({
 				container: 'map',
 				style: mapStyle({
-					region,
+					region: mapRegion,
 					mapName,
 				}),
 				center: [10.437581513483195, 63.42148461054351],
 				zoom: 12,
-				transformRequest: transformRequest(credentials, region),
+				transformRequest: transformRequest(mapApiKey, mapRegion),
 				refreshExpiredTiles: false,
 				trackResize: true,
 				keyboard: false,

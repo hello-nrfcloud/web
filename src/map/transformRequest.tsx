@@ -1,12 +1,7 @@
-import { Signer } from '@aws-amplify/core'
-import type { CognitoIdentityCredentials } from '@aws-sdk/credential-provider-cognito-identity'
 import type { RequestTransformFunction } from 'maplibre-gl'
 
 export const transformRequest =
-	(
-		credentials: CognitoIdentityCredentials,
-		region: string,
-	): RequestTransformFunction =>
+	(apiKey: string, region: string): RequestTransformFunction =>
 	(url: string, resourceType?: string) => {
 		if (resourceType === 'Style' && !url.includes('://')) {
 			url = `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${url}/style-descriptor`
@@ -15,13 +10,8 @@ export const transformRequest =
 		}
 
 		if (url.includes('amazonaws.com')) {
-			// only sign AWS requests (with the signature as part of the query string)
 			return {
-				url: Signer.signUrl(url, {
-					access_key: credentials.accessKeyId,
-					secret_key: credentials.secretAccessKey,
-					session_token: credentials.sessionToken,
-				}),
+				url: `${url}?key=${apiKey}`,
 			}
 		}
 

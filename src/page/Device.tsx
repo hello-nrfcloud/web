@@ -8,7 +8,6 @@ import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { BME680 } from '#components/model/PCA20035-solar/BME680.js'
 import { SolarThingyBattery } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
 import { useAppSettings } from '#context/AppSettings.js'
-import { WithCognitoCredentials } from '#context/CognitoCredentials.js'
 import { useDevice } from '#context/Device.js'
 import { Provider as SolarThingyHistoryProvider } from '#context/models/PCA20035-solar.js'
 import { SolarThingyFlow } from '#flows/SolarThingyFlow.js'
@@ -37,9 +36,7 @@ export const Device = () => {
 				<DeviceHeader device={device} />
 				<div class="grid">
 					<SolarThingyFlow device={device} />
-					<WithCognitoCredentials>
-						<Map />
-					</WithCognitoCredentials>
+					<Map />
 				</div>
 				<div class="container my-4">
 					<div class="row mb-4">

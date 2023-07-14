@@ -27,9 +27,6 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@aws-amplify/core": "5.5.2",
-    "@aws-sdk/client-cognito-identity": "3.369.0",
-    "@aws-sdk/credential-provider-cognito-identity": "3.369.0",
     "@hello.nrfcloud.com/proto": "2.7.0",
     "@sentry/browser": "7.58.0",
     "@sinclair/typebox": "0.29.4",

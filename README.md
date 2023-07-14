@@ -49,7 +49,23 @@ npx cdk deploy --all
 npx cdk deploy -a 'npx tsx cdk/map.ts'
 ```
 
-Store the `mapName` and `identityPoolId` in the parameter registry.
+Store the `mapName` in the parameter registry.
+
+Store the region in the parameter registry as `mapRegion`.
+
+Navigate to your map on the AWS Console and create an API key for the map
+resource.
+
+> _Note:_ Unfortunately API Keys cannot be created using CloudFormation today.
+
+Grant the `GetMap*` action permission.
+
+In the referrers settings allow these domains
+
+- `http://localhost:*/*` (for local development)
+- your domain name, e.g. `https://hello.nrfcloud.com/*`
+
+Store the API key in the parameter registry as `mapApiKey`.
 
 ## Continuous Deployment with GitHub Actions
 
