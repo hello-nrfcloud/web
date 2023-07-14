@@ -40,7 +40,7 @@ export const DK = ({ dk }: { dk: TDK }) => (
 							src={`/static/images/${encodeURIComponent(
 								dk.model,
 							)}.webp?v=${VERSION}`}
-							class="img-fluid"
+							class="img-fluid p-4"
 						/>
 						<div class="card-body">
 							<p>{dk.abstract}</p>
@@ -65,6 +65,6 @@ export const DK = ({ dk }: { dk: TDK }) => (
 			</div>
 		</div>
 		<DKResources type={dk} />
-		<ScanQR />
+		<ScanQR type={dk} />
 	</main>
 )

@@ -22,7 +22,7 @@ export const DKSelector = () => {
 									src={`/static/images/${encodeURIComponent(
 										id,
 									)}.webp?v=${VERSION}`}
-									class="img-fluid"
+									class="img-fluid p-4"
 								/>
 							</a>
 							<div class="card-body">
