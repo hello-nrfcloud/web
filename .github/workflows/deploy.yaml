@@ -49,6 +49,8 @@ jobs:
           cp -L -r ./static ./build/client
           mkdir -p build/client/node_modules/maplibre-gl/dist/
           cp node_modules/maplibre-gl/dist/maplibre-gl.css build/client/node_modules/maplibre-gl/dist/
+          mkdir -p build/client/node_modules/bootstrap/dist/css/
+          cp node_modules/bootstrap/dist/css/bootstrap.css build/client/node_modules/bootstrap/dist/css/
           mkdir  ./build/client/.well-known
           echo ${{ env.VERSION }} > ./build/client/.well-known/release
 

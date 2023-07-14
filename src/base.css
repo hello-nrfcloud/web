@@ -1,0 +1,225 @@
+@import "/node_modules/bootstrap/dist/css/bootstrap.css";
+
+:root {
+  --sans-serif-font: "GT Eesti Display", monospace;
+  --monospace-font: "Pragmata Medium", monospace;
+
+  /* Nordic Style Guide: Primary colors */
+  --color-nordic-blue: rgb(0, 169, 206);
+  --color-nordic-sky: rgb(106, 209, 227);
+  --color-nordic-blueslate: #0032a0;
+  --color-nordic-lake: #0077c8;
+
+  /* Nordic Style Guide: Supporting colors */
+  --color-nordic-grass: #cedd50; /* nRF51 Series */
+  --color-nordic-sun: #f4cb43; /* nRF52 Series */
+  --color-nordic-fall: #de823b; /* nRF91 Series */
+  --color-nordic-power: #8bc058; /* nPM Family   */
+  --color-nordic-red: #d1314f; /* nRF53 Series */
+  --color-nordic-pink: #c6007e; /* nRF21 Series */
+
+  /* Nordic Style Guide: Neutral colors */
+  --color-nordic-light-grey: #d9e1e2;
+  --color-nordic-middle-grey: #768692;
+  --color-nordic-dark-grey: #333f48;
+
+  /* Location Source Colors */
+  /* Source https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc */
+  --color-location-GNSS: #c7f9cc;
+  --color-location-WIFI: #80ed99;
+  --color-location-MULTI_CELL: #57cc99;
+  --color-location-SINGLE_CELL: #38a3a5;
+
+  /* Product Family Colors */
+  --color-nRF9: var(--color-nordic-fall);
+  --color-nRF7: #d13150;
+
+  /* Other */
+  --color-panel-bg: #0b0b0f75;
+}
+
+/* Bootstrap Button Overrides */
+.btn {
+  --bs-btn-border-radius: 0;
+  --bs-btn-border-width: 0;
+  --bs-btn-disabled-bg: var(--color-nordic-light-grey);
+  --bs-btn-disabled-border-color: var(--color-nordic-light-grey);
+  --bs-btn-disabled-color: white;
+  padding: 8px 22px;
+}
+.btn-primary {
+  --bs-btn-bg: var(--color-nordic-blue);
+  --bs-btn-border-color: var(--color-nordic-blue);
+  --bs-btn-hover-bg: var(--color-nordic-blue);
+  --bs-btn-hover-border-color: var(--color-nordic-blue);
+  --bs-btn-active-bg: var(--color-nordic-blue);
+  --bs-btn-active-border-color: var(--color-nordic-blue);
+}
+.btn-secondary {
+  --bs-btn-border-width: 2px;
+  padding: 6px 20px;
+  --bs-btn-color: var(--color-nordic-lake);
+  --bs-btn-bg: white;
+  --bs-btn-border-color: var(--color-nordic-light-grey);
+  --bs-btn-hover-bg: var(--color-nordic-lake);
+  --bs-btn-hover-border-color: var(--color-nordic-lake);
+  --bs-btn-active-bg: var(--color-nordic-lake);
+  --bs-btn-active-border-color: var(--color-nordic-lake);
+  --bs-btn-disabled-bg: white;
+  --bs-btn-disabled-color: var(--color-nordic-middle-grey);
+  --bs-btn-disabled-border-color: var(--color-nordic-light-grey);
+}
+.btn-outline-secondary {
+  --bs-btn-border-color: var(--color-nordic-lake);
+  --bs-btn-color: var(--color-nordic-lake);
+  --bs-btn-hover-bg: var(--color-nordic-lake);
+  --bs-btn-hover-border-color: var(--color-nordic-lake);
+}
+.btn-success {
+  --bs-btn-color: var(--color-nordic-dark-grey);
+  --bs-btn-hover-color: var(--color-nordic-dark-grey);
+  --bs-btn-bg: var(--color-nordic-grass);
+  --bs-btn-border-color: var(--color-nordic-grass);
+  --bs-btn-hover-bg: var(--color-nordic-grass);
+  --bs-btn-hover-border-color: var(--color-nordic-grass);
+  --bs-btn-active-bg: var(--color-nordic-grass);
+  --bs-btn-active-border-color: var(--color-nordic-grass);
+}
+.btn-danger {
+  --bs-btn-bg: var(--color-nordic-red);
+  --bs-btn-border-color: var(--color-nordic-red);
+  --bs-btn-hover-bg: var(--color-nordic-red);
+  --bs-btn-hover-border-color: var(--color-nordic-red);
+  --bs-btn-active-bg: var(--color-nordic-red);
+  --bs-btn-active-border-color: var(--color-nordic-red);
+}
+.btn-warning {
+  --bs-btn-color: var(--color-nordic-dark-grey);
+  --bs-btn-bg: var(--color-nordic-sun);
+  --bs-btn-border-color: var(--color-nordic-sun);
+  --bs-btn-hover-bg: var(--color-nordic-sun);
+  --bs-btn-hover-border-color: var(--color-nordic-sun);
+  --bs-btn-active-bg: var(--color-nordic-sun);
+  --bs-btn-active-border-color: var(--color-nordic-sun);
+}
+.btn-info {
+  --bs-btn-color: white;
+  --bs-btn-hover-color: white;
+  --bs-btn-bg: var(--color-nordic-blueslate);
+  --bs-btn-border-color: var(--color-nordic-blueslate);
+  --bs-btn-hover-bg: var(--color-nordic-blueslate);
+  --bs-btn-hover-border-color: var(--color-nordic-blueslate);
+  --bs-btn-active-bg: var(--color-nordic-blueslate);
+  --bs-btn-active-border-color: var(--color-nordic-blueslate);
+}
+.btn-light {
+  --bs-btn-bg: var(--color-nordic-light-grey);
+  --bs-btn-border-color: var(--color-nordic-light-grey);
+  --bs-btn-hover-bg: var(--color-nordic-light-grey);
+  --bs-btn-hover-border-color: var(--color-nordic-light-grey);
+  --bs-btn-active-bg: var(--color-nordic-light-grey);
+  --bs-btn-active-border-color: var(--color-nordic-light-grey);
+}
+.btn-outline-light {
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--color-nordic-light-grey);
+  --bs-btn-color: var(--color-nordic-light-grey);
+  --bs-btn-hover-bg: var(--color-nordic-light-grey);
+  --bs-btn-hover-border-color: var(--color-nordic-light-grey);
+  --bs-btn-active-bg: var(--color-nordic-light-grey);
+  --bs-btn-active-border-color: var(--color-nordic-light-grey);
+}
+.btn-dark {
+  --bs-btn-bg: var(--color-nordic-dark-grey);
+  --bs-btn-border-color: var(--color-nordic-dark-grey);
+  --bs-btn-hover-bg: var(--color-nordic-dark-grey);
+  --bs-btn-hover-border-color: var(--color-nordic-dark-grey);
+  --bs-btn-active-bg: var(--color-nordic-dark-grey);
+  --bs-btn-active-border-color: var(--color-nordic-dark-grey);
+}
+
+body {
+  margin-top: 56px;
+}
+
+body.desktop {
+  margin-top: 0;
+}
+
+abbr[title] {
+  text-decoration: none;
+}
+
+body {
+  font-family: var(--sans-serif-font);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 300;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 27px;
+  font-family: "GT Eesti Display";
+  font-weight: 100;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 27px;
+  font-family: "GT Eesti Display";
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 22px;
+  font-family: "GT Eesti Display";
+  font-weight: 400;
+}
+
+code {
+  font-family: var(--monospace-font);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-ULight.woff2") format("woff2");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Light.woff2") format("woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "GT Eesti Display";
+  src: url("/static/fonts/GT-Eesti-Display-Medium.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Pragmata Medium";
+  src:
+    local("Pragmata Medium"),
+    url("/static/fonts/Pragmata-Medium.woff2") format("woff2");
+  font-weight: 400;
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+  margin-bottom: 0;
+}

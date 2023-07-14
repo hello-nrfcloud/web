@@ -3,6 +3,7 @@ import type { VNode } from 'preact'
 import { hydrate } from 'preact'
 import type { PageContextBuiltInClientWithClientRouting } from 'vite-plugin-ssr/types'
 import '../src/utils/sentry.js'
+import '../src/base.css'
 
 type Page = (pageProps: PageProps) => VNode<any>
 type PageProps = Record<string, any>
