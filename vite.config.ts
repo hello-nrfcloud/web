@@ -27,6 +27,7 @@ export default defineConfig({
 		}),
 		ssr({
 			prerender: true,
+			includeAssetsImportedByServer: true,
 		}),
 	],
 	base: `${(process.env.BASE_URL ?? '').replace(/\/+$/, '')}/`,
