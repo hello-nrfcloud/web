@@ -55,7 +55,7 @@
     "@nordicsemiconductor/from-env": "2.0.0",
     "@playwright/test": "1.36.1",
     "@preact/preset-vite": "2.5.0",
-    "@swc/core": "1.3.69",
+    "@swc/core": "1.3.70",
     "@swc/jest": "0.2.26",
     "@types/jest": "29.5.3",
     "@types/lodash-es": "4.17.8",
