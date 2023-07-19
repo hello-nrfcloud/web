@@ -45,7 +45,7 @@
     "svg-country-flags": "1.2.10"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.370.0",
+    "@aws-sdk/client-cloudformation": "3.373.0",
     "@aws-sdk/client-cloudfront": "3.370.0",
     "@aws-sdk/client-iam": "3.370.0",
     "@babel/plugin-syntax-import-assertions": "7.22.5",
