@@ -9,7 +9,7 @@ import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { useDKs, type DK } from './DKs.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
-import { validPassthrough } from 'proto/validPassthrough.js'
+import { validPassthrough } from '../proto/validPassthrough.js'
 
 export type Device = {
 	id: string
