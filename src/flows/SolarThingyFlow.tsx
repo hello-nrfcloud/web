@@ -42,7 +42,7 @@ export const SolarThingyFlow = ({ device }: { device: Device }) => {
 			// Gain
 			{
 				min: 0,
-				max: 5.5,
+				max: 6.5,
 				values: gain.map(({ mA, ts }) => [
 					mA,
 					subMilliseconds(base, base.getTime() - ts),
