@@ -1,6 +1,8 @@
 import { isSSR } from './isSSR.js'
+import { describe, test as it } from 'node:test'
+import assert from 'node:assert'
 
-describe('isSSR()', () => {
-	it('should return true when run server-side', () =>
-		expect(isSSR).toEqual(true))
+void describe('isSSR()', () => {
+	void it('should return true when run server-side', () =>
+		assert.equal(isSSR, true))
 })

@@ -1,18 +1,11 @@
 import { getItem, removeItem, setItem } from './localStorage.js'
+import { describe, test as it } from 'node:test'
+import assert from 'node:assert'
 
-describe('localStorage', () => {
-	let warn: any
-	beforeAll(() => {
-		// silence console
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
-	})
-	afterAll(() => {
-		warn.mockReset()
-	})
-	it('should swallow calls when run server side', () => {
-		expect(setItem('foo', 'bar')).toEqual(undefined)
-		expect(getItem('foo')).toEqual(null)
-		expect(removeItem('foo')).toEqual(undefined)
+void describe('localStorage', () => {
+	void it('should swallow calls when run server side', () => {
+		assert.equal(setItem('foo', 'bar'), undefined)
+		assert.equal(getItem('foo'), null)
+		assert.equal(removeItem('foo'), undefined)
 	})
 })

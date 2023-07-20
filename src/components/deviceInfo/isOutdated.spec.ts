@@ -1,14 +1,19 @@
 import { isOutdated } from './isOutdated.js'
+import { describe, test as it } from 'node:test'
+import assert from 'node:assert'
 
-describe('isOutdated', () => {
-	it('should not mark 1.1.2-sol-lp-mmflt as outdated for 1.1.1', () =>
-		expect(isOutdated('1.1.1', '1.1.2-sol-lp-mmflt')).toEqual(false))
-	it('should not mark 1.1.2-sol-lp-mmflt as outdated for 1.1.2', () =>
-		expect(isOutdated('1.1.2', '1.1.2-sol-lp-mmflt')).toEqual(false))
-	it('should mark 1.1.2-sol-lp-mmflt as outdated for 1.1.3', () =>
-		expect(isOutdated('1.1.3', '1.1.2-sol-lp-mmflt')).toEqual(true))
-	it.each([undefined, null, 'foo'])(
-		'should mark the invalid version %j as outdated',
-		(invalid) => expect(isOutdated('1.0.0', invalid as any)).toEqual(true),
-	)
+void describe('isOutdated', () => {
+	void it('should not mark 1.1.2-sol-lp-mmflt as outdated for 1.1.1', () =>
+		assert.equal(isOutdated('1.1.1', '1.1.2-sol-lp-mmflt'), false))
+	void it('should not mark 1.1.2-sol-lp-mmflt as outdated for 1.1.2', () =>
+		assert.equal(isOutdated('1.1.2', '1.1.2-sol-lp-mmflt'), false))
+	void it('should mark 1.1.2-sol-lp-mmflt as outdated for 1.1.3', () =>
+		assert.equal(isOutdated('1.1.3', '1.1.2-sol-lp-mmflt'), true))
+
+	for (const invalid of [undefined, null, 'foo']) {
+		void it(`should mark the invalid version ${JSON.stringify(
+			invalid,
+		)} as outdated`, (invalid) =>
+			assert.equal(isOutdated('1.0.0', invalid as any), true))
+	}
 })

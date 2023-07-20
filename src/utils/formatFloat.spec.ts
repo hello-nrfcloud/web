@@ -1,9 +1,11 @@
 import { formatFloat } from './formatFloat.js'
+import { describe, test as it } from 'node:test'
+import assert from 'node:assert'
 
-describe('formatFloat', () => {
-	it('should nicely format floats', () =>
-		expect(formatFloat(4.762067631165049)).toEqual('4.76'))
+void describe('formatFloat', () => {
+	void it('should nicely format floats', () =>
+		assert.equal(formatFloat(4.762067631165049), '4.76'))
 
-	it('should cut off trailing slash', () =>
-		expect(formatFloat(4.0)).toEqual('4'))
+	void it('should cut off trailing slash', () =>
+		assert.equal(formatFloat(4.0), '4'))
 })
