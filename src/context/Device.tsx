@@ -1,15 +1,21 @@
 import {
 	Context,
 	DeviceIdentity,
-	HelloMessage,
+	HistoricalDataRequest,
 } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect, useRef, useState } from 'preact/hooks'
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'preact/hooks'
 import { useDKs, type DK } from './DKs.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
-import { validPassthrough } from '../proto/validPassthrough.js'
+import { IncomingMessage, validPassthrough } from '../proto/validPassthrough.js'
 
 export type Device = {
 	id: string
@@ -19,8 +25,10 @@ export type Device = {
 
 type Messages = {
 	received: Date
-	message: Static<typeof HelloMessage>
+	message: Static<typeof IncomingMessage>
 }[]
+
+type OutgoingMessage = Static<typeof HistoricalDataRequest>
 
 export const DeviceContext = createContext<{
 	type?: DK | undefined
@@ -31,6 +39,7 @@ export const DeviceContext = createContext<{
 	addMessageListener: (listener: MessageListenerFn) => {
 		remove: () => void
 	}
+	send?: (message: OutgoingMessage) => void
 }>({
 	connected: false,
 	messages: [],
@@ -41,19 +50,20 @@ export const DeviceContext = createContext<{
 })
 
 export type MessageListenerFn = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof IncomingMessage>,
 ) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
-	const [connected, setConnected] = useState<boolean>(false)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const [messages, setMessages] = useState<Messages>([])
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { DKs } = useDKs()
+	const [ws, setWebsocket] = useState<WebSocket>()
 
+	const connected = ws !== undefined
 	const listeners = useRef<MessageListenerFn[]>([])
 
 	// Set up websocket connection
@@ -70,7 +80,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 			ws.addEventListener('open', () => {
 				console.debug(`[WS]`, 'connected')
-				setConnected(true)
+				setWebsocket(ws)
 				pingInterval = setInterval(
 					() => {
 						ws?.send(
@@ -88,7 +98,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				// This happens automatically after 2 hours
 				// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
 				console.debug(`[WS]`, 'disconnected')
-				setConnected(false)
+				setWebsocket(undefined)
 			})
 
 			ws.addEventListener('error', (err) => {
@@ -103,7 +113,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						console.error(`[WS]`, `message dropped`, message, errors)
 					})
 					if (maybeValid !== null) {
-						console.debug(`[WS]`, maybeValid)
+						console.debug(`[WS] <`, maybeValid)
 						setMessages((m) =>
 							[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
 						)
@@ -130,10 +140,26 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 		return () => {
 			ws?.close()
-			setConnected(false)
+			setWebsocket(undefined)
 			pingInterval !== undefined && clearInterval(pingInterval)
 		}
 	}, [fingerprint])
+
+	const send =
+		ws === undefined
+			? undefined
+			: useCallback(
+					(message: OutgoingMessage) => {
+						console.log(`[WS] >`, message)
+						ws.send(
+							JSON.stringify({
+								message: 'message',
+								payload: message,
+							}),
+						)
+					},
+					[ws],
+			  )
 
 	return (
 		<DeviceContext.Provider
@@ -151,6 +177,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					}
 				},
 				connectionFailed,
+				send,
 			}}
 		>
 			{children}
@@ -163,6 +190,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof IncomingMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()
