@@ -1,6 +1,7 @@
 import {
 	Context,
 	DeviceIdentity,
+	HelloMessage,
 	HistoricalDataRequest,
 } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
@@ -15,7 +16,7 @@ import {
 import { useDKs, type DK } from './DKs.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
-import { IncomingMessage, validPassthrough } from '../proto/validPassthrough.js'
+import { validPassthrough } from '../proto/validPassthrough.js'
 
 export type Device = {
 	id: string
@@ -25,7 +26,7 @@ export type Device = {
 
 type Messages = {
 	received: Date
-	message: Static<typeof IncomingMessage>
+	message: Static<typeof HelloMessage>
 }[]
 
 type OutgoingMessage = Static<typeof HistoricalDataRequest>
@@ -50,7 +51,7 @@ export const DeviceContext = createContext<{
 })
 
 export type MessageListenerFn = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
@@ -190,6 +191,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()

@@ -1,6 +1,7 @@
 import type { DK } from '#context/DKs.js'
 import { FingerprintForm } from './FingerprintForm.js'
 import { QRCodeScanner } from './QRCodeScanner.js'
+import { WithResize } from './ResizeObserver.js'
 import { ThingyWithQRCode } from './ThingyWithQRCode.js'
 
 export const ScanQR = ({ type }: { type?: DK }) => (
@@ -22,7 +23,11 @@ export const ScanQR = ({ type }: { type?: DK }) => (
 							class="img-fluid p-4"
 						/>
 					)}
-					{type === undefined && <ThingyWithQRCode />}
+					{type === undefined && (
+						<WithResize>
+							{(size) => <ThingyWithQRCode size={size} />}
+						</WithResize>
+					)}
 				</div>
 				<div class="col-12 col-md-6 col-lg-4">
 					<QRCodeScanner />

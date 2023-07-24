@@ -1,7 +1,7 @@
 import { Ago } from '#components/Ago.js'
 import { type Device } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
-import { WaitingForData } from '#flows/WaitingForData.js'
+import { WaitingForData } from '#components/WaitingForData.js'
 import {
 	BatteryFull,
 	CloudOff,
@@ -57,7 +57,10 @@ export const ConnectDK = ({ device }: { device: Device }) => {
 								<span>
 									<Ago date={device.lastSeen} strokeWidth={2} size={24} /> ago
 								</span>
-								was when the device has last sent data to the cloud
+								<br />
+								<small class="text-muted">
+									was when the device has last sent data to the cloud
+								</small>
 							</>
 						)}
 					</li>

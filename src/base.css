@@ -8,7 +8,8 @@
   --color-nordic-blue: rgb(0, 169, 206);
   --color-nordic-sky: rgb(106, 209, 227);
   --color-nordic-blueslate: #0032a0;
-  --color-nordic-lake: #0077c8;
+  --color-nordic-lake-rgb: 0, 119, 200;
+  --color-nordic-lake: rgb(var(--color-nordic-lake-rgb));
 
   /* Nordic Style Guide: Supporting colors */
   --color-nordic-grass: #cedd50; /* nRF51 Series */

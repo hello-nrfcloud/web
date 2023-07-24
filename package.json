@@ -82,6 +82,7 @@
     "remark-extract-frontmatter": "3.2.0",
     "remark-frontmatter": "4.0.1",
     "remark-rehype": "10.1.0",
+    "tsmatchers": "4.0.12",
     "tsx": "3.12.7",
     "typescript": "5.1.6",
     "vite-plugin-ssr": "0.4.133"

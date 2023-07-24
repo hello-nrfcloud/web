@@ -4,71 +4,98 @@ import {
 	AirQuality,
 	AirTemperature,
 	Battery,
-	BatteryData,
 	Button,
 	Context,
 	Gain,
-	GainData,
 	HistoricalDataRequest,
 	HistoricalDataResponse,
+	ChartType,
+	HelloMessage,
+	GainResponse,
+	BatteryResponse,
 } from '@hello.nrfcloud.com/proto/hello'
-import { Type, type Static } from '@sinclair/typebox'
+import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice, type MessageListenerFn } from '../Device.js'
-import type { IncomingMessage } from 'proto/validPassthrough.js'
 
 const solarThingy = Context.model('PCA20035+solar')
 
 const isGain = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof Gain> =>
 	message['@context'] === solarThingy.transformed('gain').toString()
 const isGainHistory = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof HistoricalDataResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof HistoricalDataResponse>).message === 'gain'
 
 const isBattery = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof Battery> =>
 	message['@context'] === solarThingy.transformed('battery').toString()
 const isBatteryHistory = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof HistoricalDataResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof HistoricalDataResponse>).message === 'battery'
 
 const isAirHumidity = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof AirHumidity> =>
 	message['@context'] === solarThingy.transformed('airHumidity').toString()
 const isAirPressure = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof AirPressure> =>
 	message['@context'] === solarThingy.transformed('airPressure').toString()
 const isAirQuality = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof AirQuality> =>
 	message['@context'] === solarThingy.transformed('airQuality').toString()
 const isAirTemperature = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof AirTemperature> =>
 	message['@context'] === solarThingy.transformed('airTemperature').toString()
 const isButton = (
-	message: Static<typeof IncomingMessage>,
+	message: Static<typeof HelloMessage>,
 ): message is Static<typeof Button> =>
 	message['@context'] === solarThingy.transformed('button').toString()
 
+const chartTypes: {
+	id: Static<typeof ChartType>
+	title: string
+}[] = [
+	{ id: 'lastHour', title: 'last hour' },
+	{ id: 'lastDay', title: 'last day' },
+	{ id: 'lastWeek', title: 'last week' },
+	{ id: 'lastMonth', title: 'last month' },
+]
+
+type FromHistory = {
+	fromHistory?: boolean
+}
+export type GainReading = Omit<Static<typeof Gain>, '@context'> & FromHistory
+export type GainReadings = GainReading[]
+
+export type BatteryReading = Omit<Static<typeof Battery>, '@context'> &
+	FromHistory
+export type BatteryReadings = BatteryReading[]
+
 export const SolarThingyHistoryContext = createContext<{
-	gain: Omit<Static<typeof Gain>, '@context'>[]
-	battery: Omit<Static<typeof Battery>, '@context'>[]
+	gain: GainReadings
+	battery: BatteryReadings
 	airHumidity: Omit<Static<typeof AirHumidity>, '@context'>[]
 	airPressure: Omit<Static<typeof AirPressure>, '@context'>[]
 	airQuality: Omit<Static<typeof AirQuality>, '@context'>[]
 	airTemperature: Omit<Static<typeof AirTemperature>, '@context'>[]
 	button: Omit<Static<typeof Button>, '@context'>[]
+	chartType: Static<typeof ChartType>
+	chartTypes: {
+		id: Static<typeof ChartType>
+		title: string
+	}[]
+	setChartType: (type: Static<typeof ChartType>) => void
 }>({
 	gain: [],
 	battery: [],
@@ -77,21 +104,20 @@ export const SolarThingyHistoryContext = createContext<{
 	airQuality: [],
 	airTemperature: [],
 	button: [],
+	chartType: 'lastHour',
+	setChartType: () => undefined,
+	chartTypes,
 })
 
 const byTs = ({ ts: t1 }: { ts: number }, { ts: t2 }: { ts: number }) => t2 - t1
 
-// FIXME: use export from proto
-const GainAttributes = Type.Record(Type.String(), Type.Array(GainData))
-const BatteryAttributes = Type.Record(Type.String(), Type.Array(BatteryData))
-
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { addMessageListener, send } = useDevice()
+	const [chartType, setChartType] =
+		useState<Static<typeof ChartType>>('lastHour')
 
-	const [gain, setGain] = useState<Omit<Static<typeof Gain>, '@context'>[]>([])
-	const [battery, setBattery] = useState<
-		Omit<Static<typeof Battery>, '@context'>[]
-	>([])
+	const [gain, setGain] = useState<GainReadings>([])
+	const [battery, setBattery] = useState<BatteryReadings>([])
 	const [airPressure, setAirPressure] = useState<
 		Omit<Static<typeof AirPressure>, '@context'>[]
 	>([])
@@ -110,7 +136,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		const gainHistory: Static<typeof HistoricalDataRequest> = {
 			'@context': Context.historicalDataRequest.toString(),
 			'@id': crypto.randomUUID(),
-			type: 'lastHour',
+			type: chartType,
 			message: 'gain',
 			attributes: {
 				avgMA: { attribute: 'mA', aggregate: 'avg' },
@@ -122,14 +148,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		const batteryHistory: Static<typeof HistoricalDataRequest> = {
 			'@context': Context.historicalDataRequest.toString(),
 			'@id': crypto.randomUUID(),
-			type: 'lastHour',
+			type: chartType,
 			message: 'battery',
 			attributes: {
 				avgPercent: { attribute: '%', aggregate: 'avg' },
 			},
 		}
 		send(batteryHistory)
-	}, [send])
+	}, [send, chartType])
 
 	const onMessage: MessageListenerFn = (message) => {
 		if (isGain(message)) {
@@ -138,9 +164,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (isGainHistory(message)) {
 			setGain((currentGain) =>
 				[
-					...currentGain,
-					...((message.attributes as Static<typeof GainAttributes>)['avgMA'] ??
-						[]),
+					...currentGain.filter(({ fromHistory }) => fromHistory !== true),
+					...(
+						(message.attributes as Static<typeof GainResponse>)['avgMA'] ?? []
+					).map((m) => ({ ...m, fromHistory: true })), // mark as from history
 				].sort(byTs),
 			)
 		}
@@ -150,10 +177,12 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (isBatteryHistory(message)) {
 			setBattery((currentBattery) =>
 				[
-					...currentBattery,
-					...((message.attributes as Static<typeof BatteryAttributes>)[
-						'avgPercent'
-					] ?? []),
+					...currentBattery.filter(({ fromHistory }) => fromHistory !== true),
+					...(
+						(message.attributes as Static<typeof BatteryResponse>)[
+							'avgPercent'
+						] ?? []
+					).map((m) => ({ ...m, fromHistory: true })), // mark as from history
 				].sort(byTs),
 			)
 		}
@@ -192,6 +221,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				airQuality,
 				airTemperature,
 				button,
+				chartType,
+				chartTypes,
+				setChartType,
 			}}
 		>
 			{children}

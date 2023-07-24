@@ -1,7 +1,8 @@
 import { Secondary } from '#components/Buttons.js'
 import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
 import { useEffect, useState } from 'preact/hooks'
-import { QRCodeGenerator } from '../components/QRCodeGenerator.js'
+import { QRCodeGenerator } from '#components/QRCodeGenerator.js'
+import { WithResize } from '#components/ResizeObserver.js'
 
 export const ViewSource = () => (
 	<main>
@@ -132,7 +133,9 @@ export const ViewSource = () => (
 						<div class="mb-4">
 							<QRCodeGenerator />
 						</div>
-						<ThingyWithQRCode />
+						<WithResize>
+							{(size) => <ThingyWithQRCode size={size} />}
+						</WithResize>
 						<h3>Manually entering the fingerprint</h3>
 						<p>
 							If users cannot scan the QR code because they do not have a

@@ -3,39 +3,18 @@ import code128 from 'code-128-encoder'
 import { format } from 'date-fns'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
+import type { Size } from './ResizeObserver.js'
 
 const encoder = new code128()
 
-export const ThingyWithQRCode = () => {
+export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 	const ref = useRef<HTMLImageElement>(null)
-	const [size, setSize] = useState<{ width: number; height: number }>()
 	const [fingerprint] = useState<string>(
 		`${parseInt(`${format(new Date(), 'yyw')}`, 10).toString(
 			16,
 		)}.${generateCode()}`,
 	)
 	const [qrcodeSVG, setSVG] = useState<string>()
-
-	useEffect(() => {
-		if (ref.current === null) return
-		setSize(ref.current.getBoundingClientRect())
-	}, [ref])
-
-	useEffect(() => {
-		if (ref.current === null) return
-		const resizeObserver = new ResizeObserver((entries) => {
-			for (const entry of entries) {
-				if ('contentRect' in entry) {
-					const contentRect = entry.contentRect
-					setSize(contentRect)
-				}
-			}
-		})
-		resizeObserver.observe(ref.current)
-		return () => {
-			if (ref.current !== null) resizeObserver.unobserve(ref.current)
-		}
-	}, [ref])
 
 	const scale = (size?.width ?? 100) / 100
 	const p = (pos: number) => pos * scale

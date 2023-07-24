@@ -1,0 +1,12 @@
+button.dateRange {
+  background-color: transparent;
+  border: 0;
+  color: #ffffffcc;
+  font-weight: 300;
+}
+
+button.dateRange.active {
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-weight: 300;
+}

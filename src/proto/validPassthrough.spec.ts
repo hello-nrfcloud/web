@@ -29,8 +29,10 @@ void describe('validPassthrough', () => {
 			instancePath: '',
 			keyword: 'required',
 			message: "must have required property '@context'",
-			params: { missingProperty: '@context' },
-			schemaPath: '#/anyOf/0/anyOf/0/required',
+			params: {
+				missingProperty: '@context',
+			},
+			schemaPath: '#/anyOf/0/required',
 		})
 	})
 })

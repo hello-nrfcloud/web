@@ -215,8 +215,9 @@ export const Map = () => {
 										<a
 											href={`https://google.com/maps/search/${location.lat},${location.lng}`}
 											target="_blank"
+											class="text-light"
 										>
-											{location.lat},{location.lng}
+											{location.lat}, {location.lng}
 										</a>{' '}
 										with an accuracy of {location.acc} m.
 									</p>
@@ -227,6 +228,7 @@ export const Map = () => {
 								<a
 									href="https://www.nordicsemi.com/Products/Cloud-services"
 									target="_blank"
+									class="text-light"
 								>
 									nRF Cloud Location services
 								</a>{' '}
