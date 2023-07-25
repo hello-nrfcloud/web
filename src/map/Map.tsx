@@ -9,7 +9,7 @@ import {
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
-import { useDevice } from '#context/Device.js'
+import { type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
@@ -43,9 +43,8 @@ const glyphFonts = {
 	bold: 'Ubuntu Medium',
 } as const
 
-export const Map = () => {
+export const Map = ({ device }: { device: Device }) => {
 	const { onParameters } = useParameters()
-	const { device } = useDevice()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { location } = useDeviceLocation()
 	const [map, setMap] = useState<maplibregl.Map>()

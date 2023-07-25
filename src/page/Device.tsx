@@ -41,7 +41,7 @@ export const Device = () => {
 				<WaitingForConnection device={device} />
 				<div class="grid">
 					<SolarThingyChart />
-					<Map />
+					<Map device={device} />
 				</div>
 				<div class="container my-4">
 					<div class="row mb-4">
