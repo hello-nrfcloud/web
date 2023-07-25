@@ -22,7 +22,6 @@ import {
 import { ValueLoading } from '#components/ValueLoading.js'
 import { createElement } from 'preact'
 import { SlidingSwitch } from '#components/buttons/SlidingSwitch.js'
-import { useState } from 'preact/hooks'
 
 const buttonVariants = [
 	Primary,
@@ -208,30 +207,18 @@ export const StyleGuide = () => {
 					</>
 				))}
 			</div>
-			<SlideSwitchDemo />
+			<section>
+				<h2>Sliding switches</h2>
+				<div class="mb-4">
+					<SlidingSwitch value={false} class="me-2" />
+					<SlidingSwitch value={true} />
+				</div>
+				<h3>Disabled</h3>
+				<div class="mb-4">
+					<SlidingSwitch value={false} disabled class="me-2" />
+					<SlidingSwitch value={true} disabled />
+				</div>
+			</section>
 		</section>
-	)
-}
-
-const SlideSwitchDemo = () => {
-	const [state, setState] = useState<boolean>(false)
-
-	return (
-		<>
-			<h2>Sliding switches</h2>
-			<div class="mb-4">
-				<SlidingSwitch
-					state={state}
-					class="me-2"
-					onClick={() => setState((s) => !s)}
-				/>
-				<SlidingSwitch state={!state} onClick={() => setState((s) => !s)} />
-			</div>
-			<h3>Disabled</h3>
-			<div class="mb-4">
-				<SlidingSwitch state={false} disabled class="me-2" />
-				<SlidingSwitch state={true} disabled />
-			</div>
-		</>
 	)
 }
