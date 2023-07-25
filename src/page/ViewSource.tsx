@@ -9,14 +9,14 @@ export const ViewSource = () => (
 		<article>
 			<div class="container mt-4">
 				<header class="row">
-					<div class="colr-12 col-lg-6 offset-lg-6">
+					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
 						<h1>
 							View source: how <code>hello.nrfcloud.com</code> is built.
 						</h1>
 					</div>
 				</header>
 				<div class="row mt-4">
-					<div class="col-12 col-lg-6 offset-lg-3">
+					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
 						<section>
 							<h2>About the project</h2>
 							<p>
@@ -119,10 +119,65 @@ export const ViewSource = () => (
 								.
 							</p>
 						</section>
+						<section>
+							<h2>nRF Cloud Location services</h2>
+							<p>
+								This project integrates directly with the{' '}
+								<a
+									href="https://www.nordicsemi.com/Products/Cloud-services#infotabs"
+									target="_blank"
+								>
+									nRF Cloud Location services
+								</a>{' '}
+								for showing device location on the map.
+							</p>
+							<h3>Ground fix API</h3>
+							<p>
+								The coarse location of a device is acquired by using the Ground
+								fix API, which turns neighboring cell scans of the device (which
+								contain LTE and Wi-Fi cell information), into an approximate
+								location.
+							</p>
+							<p>
+								The device sends these cell scans using the{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/nrfcloud-application-protocols/blob/30a546edce7182463c5dcdb05ad7a8afdf6eee6a/schemas/deviceToCloud/ground_fix/ground-fix-example.json"
+									target="_blank"
+								>
+									GROUND_FIX
+								</a>{' '}
+								message via MQTT.
+							</p>
+							<p>
+								nRF Cloud resolves these scans to a geo location and sends the
+								location{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/nrfcloud-application-protocols/blob/30a546edce7182463c5dcdb05ad7a8afdf6eee6a/schemas/cloudToDevice/ground_fix/ground-fix-example.json"
+									target="_blank"
+								>
+									via MQTT to the device
+								</a>
+								.
+							</p>
+							<p>
+								These messages{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/backend/blob/7406e3bf7b52a3cdd232c0b0c759796ea7f0d337/features/DeviceToWebsocket.feature.md"
+									target="_blank"
+								>
+									are received
+								</a>{' '}
+								by the hello.nrfcloud.com backend using the{' '}
+								<a href="https://docs.nrfcloud.com/Devices/MessagesAndAlerts/SetupMessageBridge.html">
+									a message bridge
+								</a>
+								.
+							</p>
+						</section>
 					</div>
 				</div>
 				<div class="row my-4">
-					<div class="col-12 col-lg-6 offset-lg-3">
+					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
 						<h2>QR codes</h2>
 						<p>
 							The easiest way to access the page for an individual device is to
