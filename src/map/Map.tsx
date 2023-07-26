@@ -21,6 +21,7 @@ import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
 import { mapStyle } from './style.js'
 import { transformRequest } from './transformRequest.js'
 import { GNSSLocation } from '#map/GNSSLocation.js'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -193,19 +194,22 @@ export const Map = ({ device }: { device: Device }) => {
 				}}
 			>
 				<div class="container py-4">
-					<div class="row">
+					<div class="row mb-2">
 						<div class="col">
 							<GNSSLocation device={device} />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-2">
 						<div class="col">
 							<NetworkLocation />
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<h2>Device location</h2>
+							<h2 class="d-flex justify-content-start align-items-center">
+								<NRFCloudLogo style={{ height: '18px' }} />
+								<span class="ms-2">Device location</span>
+							</h2>
 
 							{location === undefined && (
 								<p>

@@ -1,6 +1,12 @@
 import type { CSSProperties } from 'preact/compat'
 
-export const NRFCloudLogo = ({ style }: { style: CSSProperties }) => (
+export const NRFCloudLogo = ({
+	style,
+	class: c,
+}: {
+	style?: CSSProperties
+	class?: string
+}) => (
 	<svg
 		version="1.1"
 		id="Layer_1"
@@ -9,6 +15,7 @@ export const NRFCloudLogo = ({ style }: { style: CSSProperties }) => (
 		y="0"
 		viewBox="0 0 662 100"
 		style={style}
+		class={c}
 	>
 		<g id="nRF_Cloud_Black_00000104672878910847956600000003085443349254850436_">
 			<path
