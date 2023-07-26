@@ -1,4 +1,5 @@
 import {
+	ConfigureDevice,
 	Context,
 	DeviceIdentity,
 	HelloMessage,
@@ -29,7 +30,9 @@ type Messages = {
 	message: Static<typeof HelloMessage>
 }[]
 
-type OutgoingMessage = Static<typeof HistoricalDataRequest>
+type OutgoingMessage =
+	| Static<typeof HistoricalDataRequest>
+	| Static<typeof ConfigureDevice>
 
 export const DeviceContext = createContext<{
 	type?: DK | undefined

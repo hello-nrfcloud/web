@@ -4,22 +4,29 @@ import {
 	MinusIcon,
 	PlusIcon,
 	UnlockIcon,
+	ZapOffIcon,
 } from 'lucide-preact'
 // Needed for SSR build, named exports don't work
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
-import { type Device } from '#context/Device.js'
+import { useDevice, type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
-import { LocationSource } from '@hello.nrfcloud.com/proto/hello'
+import {
+	ConfigureDevice,
+	Context,
+	LocationSource,
+} from '@hello.nrfcloud.com/proto/hello'
 import maplibregl from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import './Map.css'
 import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
 import { mapStyle } from './style.js'
 import { transformRequest } from './transformRequest.js'
+import { SlidingSwitch } from '#components/buttons/SlidingSwitch.js'
+import type { Static } from '@sinclair/typebox'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -194,6 +201,11 @@ export const Map = ({ device }: { device: Device }) => {
 				<div class="container py-4">
 					<div class="row">
 						<div class="col">
+							<GNSSLocation device={device} />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
 							<NetworkLocation />
 						</div>
 					</div>
@@ -325,6 +337,66 @@ const MapZoom = ({ map }: { map: maplibregl.Map }) => {
 				>
 					{locked ? <UnlockIcon /> : <LockIcon />}
 				</button>
+			</div>
+		</>
+	)
+}
+
+const GNSSLocation = ({ device }: { device: Device }) => {
+	const { state } = useDeviceState()
+	const { send } = useDevice()
+	const gnssDisabledReported = (state?.config?.nod ?? []).includes('gnss')
+	const reported = !gnssDisabledReported
+	const [desired, setDesired] = useState<boolean>(!gnssDisabledReported)
+
+	const applied = reported === desired
+
+	return (
+		<>
+			<h2>GNSS location</h2>
+			<p>
+				The integrated GNSS received of the {device.type.title} can provide
+				precise geo location, however this comes at a cost. While the receiver
+				is listening for GNSS signals, the LTE modem has to be turned off. If
+				the device is indoors acquiring a GNSS fix might not be possible, and
+				block the modem unnecessary long.
+			</p>
+			<p>
+				Depending on your use-case scenario you can control whether to enable
+				GNSS on this device:
+			</p>
+			<div class="d-flex flex-row align-items-center mb-2">
+				<SlidingSwitch
+					value={desired}
+					class="me-2"
+					onChange={(state) => {
+						const configureDevice: Static<typeof ConfigureDevice> = {
+							'@context': Context.configureDevice.toString(),
+							id: device.id,
+							configuration: {
+								gnss: state,
+							},
+						}
+						send?.(configureDevice)
+						setDesired(state)
+					}}
+				/>
+				<div class="ms-2">
+					{reported ? 'GNSS is enabled' : 'GNSS is disabled'}
+				</div>
+				{!applied && (
+					<div
+						style={{
+							color: 'var(--color-nordic-sun)',
+						}}
+						class="ms-2"
+					>
+						<small>
+							<ZapOffIcon strokeWidth={1} size={16} /> The device has not yet
+							applied the configuration change.
+						</small>
+					</div>
+				)}
 			</div>
 		</>
 	)

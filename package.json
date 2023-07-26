@@ -27,7 +27,7 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "3.2.1",
+    "@hello.nrfcloud.com/proto": "3.2.2",
     "@sentry/browser": "7.60.0",
     "@sinclair/typebox": "0.29.6",
     "classnames": "2.3.2",
@@ -62,7 +62,7 @@
     "@typescript-eslint/eslint-plugin": "6.2.0",
     "aws-cdk": "2.88.0",
     "aws-cdk-lib": "2.88.0",
-    "bootstrap": "5.3.0",
+    "bootstrap": "5.3.1",
     "cdk": "2.88.0",
     "chalk": "5.3.0",
     "eslint": "8.45.0",
