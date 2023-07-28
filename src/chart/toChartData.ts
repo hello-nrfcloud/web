@@ -5,7 +5,7 @@ import {
 	type BatteryReadings,
 } from '../context/models/PCA20035-solar.js'
 import type { Static } from '@sinclair/typebox'
-import type { ChartType } from '@hello.nrfcloud.com/proto/hello/index.js'
+import type { ChartType } from '@hello.nrfcloud.com/proto/hello/chart'
 import { xAxisForType } from './xAxisForType.js'
 
 export const toChartData = ({

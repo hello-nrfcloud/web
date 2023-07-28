@@ -5,15 +5,17 @@ import {
 	AirTemperature,
 	Battery,
 	Button,
-	Context,
 	Gain,
+	Thingy91WithSolarShieldMessage,
+} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import {
 	HistoricalDataRequest,
 	HistoricalDataResponse,
 	ChartType,
-	HelloMessage,
 	GainResponse,
 	BatteryResponse,
-} from '@hello.nrfcloud.com/proto/hello'
+} from '@hello.nrfcloud.com/proto/hello/chart'
+import { Context } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
@@ -23,43 +25,43 @@ import { generateUUID } from '#utils/generateUUID.js'
 const solarThingy = Context.model('PCA20035+solar')
 
 const isGain = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof Gain> =>
 	message['@context'] === solarThingy.transformed('gain').toString()
 const isGainHistory = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof HistoricalDataResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof HistoricalDataResponse>).message === 'gain'
 
 const isBattery = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof Battery> =>
 	message['@context'] === solarThingy.transformed('battery').toString()
 const isBatteryHistory = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof HistoricalDataResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof HistoricalDataResponse>).message === 'battery'
 
 const isAirHumidity = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof AirHumidity> =>
 	message['@context'] === solarThingy.transformed('airHumidity').toString()
 const isAirPressure = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof AirPressure> =>
 	message['@context'] === solarThingy.transformed('airPressure').toString()
 const isAirQuality = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof AirQuality> =>
 	message['@context'] === solarThingy.transformed('airQuality').toString()
 const isAirTemperature = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof AirTemperature> =>
 	message['@context'] === solarThingy.transformed('airTemperature').toString()
 const isButton = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof Button> =>
 	message['@context'] === solarThingy.transformed('button').toString()
 

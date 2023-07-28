@@ -1,7 +1,7 @@
 import type { XAxis } from '#chart/chartMath.js'
 import { format } from 'date-fns'
 import type { Static } from '@sinclair/typebox'
-import type { ChartType } from '@hello.nrfcloud.com/proto/hello/index.js'
+import type { ChartType } from '@hello.nrfcloud.com/proto/hello/chart'
 
 export const xAxisForType = (type: Static<typeof ChartType>): XAxis => {
 	if (type === 'lastMonth')

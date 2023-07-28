@@ -1,5 +1,5 @@
 import { useDeviceState } from '#context/DeviceState.js'
-import { EnergyEstimate } from '@hello.nrfcloud.com/proto/hello'
+import { EnergyEstimate } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import {
 	Signal,
 	SignalHigh,

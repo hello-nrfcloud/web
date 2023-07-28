@@ -2,9 +2,9 @@ import {
 	ConfigureDevice,
 	Context,
 	DeviceIdentity,
-	HelloMessage,
-	HistoricalDataRequest,
 } from '@hello.nrfcloud.com/proto/hello'
+import { Thingy91WithSolarShieldMessage } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import { HistoricalDataRequest } from '@hello.nrfcloud.com/proto/hello/chart'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import {
@@ -27,7 +27,7 @@ export type Device = {
 
 type Messages = {
 	received: Date
-	message: Static<typeof HelloMessage>
+	message: Static<typeof Thingy91WithSolarShieldMessage>
 }[]
 
 type OutgoingMessage =
@@ -54,7 +54,7 @@ export const DeviceContext = createContext<{
 })
 
 export type MessageListenerFn = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
@@ -181,6 +181,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof HelloMessage>,
+	message: Static<typeof Thingy91WithSolarShieldMessage>,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()
