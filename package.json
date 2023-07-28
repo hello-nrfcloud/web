@@ -49,7 +49,7 @@
     "@aws-sdk/client-cloudfront": "3.379.1",
     "@aws-sdk/client-iam": "3.379.1",
     "@babel/plugin-syntax-import-assertions": "7.22.5",
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.63",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.64",
     "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.8",
     "@nordicsemiconductor/from-env": "2.0.0",
