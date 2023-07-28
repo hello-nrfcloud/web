@@ -1,3 +1,4 @@
+import { generateUUID } from '#utils/generateUUID.js'
 import { useRef, useState } from 'preact/hooks'
 
 export const SlidingSwitch = ({
@@ -15,7 +16,7 @@ export const SlidingSwitch = ({
 	const width = height * 1.85
 	const fontSize = height / 3
 	const [state, setState] = useState<boolean>(value ?? false)
-	const defaultKey = useRef<string>(crypto.randomUUID())
+	const defaultKey = useRef<string>(generateUUID())
 	const [key, setKey] = useState<string>(defaultKey.current)
 	const hasChange = key !== defaultKey.current
 	return (
@@ -31,7 +32,7 @@ export const SlidingSwitch = ({
 					onChange?.(!s)
 					return !s
 				})
-				setKey(crypto.randomUUID())
+				setKey(generateUUID())
 			}}
 			class={c}
 			cursor={disabled === true ? 'not-allowed' : 'pointer'}

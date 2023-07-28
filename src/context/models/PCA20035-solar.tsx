@@ -18,6 +18,7 @@ import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice, type MessageListenerFn } from '../Device.js'
+import { generateUUID } from '#utils/generateUUID.js'
 
 const solarThingy = Context.model('PCA20035+solar')
 
@@ -135,7 +136,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		console.log(`[History]`, `Requesting gain history`)
 		const gainHistory: Static<typeof HistoricalDataRequest> = {
 			'@context': Context.historicalDataRequest.toString(),
-			'@id': crypto.randomUUID(),
+			'@id': generateUUID(),
 			type: chartType,
 			message: 'gain',
 			attributes: {
@@ -147,7 +148,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		console.log(`[History]`, `Requesting battery history`)
 		const batteryHistory: Static<typeof HistoricalDataRequest> = {
 			'@context': Context.historicalDataRequest.toString(),
-			'@id': crypto.randomUUID(),
+			'@id': generateUUID(),
 			type: chartType,
 			message: 'battery',
 			attributes: {
