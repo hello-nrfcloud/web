@@ -10,10 +10,13 @@ import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
 import { type Device } from '#context/Device.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
-import { LocationSource } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import {
+	Location,
+	LocationSource,
+} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import maplibregl from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import './Map.css'
@@ -22,6 +25,7 @@ import { mapStyle } from './style.js'
 import { transformRequest } from './transformRequest.js'
 import { GNSSLocation } from '#map/GNSSLocation.js'
 import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
+import type { Static } from '@sinclair/typebox'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -45,10 +49,13 @@ const glyphFonts = {
 	bold: 'Ubuntu Medium',
 } as const
 
+const getCenter = (locations: Locations): Static<typeof Location> | undefined =>
+	Object.values(locations).sort(({ ts: ts1 }, { ts: ts2 }) => ts2 - ts1)[0]
+
 export const Map = ({ device }: { device: Device }) => {
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
-	const { location } = useDeviceLocation()
+	const { locations } = useDeviceLocation()
 	const [map, setMap] = useState<maplibregl.Map>()
 
 	useEffect(() => {
@@ -82,110 +89,123 @@ export const Map = ({ device }: { device: Device }) => {
 	}, [containerRef.current])
 
 	useEffect(() => {
-		if (location === undefined) return
+		if (Object.values(locations).length === 0) return
 		if (map === undefined) return
 		if (device === undefined) return
-		console.log(`[Map]`, location)
-		const centerSourceId = `${device.id}-center-source`
-		const locationAreaSourceId = `${device.id}-location-area-source`
-		const locationAreaLayerId = `${device.id}-location-area-layer`
-		const locationAreaLabelId = `${device.id}-location-area-label`
-		const centerLabelId = `${device.id}-center-label`
-		const centerSource = map.getSource(centerSourceId)
+		const centerLocation = getCenter(locations)
+		if (centerLocation === undefined) return
+		console.log(`[Map]`, centerLocation)
 		map.flyTo({
-			center: location,
+			center: centerLocation,
 			zoom: map.getZoom(),
 		})
 
-		if (centerSource === undefined) {
-			const { lng, lat, acc, src } = location
-			// Data for Center point
-			map.addSource(centerSourceId, {
-				type: 'geojson',
-				data: {
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [lng, lat],
+		const layerIds: string[] = []
+		const sourceIds: string[] = []
+
+		for (const location of Object.values(locations)) {
+			const centerSourceId = `${device.id}-${location.src}-center-source`
+			const locationAreaSourceId = `${device.id}-${location.src}-location-area-source`
+			const locationAreaLayerId = `${device.id}-${location.src}-location-area-layer`
+			const locationAreaLabelId = `${device.id}-${location.src}-location-area-label`
+			const centerLabelId = `${device.id}-${location.src}-center-label`
+			const centerSource = map.getSource(centerSourceId)
+
+			if (centerSource === undefined) {
+				layerIds.push(locationAreaLayerId)
+				layerIds.push(centerLabelId)
+				layerIds.push(locationAreaLabelId)
+				sourceIds.push(centerSourceId)
+				sourceIds.push(locationAreaSourceId)
+
+				const { lng, lat, acc, src } = centerLocation
+				// Data for Center point
+				map.addSource(centerSourceId, {
+					type: 'geojson',
+					data: {
+						type: 'Feature',
+						geometry: {
+							type: 'Point',
+							coordinates: [lng, lat],
+						},
 					},
-				},
-			})
-			// Data for Hexagon
-			map.addSource(
-				locationAreaSourceId,
-				geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
-			)
-			// Render Hexagon
-			map.addLayer({
-				id: locationAreaLayerId,
-				type: 'line',
-				source: locationAreaSourceId,
-				layout: {},
-				paint: {
-					'line-color': locationSourceColors[src],
-					'line-opacity': 1,
-					'line-width': 2,
-				},
-			})
-			// Render location source in center
-			map.addLayer({
-				id: centerLabelId,
-				type: 'symbol',
-				source: centerSourceId,
-				layout: {
-					'symbol-placement': 'point',
-					'text-field': LocationSourceLabels[src],
-					'text-font': [glyphFonts.bold],
-					'text-offset': [0, 0],
-				},
-				paint: {
-					'text-color': locationSourceColors[src],
-					'text-halo-color': '#222222',
-					'text-halo-width': 1,
-					'text-halo-blur': 1,
-				},
-			})
-			// Render label on Hexagon
-			map.addLayer({
-				id: locationAreaLabelId,
-				type: 'symbol',
-				source: locationAreaSourceId,
-				layout: {
-					'symbol-placement': 'line',
-					'text-field': `${Math.round(acc)} m`,
-					'text-font': [glyphFonts.regular],
-					'text-offset': [0, -1],
-					'text-size': 14,
-				},
-				paint: {
-					'text-color': locationSourceColors[src],
-					'text-halo-color': '#222222',
-					'text-halo-width': 1,
-					'text-halo-blur': 1,
-				},
-			})
+				})
+				// Data for Hexagon
+				map.addSource(
+					locationAreaSourceId,
+					geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
+				)
+				// Render Hexagon
+				map.addLayer({
+					id: locationAreaLayerId,
+					type: 'line',
+					source: locationAreaSourceId,
+					layout: {},
+					paint: {
+						'line-color': locationSourceColors[src],
+						'line-opacity': 1,
+						'line-width': 2,
+					},
+				})
+				// Render location source in center
+				map.addLayer({
+					id: centerLabelId,
+					type: 'symbol',
+					source: centerSourceId,
+					layout: {
+						'symbol-placement': 'point',
+						'text-field': LocationSourceLabels[src],
+						'text-font': [glyphFonts.bold],
+						'text-offset': [0, 0],
+					},
+					paint: {
+						'text-color': locationSourceColors[src],
+						'text-halo-color': '#222222',
+						'text-halo-width': 1,
+						'text-halo-blur': 1,
+					},
+				})
+				// Render label on Hexagon
+				map.addLayer({
+					id: locationAreaLabelId,
+					type: 'symbol',
+					source: locationAreaSourceId,
+					layout: {
+						'symbol-placement': 'line',
+						'text-field': `${Math.round(acc)} m`,
+						'text-font': [glyphFonts.regular],
+						'text-offset': [0, -1],
+						'text-size': 14,
+					},
+					paint: {
+						'text-color': locationSourceColors[src],
+						'text-halo-color': '#222222',
+						'text-halo-width': 1,
+						'text-halo-blur': 1,
+					},
+				})
+			}
 		}
 
 		return () => {
-			map.removeLayer(locationAreaLayerId)
-			map.removeLayer(centerLabelId)
-			map.removeLayer(locationAreaLabelId)
-			map.removeSource(centerSourceId)
-			map.removeSource(locationAreaSourceId)
+			layerIds.map((id) => map.removeLayer(id))
+			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [location, map, device])
+	}, [locations, map, device])
 
 	return (
 		<>
 			<section class="map">
 				<div id="map" ref={containerRef} />
-				{location === undefined && (
+				{Object.values(locations).length === 0 && (
 					<div class="noLocation">
 						<MapPinOff strokeWidth={1} style={{ zoom: 2 }} /> waiting for
 						location
 					</div>
 				)}
-				{location !== undefined && map !== undefined && <MapZoom map={map} />}
+				{Object.values(locations).length > 0 && map !== undefined && (
+					<MapZoom map={map} />
+				)}
 			</section>
 			<div
 				style={{
@@ -210,14 +230,44 @@ export const Map = ({ device }: { device: Device }) => {
 								<NRFCloudLogo style={{ height: '18px' }} />
 								<span class="ms-2">Device location</span>
 							</h2>
+							<p>
+								A more precise device location can be determined using{' '}
+								<a
+									href="https://www.nordicsemi.com/Products/Cloud-services"
+									target="_blank"
+									class="text-light"
+								>
+									nRF Cloud Location services
+								</a>{' '}
+								based on the device scanning the network and reporting
+								neighboring cell information and Wi-Fi access points it can
+								detect and reporting this information to the cloud.
+							</p>
 
-							{location === undefined && (
-								<p>
-									<LoadingIndicator light height={60} />
-								</p>
-							)}
-							{location !== undefined && (
+							<p>
+								Single-cell (SCELL) provides a power efficient option to locate
+								the device and consumes little power from the device. This is
+								highly beneficial for indoor location, no-power scenarios or
+								crude-location without requiring GPS.
+							</p>
+							<p>
+								Multi-cell (MCELL) is using multiple cell towers to triangulate
+								the device location. Up to 17 cell towers can be used at once.
+							</p>
+							{Object.values(locations).length === 0 && (
 								<>
+									<p>
+										If available, the map will show both locations for
+										comparison.
+									</p>
+									<p>
+										<LoadingIndicator light height={60} />
+									</p>
+								</>
+							)}
+							{Object.values(locations).map((location) => (
+								<>
+									<h2>{LocationSourceLabels[location.src]}</h2>
 									<p>
 										Using {LocationSourceLabels[location.src]}, the location was
 										determined to be{' '}
@@ -231,20 +281,7 @@ export const Map = ({ device }: { device: Device }) => {
 										with an accuracy of {location.acc} m.
 									</p>
 								</>
-							)}
-							<p>
-								A more precise device located can be determined using{' '}
-								<a
-									href="https://www.nordicsemi.com/Products/Cloud-services"
-									target="_blank"
-									class="text-light"
-								>
-									nRF Cloud Location services
-								</a>{' '}
-								based on the device scanning the network and reporting
-								neighboring cell information and Wi-Fi access points it can
-								detect and reporting this information to the cloud.
-							</p>
+							))}
 						</div>
 					</div>
 				</div>
