@@ -28,7 +28,7 @@ export const LoadingIndicator = ({
 	class: c,
 }: {
 	height?: number
-	width?: number
+	width?: number | string
 	light?: true
 	class?: string
 }) => {

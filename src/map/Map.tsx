@@ -26,6 +26,7 @@ import { transformRequest } from './transformRequest.js'
 import { GNSSLocation } from '#map/GNSSLocation.js'
 import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
 import type { Static } from '@sinclair/typebox'
+import { compareLocations } from '#map/compareLocations.js'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -94,7 +95,7 @@ export const Map = ({ device }: { device: Device }) => {
 		if (device === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
-		console.log(`[Map]`, centerLocation)
+		console.log(`[Map]`, 'center', centerLocation)
 		map.flyTo({
 			center: centerLocation,
 			zoom: map.getZoom(),
@@ -112,6 +113,7 @@ export const Map = ({ device }: { device: Device }) => {
 			const centerSource = map.getSource(centerSourceId)
 
 			if (centerSource === undefined) {
+				console.log(`[Map]`, `adding`, location.src)
 				layerIds.push(locationAreaLayerId)
 				layerIds.push(centerLabelId)
 				layerIds.push(locationAreaLabelId)
@@ -193,6 +195,9 @@ export const Map = ({ device }: { device: Device }) => {
 		}
 	}, [locations, map, device])
 
+	const scellLocation = locations[LocationSource.SCELL]
+	const mcellLocation = locations[LocationSource.MCELL]
+
 	return (
 		<>
 			<section class="map">
@@ -261,7 +266,7 @@ export const Map = ({ device }: { device: Device }) => {
 										comparison.
 									</p>
 									<p>
-										<LoadingIndicator light height={60} />
+										<LoadingIndicator light height={60} width={'100%'} />
 									</p>
 								</>
 							)}
@@ -282,6 +287,23 @@ export const Map = ({ device }: { device: Device }) => {
 									</p>
 								</>
 							))}
+							{scellLocation !== undefined &&
+								mcellLocation !== undefined &&
+								compareLocations(scellLocation, mcellLocation) === true && (
+									<div
+										role="alert"
+										style={{
+											color: 'var(--color-nordic-sun)',
+										}}
+									>
+										<p>
+											The geo location for the device using single-cell and
+											multi-cell information has been determined to be the same.
+											This happens in case there are not enough neighboring cell
+											towers &quot;visible&quot; by the device.
+										</p>
+									</div>
+								)}
 						</div>
 					</div>
 				</div>
