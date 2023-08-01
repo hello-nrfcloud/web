@@ -1,4 +1,4 @@
-import { generateCode } from '#page/ViewSource.js'
+import { generateCode } from '#utils/generateCode.js'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'preact/hooks'

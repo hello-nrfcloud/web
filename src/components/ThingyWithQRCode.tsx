@@ -1,4 +1,5 @@
-import { generateCode, generateIMEI } from '#page/ViewSource.js'
+import { generateIMEI } from '#utils/generateIMEI.js'
+import { generateCode } from '#utils/generateCode.js'
 import code128 from 'code-128-encoder'
 import { format } from 'date-fns'
 import { useEffect, useRef, useState } from 'preact/hooks'

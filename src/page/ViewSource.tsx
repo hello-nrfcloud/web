@@ -1,9 +1,6 @@
-import { Secondary } from '#components/Buttons.js'
 import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
-import { useEffect, useState } from 'preact/hooks'
 import { QRCodeGenerator } from '#components/QRCodeGenerator.js'
 import { WithResize } from '#components/ResizeObserver.js'
-import { generateUUID } from '#utils/generateUUID.js'
 
 export const ViewSource = () => (
 	<main>
@@ -203,126 +200,9 @@ export const ViewSource = () => (
 							<code>0</code> (Zero), which enables the user to enter it manually
 							without making too many mistakes.
 						</p>
-						<h4>Try it yourself</h4>
-						<CodeInputChallenge
-							newCode={() => [
-								parseInt(
-									`23${1 + Math.floor(Math.random() * 53)}`,
-									10,
-								).toString(16),
-								generateCode(),
-							]}
-						/>
-						<h4>Alternatives</h4>
-						<p>Now compare this to entering an IMEI and a PIN:</p>
-						<CodeInputChallenge
-							newCode={() => [generateIMEI(), generatePIN()]}
-						/>
-						<p>Or a device UUID</p>
-						<CodeInputChallenge newCode={() => [generateUUID()]} />
 					</div>
 				</div>
 			</div>
 		</article>
 	</main>
 )
-
-const CodeInputChallenge = ({ newCode }: { newCode: () => string[] }) => {
-	const [code, setCode] = useState<string[]>(newCode())
-	const [enteredCode, setEnteredCode] = useState<string[]>([])
-	const [startTime, setStartTime] = useState<Date>()
-	const [endTime, setEndTime] = useState<Date>()
-
-	useEffect(() => {
-		const e = enteredCode.join(' ')
-		if (e.length > 0 && startTime === undefined) {
-			setStartTime(new Date())
-		}
-		if (e === code.join(' ')) {
-			setEndTime(new Date())
-		}
-	}, [enteredCode])
-
-	const isValid = code.join(' ') === enteredCode.join(' ')
-
-	return (
-		<form class="mt-0 mb-3">
-			<p>
-				Type the following:{' '}
-				{code.map((s, k) => (
-					<>
-						<code>{s}</code>
-						{code.length > 1 && k < code.length - 1 && <span>{' and '}</span>}
-					</>
-				))}
-			</p>
-			<div class="row">
-				{code.map((part, k) => (
-					<div class="input-group col">
-						<input
-							type="text"
-							minLength={part.length}
-							maxLength={part.length}
-							class={'form-control form-control-sm'}
-							placeholder={part}
-							value={enteredCode[k] ?? ''}
-							onChange={(e) => {
-								setEnteredCode((entered) => {
-									entered[k] = (e.target as HTMLInputElement).value
-									return [...entered]
-								})
-							}}
-							size={part.length}
-							required
-							style={{ fontFamily: 'monospace' }}
-						/>
-					</div>
-				))}
-			</div>
-
-			{isValid && startTime !== undefined && endTime !== undefined && (
-				<p class="mt-2 d-flex justify-content-between">
-					<span>
-						Great, that took you{' '}
-						{Math.round((endTime.getTime() - startTime.getTime()) / 1000)}s.
-					</span>
-					<Secondary
-						outline
-						small
-						onClick={() => {
-							setStartTime(undefined)
-							setEndTime(undefined)
-							setCode(newCode())
-							setEnteredCode([])
-						}}
-					>
-						reset
-					</Secondary>
-				</p>
-			)}
-		</form>
-	)
-}
-
-export const generateCode = (len = 6) => {
-	const alphabet = 'abcdefghijkmnpqrstuvwxyz' // Removed o
-	const numbers = '23456789' // Removed 0
-	const characters = `${alphabet}${numbers}`
-
-	let code = ``
-	for (let n = 0; n < len; n++) {
-		code = `${code}${characters[Math.floor(Math.random() * characters.length)]}`
-	}
-	return code
-}
-
-export const generateIMEI = () =>
-	`3566642${Math.floor(Math.random() * 100000000)}`
-
-const generatePIN = () => {
-	const pin = []
-	while (pin.length < 6) {
-		pin.push(Math.floor(Math.random() * 10).toString())
-	}
-	return pin.join('')
-}
