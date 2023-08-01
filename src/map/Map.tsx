@@ -30,7 +30,7 @@ import { compareLocations } from '#map/compareLocations.js'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
-	// [LocationSource.GNSS]: '#C7F9CC',
+	[LocationSource.GNSS]: '#C7F9CC',
 	[LocationSource.WIFI]: '#80ed99',
 	[LocationSource.MCELL]: '#57cc99',
 	[LocationSource.SCELL]: '#38a3a5',
@@ -42,6 +42,7 @@ export const LocationSourceLabels = {
 	[LocationSource.WIFI]: 'Wi-Fi',
 	[LocationSource.MCELL]: 'multi-cell',
 	[LocationSource.SCELL]: 'single-cell',
+	[LocationSource.GNSS]: 'GNSS',
 }
 
 // See https://docs.aws.amazon.com/location/latest/developerguide/esri.html for available fonts
