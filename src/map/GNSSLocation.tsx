@@ -2,14 +2,21 @@ import { ZapOffIcon } from 'lucide-preact'
 import { useDevice, type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { ConfigureDevice, Context } from '@hello.nrfcloud.com/proto/hello'
-import { Reported } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import {
+	LocationSource,
+	Reported,
+} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import { useState } from 'preact/hooks'
 import { SlidingSwitch } from '#components/buttons/SlidingSwitch.js'
 import type { Static } from '@sinclair/typebox'
 import { LoadingIndicator } from '#components/ValueLoading.js'
+import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { Located } from '#map/Map.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
+	const { locations } = useDeviceLocation()
+	const gnssLocation = locations[LocationSource.GNSS]
 
 	return (
 		<>
@@ -36,6 +43,12 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 					<GNSSLocationConfig device={device} state={state} />
 				)}
 			</div>
+			{gnssLocation !== undefined && <Located location={gnssLocation} />}
+			{gnssLocation === undefined && (
+				<p>
+					<LoadingIndicator light height={60} width={'100%'} />
+				</p>
+			)}
 		</>
 	)
 }

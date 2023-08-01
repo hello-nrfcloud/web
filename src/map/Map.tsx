@@ -3,30 +3,36 @@ import {
 	MapPinOff,
 	MinusIcon,
 	PlusIcon,
+	RadioTowerIcon,
+	SatelliteIcon,
 	UnlockIcon,
 } from 'lucide-preact'
 // Needed for SSR build, named exports don't work
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
 import { type Device } from '#context/Device.js'
 import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
+import { GNSSLocation } from '#map/GNSSLocation.js'
+import { compareLocations } from '#map/compareLocations.js'
 import {
 	Location,
 	LocationSource,
 } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import maplibregl from 'maplibre-gl'
+import type { Static } from '@sinclair/typebox'
+import { formatDistanceToNow } from 'date-fns'
+import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import './Map.css'
-import { geoJSONPolygonFromCircle } from './geoJSONPolygonFromCircle.js'
+import {
+	geoJSONPolygonFromCircle,
+	getPolygonCoordinatesForCircle,
+} from './geoJSONPolygonFromCircle.js'
 import { mapStyle } from './style.js'
 import { transformRequest } from './transformRequest.js'
-import { GNSSLocation } from '#map/GNSSLocation.js'
-import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
-import type { Static } from '@sinclair/typebox'
-import { compareLocations } from '#map/compareLocations.js'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -90,10 +96,9 @@ export const Map = ({ device }: { device: Device }) => {
 		}
 	}, [containerRef.current])
 
+	// Center the map
 	useEffect(() => {
-		if (Object.values(locations).length === 0) return
 		if (map === undefined) return
-		if (device === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
 		console.log(`[Map]`, 'center', centerLocation)
@@ -101,60 +106,38 @@ export const Map = ({ device }: { device: Device }) => {
 			center: centerLocation,
 			zoom: map.getZoom(),
 		})
+	}, [locations, map])
+
+	useEffect(() => {
+		if (Object.values(locations).length === 0) return
+		if (map === undefined) return
+		if (device === undefined) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
 		for (const location of Object.values(locations)) {
-			const centerSourceId = `${device.id}-${location.src}-center-source`
-			const locationAreaSourceId = `${device.id}-${location.src}-location-area-source`
-			const locationAreaLayerId = `${device.id}-${location.src}-location-area-layer`
-			const locationAreaLabelId = `${device.id}-${location.src}-location-area-label`
-			const centerLabelId = `${device.id}-${location.src}-center-label`
-			const centerSource = map.getSource(centerSourceId)
+			const { lng, lat, acc, src, ts } = location
+			const locationCenterSourceId = `${location.src}-source-center`
+			const locationAreaSourceId = `${location.src}-location-area-source`
+			const locationAreaLayerId = `${location.src}-location-area-layer`
+			const locationAreaLabelId = `${location.src}-location-area-label`
+			const locationSourceLabel = `${location.src}-location-source-label`
+			const locationAgeLabel = `${location.src}-location-age-label`
+			const centerSource = map.getSource(locationCenterSourceId)
 
+			// Add layer (if not already on map)
 			if (centerSource === undefined) {
-				console.log(`[Map]`, `adding`, location.src)
-				layerIds.push(locationAreaLayerId)
-				layerIds.push(centerLabelId)
-				layerIds.push(locationAreaLabelId)
-				sourceIds.push(centerSourceId)
-				sourceIds.push(locationAreaSourceId)
+				console.log(`[Map]`, `adding`, location)
 
-				const { lng, lat, acc, src } = centerLocation
 				// Data for Center point
-				map.addSource(centerSourceId, {
-					type: 'geojson',
-					data: {
-						type: 'Feature',
-						geometry: {
-							type: 'Point',
-							coordinates: [lng, lat],
-						},
-					},
-				})
-				// Data for Hexagon
-				map.addSource(
-					locationAreaSourceId,
-					geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
-				)
-				// Render Hexagon
-				map.addLayer({
-					id: locationAreaLayerId,
-					type: 'line',
-					source: locationAreaSourceId,
-					layout: {},
-					paint: {
-						'line-color': locationSourceColors[src],
-						'line-opacity': 1,
-						'line-width': 2,
-					},
-				})
+				map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
+				sourceIds.push(locationCenterSourceId)
 				// Render location source in center
 				map.addLayer({
-					id: centerLabelId,
+					id: locationSourceLabel,
 					type: 'symbol',
-					source: centerSourceId,
+					source: locationCenterSourceId,
 					layout: {
 						'symbol-placement': 'point',
 						'text-field': LocationSourceLabels[src],
@@ -168,6 +151,45 @@ export const Map = ({ device }: { device: Device }) => {
 						'text-halo-blur': 1,
 					},
 				})
+				layerIds.push(locationSourceLabel)
+				// Render location age in center
+				map.addLayer({
+					id: locationAgeLabel,
+					type: 'symbol',
+					source: locationCenterSourceId,
+					layout: {
+						'symbol-placement': 'point',
+						'text-field': formatDistanceToNow(ts, { addSuffix: true }),
+						'text-font': [glyphFonts.regular],
+						'text-offset': [0, 2],
+					},
+					paint: {
+						'text-color': locationSourceColors[src],
+						'text-halo-color': '#222222',
+						'text-halo-width': 1,
+						'text-halo-blur': 1,
+					},
+				})
+				layerIds.push(locationAgeLabel)
+				// Data for Hexagon
+				map.addSource(
+					locationAreaSourceId,
+					geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
+				)
+				sourceIds.push(locationAreaSourceId)
+				// Render Hexagon
+				map.addLayer({
+					id: locationAreaLayerId,
+					type: 'line',
+					source: locationAreaSourceId,
+					layout: {},
+					paint: {
+						'line-color': locationSourceColors[src],
+						'line-opacity': 1,
+						'line-width': 2,
+					},
+				})
+				layerIds.push(locationAreaLayerId)
 				// Render label on Hexagon
 				map.addLayer({
 					id: locationAreaLabelId,
@@ -187,9 +209,9 @@ export const Map = ({ device }: { device: Device }) => {
 						'text-halo-blur': 1,
 					},
 				})
+				layerIds.push(locationAreaLabelId)
 			}
 		}
-
 		return () => {
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
@@ -198,6 +220,9 @@ export const Map = ({ device }: { device: Device }) => {
 
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
+	const cellularLocations: Static<typeof Location>[] = []
+	if (scellLocation !== undefined) cellularLocations.push(scellLocation)
+	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
 
 	return (
 		<>
@@ -205,13 +230,47 @@ export const Map = ({ device }: { device: Device }) => {
 				<div id="map" ref={containerRef} />
 				{Object.values(locations).length === 0 && (
 					<div class="noLocation">
-						<MapPinOff strokeWidth={1} style={{ zoom: 2 }} /> waiting for
-						location
+						<MapPinOff style={{ zoom: 2 }} /> waiting for location
 					</div>
 				)}
 				{Object.values(locations).length > 0 && map !== undefined && (
 					<MapZoom map={map} />
 				)}
+
+				<div class="mapLocations">
+					{Object.values(locations).map(({ src, lat, lng, acc }) => (
+						<button
+							type="button"
+							onClick={() => {
+								if (map === undefined) return
+								const coordinates = getPolygonCoordinatesForCircle(
+									[lng, lat],
+									acc,
+									6,
+									Math.PI / 2,
+								)
+								const bounds = coordinates.reduce(
+									(bounds, coord) => {
+										return bounds.extend(coord)
+									},
+									new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+								)
+								map.fitBounds(bounds, {
+									padding: 20,
+								})
+							}}
+							class="d-flex flex-row justify-items-center"
+						>
+							<span class="me-2">
+								{[LocationSource.MCELL, LocationSource.SCELL].includes(src) && (
+									<RadioTowerIcon />
+								)}
+								{src === LocationSource.GNSS && <SatelliteIcon />}
+							</span>
+							<span>{LocationSourceLabels[src]}</span>
+						</button>
+					))}
+				</div>
 			</section>
 			<div
 				style={{
@@ -249,7 +308,6 @@ export const Map = ({ device }: { device: Device }) => {
 								neighboring cell information and Wi-Fi access points it can
 								detect and reporting this information to the cloud.
 							</p>
-
 							<p>
 								Single-cell (SCELL) provides a power efficient option to locate
 								the device and consumes little power from the device. This is
@@ -260,7 +318,7 @@ export const Map = ({ device }: { device: Device }) => {
 								Multi-cell (MCELL) is using multiple cell towers to triangulate
 								the device location. Up to 17 cell towers can be used at once.
 							</p>
-							{Object.values(locations).length === 0 && (
+							{cellularLocations.length === 0 && (
 								<>
 									<p>
 										If available, the map will show both locations for
@@ -271,21 +329,10 @@ export const Map = ({ device }: { device: Device }) => {
 									</p>
 								</>
 							)}
-							{Object.values(locations).map((location) => (
+							{cellularLocations.map((location) => (
 								<>
 									<h2>{LocationSourceLabels[location.src]}</h2>
-									<p>
-										Using {LocationSourceLabels[location.src]}, the location was
-										determined to be{' '}
-										<a
-											href={`https://google.com/maps/search/${location.lat},${location.lng}`}
-											target="_blank"
-											class="text-light"
-										>
-											{location.lat}, {location.lng}
-										</a>{' '}
-										with an accuracy of {location.acc} m.
-									</p>
+									<Located location={location} />
 								</>
 							))}
 							{scellLocation !== undefined &&
@@ -399,3 +446,37 @@ const MapZoom = ({ map }: { map: maplibregl.Map }) => {
 		</>
 	)
 }
+
+export const Located = ({
+	location,
+}: {
+	location: Static<typeof Location>
+}) => (
+	<p>
+		Using {LocationSourceLabels[location.src]}, the location was determined to
+		be{' '}
+		<a
+			href={`https://google.com/maps/search/${location.lat},${location.lng}`}
+			target="_blank"
+			class="text-light"
+		>
+			{location.lat.toFixed(5).replace(/0+$/, '')},{' '}
+			{location.lng.toFixed(5).replace(/0+$/, '')}
+		</a>{' '}
+		with an accuracy of {Math.round(location.acc)} m.
+	</p>
+)
+
+const toGEOJsonPoint = ([lat, lng]: [
+	lat: number,
+	lng: number,
+]): GeoJSONSourceSpecification => ({
+	type: 'geojson',
+	data: {
+		type: 'Feature',
+		geometry: {
+			type: 'Point',
+			coordinates: [lng, lat],
+		},
+	},
+})

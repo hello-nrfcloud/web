@@ -72,3 +72,24 @@ div.noLocation {
   padding: 0;
   margin: 0;
 }
+
+.mapLocations {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-nordic-light-grey);
+  border: 1px solid var(--color-nordic-middle-grey);
+  border-radius: 5px;
+}
+
+.mapLocations button {
+  border: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+}
+
+.mapLocations button + button {
+  border-left: 1px solid var(--color-nordic-middle-grey);
+}
