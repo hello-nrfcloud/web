@@ -3,12 +3,10 @@ import { DKResources } from '#components/DKResources.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { Feedback } from '#components/Feedback.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
-import { WebsocketTerminal } from '#components/WebsocketTerminal.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { BME680 } from '#components/model/PCA20035-solar/BME680.js'
 import { SolarThingyBattery } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
-import { useAppSettings } from '#context/AppSettings.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
 import {
 	Provider as SolarThingyHistoryProvider,
@@ -20,7 +18,6 @@ import './Device.css'
 
 export const Device = () => {
 	const { device } = useDevice()
-	const { terminalVisible } = useAppSettings()
 
 	if (device === undefined)
 		return (
@@ -35,7 +32,6 @@ export const Device = () => {
 
 	return (
 		<SolarThingyHistoryProvider>
-			{terminalVisible && <WebsocketTerminal />}
 			<main>
 				<DeviceHeader device={device} />
 				<WaitingForConnection device={device} />

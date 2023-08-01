@@ -1,17 +1,9 @@
-import { useAppSettings } from '#context/AppSettings.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { isSSR } from '#utils/isSSR.js'
 import cx from 'classnames'
 import { debounce } from 'lodash-es'
-import {
-	Code2,
-	Cpu,
-	Fingerprint,
-	Link2Icon,
-	TerminalSquare,
-	TrashIcon,
-} from 'lucide-preact'
+import { Code2, Cpu, Fingerprint, Link2Icon, TrashIcon } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
 import { AppUpdateNotifier } from './AppUpdateNotifier.js'
@@ -85,34 +77,6 @@ const Navigation = () => {
 	)
 }
 
-const DeveloperMenu = ({ onClick }: { onClick?: () => void }) => {
-	const { terminalVisible, showTerminal } = useAppSettings()
-	return (
-		<>
-			{!terminalVisible && (
-				<Transparent
-					onClick={() => {
-						showTerminal(true)
-						onClick?.()
-					}}
-				>
-					<TerminalSquare /> show terminal
-				</Transparent>
-			)}
-			{terminalVisible && (
-				<Transparent
-					onClick={() => {
-						showTerminal(false)
-						onClick?.()
-					}}
-				>
-					<TerminalSquare /> hide terminal
-				</Transparent>
-			)}
-		</>
-	)
-}
-
 export const Navbar = () => (
 	<>
 		<NavWrapper />
@@ -171,7 +135,6 @@ const NavWrapper = () => {
 
 const Nav = ({ fixed }: { fixed?: boolean }) => {
 	const [collapsed, setCollapsed] = useState(true)
-	const { devModeEnabled } = useAppSettings()
 
 	return (
 		<nav
@@ -195,11 +158,6 @@ const Nav = ({ fixed }: { fixed?: boolean }) => {
 						<div class="d-flex">
 							<Navigation />
 						</div>
-						{devModeEnabled && (
-							<div class="d-flex">
-								<DeveloperMenu />
-							</div>
-						)}
 					</div>
 				</div>
 				<button
@@ -245,17 +203,6 @@ const Nav = ({ fixed }: { fixed?: boolean }) => {
 						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 							<Navigation />
 						</ul>
-						{devModeEnabled && (
-							<>
-								<hr />
-								<DeveloperMenu
-									onClick={() => {
-										setCollapsed(true)
-									}}
-								/>
-							</>
-						)}
-
 						<hr />
 						<p>
 							<a
