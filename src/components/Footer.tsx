@@ -1,4 +1,5 @@
 import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
+import { Ago } from './Ago.js'
 
 const CopyrightYear = () => {
 	const startYear = 2023
@@ -80,6 +81,20 @@ export const Footer = () => (
 					</p>
 					<p class="text-body-tertiary">
 						<small>{VERSION}</small>
+						<small class="px-1">&middot;</small>
+						<small>
+							<a
+								href="https://github.com/hello-nrfcloud/web/releases"
+								target="_blank"
+								class="text-body-tertiary ms-1"
+							>
+								Release notes
+							</a>
+						</small>
+						<small class="px-1">&middot;</small>
+						<small>
+							built <Ago date={new Date(BUILD_TIME)} /> ago
+						</small>
 					</p>
 				</div>
 			</div>
