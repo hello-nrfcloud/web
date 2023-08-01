@@ -259,7 +259,7 @@ export const Map = ({ device }: { device: Device }) => {
 									padding: 20,
 								})
 							}}
-							class="d-flex flex-row justify-items-center"
+							class="d-flex flex-row align-items-center"
 						>
 							<span class="me-2">
 								{[LocationSource.MCELL, LocationSource.SCELL].includes(src) && (
