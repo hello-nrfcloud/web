@@ -17,6 +17,7 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
 	const { locations } = useDeviceLocation()
 	const gnssLocation = locations[LocationSource.GNSS]
+	const gnssEnabled = !(state?.config?.nod ?? []).includes('gnss')
 
 	return (
 		<>
@@ -43,11 +44,15 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 					<GNSSLocationConfig device={device} state={state} />
 				)}
 			</div>
-			{gnssLocation !== undefined && <Located location={gnssLocation} />}
-			{gnssLocation === undefined && (
-				<p>
-					<LoadingIndicator light height={60} width={'100%'} />
-				</p>
+			{gnssEnabled && (
+				<>
+					{gnssLocation !== undefined && <Located location={gnssLocation} />}
+					{gnssLocation === undefined && (
+						<p>
+							<LoadingIndicator light height={60} width={'100%'} />
+						</p>
+					)}
+				</>
 			)}
 		</>
 	)
