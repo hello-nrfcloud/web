@@ -73,7 +73,7 @@
     "lint-staged": "13.2.3",
     "playwright": "1.36.2",
     "preact-render-to-string": "6.2.0",
-    "prettier": "3.0.0",
+    "prettier": "3.0.1",
     "prettier-plugin-organize-imports": "3.2.3",
     "regenerator-runtime": "0.13.11",
     "rehype-format": "4.0.1",
