@@ -26,7 +26,10 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 					<div class="col d-flex justify-content-between align-items-center">
 						<h1>
 							<small class="text-muted" style={{ fontSize: '16px' }}>
-								Your development kit: {type.model}
+								Your development kit:{' '}
+								<a href={`/dk/${encodeURIComponent(type.model)}`}>
+									{type.model}
+								</a>
 							</small>
 							<br />
 							<strong class="ms-1">{type.title}</strong>
