@@ -1,4 +1,3 @@
-import { ModelResources } from '#components/ModelResources.js'
 import { ScanQR } from '#components/ScanQR.js'
 import { YouTubeVideo } from '#components/YouTubeVideo.js'
 import { type Model as TModel } from '#context/Models.js'
@@ -64,7 +63,6 @@ export const Model = ({ model }: { model: TModel }) => (
 				</aside>
 			</div>
 		</div>
-		<ModelResources type={model} />
 		<ScanQR type={model} />
 	</main>
 )
