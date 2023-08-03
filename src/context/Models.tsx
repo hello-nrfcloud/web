@@ -1,8 +1,8 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext } from 'preact/hooks'
 
-export type DK = {
-	model: string
+export type Model = {
+	name: string
 	title: string
 	tagline: string
 	abstract: string
@@ -27,30 +27,30 @@ export type DK = {
 	}
 }
 
-export const DKsContext = createContext<{
-	DKs: Record<string, DK>
+export const ModelsContext = createContext<{
+	models: Record<string, Model>
 }>({
-	DKs: {},
+	models: {},
 })
 
 export const Provider = ({
 	children,
-	DKs,
+	models,
 }: {
 	children: ComponentChildren
-	DKs: Record<string, DK>
+	models: Record<string, Model>
 }) => {
 	return (
-		<DKsContext.Provider
+		<ModelsContext.Provider
 			value={{
-				DKs,
+				models,
 			}}
 		>
 			{children}
-		</DKsContext.Provider>
+		</ModelsContext.Provider>
 	)
 }
 
-export const Consumer = DKsContext.Consumer
+export const Consumer = ModelsContext.Consumer
 
-export const useDKs = () => useContext(DKsContext)
+export const useModels = () => useContext(ModelsContext)

@@ -38,7 +38,7 @@ export const NetworkInfo = () => {
 			</p>
 			<p>
 				<small class="text-muted">
-					This is the International Mobile Equipment Identity of your DK and
+					This is the International Mobile Equipment Identity of your device and
 					uniquely identifies the device in a cellular network.
 				</small>
 			</p>

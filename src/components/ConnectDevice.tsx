@@ -3,7 +3,7 @@ import { type Device } from '#context/Device.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { BatteryFull, CloudOff, ToggleRight } from 'lucide-preact'
 
-export const ConnectDK = ({ device }: { device: Device }) => (
+export const ConnectDevice = ({ device }: { device: Device }) => (
 	<>
 		<h2>
 			Please follow these stops to start retrieving real-time data from your

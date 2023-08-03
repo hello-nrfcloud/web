@@ -1,5 +1,5 @@
-import { ConnectDK } from '#components/ConnectDK.js'
-import { DKResources } from '#components/DKResources.js'
+import { ConnectDevice } from '#components/ConnectDevice.js'
+import { ModelResources } from '#components/ModelResources.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { Feedback } from '#components/Feedback.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
@@ -52,7 +52,7 @@ export const Device = () => {
 					</div>
 				</div>
 			</main>
-			<DKResources type={device.type} />
+			<ModelResources type={device.model} />
 			<Feedback />
 		</SolarThingyHistoryProvider>
 	)
@@ -78,7 +78,7 @@ const WaitingForConnection = ({ device }: { device: TDevice }) => {
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<ConnectDK device={device} />
+						<ConnectDevice device={device} />
 					</div>
 				</div>
 			</div>

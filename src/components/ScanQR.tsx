@@ -1,10 +1,10 @@
-import type { DK } from '#context/DKs.js'
+import type { Model } from '#context/Models.js'
 import { FingerprintForm } from './FingerprintForm.js'
 import { QRCodeScanner } from './QRCodeScanner.js'
 import { WithResize } from './ResizeObserver.js'
 import { ThingyWithQRCode } from './ThingyWithQRCode.js'
 
-export const ScanQR = ({ type }: { type?: DK }) => (
+export const ScanQR = ({ type }: { type?: Model }) => (
 	<div style={{ background: 'var(--color-nordic-light-grey)' }}>
 		<div class="container py-4">
 			<div class="row mt-4">
@@ -16,9 +16,9 @@ export const ScanQR = ({ type }: { type?: DK }) => (
 				<div class="col-12 col-md-6 col-lg-4 mb-4">
 					{type !== undefined && (
 						<img
-							alt={`${type.title} (${type.model}) with QR code`}
+							alt={`${type.title} (${type.name}) with QR code`}
 							src={`/static/images/${encodeURIComponent(
-								type.model,
+								type.name,
 							)}-QR.webp?v=${VERSION}`}
 							class="img-fluid p-4"
 						/>

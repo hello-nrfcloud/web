@@ -52,7 +52,7 @@ const Navigation = () => {
 						href={`/device#${device.id}`}
 						title="Device fingerprint was provided"
 					>
-						<Cpu class="me-1" /> Your Development Kit
+						<Cpu class="me-1" /> Your device
 					</Link>
 					<Transparent
 						onClick={() => {
@@ -60,7 +60,7 @@ const Navigation = () => {
 						}}
 						class="fw-light text-muted me-1 d-flex align-items-center"
 					>
-						<TrashIcon class="me-1" /> Forget Development Kit
+						<TrashIcon class="me-1" /> Forget device
 					</Transparent>
 					<Link
 						href={`https://${DOMAIN_NAME}/${fingerprint}`}

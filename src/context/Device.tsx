@@ -14,14 +14,14 @@ import {
 	useRef,
 	useState,
 } from 'preact/hooks'
-import { useDKs, type DK } from './DKs.js'
+import { useModels, type Model } from './Models.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
 import { validPassthrough } from '../proto/validPassthrough.js'
 
 export type Device = {
 	id: string
-	type: DK
+	model: Model
 	lastSeen?: Date
 }
 
@@ -35,7 +35,7 @@ type OutgoingMessage =
 	| Static<typeof ConfigureDevice>
 
 export const DeviceContext = createContext<{
-	type?: DK | undefined
+	type?: Model | undefined
 	device?: Device | undefined
 	connected: boolean
 	connectionFailed: boolean
@@ -64,7 +64,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [messages, setMessages] = useState<Messages>([])
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
-	const { DKs } = useDKs()
+	const { models } = useModels()
 	const [ws, setWebsocket] = useState<WebSocket>()
 
 	const connected = ws !== undefined
@@ -122,14 +122,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
 						)
 						if (isDeviceIdentity(maybeValid)) {
-							const type = DKs[maybeValid.model] as DK
+							const type = models[maybeValid.model] as Model
 							setDevice({
 								id: maybeValid.id,
 								lastSeen:
 									maybeValid.lastSeen !== undefined
 										? new Date(maybeValid.lastSeen)
 										: undefined,
-								type,
+								model: type,
 							})
 							setType(maybeValid.model)
 						}
@@ -169,7 +169,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		<DeviceContext.Provider
 			value={{
 				device,
-				type: type === undefined ? undefined : DKs[type],
+				type: type === undefined ? undefined : models[type],
 				connected,
 				messages,
 				addMessageListener: (fn) => {

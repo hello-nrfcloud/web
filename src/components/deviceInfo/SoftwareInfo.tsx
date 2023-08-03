@@ -7,15 +7,15 @@ import { isOutdated } from './isOutdated.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
-	const type = device.type
+	const type = device.model
 
 	const appV = state?.device?.deviceInfo?.appVersion
 	const modV = parseModemFirmwareVersion(
 		state?.device?.deviceInfo?.modemFirmware ?? '',
 	)
 
-	const needsFwUpdate = isOutdated(device.type.firmware.version, appV)
-	const needsMfwUpdate = isOutdated(device.type.mfw.version, modV)
+	const needsFwUpdate = isOutdated(device.model.firmware.version, appV)
+	const needsMfwUpdate = isOutdated(device.model.mfw.version, modV)
 	return (
 		<>
 			<h2>Software information</h2>

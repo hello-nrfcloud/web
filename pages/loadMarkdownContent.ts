@@ -19,7 +19,7 @@ export const loadMarkdownContent = async <
 		html: string
 	},
 >(
-	dir: 'resources' | 'dks',
+	dir: 'models',
 ): Promise<(T & { slug: string })[]> => {
 	const resourceFiles = (
 		await readdir(path.join(process.cwd(), 'content', dir))

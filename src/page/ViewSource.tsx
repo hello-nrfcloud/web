@@ -28,8 +28,8 @@ export const ViewSource = () => (
 							<h2>About the project</h2>
 							<p>
 								We consider this a reference implementation for a consumer
-								cellular IoT product, where the Nordic development kits are
-								treated like a consumer cellular IoT device, for example a{' '}
+								cellular IoT product, where Nordic development kits are treated
+								like a consumer cellular IoT device, for example a{' '}
 								<em>Robot Lawnmower</em>, which is purchased by a consumer at a
 								retail store, and when turned on should work{' '}
 								<em>just like that</em>.
@@ -156,7 +156,7 @@ export const ViewSource = () => (
 							as well as render static pages (for example for the development
 							kit pages){' '}
 							<a
-								href="https://github.com/hello-nrfcloud/web/blob/saga/content/dks/PCA20035%2Bsolar.md"
+								href="https://github.com/hello-nrfcloud/web/blob/saga/content/models/PCA20035%2Bsolar.md"
 								target="_blank"
 							>
 								using Markdown files

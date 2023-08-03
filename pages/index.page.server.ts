@@ -1,25 +1,25 @@
-import type { DK } from '#context/DKs.js'
+import type { Model } from '#context/Models.js'
 import { loadMarkdownContent } from './loadMarkdownContent.js'
 
-export type IndexPageProps = { dks: Record<string, DK> }
+export type IndexPageProps = { models: Record<string, Model> }
 
 export const onBeforeRender = async (): Promise<{
 	pageContext: { pageProps: IndexPageProps }
 }> => {
-	const dks = await loadMarkdownContent<DK>('dks')
+	const models = await loadMarkdownContent<Model>('models')
 
 	return {
 		pageContext: {
 			pageProps: {
-				dks: dks.reduce(
-					(dks, dk) => ({
-						...dks,
-						[dk.slug]: {
-							...dk,
-							model: dk.slug,
+				models: models.reduce(
+					(models, model) => ({
+						...models,
+						[model.slug]: {
+							...model,
+							name: model.slug,
 						},
 					}),
-					{} as Record<string, DK>,
+					{} as Record<string, Model>,
 				),
 			},
 		},

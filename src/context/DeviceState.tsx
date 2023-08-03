@@ -22,7 +22,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	useEffect(() => {
 		if (device === undefined) return
 		const listener: MessageListenerFn = (message) => {
-			if (isState(message, device.type.model)) setState(message)
+			if (isState(message, device.model.name)) setState(message)
 		}
 		const { remove } = addMessageListener(listener)
 

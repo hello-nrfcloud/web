@@ -1,4 +1,4 @@
-import { DKSelector } from '#components/DKSelector.js'
+import { ModelSelector } from '#components/ModelSelector.js'
 import { ScanQR } from '#components/ScanQR.js'
 
 export const Home = () => (
@@ -12,7 +12,7 @@ export const Home = () => (
 							<h2 class="mt-4">... or select your hardware</h2>
 						</div>
 					</div>
-					<DKSelector />
+					<ModelSelector />
 				</div>
 			</div>
 		</article>

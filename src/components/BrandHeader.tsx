@@ -22,7 +22,7 @@ export const BrandHeader = () => (
 			</h1>
 			<p>
 				Retrieve real-time data from your long-range Nordic Semiconductor
-				Development Kits within seconds.
+				Development Kit within seconds.
 			</p>
 		</div>
 	</header>

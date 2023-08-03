@@ -27,7 +27,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	useEffect(() => {
 		if (device === undefined) return
 		const listener: MessageListenerFn = (message) => {
-			if (isLocation(message, device.type.model))
+			if (isLocation(message, device.model.name))
 				setLocations((l) => ({ ...l, [message.src]: message }))
 		}
 		const { remove } = addMessageListener(listener)

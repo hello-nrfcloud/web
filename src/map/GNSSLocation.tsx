@@ -23,7 +23,7 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 		<>
 			<h2>GNSS location</h2>
 			<p>
-				The integrated GNSS received of the {device.type.title} can provide
+				The integrated GNSS received of the {device.model.title} can provide
 				precise geo location, however this comes at a cost. While the receiver
 				is listening for GNSS signals, the LTE modem has to be turned off. If
 				the device is indoors acquiring a GNSS fix might not be possible, and

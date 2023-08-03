@@ -1,12 +1,12 @@
 import { SecondaryLink } from '#components/Buttons.js'
-import { useDKs } from '#context/DKs.js'
+import { useModels } from '#context/Models.js'
 
-export const DKSelector = () => {
-	const { DKs } = useDKs()
+export const ModelSelector = () => {
+	const { models } = useModels()
 	return (
 		<>
 			<div class="row">
-				{Object.entries(DKs).map(([id, { title, abstract, tagline }]) => (
+				{Object.entries(models).map(([id, { title, abstract, tagline }]) => (
 					<div class="col-12 col-sm-6 col-lg-4">
 						<div class="card">
 							<div class="card-header">
@@ -16,7 +16,7 @@ export const DKSelector = () => {
 									<code class="text-muted">{id}</code>
 								</p>
 							</div>
-							<a href={`/dk/${encodeURIComponent(id)}`}>
+							<a href={`/model/${encodeURIComponent(id)}`}>
 								<img
 									alt={`${title} (${id})`}
 									src={`/static/images/${encodeURIComponent(
@@ -29,7 +29,7 @@ export const DKSelector = () => {
 								<p>{abstract}</p>
 							</div>
 							<div class="card-footer d-flex justify-content-end">
-								<SecondaryLink href={`/dk/${encodeURIComponent(id)}`}>
+								<SecondaryLink href={`/model/${encodeURIComponent(id)}`}>
 									select
 								</SecondaryLink>
 							</div>

@@ -1,7 +1,7 @@
-import type { DK } from '#context/DKs.js'
+import type { Model } from '#context/Models.js'
 import { FileText, Laptop2 } from 'lucide-preact'
 
-export const DKResources = ({ type }: { type: DK }) => (
+export const ModelResources = ({ type }: { type: Model }) => (
 	<section
 		style={{
 			backgroundColor: 'var(--color-nordic-sun)',

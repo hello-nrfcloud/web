@@ -17,7 +17,7 @@ import { IAQ } from './model/PCA20035-solar/BME680.js'
 import { BatteryIndicator } from './model/PCA20035-solar/SolarThingyBattery.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
-	const type = device.type
+	const type = device.model
 
 	return (
 		<div class="container my-md-4">
@@ -26,9 +26,9 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 					<div class="col d-flex justify-content-between align-items-center">
 						<h1>
 							<small class="text-muted" style={{ fontSize: '16px' }}>
-								Your development kit:{' '}
-								<a href={`/dk/${encodeURIComponent(type.model)}`}>
-									{type.model}
+								Your model:{' '}
+								<a href={`/model/${encodeURIComponent(type.name)}`}>
+									{type.name}
 								</a>
 							</small>
 							<br />
@@ -216,7 +216,7 @@ const Interact = () => {
 			{buttonPress === undefined && (
 				<small class="d-flex">
 					<ActivitySquareIcon class="me-1" />
-					<span>Press the button on your DK!</span>
+					<span>Press the button on your device!</span>
 				</small>
 			)}
 			{buttonPress !== undefined && (

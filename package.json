@@ -1,7 +1,7 @@
 {
   "name": "@hello.nrfcloud.com/web",
   "version": "0.0.0-development",
-  "description": "Retrieve real-time data from your long-range Nordic Semiconductor Development Kits within seconds",
+  "description": "Retrieve real-time data from your long-range Nordic Semiconductor Development Kit within seconds",
   "type": "module",
   "repository": {
     "type": "git",

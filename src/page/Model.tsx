@@ -1,60 +1,60 @@
-import { DKResources } from '#components/DKResources.js'
+import { ModelResources } from '#components/ModelResources.js'
 import { ScanQR } from '#components/ScanQR.js'
 import { YouTubeVideo } from '#components/YouTubeVideo.js'
-import { type DK as TDK } from '#context/DKs.js'
+import { type Model as TModel } from '#context/Models.js'
 
-export const DK = ({ dk }: { dk: TDK }) => (
+export const Model = ({ model }: { model: TModel }) => (
 	<main>
 		<div class="container my-4">
 			<div class="row mt-4">
 				<section class="col-12 col-md-6 mb-4">
 					<header class="row">
 						<div class="col">
-							<h1>{dk.title}</h1>
-							<p>{dk.tagline}</p>
+							<h1>{model.title}</h1>
+							<p>{model.tagline}</p>
 						</div>
 					</header>
 					<div
 						dangerouslySetInnerHTML={{
-							__html: dk.html,
+							__html: model.html,
 						}}
 					/>
-					{dk.video?.youtube !== undefined && (
+					{model.video?.youtube !== undefined && (
 						<YouTubeVideo
-							id={dk.video.youtube.id}
-							title={dk.video.youtube.title}
+							id={model.video.youtube.id}
+							title={model.video.youtube.title}
 						/>
 					)}
 				</section>
 				<aside class="col-12 col-md-6 col-lg-4 offset-lg-2">
 					<div class="card">
 						<div class="card-header">
-							<h2>{dk.title}</h2>
-							<p class="mb-1">{dk.tagline}</p>
+							<h2>{model.title}</h2>
+							<p class="mb-1">{model.tagline}</p>
 							<p class="mb-0">
-								<code class="text-muted">{dk.model}</code>
+								<code class="text-muted">{model.name}</code>
 							</p>
 						</div>
 						<img
-							alt={`${dk.title} (${dk.model})`}
+							alt={`${model.title} (${model.name})`}
 							src={`/static/images/${encodeURIComponent(
-								dk.model,
+								model.name,
 							)}.webp?v=${VERSION}`}
 							class="img-fluid p-4"
 						/>
 						<div class="card-body">
-							<p>{dk.abstract}</p>
+							<p>{model.abstract}</p>
 						</div>
 						<div class="card-footer">
 							<h2 class="mt-2">Links</h2>
 							<ul>
 								<li>
-									<a href={dk.links.learnMore} target={'_blank'}>
+									<a href={model.links.learnMore} target={'_blank'}>
 										Learn more
 									</a>
 								</li>
 								<li>
-									<a href={dk.links.documentation} target={'_blank'}>
+									<a href={model.links.documentation} target={'_blank'}>
 										Documentation
 									</a>
 								</li>
@@ -64,7 +64,7 @@ export const DK = ({ dk }: { dk: TDK }) => (
 				</aside>
 			</div>
 		</div>
-		<DKResources type={dk} />
-		<ScanQR type={dk} />
+		<ModelResources type={model} />
+		<ScanQR type={model} />
 	</main>
 )
