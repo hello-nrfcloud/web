@@ -27,7 +27,7 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "4.2.3",
+    "@hello.nrfcloud.com/proto": "4.2.5",
     "@sentry/browser": "7.61.1",
     "@sinclair/typebox": "0.30.3",
     "classnames": "2.3.2",
