@@ -11,6 +11,7 @@ import { BrandHeader } from './BrandHeader.js'
 import { Transparent } from './Buttons.js'
 import { PreviewWarning } from './PreviewWarning.js'
 import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
+import { Logo } from './icons/Logo.js'
 
 const Link = ({
 	href,
@@ -143,13 +144,14 @@ const Nav = ({ fixed }: { fixed?: boolean }) => {
 			})}
 		>
 			<div class="container">
-				<a class="navbar-brand" href="/">
-					<img
-						src={`/static/images/logo.svg?v=${VERSION}`}
-						alt="Logo"
-						width="30"
-						height="24"
-						class="d-inline-block align-text-top me-1"
+				<a class="navbar-brand fw-light" href="/">
+					<Logo
+						class="d-inline-block align-text-top me-2"
+						style={{
+							width: '30',
+							height: '24',
+							color: 'var(--color-nordic-blue)',
+						}}
 					/>
 					hello.nrfcloud.com
 				</a>
@@ -181,13 +183,14 @@ const Nav = ({ fixed }: { fixed?: boolean }) => {
 					aria-labelledby="offcanvasNavbarLabel"
 				>
 					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-							<img
-								src={`/static/images/logo.svg?v=${VERSION}`}
-								alt="Logo"
-								width="30"
-								height="24"
-								class="d-inline-block align-text-top me-1"
+						<h5 class="offcanvas-title fw-light" id="offcanvasNavbarLabel">
+							<Logo
+								class="d-inline-block align-text-top me-2"
+								style={{
+									width: '30',
+									height: '24',
+									color: 'var(--color-nordic-blue)',
+								}}
 							/>
 							hello.nrfcloud.com
 						</h5>

@@ -1,4 +1,5 @@
 import './BrandHeader.css'
+import { Logo } from '#components/icons/Logo.js'
 
 export const BrandHeader = () => (
 	<header class="brand">
@@ -10,13 +11,13 @@ export const BrandHeader = () => (
 			class="logo"
 		/>
 		<div class="hello-logo">
-			<h1>
-				<img
-					src={`/static/images/logo.svg?v=${VERSION}`}
-					alt="Logo"
-					width="60"
-					height="48"
-					class="d-inline-block align-text-top me-1"
+			<h1 class="fw-light">
+				<Logo
+					class="d-inline-block align-text-top me-2"
+					style={{
+						width: '60',
+						height: '48',
+					}}
 				/>
 				hello.nrfcloud.com
 			</h1>

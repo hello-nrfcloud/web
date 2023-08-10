@@ -3,7 +3,7 @@ header.brand {
   background-color: var(--color-nordic-blueslate);
   height: 175px;
   grid-template-columns: 200px auto 200px;
-  background-image: url(/static/images/world.webp);
+  background-image: url(/static/images/world.webp?v=2);
   background-position: center;
   background-attachment: unset;
   background-size: cover;
