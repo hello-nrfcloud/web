@@ -3,11 +3,8 @@ import { Reported } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import {
-	useDevice,
-	type MessageListenerFn,
-	type IncomingMessage,
-} from './Device.js'
+import { useDevice, type MessageListenerFn } from './Device.js'
+import type { IncomingMessageType } from '#proto/proto.js'
 
 export const DeviceStateContext = createContext<{
 	state?: Static<typeof Reported>
@@ -48,7 +45,7 @@ export const Consumer = DeviceStateContext.Consumer
 export const useDeviceState = () => useContext(DeviceStateContext)
 
 const isState = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 	model: string,
 ): message is Static<typeof Reported> =>
 	message['@context'] ===

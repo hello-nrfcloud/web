@@ -32,7 +32,7 @@ void describe('validPassthrough', () => {
 			params: {
 				missingProperty: '@context',
 			},
-			schemaPath: '#/anyOf/0/required',
+			schemaPath: '#/anyOf/0/anyOf/0/required',
 		})
 	})
 })

@@ -1,16 +1,4 @@
-import {
-	ConfigureDevice,
-	Context,
-	DeviceIdentity,
-} from '@hello.nrfcloud.com/proto/hello'
-import { Thingy91WithSolarShieldMessage } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import {
-	BatteryResponse,
-	CommonRequest,
-	GainResponse,
-	LocationResponse,
-	LocationTrailResponse,
-} from '@hello.nrfcloud.com/proto/hello/history'
+import { Context, DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import {
@@ -20,10 +8,11 @@ import {
 	useRef,
 	useState,
 } from 'preact/hooks'
-import { useModels, type Model } from './Models.js'
+import type { IncomingMessageType, OutgoingMessageType } from '#proto/proto.js'
+import { validPassthrough } from '#proto/validPassthrough.js'
 import { useFingerprint } from './Fingerprint.js'
+import { useModels, type Model } from './Models.js'
 import { useParameters } from './Parameters.js'
-import { validPassthrough } from '../proto/validPassthrough.js'
 
 export type Device = {
 	id: string
@@ -31,21 +20,10 @@ export type Device = {
 	lastSeen?: Date
 }
 
-export type IncomingMessage =
-	| Static<typeof Thingy91WithSolarShieldMessage>
-	| Static<typeof BatteryResponse>
-	| Static<typeof GainResponse>
-	| Static<typeof LocationResponse>
-	| Static<typeof LocationTrailResponse>
-
 type Messages = {
 	received: Date
-	message: IncomingMessage
+	message: IncomingMessageType
 }[]
-
-type OutgoingMessage =
-	| Static<typeof CommonRequest>
-	| Static<typeof ConfigureDevice>
 
 export const DeviceContext = createContext<{
 	type?: Model | undefined
@@ -56,7 +34,7 @@ export const DeviceContext = createContext<{
 	addMessageListener: (listener: MessageListenerFn) => {
 		remove: () => void
 	}
-	send?: (message: OutgoingMessage) => void
+	send?: (message: OutgoingMessageType) => void
 }>({
 	connected: false,
 	messages: [],
@@ -66,7 +44,7 @@ export const DeviceContext = createContext<{
 	connectionFailed: false,
 })
 
-export type MessageListenerFn = (message: IncomingMessage) => unknown
+export type MessageListenerFn = (message: IncomingMessageType) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
@@ -164,7 +142,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		ws === undefined
 			? undefined
 			: useCallback(
-					(message: OutgoingMessage) => {
+					(message: OutgoingMessageType) => {
 						console.log(`[WS] >`, message)
 						ws.send(
 							JSON.stringify({
@@ -205,6 +183,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()

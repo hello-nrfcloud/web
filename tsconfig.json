@@ -30,6 +30,7 @@
       "#chart/*": ["chart/*"],
       "#utils/*": ["utils/*"],
       "#page/*": ["page/*"],
+      "#proto/*": ["proto/*"],
       "#map/*": ["map/*"]
     }
   }

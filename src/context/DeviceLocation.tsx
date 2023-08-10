@@ -6,11 +6,8 @@ import {
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import {
-	useDevice,
-	type MessageListenerFn,
-	type IncomingMessage,
-} from './Device.js'
+import { useDevice, type MessageListenerFn } from './Device.js'
+import type { IncomingMessageType } from '#proto/proto.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, Static<typeof Location>>
@@ -56,7 +53,7 @@ export const Consumer = DeviceLocationContext.Consumer
 export const useDeviceLocation = () => useContext(DeviceLocationContext)
 
 const isLocation = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 	model: string,
 ): message is Static<typeof Location> =>
 	message['@context'] ===

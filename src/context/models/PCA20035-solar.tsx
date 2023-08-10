@@ -19,50 +19,49 @@ import { Context } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import {
-	useDevice,
-	type MessageListenerFn,
-	type IncomingMessage,
-} from '../Device.js'
+import { useDevice, type MessageListenerFn } from '../Device.js'
 import { generateUUID } from '#utils/generateUUID.js'
+import type { IncomingMessageType } from '#proto/proto.js'
 
 const solarThingy = Context.model('PCA20035+solar')
 
-const isGain = (message: IncomingMessage): message is Static<typeof Gain> =>
+const isGain = (message: IncomingMessageType): message is Static<typeof Gain> =>
 	message['@context'] === solarThingy.transformed('gain').toString()
 const isGainHistory = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof GainResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof CommonResponse>).message === 'gain'
 
 const isBattery = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof Battery> =>
 	message['@context'] === solarThingy.transformed('battery').toString()
 const isBatteryHistory = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof BatteryResponse> =>
 	message['@context'] === Context.historicalDataResponse.toString() &&
 	(message as Static<typeof BatteryResponse>).message === 'battery'
 
 const isAirHumidity = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof AirHumidity> =>
 	message['@context'] === solarThingy.transformed('airHumidity').toString()
 const isAirPressure = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof AirPressure> =>
 	message['@context'] === solarThingy.transformed('airPressure').toString()
 const isAirQuality = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof AirQuality> =>
 	message['@context'] === solarThingy.transformed('airQuality').toString()
 const isAirTemperature = (
-	message: IncomingMessage,
+	message: IncomingMessageType,
 ): message is Static<typeof AirTemperature> =>
 	message['@context'] === solarThingy.transformed('airTemperature').toString()
-const isButton = (message: IncomingMessage): message is Static<typeof Button> =>
+const isButton = (
+	message: IncomingMessageType,
+): message is Static<typeof Button> =>
 	message['@context'] === solarThingy.transformed('button').toString()
 
 const timeSpans: {
