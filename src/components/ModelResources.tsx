@@ -2,12 +2,7 @@ import type { Model } from '#context/Models.js'
 import { FileText, Laptop2 } from 'lucide-preact'
 
 export const ModelResources = ({ type }: { type: Model }) => (
-	<section
-		style={{
-			backgroundColor: 'var(--color-nordic-sun)',
-		}}
-		class="pt-4 pb-4"
-	>
+	<section class="pt-4 pb-4 bg-sun">
 		<div class="container">
 			<div class="row  justify-content-center">
 				<div class="col-12  text-center">

@@ -5,7 +5,7 @@
   --monospace-font: "Pragmata Medium", monospace;
 
   /* Nordic Style Guide: Primary colors */
-  --color-nordic-blue: rgb(0, 169, 206);
+  --color-nordic-blue: #00a9ce;
   --color-nordic-sky: rgb(106, 209, 227);
   --color-nordic-blueslate: #0032a0;
   --color-nordic-lake-rgb: 0, 119, 200;
@@ -37,6 +37,47 @@
 
   /* Other */
   --color-panel-bg: #0b0b0f75;
+  --bs-link-color-rgb: 0, 100, 255;
+}
+/* These color variants are there to improve contrast.
+   Check with https://dequeuniversity.com/rules/axe/4.7/color-contrast
+*/
+.bg-light {
+  background: var(--color-nordic-light-grey);
+}
+.bg-light code {
+  color: #bb0760;
+}
+.bg-dark {
+  background: var(--color-nordic-dark-grey);
+  color: #ffffffcc;
+}
+.bg-dark a {
+  color: #00ceff;
+}
+.bg-dark code {
+  color: #e169a5;
+}
+.bg-blue {
+  background: var(--color-nordic-blueslate);
+  color: #ffffffcc;
+}
+.bg-blue a {
+  color: #00ceff;
+}
+.bg-blue-soft {
+  background: rgb(0 65 109);
+  color: #ffffffcc;
+}
+.bg-blue-soft a {
+  color: #00ceff;
+}
+.bg-sun {
+  background-color: var(--color-nordic-sun);
+  color: var(--color-nordic-dark-grey);
+}
+.bg-sun a {
+  color: rgb(0 65 109);
 }
 
 /* Bootstrap Button Overrides */
@@ -49,9 +90,10 @@
   padding: 8px 22px;
 }
 .btn-primary {
-  --bs-btn-bg: var(--color-nordic-blue);
+  /* Blue adjusted to #00809E for better contrast ratio */
+  --bs-btn-bg: #00809e;
   --bs-btn-border-color: var(--color-nordic-blue);
-  --bs-btn-hover-bg: var(--color-nordic-blue);
+  --bs-btn-hover-bg: #00809e;
   --bs-btn-hover-border-color: var(--color-nordic-blue);
   --bs-btn-active-bg: var(--color-nordic-blue);
   --bs-btn-active-border-color: var(--color-nordic-blue);

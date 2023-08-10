@@ -71,10 +71,7 @@ const WaitingForConnection = ({ device }: { device: TDevice }) => {
 	if (hasLiveData) return null
 
 	return (
-		<div
-			style={{ backgroundColor: 'var(--color-nordic-light-grey)' }}
-			class="py-4"
-		>
+		<div class="py-4 bg-light">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">

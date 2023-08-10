@@ -16,21 +16,17 @@ const Link = ({
 	href,
 	children,
 	title,
-}: PropsWithChildren<{ href: string; title?: string }>) => {
-	return (
-		<li class="nav-item me-2">
-			<a
-				class={cx('nav-link d-flex align-items-center', {
-					active: isSSR ? false : document.location.href.endsWith(href),
-				})}
-				href={href}
-				title={title}
-			>
-				{children}
-			</a>
-		</li>
-	)
-}
+}: PropsWithChildren<{ href: string; title?: string }>) => (
+	<a
+		class={cx('me-2 nav-link d-flex align-items-center', {
+			active: isSSR ? false : document.location.href.endsWith(href),
+		})}
+		href={href}
+		title={title}
+	>
+		{children}
+	</a>
+)
 const Navigation = () => {
 	const { device } = useDevice()
 	const { fingerprint, clear } = useFingerprint()
@@ -201,14 +197,14 @@ const Nav = ({ fixed }: { fixed?: boolean }) => {
 						></button>
 					</div>
 					<div class="offcanvas-body">
-						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+						<div class="navbar-nav justify-content-end flex-grow-1 pe-3">
 							<Navigation />
-						</ul>
+						</div>
 						<hr />
 						<p>
 							<a
 								href="https://nrfcloud.com/"
-								class="text-body-tertiary text-decoration-none"
+								class="text-body-secondary text-decoration-none"
 								target="_blank"
 							>
 								<NRFCloudLogo style={{ height: '18px' }} />

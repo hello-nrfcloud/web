@@ -23,8 +23,9 @@ export const Footer = () => (
 					<p class="mb-2">
 						<a
 							href="https://nrfcloud.com/"
-							class="text-body-tertiary text-decoration-none"
+							class="text-body-secondary text-decoration-none"
 							target="_blank"
+							title="nRF Cloud"
 						>
 							<NRFCloudLogo style={{ height: '16px' }} />
 						</a>
@@ -32,7 +33,7 @@ export const Footer = () => (
 					<p class="mb-2">
 						<a
 							href="https://www.nordicsemi.com/Privacy"
-							class="text-body-tertiary text-decoration-none"
+							class="text-body-secondary text-decoration-none"
 							target="_blank"
 						>
 							Privacy Policy
@@ -41,7 +42,7 @@ export const Footer = () => (
 					<p class="mb-2">
 						<a
 							href="https://www.nordicsemi.com/About-us/Contact-Us"
-							class="text-body-tertiary text-decoration-none"
+							class="text-body-secondary text-decoration-none"
 							target="_blank"
 						>
 							Contact us
@@ -79,14 +80,14 @@ export const Footer = () => (
 					<p>
 						© <CopyrightYear /> Nordic Semiconductor. All rights reserved.
 					</p>
-					<p class="text-body-tertiary">
+					<p class="text-body-secondary">
 						<small>{VERSION}</small>
 						<small class="px-1">&middot;</small>
 						<small>
 							<a
 								href="https://github.com/hello-nrfcloud/web/releases"
 								target="_blank"
-								class="text-body-tertiary ms-1"
+								class="text-body-secondary ms-1"
 							>
 								Release notes
 							</a>

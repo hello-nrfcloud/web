@@ -5,7 +5,7 @@ import { WithResize } from './ResizeObserver.js'
 import { ThingyWithQRCode } from './ThingyWithQRCode.js'
 
 export const ScanQR = ({ type }: { type?: Model }) => (
-	<div style={{ background: 'var(--color-nordic-light-grey)' }}>
+	<div class="bg-light">
 		<div class="container py-4">
 			<div class="row mt-4">
 				<h1>
@@ -33,7 +33,7 @@ export const ScanQR = ({ type }: { type?: Model }) => (
 					<QRCodeScanner />
 				</div>
 				<div class="col-12 col-md-12 col-lg-4">
-					<h3>No QR code or camera?</h3>
+					<h2>No QR code or camera?</h2>
 					<p>Enter the fingerprint manually:</p>
 					<FingerprintForm />
 				</div>

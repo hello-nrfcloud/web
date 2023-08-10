@@ -1,10 +1,5 @@
 export const Feedback = () => (
-	<section
-		style={{
-			backgroundColor: 'var(--color-nordic-dark-grey)',
-		}}
-		class="pt-4 pb-4 text-white"
-	>
+	<section class="pt-4 pb-4 bg-dark">
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-12 col-md-6">

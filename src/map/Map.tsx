@@ -272,8 +272,8 @@ export const Map = ({ device }: { device: Device }) => {
 				</div>
 			</section>
 			<div
+				class={'bg-dark'}
 				style={{
-					backgroundColor: 'var(--color-nordic-dark-grey)',
 					color: '#ccc',
 				}}
 			>

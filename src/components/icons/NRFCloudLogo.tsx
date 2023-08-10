@@ -16,6 +16,7 @@ export const NRFCloudLogo = ({
 		viewBox="0 0 662 100"
 		style={style}
 		class={c}
+		title={'nRF Cloud Logo'}
 	>
 		<g id="nRF_Cloud_Black_00000104672878910847956600000003085443349254850436_">
 			<path

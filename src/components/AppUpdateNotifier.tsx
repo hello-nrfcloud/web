@@ -49,13 +49,7 @@ export const AppUpdateNotifier = () => {
 
 	if (newerVersion === undefined) return null
 	return (
-		<div
-			role="alert"
-			style={{
-				backgroundColor: 'var(--color-nordic-sun)',
-				color: 'var(--color-nordic-dark-grey)',
-			}}
-		>
+		<div role="alert" class="bg-sun">
 			<div class="container p-2 d-flex justify-content-between align-items-center">
 				<span>A newer version ({newerVersion}) is available.</span>
 				<span class="flex-shrink-0">

@@ -22,100 +22,96 @@ export const SolarThingyChart = () => {
 
 	return (
 		<>
-			<div
-				class="container py-4"
-				style={{ backgroundColor: 'var(--color-nordic-lake)' }}
-			>
-				{hasChartData && (
-					<>
-						<div class="d-flex justify-content-end align-items-center mb-3">
-							<span class="text-light me-2 opacity-50">change date range:</span>
-							{timeSpans.map(({ id, title }) => (
-								<DateRangeButton
-									class="ms-1"
-									disabled={id === timeSpan}
-									onClick={() => {
-										setTimeSpan(id)
-									}}
-									label={title}
-									active={timeSpan === id}
-								/>
-							))}
+			<div class="bg-blue-soft">
+				<div class="container py-4">
+					{hasChartData && (
+						<>
+							<div class="d-flex justify-content-end align-items-center mb-3">
+								<span class="me-2 opacity-75">change date range:</span>
+								{timeSpans.map(({ id, title }) => (
+									<DateRangeButton
+										class="ms-1"
+										disabled={id === timeSpan}
+										onClick={() => {
+											setTimeSpan(id)
+										}}
+										label={title}
+										active={timeSpan === id}
+									/>
+								))}
+							</div>
+							<WithResize>
+								{(size) => (
+									<HistoryChart
+										data={toChartData({ gain, battery, type: timeSpan })}
+										size={size}
+									/>
+								)}
+							</WithResize>
+						</>
+					)}
+					{!hasChartData && (
+						<div class="d-flex align-items-center justify-content-center h-100">
+							<WaitingForData />
 						</div>
-						<WithResize>
-							{(size) => (
-								<HistoryChart
-									data={toChartData({ gain, battery, type: timeSpan })}
-									size={size}
-								/>
-							)}
-						</WithResize>
-					</>
-				)}
-				{!hasChartData && (
-					<div class="text-light d-flex align-items-center justify-content-center h-100">
-						<WaitingForData />
-					</div>
-				)}
+					)}
+				</div>
 			</div>
-
-			<div
-				class="container pt-4 pb-4"
-				style={{ backgroundColor: 'rgba(var(--color-nordic-lake-rgb),0.8)' }}
-			>
-				<p class="text-light">
-					The Thingy:91 runs the{' '}
-					<a
-						href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
-						target="_blank"
-						class="text-light"
-					>
-						<code>asset_tracker_v2</code>
-					</a>{' '}
-					application configured in low-power mode, requires 3.4 mA when sending
-					updates to the cloud every minute, or 2.3 mA when sending updates to
-					the cloud.
-				</p>
-				<dl>
-					<>
-						<dt style={{ color: 'var(--color-nordic-sun)' }}>
-							<Sun /> Gain
-						</dt>
-						<dd
-							style={{ color: 'var(--color-nordic-sun)' }}
-							class="d-flex flex-column"
+			<div class="bg-blue">
+				<div class="container pt-4 pb-4">
+					<p>
+						The Thingy:91 runs the{' '}
+						<a
+							href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
+							target="_blank"
 						>
-							{currentGain === undefined && <LoadingIndicator light />}
-							{currentGain !== undefined && (
-								<>
-									<span>{formatFloat(currentGain.mA)} mA</span>
-									<small>
-										<Ago date={new Date(currentGain.ts)} />
-									</small>
-								</>
-							)}
-						</dd>
-					</>
-					<>
-						<dt style={{ color: 'var(--color-nordic-grass)' }}>
-							<BatteryCharging /> Battery
-						</dt>
-						<dd
-							style={{ color: 'var(--color-nordic-grass)' }}
-							class="d-flex flex-column"
-						>
-							{currentBattery === undefined && <LoadingIndicator light />}
-							{currentBattery !== undefined && (
-								<>
-									{currentBattery['%']} %{' '}
-									<small>
-										<Ago date={new Date(currentBattery.ts)} />
-									</small>
-								</>
-							)}
-						</dd>
-					</>
-				</dl>
+							<code>asset_tracker_v2</code>
+						</a>{' '}
+						application configured in low-power mode, requires 3.4 mA when
+						sending updates to the cloud every minute, or 2.3 mA when sending
+						updates to the cloud.
+					</p>
+					<dl>
+						<>
+							<dt style={{ color: 'var(--color-nordic-sun)' }}>
+								<Sun /> Gain
+							</dt>
+							<dd
+								style={{ color: 'var(--color-nordic-sun)' }}
+								class="d-flex flex-column"
+							>
+								{currentGain === undefined && <LoadingIndicator light />}
+								{currentGain !== undefined && (
+									<>
+										<span>{formatFloat(currentGain.mA)} mA</span>
+										<small>
+											<Ago date={new Date(currentGain.ts)} />
+										</small>
+									</>
+								)}
+							</dd>
+						</>
+						<>
+							<dt style={{ color: 'var(--color-nordic-grass)' }}>
+								<BatteryCharging /> Battery
+							</dt>
+							<dd
+								style={{ color: 'var(--color-nordic-grass)' }}
+								class="d-flex flex-column"
+							>
+								{currentBattery === undefined && <LoadingIndicator light />}
+								{currentBattery !== undefined && (
+									<>
+										{currentBattery['%']} %{' '}
+										<small>
+											<Ago date={new Date(currentBattery.ts)} />
+										</small>
+									</>
+								)}
+							</dd>
+						</>
+					</dl>
+				</div>
 			</div>
 		</>
 	)

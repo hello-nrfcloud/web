@@ -18,10 +18,7 @@ export const ViewSource = () => (
 					</div>
 				</div>
 			</header>
-			<div
-				style={{ backgroundColor: 'var(--color-nordic-blueslate)' }}
-				class="text-white"
-			>
+			<div class="bg-blue">
 				<div class="container py-4">
 					<section class="row mt-4">
 						<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
@@ -184,7 +181,7 @@ export const ViewSource = () => (
 					</div>
 				</section>
 			</div>
-			<div style={{ backgroundColor: 'var(--color-nordic-light-grey)' }}>
+			<div class="bg-light">
 				<div class="container py-4">
 					<div class="row mt-4">
 						<section class="col-12 col-lg-8 offset-lg-2 col-xl-6">
