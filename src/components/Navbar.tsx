@@ -9,7 +9,6 @@ import { useEffect, useState } from 'preact/hooks'
 import { AppUpdateNotifier } from './AppUpdateNotifier.js'
 import { BrandHeader } from './BrandHeader.js'
 import { Transparent } from './Buttons.js'
-import { PreviewWarning } from './PreviewWarning.js'
 import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
 import { Logo } from './icons/Logo.js'
 
@@ -81,7 +80,6 @@ const Navigation = () => {
 export const Navbar = () => (
 	<>
 		<NavWrapper />
-		<PreviewWarning />
 		<AppUpdateNotifier />
 	</>
 )
