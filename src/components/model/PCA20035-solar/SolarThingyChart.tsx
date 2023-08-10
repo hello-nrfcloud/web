@@ -10,7 +10,7 @@ import { WithResize } from '#components/ResizeObserver.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 
 export const SolarThingyChart = () => {
-	const { gain, battery, chartType, chartTypes, setChartType } =
+	const { gain, battery, timeSpan, timeSpans, setTimeSpan } =
 		useSolarThingyHistory()
 
 	const currentGain = gain?.filter(({ fromHistory }) => fromHistory !== true)[0]
@@ -30,22 +30,22 @@ export const SolarThingyChart = () => {
 					<>
 						<div class="d-flex justify-content-end align-items-center mb-3">
 							<span class="text-light me-2 opacity-50">change date range:</span>
-							{chartTypes.map(({ id, title }) => (
+							{timeSpans.map(({ id, title }) => (
 								<DateRangeButton
 									class="ms-1"
-									disabled={id === chartType}
+									disabled={id === timeSpan}
 									onClick={() => {
-										setChartType(id)
+										setTimeSpan(id)
 									}}
 									label={title}
-									active={chartType === id}
+									active={timeSpan === id}
 								/>
 							))}
 						</div>
 						<WithResize>
 							{(size) => (
 								<HistoryChart
-									data={toChartData({ gain, battery, type: chartType })}
+									data={toChartData({ gain, battery, type: timeSpan })}
 									size={size}
 								/>
 							)}

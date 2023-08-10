@@ -4,7 +4,13 @@ import {
 	DeviceIdentity,
 } from '@hello.nrfcloud.com/proto/hello'
 import { Thingy91WithSolarShieldMessage } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import { HistoricalDataRequest } from '@hello.nrfcloud.com/proto/hello/chart'
+import {
+	BatteryResponse,
+	CommonRequest,
+	GainResponse,
+	LocationResponse,
+	LocationTrailResponse,
+} from '@hello.nrfcloud.com/proto/hello/history'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import {
@@ -25,13 +31,20 @@ export type Device = {
 	lastSeen?: Date
 }
 
+export type IncomingMessage =
+	| Static<typeof Thingy91WithSolarShieldMessage>
+	| Static<typeof BatteryResponse>
+	| Static<typeof GainResponse>
+	| Static<typeof LocationResponse>
+	| Static<typeof LocationTrailResponse>
+
 type Messages = {
 	received: Date
-	message: Static<typeof Thingy91WithSolarShieldMessage>
+	message: IncomingMessage
 }[]
 
 type OutgoingMessage =
-	| Static<typeof HistoricalDataRequest>
+	| Static<typeof CommonRequest>
 	| Static<typeof ConfigureDevice>
 
 export const DeviceContext = createContext<{
@@ -53,9 +66,7 @@ export const DeviceContext = createContext<{
 	connectionFailed: false,
 })
 
-export type MessageListenerFn = (
-	message: Static<typeof Thingy91WithSolarShieldMessage>,
-) => unknown
+export type MessageListenerFn = (message: IncomingMessage) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
@@ -194,6 +205,6 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: Static<typeof Thingy91WithSolarShieldMessage>,
+	message: IncomingMessage,
 ): message is Static<typeof DeviceIdentity> =>
 	message['@context'] === Context.deviceIdentity.toString()

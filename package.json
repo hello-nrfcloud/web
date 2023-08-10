@@ -27,7 +27,7 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "4.2.5",
+    "@hello.nrfcloud.com/proto": "5.3.0",
     "@sentry/browser": "7.62.0",
     "@sinclair/typebox": "0.30.4",
     "classnames": "2.3.2",
@@ -49,7 +49,7 @@
     "@aws-sdk/client-cloudfront": "3.388.0",
     "@aws-sdk/client-iam": "3.388.0",
     "@babel/plugin-syntax-import-assertions": "7.22.5",
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.70",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.71",
     "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.12",
     "@nordicsemiconductor/from-env": "2.0.0",

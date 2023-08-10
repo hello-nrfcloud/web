@@ -1,13 +1,16 @@
 import { Context } from '@hello.nrfcloud.com/proto/hello'
 import {
 	Location,
-	Thingy91WithSolarShieldMessage,
 	LocationSource,
 } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from './Device.js'
+import {
+	useDevice,
+	type MessageListenerFn,
+	type IncomingMessage,
+} from './Device.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, Static<typeof Location>>
@@ -53,7 +56,7 @@ export const Consumer = DeviceLocationContext.Consumer
 export const useDeviceLocation = () => useContext(DeviceLocationContext)
 
 const isLocation = (
-	message: Static<typeof Thingy91WithSolarShieldMessage>,
+	message: IncomingMessage,
 	model: string,
 ): message is Static<typeof Location> =>
 	message['@context'] ===

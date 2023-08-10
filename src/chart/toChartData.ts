@@ -5,7 +5,7 @@ import {
 	type BatteryReadings,
 } from '../context/models/PCA20035-solar.js'
 import type { Static } from '@sinclair/typebox'
-import type { ChartType } from '@hello.nrfcloud.com/proto/hello/chart'
+import type { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history'
 import { xAxisForType } from './xAxisForType.js'
 
 export const toChartData = ({
@@ -15,7 +15,7 @@ export const toChartData = ({
 }: {
 	gain: GainReadings
 	battery: BatteryReadings
-	type: Static<typeof ChartType>
+	type: Static<typeof TimeSpan>
 }): ChartData => {
 	const base = new Date(
 		gain[gain.length - 1]?.ts ?? subHours(new Date(), 1).getTime(),
