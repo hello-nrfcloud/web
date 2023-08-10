@@ -44,7 +44,7 @@ export const Feedback = () => (
 				<div class="col-12 col-md-3">
 					<p>
 						<img
-							src="/static/images/t-shirt.webp"
+							src="/static/images/t-shirt.webp?v=2"
 							alt="A person wearing a black t-shirt that reads: hello, I connected a Nordic DK to the Internet before I had my first coffee!"
 							class="img-fluid"
 						/>
