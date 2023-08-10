@@ -19,20 +19,20 @@ video:
     title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
 ---
 
-The Thingy:91 has been fitted with Exeger's Nordic Thingy Powerfoyle add-on
-which is available for the Nordic Thingy:52, Thingy:53, and Thingy:91
-prototyping platforms, giving the platforms autonomous charging capabilities.
-
-Exeger’s groundbreaking solar cell technology, Powerfoyle, is a flexible and
-resilient photovoltaic cell which converts all forms of light - both artificial
-indoor and natural outdoor - into clean, endless energy. To learn more the
-innovation and application areas, visit
-[www.exeger.com](https://www.exeger.com/).
+The Nordic Thingy:91 Solar Shield is a plug-and-play prototyping platform.
+Powerfoyle solar cell is mounted onto the Thingy to quickly get started
+exploring the endless possibilities with solar powered IoT applications and to
+develop products with eternal life or even battery-free products.​
 
 The Thingy:91 runs the
 [`asset_tracker_v2` application](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html)
 configured in low-power mode, requires 3.4 mA when sending updates to the cloud
 every minute, or 2.3 mA when sending updates to the cloud.
+
+Powerfoyle is a groundbreaking solar cell technology made by Exeger. Powerfoyle
+has a uniquely flexible and customizable design to integrate seamlessly for
+sustainable and attractive products. To learn more the innovation and
+application areas, visit [www.exeger.com](https://www.exeger.com/).​
 
 ## Demo devices
 

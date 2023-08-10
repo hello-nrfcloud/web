@@ -10,7 +10,7 @@ export const Model = ({ model }: { model: TModel }) => (
 					<header class="row">
 						<div class="col">
 							<h1>{model.title}</h1>
-							<p>{model.tagline}</p>
+							<p class="text-secondary">{model.tagline}</p>
 						</div>
 					</header>
 					<div
