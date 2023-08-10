@@ -38,7 +38,7 @@
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.21",
     "lucide-preact": "0.265.0",
-    "maplibre-gl": "3.2.2",
+    "maplibre-gl": "3.3.0",
     "preact": "10.16.0",
     "qrcode": "1.5.3",
     "semver": "7.5.4",
