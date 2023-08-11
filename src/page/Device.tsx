@@ -8,8 +8,7 @@ import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { BME680 } from '#components/model/PCA20035-solar/BME680.js'
 import { SolarThingyBattery } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
-import {
-	Provider as SolarThingyHistoryProvider,
+import SolarThingyHistoryProvider, {
 	useSolarThingyHistory,
 } from '#context/models/PCA20035-solar.js'
 import { SolarThingyChart } from '#components/model/PCA20035-solar/SolarThingyChart.js'

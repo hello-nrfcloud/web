@@ -32,6 +32,8 @@ import {
 import { mapStyle } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
 import { CellularLocation } from '#map/CellularLocation.js'
+import { timeSpans } from '#chart/timeSpans.js'
+import { DateRangeButton } from '#chart/DateRangeButton.js'
 
 // Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 export const locationSourceColors = {
@@ -62,8 +64,11 @@ const getCenter = (locations: Locations): Static<typeof Location> | undefined =>
 export const Map = ({ device }: { device: Device }) => {
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
-	const { locations } = useDeviceLocation()
+	const { locations, trail, timeSpan, setTimeSpan } = useDeviceLocation()
 	const [map, setMap] = useState<maplibregl.Map>()
+	const [locked, setLocked] = useState<boolean>(true)
+	const hasLocation = Object.values(locations).length > 0
+	const hasTrail = trail.length > 0
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -74,8 +79,8 @@ export const Map = ({ device }: { device: Device }) => {
 					region: mapRegion,
 					mapName,
 				}),
-				center: [10.437581513483195, 63.42148461054351],
-				zoom: 12,
+				center: [10.437581513483195, 63.42148461054351], // Trondheim
+				zoom: 10,
 				transformRequest: transformRequest(mapApiKey, mapRegion),
 				refreshExpiredTiles: false,
 				trackResize: true,
@@ -95,8 +100,9 @@ export const Map = ({ device }: { device: Device }) => {
 		}
 	}, [containerRef.current])
 
-	// Center the map
+	// Center the map on current location
 	useEffect(() => {
+		if (!locked) return // Don't override user set center
 		if (map === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
@@ -105,10 +111,24 @@ export const Map = ({ device }: { device: Device }) => {
 			center: centerLocation,
 			zoom: map.getZoom(),
 		})
-	}, [locations, map])
+	}, [locations, map, locked])
 
+	// Center map on last known location
 	useEffect(() => {
-		if (Object.values(locations).length === 0) return
+		if (!locked) return // Don't override user set center
+		if (map === undefined) return
+		if (hasLocation) return
+		if (!hasTrail) return
+		console.log(`[Map]`, 'center', trail[trail.length - 1])
+		map.flyTo({
+			center: trail[trail.length - 1],
+			zoom: map.getZoom(),
+		})
+	}, [trail, locations, map, locked])
+
+	// Locations
+	useEffect(() => {
+		if (!hasLocation) return
 		if (map === undefined) return
 		if (device === undefined) return
 
@@ -217,6 +237,110 @@ export const Map = ({ device }: { device: Device }) => {
 		}
 	}, [locations, map, device])
 
+	// Trail
+	useEffect(() => {
+		if (!hasTrail) return
+		if (map === undefined) return
+		if (device === undefined) return
+
+		const layerIds: string[] = []
+		const sourceIds: string[] = []
+
+		for (const point of trail) {
+			const { lng, lat, ts, radiusKm, count } = point
+			const locationCenterSourceId = `${point.id}-source-center`
+			const locationAreaSourceId = `${point.id}-location-area-source`
+			const locationAreaLayerId = `${point.id}-location-area-layer`
+			const locationSourceLabel = `${point.id}-location-source-label`
+			const centerSource = map.getSource(locationCenterSourceId)
+
+			// Add layer (if not already on map)
+			if (centerSource === undefined) {
+				console.log(`[Map]`, `adding`, point)
+
+				// Data for Center point
+				map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
+				sourceIds.push(locationCenterSourceId)
+				// Render location info
+				map.addLayer({
+					id: locationSourceLabel,
+					type: 'symbol',
+					source: locationCenterSourceId,
+					layout: {
+						'symbol-placement': 'point',
+						'text-field': `${formatDistanceToNow(ts, { addSuffix: true })} ${
+							count > 1 ? `${count} positions` : ''
+						}`,
+						'text-font': [glyphFonts.regular],
+						'text-offset': [0, 0],
+					},
+					paint: {
+						'text-color': `#8AC926`,
+						'text-halo-color': '#222222',
+						'text-halo-width': 1,
+						'text-halo-blur': 1,
+					},
+				})
+				layerIds.push(locationSourceLabel)
+				// Data for Hexagon
+				map.addSource(
+					locationAreaSourceId,
+					geoJSONPolygonFromCircle([lng, lat], radiusKm * 1000, 6, Math.PI / 2),
+				)
+				sourceIds.push(locationAreaSourceId)
+				// Render Hexagon
+				map.addLayer({
+					id: locationAreaLayerId,
+					type: 'line',
+					source: locationAreaSourceId,
+					layout: {},
+					paint: {
+						'line-color': `#8AC926`,
+						'line-opacity': 1,
+						'line-width': 2,
+					},
+				})
+				layerIds.push(locationAreaLayerId)
+			}
+		}
+
+		// Line for trail
+		const trailSourceId = `source-trail`
+		map.addSource(trailSourceId, {
+			type: 'geojson',
+			data: {
+				type: 'Feature',
+				properties: {},
+				geometry: {
+					type: 'LineString',
+					coordinates: trail.map(({ lat, lng }) => [lng, lat]),
+				},
+			},
+		})
+		sourceIds.push(trailSourceId)
+
+		// Render trail
+		const trailLayerId = `layer-trail`
+		map.addLayer({
+			id: trailLayerId,
+			type: 'line',
+			source: trailSourceId,
+			layout: {},
+			paint: {
+				'line-color': `#8AC926`,
+				'line-opacity': 0.5,
+				'line-width': 2,
+				'line-dasharray': [2, 2],
+			},
+		})
+		layerIds.push(trailLayerId)
+
+		return () => {
+			layerIds.map((id) => map.removeLayer(id))
+			sourceIds.map((id) => map.removeSource(id))
+		}
+	}, [trail, map, device])
+
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
 	const cellularLocations: Static<typeof Location>[] = []
@@ -225,50 +349,59 @@ export const Map = ({ device }: { device: Device }) => {
 
 	return (
 		<>
-			<section class="map">
+			<section class="map bg-dark">
 				<div id="map" ref={containerRef} />
-				{Object.values(locations).length === 0 && (
-					<div class="noLocation">
-						<MapPinOff style={{ zoom: 2 }} /> waiting for location
+
+				{!hasLocation && locked && (
+					<div class="noLocationInfo">
+						<span>
+							<MapPinOff /> waiting for location
+						</span>
 					</div>
 				)}
-				{Object.values(locations).length > 0 && map !== undefined && (
-					<MapZoom map={map} />
+				{map !== undefined && (
+					<MapZoom map={map} locked={locked} onLock={setLocked} />
 				)}
-
-				<div class="mapLocations">
-					{Object.values(locations).map(({ src, lat, lng, acc }) => (
-						<button
-							type="button"
-							onClick={() => {
-								if (map === undefined) return
-								const coordinates = getPolygonCoordinatesForCircle(
-									[lng, lat],
-									acc,
-									6,
-									Math.PI / 2,
-								)
-								const bounds = coordinates.reduce(
-									(bounds, coord) => {
-										return bounds.extend(coord)
-									},
-									new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
-								)
-								map.fitBounds(bounds, {
-									padding: 20,
-								})
-							}}
-							class="d-flex flex-row align-items-center"
-						>
-							<span class="me-2">
-								{[LocationSource.MCELL, LocationSource.SCELL].includes(src) && (
-									<RadioTowerIcon />
-								)}
-								{src === LocationSource.GNSS && <SatelliteIcon />}
-							</span>
-							<span>{LocationSourceLabels[src]}</span>
-						</button>
-					))}
+				<div class="mapControls">
+					{hasLocation && (
+						<div class="mapLocations">
+							{Object.values(locations).map(({ src, lat, lng, acc }) => (
+								<button
+									type="button"
+									onClick={() => {
+										if (map === undefined) return
+										const coordinates = getPolygonCoordinatesForCircle(
+											[lng, lat],
+											acc,
+											6,
+											Math.PI / 2,
+										)
+										const bounds = coordinates.reduce(
+											(bounds, coord) => {
+												return bounds.extend(coord)
+											},
+											new maplibregl.LngLatBounds(
+												coordinates[0],
+												coordinates[0],
+											),
+										)
+										map.fitBounds(bounds, {
+											padding: 20,
+										})
+									}}
+									class="d-flex flex-row align-items-center"
+								>
+									<span class="me-2">
+										{[LocationSource.MCELL, LocationSource.SCELL].includes(
+											src,
+										) && <RadioTowerIcon />}
+										{src === LocationSource.GNSS && <SatelliteIcon />}
+									</span>
+									<span>{LocationSourceLabels[src]}</span>
+								</button>
+							))}
+						</div>
+					)}
 				</div>
 			</section>
 			<div
@@ -278,6 +411,22 @@ export const Map = ({ device }: { device: Device }) => {
 				}}
 			>
 				<div class="container py-4">
+					<div class="row mb-4">
+						<div class="col d-flex justify-content-start align-items-center">
+							<span class="me-2 opacity-75">Location history:</span>
+							{timeSpans.map(({ id, title }) => (
+								<DateRangeButton
+									class="ms-1"
+									disabled={id === timeSpan}
+									onClick={() => {
+										setTimeSpan(id)
+									}}
+									label={title}
+									active={timeSpan === id}
+								/>
+							))}
+						</div>
+					</div>
 					<div class="row mb-2">
 						<div class="col">
 							<GNSSLocation device={device} />
@@ -327,9 +476,15 @@ const NetworkLocation = () => {
 	)
 }
 
-const MapZoom = ({ map }: { map: maplibregl.Map }) => {
-	const [locked, setLocked] = useState<boolean>(true)
-
+const MapZoom = ({
+	map,
+	locked,
+	onLock,
+}: {
+	map: maplibregl.Map
+	locked: boolean
+	onLock: (setter: (current: boolean) => boolean) => void
+}) => {
 	useEffect(() => {
 		if (locked) {
 			map.dragPan.disable()
@@ -341,13 +496,13 @@ const MapZoom = ({ map }: { map: maplibregl.Map }) => {
 	return (
 		<>
 			{locked && (
-				<div class="dragCatcher">
+				<div class="lockInfo">
 					<span>
 						Click the{' '}
 						<button
 							type="button"
 							onClick={() => {
-								setLocked(false)
+								onLock(() => false)
 							}}
 						>
 							<UnlockIcon />
@@ -376,7 +531,7 @@ const MapZoom = ({ map }: { map: maplibregl.Map }) => {
 				<button
 					type="button"
 					onClick={() => {
-						setLocked((locked) => !locked)
+						onLock((locked) => !locked)
 					}}
 				>
 					{locked ? <UnlockIcon /> : <LockIcon />}

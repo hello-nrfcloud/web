@@ -22,6 +22,7 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice, type MessageListenerFn } from '../Device.js'
 import { generateUUID } from '#utils/generateUUID.js'
 import type { IncomingMessageType } from '#proto/proto.js'
+import { byTs } from '../byTs.js'
 
 const solarThingy = Context.model('PCA20035+solar')
 
@@ -64,16 +65,6 @@ const isButton = (
 ): message is Static<typeof Button> =>
 	message['@context'] === solarThingy.transformed('button').toString()
 
-const timeSpans: {
-	id: Static<typeof TimeSpan>
-	title: string
-}[] = [
-	{ id: 'lastHour', title: 'last hour' },
-	{ id: 'lastDay', title: 'last day' },
-	{ id: 'lastWeek', title: 'last week' },
-	{ id: 'lastMonth', title: 'last month' },
-]
-
 type FromHistory = {
 	fromHistory?: boolean
 }
@@ -93,10 +84,6 @@ export const SolarThingyHistoryContext = createContext<{
 	airTemperature: Omit<Static<typeof AirTemperature>, '@context'>[]
 	button: Omit<Static<typeof Button>, '@context'>[]
 	timeSpan: Static<typeof TimeSpan>
-	timeSpans: {
-		id: Static<typeof TimeSpan>
-		title: string
-	}[]
 	setTimeSpan: (type: Static<typeof TimeSpan>) => void
 }>({
 	gain: [],
@@ -108,12 +95,9 @@ export const SolarThingyHistoryContext = createContext<{
 	button: [],
 	timeSpan: 'lastHour',
 	setTimeSpan: () => undefined,
-	timeSpans,
 })
 
-const byTs = ({ ts: t1 }: { ts: number }, { ts: t2 }: { ts: number }) => t2 - t1
-
-export const Provider = ({ children }: { children: ComponentChildren }) => {
+export default ({ children }: { children: ComponentChildren }) => {
 	const { addMessageListener, send } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<Static<typeof TimeSpan>>('lastHour')
 
@@ -225,7 +209,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				airTemperature,
 				button,
 				timeSpan,
-				timeSpans,
 				setTimeSpan,
 			}}
 		>
