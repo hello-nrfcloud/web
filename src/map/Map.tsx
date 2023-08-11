@@ -43,6 +43,8 @@ export const locationSourceColors = {
 	[LocationSource.SCELL]: '#38a3a5',
 } as const
 
+const trailColor = '#e169a5'
+
 // Uses nrfcloud.com wording
 export const LocationSourceLabels = {
 	// [LocationSource.GNSS]: 'GNSS',
@@ -275,7 +277,7 @@ export const Map = ({ device }: { device: Device }) => {
 						'text-offset': [0, 0],
 					},
 					paint: {
-						'text-color': `#8AC926`,
+						'text-color': trailColor,
 						'text-halo-color': '#222222',
 						'text-halo-width': 1,
 						'text-halo-blur': 1,
@@ -295,7 +297,7 @@ export const Map = ({ device }: { device: Device }) => {
 					source: locationAreaSourceId,
 					layout: {},
 					paint: {
-						'line-color': `#8AC926`,
+						'line-color': trailColor,
 						'line-opacity': 1,
 						'line-width': 2,
 					},
@@ -327,7 +329,7 @@ export const Map = ({ device }: { device: Device }) => {
 			source: trailSourceId,
 			layout: {},
 			paint: {
-				'line-color': `#8AC926`,
+				'line-color': trailColor,
 				'line-opacity': 0.5,
 				'line-width': 2,
 				'line-dasharray': [2, 2],
