@@ -27,7 +27,7 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "5.3.1",
+    "@hello.nrfcloud.com/proto": "5.3.2",
     "@sentry/browser": "7.63.0",
     "@sinclair/typebox": "0.31.1",
     "classnames": "2.3.2",
@@ -37,7 +37,7 @@
     "e118-iin-list": "3.1.0",
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.21",
-    "lucide-preact": "0.266.0",
+    "lucide-preact": "0.268.0",
     "maplibre-gl": "3.3.0",
     "preact": "10.16.0",
     "qrcode": "1.5.3",
@@ -70,7 +70,7 @@
     "eslint-plugin-unicorn": "48.0.1",
     "glob": "10.3.3",
     "husky": "8.0.3",
-    "lint-staged": "13.3.0",
+    "lint-staged": "14.0.0",
     "playwright": "1.37.0",
     "preact-render-to-string": "6.2.1",
     "prettier": "3.0.1",
