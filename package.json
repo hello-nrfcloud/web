@@ -70,7 +70,7 @@
     "eslint-plugin-unicorn": "48.0.1",
     "glob": "10.3.3",
     "husky": "8.0.3",
-    "lint-staged": "13.2.3",
+    "lint-staged": "13.3.0",
     "playwright": "1.37.0",
     "preact-render-to-string": "6.2.1",
     "prettier": "3.0.1",
