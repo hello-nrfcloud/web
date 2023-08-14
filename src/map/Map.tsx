@@ -70,7 +70,7 @@ export const Map = ({ device }: { device: Device }) => {
 	const [map, setMap] = useState<maplibregl.Map>()
 	const [locked, setLocked] = useState<boolean>(true)
 	const hasLocation = Object.values(locations).length > 0
-	const hasTrail = trail.length > 0
+	const hasTrail = trail.length > 1 // Only show trail with more than one point
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -249,10 +249,8 @@ export const Map = ({ device }: { device: Device }) => {
 		const sourceIds: string[] = []
 
 		for (const point of trail) {
-			const { lng, lat, ts, radiusKm, count } = point
+			const { lng, lat, ts, count } = point
 			const locationCenterSourceId = `${point.id}-source-center`
-			const locationAreaSourceId = `${point.id}-location-area-source`
-			const locationAreaLayerId = `${point.id}-location-area-layer`
 			const locationSourceLabel = `${point.id}-location-source-label`
 			const centerSource = map.getSource(locationCenterSourceId)
 
@@ -284,25 +282,6 @@ export const Map = ({ device }: { device: Device }) => {
 					},
 				})
 				layerIds.push(locationSourceLabel)
-				// Data for Hexagon
-				map.addSource(
-					locationAreaSourceId,
-					geoJSONPolygonFromCircle([lng, lat], radiusKm * 1000, 6, Math.PI / 2),
-				)
-				sourceIds.push(locationAreaSourceId)
-				// Render Hexagon
-				map.addLayer({
-					id: locationAreaLayerId,
-					type: 'line',
-					source: locationAreaSourceId,
-					layout: {},
-					paint: {
-						'line-color': trailColor,
-						'line-opacity': 1,
-						'line-width': 2,
-					},
-				})
-				layerIds.push(locationAreaLayerId)
 			}
 		}
 

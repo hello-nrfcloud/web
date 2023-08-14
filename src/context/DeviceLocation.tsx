@@ -78,7 +78,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			'@id': generateUUID(),
 			type: timeSpan,
 			message: 'locationTrail',
-			minDistanceKm: 0.25,
+			minDistanceKm: 1,
 		}
 		send(locationHistory)
 	}, [send, timeSpan])
