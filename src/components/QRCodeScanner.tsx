@@ -15,9 +15,6 @@ export const QRCodeScanner = () => {
 	const [currentCamera, setCurrentCamera] = useState<Camera | undefined>(
 		cameras[0],
 	)
-	const [viewFinderSize, setViewFinderSize] = useState<[number, number]>([
-		500, 300,
-	])
 	const [foundURL, setFoundURL] = useState<URL | undefined>()
 	const [hasVideo, setHasVideo] = useState(false)
 
@@ -55,9 +52,8 @@ export const QRCodeScanner = () => {
 				{
 					fps: 1,
 					qrbox: (viewfinderWidth, viewfinderHeight) => {
-						setViewFinderSize([viewfinderWidth, viewfinderHeight])
 						const m = Math.floor(
-							Math.min(viewfinderHeight, viewfinderWidth) * 0.5,
+							Math.min(viewfinderHeight, viewfinderWidth) * 0.66,
 						)
 						return {
 							width: m,
@@ -183,8 +179,9 @@ export const QRCodeScanner = () => {
 					data-testid="camera-view"
 					id={containerId}
 					style={{
-						width: `${viewFinderSize[0]}px`,
-						height: `${viewFinderSize[1]}px`,
+						width: `100%`,
+						height: `auto`,
+						aspectRatio: '3/2',
 					}}
 					class="mt-4"
 				/>

@@ -29,7 +29,7 @@ export const ScanQR = ({ type }: { type?: Model }) => (
 						</WithResize>
 					)}
 				</div>
-				<div class="col-12 col-md-6 col-lg-4">
+				<div class="col-12 col-md-6 col-lg-4 mb-3">
 					<QRCodeScanner />
 				</div>
 				<div class="col-12 col-md-12 col-lg-4">
