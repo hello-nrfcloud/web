@@ -4,8 +4,10 @@ import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
 import {
 	ActivitySquareIcon,
 	ChevronDownSquareIcon,
+	HistoryIcon,
 	Slash,
 	ThermometerIcon,
+	UploadCloud,
 } from 'lucide-preact'
 import { Ago } from './Ago.js'
 import './DeviceHeader.css'
@@ -13,12 +15,12 @@ import { EnergyEstimateIcons, EnergyEstimateLabel } from './SignalQuality.js'
 import { LoadingIndicator } from './ValueLoading.js'
 import { LTEm } from './icons/LTE-m.js'
 import { NBIot } from './icons/NBIot.js'
+import { SIMIcon } from './icons/SIMIcon.js'
 import { IAQ } from './model/PCA20035-solar/BME680.js'
 import { BatteryIndicator } from './model/PCA20035-solar/SolarThingyBattery.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
-
 	return (
 		<div class="container my-md-4">
 			<header class="mt-md-4">
@@ -53,8 +55,89 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 						<Interact />
 					</div>
 				</div>
+				<DeviceModeSelector />
 			</header>
 		</div>
+	)
+}
+
+const DeviceModeSelector = () => {
+	const { state } = useDeviceState()
+	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
+
+	return (
+		<>
+			<div class="row mt-4">
+				<div class="col-4">
+					<h2>
+						<UploadCloud strokeWidth={1} /> Publication interval
+					</h2>
+					<p class={'text-secondary'}>
+						Currently, the device is configured to publish data every{' '}
+						{updateIntervalSeconds} seconds.
+					</p>
+				</div>
+			</div>
+			<div class="row mb-4">
+				<div class="col-4">
+					<p>
+						The power consumption and data usage is greatly influenced by how
+						often the device sends data to the cloud.
+					</p>
+					<p>
+						Change the mode in order to preserve battery and reduce the data
+						usage.
+					</p>
+				</div>
+				<div class="col-4">
+					<div class="form-check mb-1">
+						<input
+							class="form-check-input"
+							type="radio"
+							name="deviceMode"
+							id="interactiveMode"
+							checked={false}
+							onClick={() => {}}
+						/>
+						<label htmlFor="interactiveMode">Interactive mode</label>
+					</div>
+					<p class="mb-1 d-flex">
+						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
+						<span>
+							In this mode, the device sends data to the cloud every 120
+							seconds.
+						</span>
+					</p>
+					<p class="mb-1 d-flex">
+						<SIMIcon class="me-2 flex-shrink-0" size={18} />
+						<span>This mode uses around 1.5 MB of data per day.</span>
+					</p>
+				</div>
+				<div class="col-4">
+					<div class="form-check mb-1">
+						<input
+							class="form-check-input"
+							type="radio"
+							name="deviceMode"
+							id="lowPowerMode"
+							checked={false}
+							onClick={() => {}}
+						/>
+						<label htmlFor="lowPowerMode">Low-power mode</label>
+					</div>
+					<p class="mb-1 d-flex">
+						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
+						<span>
+							In this mode, the device sends data to the cloud every 60 minutes.
+						</span>
+					</p>
+					<p class="mb-1 d-flex">
+						<SIMIcon class="me-2 flex-shrink-0" size={18} />
+						<span>This mode uses around 0.05 MB of data per day.</span>
+					</p>
+				</div>
+			</div>
+		</>
 	)
 }
 

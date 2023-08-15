@@ -82,7 +82,7 @@ const GNSSLocationConfig = ({
 					type="radio"
 					name="gnssMode"
 					id="gnssEnabled"
-					checked={desired === true}
+					checked={(desired ?? reported) === true}
 					onClick={() => {
 						enableGNSS(true)
 					}}
@@ -101,7 +101,7 @@ const GNSSLocationConfig = ({
 					type="radio"
 					name="gnssMode"
 					id="gnssDisabled"
-					checked={desired === false}
+					checked={(desired ?? reported) === false}
 					onClick={() => {
 						enableGNSS(false)
 					}}
