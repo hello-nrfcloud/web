@@ -21,7 +21,6 @@ import {
 } from '#components/Buttons.js'
 import { ValueLoading } from '#components/ValueLoading.js'
 import { createElement } from 'preact'
-import { SlidingSwitch } from '#components/buttons/SlidingSwitch.js'
 
 const buttonVariants = [
 	Primary,
@@ -207,18 +206,6 @@ export const StyleGuide = () => {
 					</>
 				))}
 			</div>
-			<section>
-				<h2>Sliding switches</h2>
-				<div class="mb-4">
-					<SlidingSwitch value={false} class="me-2" />
-					<SlidingSwitch value={true} />
-				</div>
-				<h3>Disabled</h3>
-				<div class="mb-4">
-					<SlidingSwitch value={false} disabled class="me-2" />
-					<SlidingSwitch value={true} disabled />
-				</div>
-			</section>
 		</section>
 	)
 }

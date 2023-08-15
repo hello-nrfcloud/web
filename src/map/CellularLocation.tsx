@@ -13,7 +13,7 @@ import { LocationSourceLabels, Located } from '#map/Map.js'
 export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()
 	const { state } = useDeviceState()
-	const gnssEnabled = !(state?.config?.nod ?? []).includes('gnss')
+	const gnssEnabled = !(state?.config?.nod ?? ['gnss']).includes('gnss')
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
 	const cellularLocations: Static<typeof Location>[] = []

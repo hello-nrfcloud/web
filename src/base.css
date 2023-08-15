@@ -79,6 +79,12 @@
 .bg-sun a {
   color: rgb(0 65 109);
 }
+.color-success {
+  color: var(--color-nordic-power);
+}
+.color-warning {
+  color: var(--color-nordic-fall);
+}
 
 /* Bootstrap Button Overrides */
 .btn {

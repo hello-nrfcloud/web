@@ -1,23 +1,22 @@
-import { ZapOffIcon } from 'lucide-preact'
+import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice, type Device } from '#context/Device.js'
+import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
+import { Located } from '#map/Map.js'
 import { ConfigureDevice, Context } from '@hello.nrfcloud.com/proto/hello'
 import {
 	LocationSource,
 	Reported,
 } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import { useState } from 'preact/hooks'
-import { SlidingSwitch } from '#components/buttons/SlidingSwitch.js'
 import type { Static } from '@sinclair/typebox'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { Located } from '#map/Map.js'
+import { CheckCircle, ZapOffIcon } from 'lucide-preact'
+import { useState } from 'preact/hooks'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
 	const { locations } = useDeviceLocation()
 	const gnssLocation = locations[LocationSource.GNSS]
-	const gnssEnabled = !(state?.config?.nod ?? []).includes('gnss')
+	const gnssEnabled = !(state?.config?.nod ?? ['gnss']).includes('gnss')
 
 	return (
 		<>
@@ -33,17 +32,12 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				Depending on your use-case scenario you can control whether to enable
 				GNSS on this device:
 			</p>
-			<div class="d-flex flex-row align-items-center mb-2">
-				{state === undefined && (
-					<>
-						<LoadingIndicator height={40} width={74} class="me-2" />
-						<LoadingIndicator height={20} width={120} class="ms-2" />
-					</>
-				)}
-				{state !== undefined && (
-					<GNSSLocationConfig device={device} state={state} />
-				)}
-			</div>
+			{state === undefined && (
+				<LoadingIndicator light height={48} width={'100%'} />
+			)}
+			{state !== undefined && (
+				<GNSSLocationConfig device={device} state={state} />
+			)}
 			{gnssEnabled && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
@@ -69,39 +63,73 @@ const GNSSLocationConfig = ({
 	const { send } = useDevice()
 	const [desired, setDesired] = useState<boolean | undefined>(undefined)
 	const applicationPending = desired !== undefined && reported !== desired
+	const enableGNSS = (enabled: boolean) => {
+		const configureDevice: Static<typeof ConfigureDevice> = {
+			'@context': Context.configureDevice.toString(),
+			id: device.id,
+			configuration: {
+				gnss: enabled,
+			},
+		}
+		send?.(configureDevice)
+		setDesired(enabled)
+	}
 	return (
 		<>
-			<SlidingSwitch
-				value={desired ?? reported}
-				class="me-2"
-				onChange={(state) => {
-					const configureDevice: Static<typeof ConfigureDevice> = {
-						'@context': Context.configureDevice.toString(),
-						id: device.id,
-						configuration: {
-							gnss: state,
-						},
-					}
-					send?.(configureDevice)
-					setDesired(state)
-				}}
-			/>
-			<div class="ms-2">
-				{reported ? 'GNSS is enabled' : 'GNSS is disabled'}
-			</div>
-			{applicationPending && (
-				<div
-					style={{
-						color: 'var(--color-nordic-sun)',
+			<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="gnssMode"
+					id="gnssEnabled"
+					checked={desired === true}
+					onClick={() => {
+						enableGNSS(true)
 					}}
-					class="ms-2"
+				/>
+				<label
+					class="form-check-label d-flex align-items-center"
+					for="gnssEnabled"
 				>
-					<small>
-						<ZapOffIcon strokeWidth={1} size={16} /> The device has not yet
-						applied the configuration change.
-					</small>
-				</div>
-			)}
+					Enable GNSS
+					{desired === true && <Applied applied={!applicationPending} />}
+				</label>
+			</div>
+			<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="gnssMode"
+					id="gnssDisabled"
+					checked={desired === false}
+					onClick={() => {
+						enableGNSS(false)
+					}}
+				/>
+				<label
+					class="form-check-label d-flex align-items-center"
+					for="gnssDisabled"
+				>
+					Disable GNSS
+					{desired === false && <Applied applied={!applicationPending} />}
+				</label>
+			</div>
 		</>
+	)
+}
+
+const Applied = ({ applied }: { applied: boolean }) => {
+	if (applied)
+		return (
+			<span>
+				<CheckCircle strokeWidth={1} class="color-success ms-2" size={16} /> The
+				device has applied the configuration change.
+			</span>
+		)
+	return (
+		<span>
+			<ZapOffIcon strokeWidth={1} class="color-warning ms-2" size={16} /> The
+			device has not yet applied the configuration change.
+		</span>
 	)
 }
