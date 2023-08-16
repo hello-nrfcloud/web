@@ -107,3 +107,7 @@ section.map {
   margin-top: 4rem;
   user-select: none;
 }
+
+.maplibregl-ctrl-attrib {
+  color: black;
+}
