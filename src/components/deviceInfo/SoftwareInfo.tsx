@@ -53,11 +53,10 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 			</p>
 			<p>
 				<small class="text-muted">
-					You can download the latest application firmware version for your kit{' '}
 					<a href={type.firmware.link} target="_blank">
-						here
-					</a>
-					.
+						Download the latest application firmware version
+					</a>{' '}
+					for your device.
 				</small>
 			</p>
 			<h3>Modem firmware version</h3>
@@ -94,11 +93,10 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 			</p>
 			<p>
 				<small class="text-muted">
-					You can download the latest modem firmware version for your kit{' '}
 					<a href={type.mfw.link} target="_blank">
-						here
-					</a>
-					.
+						Download the latest modem firmware version
+					</a>{' '}
+					for your device.
 				</small>
 			</p>
 		</>
