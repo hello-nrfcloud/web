@@ -1,15 +1,19 @@
+import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
 import { type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
+import { identifyIssuer } from 'e118-iin-list'
 import {
 	ActivitySquareIcon,
 	ChevronDownSquareIcon,
-	HistoryIcon,
+	Settings,
 	Slash,
 	ThermometerIcon,
 	UploadCloud,
 } from 'lucide-preact'
+import { useState } from 'preact/hooks'
 import { Ago } from './Ago.js'
+import { Transparent } from './Buttons.js'
 import './DeviceHeader.css'
 import { EnergyEstimateIcons, EnergyEstimateLabel } from './SignalQuality.js'
 import { LoadingIndicator } from './ValueLoading.js'
@@ -18,125 +22,72 @@ import { NBIot } from './icons/NBIot.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 import { IAQ } from './model/PCA20035-solar/BME680.js'
 import { BatteryIndicator } from './model/PCA20035-solar/SolarThingyBattery.js'
+import { Applied } from './Applied.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
-	return (
-		<div class="container my-md-4">
-			<header class="mt-md-4">
-				<div class="row mt-3">
-					<div class="col d-flex justify-content-between align-items-center">
-						<h1>
-							<small class="text-muted" style={{ fontSize: '16px' }}>
-								Your model:{' '}
-								<a href={`/model/${encodeURIComponent(type.name)}`}>
-									{type.name}
-								</a>
-							</small>
-							<br />
-							<strong class="ms-1">{type.title}</strong>
-						</h1>
-					</div>
-				</div>
-				<div class="row my-4">
-					<div class="col-4 col-lg-2 mb-2">
-						<NetworkModeInfo />
-					</div>
-					<div class="col-4 col-lg-2 mb-2">
-						<SignalQualityInfo />
-					</div>
-					<div class="col-4 col-lg-2 mb-2">
-						<BatteryInfo />
-					</div>
-					<div class="col-6 col-lg-3 mb-2">
-						<EnvironmentInfo />
-					</div>
-					<div class="col-6 col-lg-2 mb-2">
-						<Interact />
-					</div>
-				</div>
-				<DeviceModeSelector />
-			</header>
-		</div>
-	)
-}
-
-const DeviceModeSelector = () => {
-	const { state } = useDeviceState()
-	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
-
+	const [showModeConfiguration, setModeConfigurationVisible] =
+		useState<boolean>(false)
 	return (
 		<>
-			<div class="row mt-4">
-				<div class="col-4">
-					<h2>
-						<UploadCloud strokeWidth={1} /> Publication interval
-					</h2>
-					<p class={'text-secondary'}>
-						Currently, the device is configured to publish data every{' '}
-						{updateIntervalSeconds} seconds.
-					</p>
-				</div>
-			</div>
-			<div class="row mb-4">
-				<div class="col-4">
-					<p>
-						The power consumption and data usage is greatly influenced by how
-						often the device sends data to the cloud.
-					</p>
-					<p>
-						Change the mode in order to preserve battery and reduce the data
-						usage.
-					</p>
-				</div>
-				<div class="col-4">
-					<div class="form-check mb-1">
-						<input
-							class="form-check-input"
-							type="radio"
-							name="deviceMode"
-							id="interactiveMode"
-							checked={false}
-							onClick={() => {}}
-						/>
-						<label htmlFor="interactiveMode">Interactive mode</label>
+			<div class="container my-md-4">
+				<header class="mt-md-4">
+					<div class="row mt-3">
+						<div class="col d-flex justify-content-between align-items-center">
+							<h1>
+								<small class="text-muted" style={{ fontSize: '16px' }}>
+									Your model:{' '}
+									<a href={`/model/${encodeURIComponent(type.name)}`}>
+										{type.name}
+									</a>
+								</small>
+								<br />
+								<strong class="ms-1">{type.title}</strong>
+							</h1>
+						</div>
 					</div>
-					<p class="mb-1 d-flex">
-						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
-						<span>
-							In this mode, the device sends data to the cloud every 120
-							seconds.
-						</span>
-					</p>
-					<p class="mb-1 d-flex">
-						<SIMIcon class="me-2 flex-shrink-0" size={18} />
-						<span>This mode uses around 1.5 MB of data per day.</span>
-					</p>
-				</div>
-				<div class="col-4">
-					<div class="form-check mb-1">
-						<input
-							class="form-check-input"
-							type="radio"
-							name="deviceMode"
-							id="lowPowerMode"
-							checked={false}
-							onClick={() => {}}
-						/>
-						<label htmlFor="lowPowerMode">Low-power mode</label>
-					</div>
-					<p class="mb-1 d-flex">
-						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
-						<span>
-							In this mode, the device sends data to the cloud every 60 minutes.
-						</span>
-					</p>
-					<p class="mb-1 d-flex">
-						<SIMIcon class="me-2 flex-shrink-0" size={18} />
-						<span>This mode uses around 0.05 MB of data per day.</span>
-					</p>
-				</div>
+					{!showModeConfiguration && (
+						<div class="row my-4">
+							<div class="col-12 d-flex flex-wrap">
+								<div class="me-4 mb-2 mb-lg-4">
+									<NetworkModeInfo />
+								</div>
+								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
+									<SignalQualityInfo />
+								</div>
+								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
+									<SIMInfo />
+								</div>
+								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
+									<BatteryInfo />
+								</div>
+								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
+									<PublicationInterval
+										onConfigure={() =>
+											setModeConfigurationVisible((visible) => !visible)
+										}
+									/>
+								</div>
+								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
+									<EnvironmentInfo />
+								</div>
+								<div class="ms-lg-4 mb-2 mb-lg-4">
+									<Interact />
+								</div>
+							</div>
+						</div>
+					)}
+				</header>
 			</div>
+			{showModeConfiguration && (
+				<div class="bg-light py-4">
+					<DeviceModeSelector
+						device={device}
+						onInterval={() => setModeConfigurationVisible(false)}
+						onClose={() => setModeConfigurationVisible(false)}
+					/>
+				</div>
+			)}
 		</>
 	)
 }
@@ -314,6 +265,64 @@ const Interact = () => {
 						<Ago date={new Date(buttonPress.ts)} withSeconds />
 					</small>
 				</>
+			)}
+		</span>
+	)
+}
+
+const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
+	const { state, desiredConfig } = useDeviceState()
+	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
+
+	return (
+		<span class="d-flex flex-column">
+			<small class="text-muted">
+				<strong>Publication interval</strong>
+			</small>
+			<span>
+				<UploadCloud strokeWidth={1} /> {updateIntervalSeconds} seconds
+			</span>
+			<small class="text-muted">
+				<Transparent class="text-muted" onClick={onConfigure}>
+					<Settings strokeWidth={1} /> configure
+				</Transparent>
+			</small>
+			{desiredConfig.activeWaitTime !== undefined && (
+				<Applied
+					applied={desiredConfig.activeWaitTime === updateIntervalSeconds}
+				/>
+			)}
+		</span>
+	)
+}
+
+const SIMInfo = () => {
+	const { state } = useDeviceState()
+	const { iccid } = state?.device?.simInfo ?? {}
+	const { ts } = state ?? {}
+	return (
+		<span class="d-flex flex-column">
+			<small class="text-muted">
+				<strong>SIM</strong>
+			</small>
+			{iccid === undefined && <LoadingIndicator />}
+			{iccid !== undefined && (
+				<>
+					<span>
+						<SIMIcon class="me-2" />
+						<abbr title={iccid}>
+							{identifyIssuer(iccid)?.companyName ?? '?'}
+						</abbr>
+					</span>
+				</>
+			)}
+			{ts === undefined && (
+				<LoadingIndicator height={16} width={100} class="mt-1" />
+			)}
+			{ts !== undefined && (
+				<small class="text-muted">
+					<Ago date={new Date(ts)} />
+				</small>
 			)}
 		</span>
 	)

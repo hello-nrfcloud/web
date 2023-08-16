@@ -9,8 +9,7 @@ import {
 	Reported,
 } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import type { Static } from '@sinclair/typebox'
-import { CheckCircle, ZapOffIcon } from 'lucide-preact'
-import { useState } from 'preact/hooks'
+import { Applied } from '#components/Applied.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
@@ -61,8 +60,13 @@ const GNSSLocationConfig = ({
 }) => {
 	const reported = !(state.config?.nod ?? []).includes('gnss')
 	const { send } = useDevice()
-	const [desired, setDesired] = useState<boolean | undefined>(undefined)
-	const applicationPending = desired !== undefined && reported !== desired
+	const {
+		desiredConfig: { nod },
+		updateConfig,
+	} = useDeviceState()
+	const disabled = nod?.includes('gnss')
+	const desired = disabled === undefined ? undefined : !disabled
+	const applied = nod !== undefined && reported === desired
 	const enableGNSS = (enabled: boolean) => {
 		const configureDevice: Static<typeof ConfigureDevice> = {
 			'@context': Context.configureDevice.toString(),
@@ -72,7 +76,7 @@ const GNSSLocationConfig = ({
 			},
 		}
 		send?.(configureDevice)
-		setDesired(enabled)
+		updateConfig({ nod: enabled ? [] : ['gnss'] })
 	}
 	return (
 		<>
@@ -92,7 +96,9 @@ const GNSSLocationConfig = ({
 					for="gnssEnabled"
 				>
 					Enable GNSS
-					{desired === true && <Applied applied={!applicationPending} />}
+					{desired !== undefined && desired && (
+						<Applied applied={applied} class="ms-2" />
+					)}
 				</label>
 			</div>
 			<div class="form-check">
@@ -111,25 +117,11 @@ const GNSSLocationConfig = ({
 					for="gnssDisabled"
 				>
 					Disable GNSS
-					{desired === false && <Applied applied={!applicationPending} />}
+					{desired !== undefined && !desired && (
+						<Applied applied={applied} class="ms-2" />
+					)}
 				</label>
 			</div>
 		</>
-	)
-}
-
-const Applied = ({ applied }: { applied: boolean }) => {
-	if (applied)
-		return (
-			<span>
-				<CheckCircle strokeWidth={1} class="color-success ms-2" size={16} /> The
-				device has applied the configuration change.
-			</span>
-		)
-	return (
-		<span>
-			<ZapOffIcon strokeWidth={1} class="color-warning ms-2" size={16} /> The
-			device has not yet applied the configuration change.
-		</span>
 	)
 }
