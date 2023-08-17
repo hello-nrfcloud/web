@@ -85,6 +85,9 @@
 .color-warning {
   color: var(--color-nordic-fall);
 }
+.color-error {
+  color: var(--color-nordic-red);
+}
 
 /* Bootstrap Button Overrides */
 .btn {

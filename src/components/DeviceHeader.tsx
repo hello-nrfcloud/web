@@ -6,6 +6,7 @@ import { identifyIssuer } from 'e118-iin-list'
 import {
 	ActivitySquareIcon,
 	ChevronDownSquareIcon,
+	Satellite,
 	Settings,
 	Slash,
 	ThermometerIcon,
@@ -273,6 +274,7 @@ const Interact = () => {
 const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 	const { state, desiredConfig } = useDeviceState()
 	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
+	const gnss = !(state?.config?.nod ?? ['gnss']).includes('gnss')
 
 	return (
 		<span class="d-flex flex-column">
@@ -281,6 +283,7 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 			</small>
 			<span>
 				<UploadCloud strokeWidth={1} /> {updateIntervalSeconds} seconds
+				{gnss && <Satellite strokeWidth={1} class="ms-1" />}
 			</span>
 			<small class="text-muted">
 				<Transparent class="text-muted" onClick={onConfigure}>
