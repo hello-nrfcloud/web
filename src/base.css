@@ -79,12 +79,6 @@
 .bg-sun a {
   color: rgb(0 65 109);
 }
-.bg-fall {
-  background-color: var(--color-nordic-fall);
-}
-.bg-fall a {
-  color: #12222b;
-}
 .color-success {
   color: var(--color-nordic-power);
 }
