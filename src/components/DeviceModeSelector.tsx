@@ -1,14 +1,15 @@
-import { useDeviceState } from '#context/DeviceState.js'
-import { HistoryIcon, UploadCloud, X } from 'lucide-preact'
-import { SIMIcon } from './icons/SIMIcon.js'
-import { Secondary, Transparent } from './Buttons.js'
 import { useDevice, type Device } from '#context/Device.js'
-import type { Static } from '@sinclair/typebox'
+import { useDeviceState } from '#context/DeviceState.js'
 import { ConfigureDevice, Context } from '@hello.nrfcloud.com/proto/hello'
+import type { Static } from '@sinclair/typebox'
+import { HistoryIcon, SatelliteDish, UploadCloud, X } from 'lucide-preact'
 import { Applied } from './Applied.js'
+import { Secondary, Transparent } from './Buttons.js'
+import { SIMIcon } from './icons/SIMIcon.js'
 
 const LOW_POWER_INTERVAL = 3600
-const INTERACTIVE_INTERVAL = 120
+const INTERACTIVE_GNSS_INTERVAL = 120
+const REAL_TIME_INTERVAL = 60
 
 export const DeviceModeSelector = ({
 	device,
@@ -19,24 +20,8 @@ export const DeviceModeSelector = ({
 	onClose?: () => void
 	onInterval?: (interval: number) => void
 }) => {
-	const { state, updateConfig, desiredConfig } = useDeviceState()
+	const { state } = useDeviceState()
 	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
-	const { send } = useDevice()
-
-	const setUpdateInterval = (interval: number) => {
-		const configureDevice: Static<typeof ConfigureDevice> = {
-			'@context': Context.configureDevice.toString(),
-			id: device.id,
-			configuration: {
-				updateIntervalSeconds: interval,
-			},
-		}
-		updateConfig({
-			activeWaitTime: interval,
-		})
-		send?.(configureDevice)
-		onInterval?.(interval)
-	}
 
 	return (
 		<div class="container">
@@ -53,7 +38,7 @@ export const DeviceModeSelector = ({
 				</div>
 			</div>
 			<div class="row mb-4">
-				<div class="col-12 col-lg-4">
+				<div class="col-12 col-lg-3">
 					<p class={'text-secondary'}>
 						Currently, the device is configured to publish data every{' '}
 						{updateIntervalSeconds} seconds.
@@ -67,38 +52,51 @@ export const DeviceModeSelector = ({
 						usage.
 					</p>
 				</div>
-				<div class="col-12 col-lg-4">
-					<h3>Interactive mode</h3>
+				<div class="col-12 col-lg-3">
+					<h3>Real-time mode</h3>
 					<p class="mb-1 d-flex">
 						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
 						<small>
 							In this mode, the device sends data to the cloud every{' '}
-							{INTERACTIVE_INTERVAL}
-							seconds.
+							{REAL_TIME_INTERVAL} seconds.
+						</small>
+					</p>
+					<p class="mb-3 d-flex">
+						<SIMIcon class="me-2 flex-shrink-0" size={18} />
+						<small>This mode uses around 3 MB of data per day.</small>
+					</p>
+					<ApplyConfiguration
+						interval={REAL_TIME_INTERVAL}
+						device={device}
+						onInterval={onInterval}
+					/>
+				</div>
+				<div class="col-12 col-lg-3">
+					<h3>Interactive mode with GNSS</h3>
+					<p class="mb-1 d-flex">
+						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
+						<small>
+							In this mode, the device sends data to the cloud every{' '}
+							{INTERACTIVE_GNSS_INTERVAL} seconds.
 						</small>
 					</p>
 					<p class="mb-1 d-flex">
 						<SIMIcon class="me-2 flex-shrink-0" size={18} />
 						<small>This mode uses around 1.5 MB of data per day.</small>
 					</p>
-					<p class="d-flex align-items-center">
-						<Secondary
-							onClick={() => {
-								setUpdateInterval(INTERACTIVE_INTERVAL)
-							}}
-						>
-							apply configuration
-						</Secondary>
-						{desiredConfig.activeWaitTime === INTERACTIVE_INTERVAL && (
-							<Applied
-								applied={updateIntervalSeconds === INTERACTIVE_INTERVAL}
-								class="ms-2"
-							/>
-						)}
+					<p class="mb-3 d-flex">
+						<SatelliteDish class="me-2 flex-shrink-0" size={18} />{' '}
+						<small>GNSS is enabled.</small>
 					</p>
+					<ApplyConfiguration
+						interval={INTERACTIVE_GNSS_INTERVAL}
+						device={device}
+						onInterval={onInterval}
+						gnss
+					/>
 				</div>
-				<div class="col-12 col-lg-4">
-					<h3>Low-power mode</h3>
+				<div class="col-12 col-lg-3">
+					<h3>Low-power mode with GNSS</h3>
 
 					<p class="mb-1 d-flex">
 						<HistoryIcon strokeWidth={1} class="me-2 flex-shrink-0" />
@@ -111,23 +109,68 @@ export const DeviceModeSelector = ({
 						<SIMIcon class="me-2 flex-shrink-0" size={18} />
 						<small>This mode uses around 0.05 MB of data per day.</small>
 					</p>
-					<p class="d-flexalign-items-center">
-						<Secondary
-							onClick={() => {
-								setUpdateInterval(LOW_POWER_INTERVAL)
-							}}
-						>
-							apply configuration
-						</Secondary>
-						{desiredConfig.activeWaitTime === LOW_POWER_INTERVAL && (
-							<Applied
-								applied={updateIntervalSeconds === LOW_POWER_INTERVAL}
-								class="ms-2"
-							/>
-						)}
+					<p class="mb-3 d-flex">
+						<SatelliteDish class="me-2 flex-shrink-0" size={18} />{' '}
+						<small>GNSS is enabled.</small>
 					</p>
+					<ApplyConfiguration
+						interval={LOW_POWER_INTERVAL}
+						device={device}
+						onInterval={onInterval}
+						gnss
+					/>
 				</div>
 			</div>
 		</div>
+	)
+}
+
+const ApplyConfiguration = ({
+	interval,
+	device,
+	onInterval,
+	gnss,
+}: {
+	device: Device
+	interval: number
+	gnss?: true
+	onInterval?: (interval: number) => void
+}) => {
+	const { state, updateConfig, desiredConfig } = useDeviceState()
+	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
+	const { send } = useDevice()
+
+	const setUpdateInterval = (interval: number) => {
+		const configureDevice: Static<typeof ConfigureDevice> = {
+			'@context': Context.configureDevice.toString(),
+			id: device.id,
+			configuration: {
+				updateIntervalSeconds: interval,
+				gnss: gnss ?? false,
+			},
+		}
+		updateConfig({
+			activeWaitTime: interval,
+		})
+		send?.(configureDevice)
+		onInterval?.(interval)
+	}
+	return (
+		<>
+			<p class="mb-1">
+				<Secondary
+					onClick={() => {
+						setUpdateInterval(interval)
+					}}
+				>
+					apply configuration
+				</Secondary>
+			</p>
+			<p>
+				{desiredConfig.activeWaitTime === interval && (
+					<Applied applied={updateIntervalSeconds === interval} />
+				)}
+			</p>
+		</>
 	)
 }

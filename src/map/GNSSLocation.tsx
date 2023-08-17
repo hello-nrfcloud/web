@@ -1,15 +1,9 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDevice, type Device } from '#context/Device.js'
+import { type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { Located } from '#map/Map.js'
-import { ConfigureDevice, Context } from '@hello.nrfcloud.com/proto/hello'
-import {
-	LocationSource,
-	Reported,
-} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import type { Static } from '@sinclair/typebox'
-import { Applied } from '#components/Applied.js'
+import { LocationSource } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
@@ -31,12 +25,6 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				Depending on your use-case scenario you can control whether to enable
 				GNSS on this device:
 			</p>
-			{state === undefined && (
-				<LoadingIndicator light height={48} width={'100%'} />
-			)}
-			{state !== undefined && (
-				<GNSSLocationConfig device={device} state={state} />
-			)}
 			{gnssEnabled && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
@@ -47,81 +35,6 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 					)}
 				</>
 			)}
-		</>
-	)
-}
-
-const GNSSLocationConfig = ({
-	device,
-	state,
-}: {
-	device: Device
-	state: Static<typeof Reported>
-}) => {
-	const reported = !(state.config?.nod ?? []).includes('gnss')
-	const { send } = useDevice()
-	const {
-		desiredConfig: { nod },
-		updateConfig,
-	} = useDeviceState()
-	const disabled = nod?.includes('gnss')
-	const desired = disabled === undefined ? undefined : !disabled
-	const applied = nod !== undefined && reported === desired
-	const enableGNSS = (enabled: boolean) => {
-		const configureDevice: Static<typeof ConfigureDevice> = {
-			'@context': Context.configureDevice.toString(),
-			id: device.id,
-			configuration: {
-				gnss: enabled,
-			},
-		}
-		send?.(configureDevice)
-		updateConfig({ nod: enabled ? [] : ['gnss'] })
-	}
-	return (
-		<>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="gnssMode"
-					id="gnssEnabled"
-					checked={(desired ?? reported) === true}
-					onClick={() => {
-						enableGNSS(true)
-					}}
-				/>
-				<label
-					class="form-check-label d-flex align-items-center"
-					for="gnssEnabled"
-				>
-					Enable GNSS
-					{desired !== undefined && desired && (
-						<Applied applied={applied} class="ms-2" />
-					)}
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="gnssMode"
-					id="gnssDisabled"
-					checked={(desired ?? reported) === false}
-					onClick={() => {
-						enableGNSS(false)
-					}}
-				/>
-				<label
-					class="form-check-label d-flex align-items-center"
-					for="gnssDisabled"
-				>
-					Disable GNSS
-					{desired !== undefined && !desired && (
-						<Applied applied={applied} class="ms-2" />
-					)}
-				</label>
-			</div>
 		</>
 	)
 }
