@@ -30,6 +30,7 @@ export const DeviceContext = createContext<{
 	device?: Device | undefined
 	connected: boolean
 	connectionFailed: boolean
+	disconnected: boolean
 	messages: Messages
 	addMessageListener: (listener: MessageListenerFn) => {
 		remove: () => void
@@ -37,6 +38,7 @@ export const DeviceContext = createContext<{
 	send?: (message: OutgoingMessageType) => void
 }>({
 	connected: false,
+	disconnected: false,
 	messages: [],
 	addMessageListener: () => ({
 		remove: () => undefined,
@@ -55,6 +57,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onParameters } = useParameters()
 	const { models } = useModels()
 	const [ws, setWebsocket] = useState<WebSocket>()
+	const [disconnected, setDisconnected] = useState<boolean>(false)
 
 	const connected = ws !== undefined
 	const listeners = useRef<MessageListenerFn[]>([])
@@ -87,18 +90,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				) // every ~5 minutes
 			})
 
-			ws.addEventListener('close', () => {
-				// This happens automatically after 2 hours
-				// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
-				console.debug(`[WS]`, 'disconnected')
-				setWebsocket(undefined)
-			})
-
 			ws.addEventListener('error', (err) => {
 				console.error(`[WS]`, err)
 				setConnectionFailed(true)
 			})
-			ws.addEventListener('message', (msg) => {
+			const messageListener = (msg: MessageEvent<any>) => {
 				let message: any
 				try {
 					message = JSON.parse(msg.data)
@@ -128,6 +124,17 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 					return
 				}
+			}
+			ws.addEventListener('message', messageListener)
+
+			ws.addEventListener('close', () => {
+				// This happens automatically after 2 hours
+				// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
+				console.debug(`[WS]`, 'disconnected')
+				setWebsocket(undefined)
+				ws?.removeEventListener('message', messageListener)
+				ws = undefined
+				setDisconnected(true)
 			})
 		})
 
@@ -171,6 +178,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				},
 				connectionFailed,
 				send,
+				disconnected,
 			}}
 		>
 			{children}
