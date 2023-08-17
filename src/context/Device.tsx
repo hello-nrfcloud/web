@@ -20,18 +20,12 @@ export type Device = {
 	lastSeen?: Date
 }
 
-type Messages = {
-	received: Date
-	message: IncomingMessageType
-}[]
-
 export const DeviceContext = createContext<{
 	type?: Model | undefined
 	device?: Device | undefined
 	connected: boolean
 	connectionFailed: boolean
 	disconnected: boolean
-	messages: Messages
 	addMessageListener: (listener: MessageListenerFn) => {
 		remove: () => void
 	}
@@ -39,7 +33,6 @@ export const DeviceContext = createContext<{
 }>({
 	connected: false,
 	disconnected: false,
-	messages: [],
 	addMessageListener: () => ({
 		remove: () => undefined,
 	}),
@@ -52,7 +45,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
-	const [messages, setMessages] = useState<Messages>([])
+	const [messages, setMessages] = useState<IncomingMessageType[]>([])
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { models } = useModels()
@@ -103,9 +96,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					})
 					if (maybeValid !== null) {
 						console.debug(`[WS] <`, maybeValid)
-						setMessages((m) =>
-							[{ received: new Date(), message: maybeValid }, ...m].slice(0, 9),
-						)
+						setMessages((m) => [...m, message])
 						if (isDeviceIdentity(maybeValid)) {
 							const type = models[maybeValid.model] as Model
 							setDevice({
@@ -167,9 +158,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				device,
 				type: type === undefined ? undefined : models[type],
 				connected,
-				messages,
 				addMessageListener: (fn) => {
 					listeners.current.push(fn)
+					messages.map(fn)
 					return {
 						remove: () => {
 							listeners.current = listeners.current.filter((f) => f !== fn)
