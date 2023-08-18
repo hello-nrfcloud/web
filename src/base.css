@@ -88,7 +88,9 @@
 .color-error {
   color: var(--color-nordic-red);
 }
-
+.list-group-item.active .color-error {
+  color: #ffc3c3;
+}
 /* Bootstrap Button Overrides */
 .btn {
   --bs-btn-border-radius: 0;

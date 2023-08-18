@@ -25,6 +25,10 @@ export type Model = {
 			title: string
 		}
 	}
+	// amount of data sent to cloud for every update
+	bytesPerUpdate: number
+	// amount of free data on the shipped SIM in megabytes
+	freeMbOnSIM: number
 }
 
 export const ModelsContext = createContext<{

@@ -1,14 +1,17 @@
 import { CheckCircle, ZapOff } from 'lucide-preact'
 
 export const Applied = ({
-	applied,
+	reported,
+	desired,
 	class: c,
 	size,
 }: {
 	class?: string
-	applied: boolean
 	size?: number
+	reported: unknown
+	desired: unknown
 }) => {
+	const applied = reported === desired
 	if (applied)
 		return (
 			<abbr

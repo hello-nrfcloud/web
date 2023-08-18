@@ -81,13 +81,10 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 				</header>
 			</div>
 			{showModeConfiguration && (
-				<div class="bg-light py-4">
-					<DeviceModeSelector
-						device={device}
-						onInterval={() => setModeConfigurationVisible(false)}
-						onClose={() => setModeConfigurationVisible(false)}
-					/>
-				</div>
+				<DeviceModeSelector
+					device={device}
+					onClose={() => setModeConfigurationVisible(false)}
+				/>
 			)}
 		</>
 	)
@@ -292,7 +289,8 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 			</small>
 			{desiredConfig.activeWaitTime !== undefined && (
 				<Applied
-					applied={desiredConfig.activeWaitTime === updateIntervalSeconds}
+					desired={desiredConfig.activeWaitTime}
+					reported={updateIntervalSeconds}
 				/>
 			)}
 		</span>

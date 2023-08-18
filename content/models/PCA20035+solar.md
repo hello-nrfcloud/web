@@ -17,6 +17,8 @@ video:
   youtube:
     id: 5f10sjTznlc
     title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
+bytesPerUpdate: 2200
+freeMbOnSIM: 10
 ---
 
 The Nordic Thingy:91 Solar Shield is a plug-and-play prototyping platform.

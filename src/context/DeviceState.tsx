@@ -1,13 +1,14 @@
+import type { IncomingMessageType } from '#proto/proto.js'
 import { Context } from '@hello.nrfcloud.com/proto/hello'
 import {
-	Reported,
 	Configuration,
+	DesiredConfiguration,
+	Reported,
 } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice, type MessageListenerFn } from './Device.js'
-import type { IncomingMessageType } from '#proto/proto.js'
 
 export const DeviceStateContext = createContext<{
 	state?: Static<typeof Reported>
@@ -24,13 +25,15 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		undefined,
 	)
 	const [desiredConfig, setDesiredConfig] = useState<
-		Partial<Static<typeof Configuration>>
+		Static<typeof Configuration>
 	>({})
 
 	useEffect(() => {
 		if (device === undefined) return
 		const listener: MessageListenerFn = (message) => {
 			if (isState(message, device.model.name)) setState(message)
+			if (isDesiredConfiguration(message, device.model.name))
+				setDesiredConfig(message.config ?? {})
 		}
 		const { remove } = addMessageListener(listener)
 
@@ -64,3 +67,13 @@ const isState = (
 ): message is Static<typeof Reported> =>
 	message['@context'] ===
 	Context.model(model).transformed('reported').toString()
+
+const isDesiredConfiguration = (
+	message: IncomingMessageType,
+	model: string,
+): message is Static<typeof DesiredConfiguration> =>
+	message['@context'] ===
+	Context.model(model).transformed('desiredConfiguration').toString()
+
+export const gnssEnabled = (config: Static<typeof Configuration>): boolean =>
+	!(config.nod ?? ['gnss']).includes('gnss')
