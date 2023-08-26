@@ -76,7 +76,7 @@
     "prettier": "3.0.2",
     "prettier-plugin-organize-imports": "3.2.3",
     "rehype-format": "4.0.1",
-    "rehype-stringify": "9.0.4",
+    "rehype-stringify": "10.0.0",
     "remark": "14.0.3",
     "remark-extract-frontmatter": "3.2.0",
     "remark-frontmatter": "4.0.1",
