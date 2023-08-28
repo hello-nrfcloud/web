@@ -51,7 +51,7 @@
     "@babel/plugin-syntax-import-assertions": "7.22.5",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.81",
     "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
-    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.15",
+    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.16",
     "@nordicsemiconductor/from-env": "2.0.0",
     "@playwright/test": "1.37.1",
     "@preact/preset-vite": "2.5.0",
