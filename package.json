@@ -84,7 +84,7 @@
     "tsmatchers": "4.0.12",
     "tsx": "3.12.10",
     "typescript": "5.2.2",
-    "vite-plugin-ssr": "0.4.140"
+    "vite-plugin-ssr": "0.4.141"
   },
   "engines": {
     "node": ">=20.0.0",
