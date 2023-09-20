@@ -59,7 +59,7 @@ const Navigation = () => {
 						<TrashIcon class="me-1" /> Forget device
 					</Transparent>
 					<Link
-						href={`https://${DOMAIN_NAME}/${fingerprint}`}
+						href={`/${fingerprint}`}
 						title="Use this link to share your device with someone else"
 					>
 						<Link2Icon class="me-1" /> Share
