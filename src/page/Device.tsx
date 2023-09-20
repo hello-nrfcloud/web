@@ -29,6 +29,21 @@ export const Device = () => {
 			</div>
 		)
 
+	if (device.model.name === 'unsupported') {
+		return (
+			<div class="container">
+				<div class="row">
+					<div
+						class="col my-4"
+						dangerouslySetInnerHTML={{
+							__html: device.model.html,
+						}}
+					></div>
+				</div>
+			</div>
+		)
+	}
+
 	return (
 		<SolarThingyHistoryProvider>
 			<main>

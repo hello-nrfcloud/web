@@ -29,6 +29,8 @@ export type Model = {
 	bytesPerUpdate: number
 	// amount of free data on the shipped SIM in megabytes
 	freeMbOnSIM: number
+	// Do not show in the list of available models
+	hidden?: true
 }
 
 export const ModelsContext = createContext<{

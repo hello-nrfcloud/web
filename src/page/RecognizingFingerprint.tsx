@@ -19,6 +19,7 @@ export const RecognizingFingerprint = () => {
 			clearTimeout(t)
 		}
 	}, [device])
+
 	return (
 		<main class="container py-4">
 			<div class="row py-4">
