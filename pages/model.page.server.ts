@@ -8,6 +8,7 @@ export type ModelPageProps = { model: Model }
 export const prerender = async (): Promise<string[]> =>
 	(await readdir(path.join(process.cwd(), 'content', 'models')))
 		.filter((s) => s.endsWith('.md'))
+		.filter((s) => s !== 'unsupported.md')
 		.map((s) => s.replace(/\.md$/, ''))
 		.map((slug) => `/model/${slug}`)
 
