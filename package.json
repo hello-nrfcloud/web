@@ -59,7 +59,7 @@
     "@types/lodash-es": "4.17.9",
     "@types/node": "20.6.5",
     "@types/qrcode": "1.5.2",
-    "@typescript-eslint/eslint-plugin": "6.7.2",
+    "@typescript-eslint/eslint-plugin": "6.7.3",
     "aws-cdk": "2.97.0",
     "aws-cdk-lib": "2.97.0",
     "bootstrap": "5.3.2",
