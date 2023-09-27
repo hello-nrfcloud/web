@@ -139,8 +139,8 @@ export const ViewSource = () => (
 						</p>
 						<p>
 							It is build using{' '}
-							<a href="https://vite-plugin-ssr.com/" target="_blank">
-								vite-ssr-plugin
+							<a href="https://vike.dev/" target="_blank">
+								Vike
 							</a>{' '}
 							which allows to build both a dynamic web app with{' '}
 							<a href="https://preactjs.com/" target="_blank">

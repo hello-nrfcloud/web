@@ -1,5 +1,5 @@
 import renderPreact from 'preact-render-to-string'
-import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
+import { dangerouslySkipEscape, escapeInject } from 'vike/server'
 import { GTMId, version } from '../siteInfo.js'
 import type { PageContextCustom } from './_default.page.client'
 

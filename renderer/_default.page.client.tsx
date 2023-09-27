@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import type { VNode } from 'preact'
 import { hydrate } from 'preact'
-import type { PageContextBuiltInClientWithClientRouting } from 'vite-plugin-ssr/types'
+import type { PageContextBuiltInClientWithClientRouting } from 'vike/types'
 import '../src/utils/sentry.js'
 import '../src/base.css'
 

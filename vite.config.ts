@@ -2,7 +2,7 @@ import { fromEnv } from '@nordicsemiconductor/from-env'
 import preact from '@preact/preset-vite'
 import chalk from 'chalk'
 import { defineConfig } from 'vite'
-import ssr from 'vite-plugin-ssr/plugin'
+import ssr from 'vike/plugin'
 import { homepage, version } from './siteInfo.js'
 
 const { registryEndpoint } = fromEnv({
