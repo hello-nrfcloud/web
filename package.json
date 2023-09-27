@@ -20,7 +20,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "vite",
-    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && node --no-warnings merge-manifest.json.js",
+    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && cp -v ./manifest.json ./build/client/",
     "prepare": "husky install",
     "test": "find ./ -type f -name \\*.spec.ts -not -path './e2e-tests/*' -not -path './node_modules/*' | xargs npx tsx --test --test-reporter spec",
     "test:e2e": "npx playwright test e2e-tests/",
