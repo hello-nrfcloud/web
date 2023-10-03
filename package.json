@@ -72,7 +72,7 @@
     "husky": "8.0.3",
     "lint-staged": "14.0.1",
     "playwright": "1.38.1",
-    "preact-render-to-string": "6.2.1",
+    "preact-render-to-string": "6.2.2",
     "prettier": "3.0.3",
     "prettier-plugin-organize-imports": "3.2.3",
     "rehype-format": "5.0.0",
