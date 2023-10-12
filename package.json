@@ -45,9 +45,9 @@
     "svg-country-flags": "1.2.10"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.427.0",
-    "@aws-sdk/client-cloudfront": "3.427.0",
-    "@aws-sdk/client-iam": "3.427.0",
+    "@aws-sdk/client-cloudformation": "3.428.0",
+    "@aws-sdk/client-cloudfront": "3.428.0",
+    "@aws-sdk/client-iam": "3.428.0",
     "@babel/plugin-syntax-import-assertions": "7.22.5",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.94",
     "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
