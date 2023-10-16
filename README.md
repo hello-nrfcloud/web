@@ -1,96 +1,171 @@
-# `hello.nrfcloud.com`
+# nRF Asset Tracker Web Application for AWS
 
-[![GitHub Actions](https://github.com/hello-nrfcloud/web/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/hello-nrfcloud/web/actions/workflows/test-and-release.yaml)
+[![GitHub Actions](https://github.com/NordicSemiconductor/asset-tracker-cloud-app-aws-js/workflows/Test%20and%20Release/badge.svg)](https://github.com/NordicSemiconductor/asset-tracker-cloud-app-aws-js/actions)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/NordicSemiconductor/asset-tracker-cloud-app-aws-js)](https://mergify.io)
+[![@commitlint/config-conventional](https://img.shields.io/badge/%40commitlint-config--conventional-brightgreen)](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier/)
 [![ESLint: TypeScript](https://img.shields.io/badge/ESLint-TypeScript-blue.svg)](https://github.com/typescript-eslint/typescript-eslint)
+[![React](https://github.com/aleen42/badges/raw/master/src/react.svg)](https://reactjs.org/)
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5-ffffff?labelColor=7952b3)](https://getbootstrap.com/docs/5.0/)
+[![CSS modules](https://img.shields.io/badge/CSS-modules-yellow)](https://github.com/css-modules/css-modules)
+[![Vite](https://github.com/aleen42/badges/raw/master/src/vitejs.svg)](https://vitejs.dev/)
 
-Retrieve real-time data from your Nordic Semiconductor Development Kit within
-seconds.
+The nRF Asset Tracker Web Application for AWS is a reference single-page
+application (SPA) developed with [React](https://reactjs.org/) in
+[TypeScript](https://www.typescriptlang.org/).
 
-## Setup
+The UI components are themed using
+[Bootstrap 5](https://getbootstrap.com/docs/5.0/) and
+[CSS modules](https://github.com/css-modules/css-modules). All complex UI logic
+is extracted using [React hooks](https://reactjs.org/docs/hooks-custom.html) to
+allow re-use when changing the UI framework.
 
-Install the dependencies:
+[Vite](https://vitejs.dev/) is used as the frontend toolchain.
+
+> :information_source:
+> [Read the complete nRF Asset Tracker documentation](https://nordicsemiconductor.github.io/asset-tracker-cloud-docs/).
+
+## Set up
+
+    npm ci
+
+## Configuration
+
+In the
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js)
+folder, run `node cli web-app-config` and store the output in a local `.envrc`
+file. Then run `direnv allow` to allow it.
 
 ```bash
-npm ci
+# .envrc
+export PUBLIC_CELL_GEO_LOCATION_CACHE_TABLE_NAME=...
+export PUBLIC_CLOUDFRONT_DISTRIBUTION_ID=...
+export PUBLIC_FOTA_BUCKET_NAME=...
+export PUBLIC_GEOLOCATION_API_URL=...
+export PUBLIC_HISTORICALDATA_TABLE_INFO=...
+export PUBLIC_IDENTITY_POOL_ID=...
+export PUBLIC_NETWORK_SURVEY_GEOLOCATION_API_URL=...
+export PUBLIC_NETWORKSURVEY_STORAGE_TABLE_NAME=...
+export PUBLIC_USER_IOT_POLICY_NAME=...
+export PUBLIC_USER_POOL_ID=...
+export PUBLIC_USER_POOL_CLIENT_ID=...
+export PUBLIC_WEB_APP_BUCKET_NAME=...
+export PUBLIC_WEB_APP_DOMAIN_NAME=...
+export PUBLIC_SENTRY_DSN=...
+export PUBLIC_REGION=...
+export PUBLIC_MQTT_ENDPOINT=...
 ```
 
-## Run
+## Running
+
+    npm start
+
+## End-to-end tests using Playwright
+
+The frontend provides [end-to-end tests](./e2e-tests) using
+[Playwright](https://playwright.dev/).
+
+### Configure AWS credentials
+
+The end-to-end tests run against an instance of the
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js).
+
+Either, use the credentials you created, when setting up the solution, or enable
+the Web App CI feature and use the dedicated credentials created for this task.
+The latter option is the recommended approach since it limits the permission
+scope to only the needed ones. They can also be used to
+[run the end-to-end tests on GitHub Actions](#running-end-to-end-tests-using-github-actions).
+
+Add these environment variables to your `.envrc`. Then run `direnv allow` to
+allow it.
 
 ```bash
-npm start
+# .envrc
+export AWS_REGION=...
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export WEBAPP_STACK_NAME=...
 ```
 
 ### Running the tests
 
-You can run the tests using
+You can then run the tests using
+
+    npm run test:e2e
+
+### Running individual tests
+
+    npx playwright test authenticated/map/locationHistory/gnss.spec.ts
+
+### Playwright Inspector
+
+For developing tests it is helpful to run the
+[Playwright Inspector](https://playwright.dev/docs/inspector).
+
+You can enabled the inspector during the tests by running
+
+    PWDEBUG=1 npm run test:e2e
+
+### Running end-to-end tests using GitHub Actions
+
+[This workflow](./.github/workflows/test-and-release.yaml) runs the end-to-end
+tests for every commit. For this to work a running instance of
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js)
+is needed. The tests will be run against this instance. Typically it will be the
+production instance, to ensure that the web application works with the current
+production setup.
+
+In order for the test runner to interact with the instance for retrieving the
+app configuration and for providing test data you need to configure AWS
+credentials as
+[GitHub environment secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-environment).
+
+Set these secrets:
+
+- `AWS_REGION`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `WEBAPP_STACK_NAME`
+
+If you have enabled the web application CI of the nRF Asset Tracker for AWS
+(`node cli configure context stack web-app-ci 1`) you can acquire them using the
+nRF Asset Tracker for AWS CLI:
 
 ```bash
-npm run test:e2e
+node cli web-app-ci -s
 ```
 
-## Deploy
+You can set the secrets through the GitHub UI (make sure to create the
+`production`
+[environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+in your repository first).
 
-- register domain name, export as `DOMAIN_NAME`
-- [create certificate in `us-east-1` region](https://us-east-1.console.aws.amazon.com/acm/home?region=us-east-1#/certificates/request),
-  export as `CERTIFICATE_ID`
+Alternatively you can use the [GitHub CLI](https://cli.github.com/) using the
+environment settings from above:
 
 ```bash
-npx cdk bootstrap
-npx cdk deploy --all
+gh secret set AWS_REGION --env production --body "${AWS_REGION}"
+gh secret set AWS_ACCESS_KEY_ID --env production --body "${AWS_ACCESS_KEY_ID}"
+gh secret set AWS_SECRET_ACCESS_KEY --env production --body "${AWS_SECRET_ACCESS_KEY}"
+gh secret set WEBAPP_STACK_NAME --env production --body "${WEBAPP_STACK_NAME}"
 ```
 
-## Create map resources
+## Sentry
+
+Optionally, Sentry can be enabled for the web application. Export the
+`PUBLIC_SENTRY_DSN` environment variable.
+
+To enable this in the continuous deployment pipeline of nRF Asset Tracker,
+configure the DSN using the CLI:
 
 ```bash
-npx cdk deploy -a 'npx tsx cdk/map.ts'
+./cli.sh configure thirdParty sentry sentryDsn https://4f901247818d46099a3f15b6ada9390e@o4504255385174016.ingest.sentry.io/4504684789170176
 ```
 
-Store the `mapName` in the parameter registry.
-
-Store the region in the parameter registry as `mapRegion`.
-
-Navigate to your map on the AWS Console and create an API key for the map
-resource.
-
-> _Note:_ Unfortunately API Keys cannot be created using CloudFormation today.
-
-Grant the `GetMap*` action permission.
-
-In the referrers settings allow these domains
-
-- `http://localhost:*/*` (for local development)
-- your domain name, e.g. `https://hello.nrfcloud.com/*`
-
-Store the API key in the parameter registry as `mapApiKey`.
-
-## Continuous Deployment with GitHub Actions
-
-Create a GitHub environment `production`.
-
-<!-- FIXME: add CLI comment -->
-
-Store the registry endpoint as a GitHub Action variable:
+When the next deployment is triggered, the DSN becomes available via
 
 ```bash
-gh variable set REGISTRY_ENDPOINT --env production --body "<registry endpoint>"
-# If using a custom domain name
-gh variable set DOMAIN_NAME --env production --body "<domain name>"
-```
-
-Store the role used for continuous deployment as a secret:
-
-```bash
-CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-hello-nrfcloud-web} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "gitHubCdRoleArn") | .OutputValue'`
-gh secret set AWS_ROLE --env production --body "${CD_ROLE_ARN}"
-```
-
-Store the stack name and the region as a variable:
-
-```bash
-gh variable set STACK_NAME --env production --body "${STACK_NAME:-hello-nrfcloud-web}"
-gh variable set AWS_REGION --env production --body "eu-west-1"
+./cli.sh web-app-config
 ```
