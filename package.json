@@ -52,7 +52,7 @@
     "@commitlint/config-conventional": "17.8.0",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.98",
     "@nordicsemiconductor/cloudformation-helpers": "8.0.0",
-    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.22",
+    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.23",
     "@nordicsemiconductor/from-env": "2.0.0",
     "@playwright/test": "1.39.0",
     "@preact/preset-vite": "2.6.0",
