@@ -84,7 +84,7 @@
     "tsmatchers": "5.0.0",
     "tsx": "3.14.0",
     "typescript": "5.2.2",
-    "vike": "0.4.143"
+    "vike": "0.4.144"
   },
   "engines": {
     "node": ">=20.0.0",
