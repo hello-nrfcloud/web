@@ -42,7 +42,8 @@
     "preact": "10.18.1",
     "qrcode": "1.5.3",
     "semver": "7.5.4",
-    "svg-country-flags": "1.2.10"
+    "svg-country-flags": "1.2.10",
+    "yaml": "2.3.3"
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.433.0",
@@ -60,6 +61,7 @@
     "@types/lodash-es": "4.17.10",
     "@types/node": "20.8.8",
     "@types/qrcode": "1.5.4",
+    "@types/semver": "7.5.4",
     "aws-cdk": "2.102.0",
     "aws-cdk-lib": "2.102.0",
     "bootstrap": "5.3.2",
