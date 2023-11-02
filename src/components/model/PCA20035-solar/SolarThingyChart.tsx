@@ -71,7 +71,7 @@ export const SolarThingyChart = () => {
 								</a>{' '}
 								application configured in low-power mode, requires 3.4 mA when
 								sending updates to the cloud every minute, or 2.3 mA when
-								sending updates to the cloud.
+								sending updates to the cloud every hour.
 							</p>
 							<dl>
 								<>

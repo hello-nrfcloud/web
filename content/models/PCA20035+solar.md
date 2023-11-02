@@ -29,7 +29,7 @@ develop products with eternal life or even battery-free products.​
 The Thingy:91 runs the
 [`asset_tracker_v2` application](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html)
 configured in low-power mode, requires 3.4 mA when sending updates to the cloud
-every minute, or 2.3 mA when sending updates to the cloud.
+every minute, or 2.3 mA when sending updates to the cloud every hour.
 
 Powerfoyle is a groundbreaking solar cell technology made by Exeger. Powerfoyle
 has a uniquely flexible and customizable design to integrate seamlessly for
