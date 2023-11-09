@@ -46,7 +46,7 @@
     "yaml": "2.3.4"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.445.0",
+    "@aws-sdk/client-cloudformation": "3.448.0",
     "@aws-sdk/client-cloudfront": "3.445.0",
     "@aws-sdk/client-iam": "3.445.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
