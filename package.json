@@ -51,7 +51,7 @@
     "@aws-sdk/client-iam": "3.449.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@commitlint/config-conventional": "18.4.0",
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.106",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.107",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.2",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.23",
     "@nordicsemiconductor/from-env": "2.0.0",
