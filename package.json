@@ -90,7 +90,7 @@
     "tsmatchers": "5.0.0",
     "tsx": "4.1.1",
     "typescript": "5.2.2",
-    "vike": "0.4.144"
+    "vike": "0.4.145"
   },
   "engines": {
     "node": ">=20.0.0",
