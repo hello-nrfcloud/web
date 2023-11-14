@@ -87,7 +87,7 @@
     "remark-extract-frontmatter": "3.2.0",
     "remark-frontmatter": "5.0.0",
     "remark-rehype": "11.0.0",
-    "tsmatchers": "5.0.1",
+    "tsmatchers": "5.0.2",
     "tsx": "4.1.2",
     "typescript": "5.2.2",
     "vike": "0.4.145"
