@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.454.0",
-    "@aws-sdk/client-cloudfront": "3.454.0",
+    "@aws-sdk/client-cloudfront": "3.456.0",
     "@aws-sdk/client-iam": "3.454.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@commitlint/config-conventional": "18.4.3",
