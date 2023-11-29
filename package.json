@@ -34,7 +34,7 @@
     "code-128-encoder": "3.1.1",
     "compare-versions": "6.1.0",
     "date-fns": "2.30.0",
-    "e118-iin-list": "3.1.0",
+    "e118-iin-list": "4.0.0",
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.21",
     "lucide-preact": "0.294.0",
