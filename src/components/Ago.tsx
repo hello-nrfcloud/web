@@ -51,5 +51,5 @@ export const distance = (to: Date, withSeconds?: true) =>
 	withSeconds ?? false
 		? formatDistanceToNowStrict(to)
 		: Date.now() - to.getTime() < 60 * 1000
-		  ? '<1 minute'
-		  : formatDistanceToNowStrict(to)
+			? '<1 minute'
+			: formatDistanceToNowStrict(to)

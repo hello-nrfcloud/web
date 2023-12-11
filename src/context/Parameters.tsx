@@ -42,7 +42,7 @@ const parametersPromise:
 				console.error(`[Parameters]`, error)
 				return { error: error as Error }
 			}
-	  })()
+		})()
 
 export const Provider = ({ children }: { children: ComponentChildren }) => (
 	<ParametersContext.Provider
