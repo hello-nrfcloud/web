@@ -150,7 +150,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						)
 					},
 					[ws],
-			  )
+				)
 
 	return (
 		<DeviceContext.Provider

@@ -108,8 +108,8 @@ export const HistoryChart = ({
 							index === 0
 								? m.paddingLeft - fontSize
 								: m.paddingLeft +
-								  m.xSpacing * data.xAxis.labelEvery * (labels.length - 1) +
-								  fontSize
+									m.xSpacing * data.xAxis.labelEvery * (labels.length - 1) +
+									fontSize
 						const anchor = index === 0 ? 'end' : 'start'
 						return (
 							<>

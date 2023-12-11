@@ -162,7 +162,7 @@ export class HostingStack extends Stack {
 							'distributionCert',
 							// us-east-1 is required for CloudFront
 							`arn:aws:acm:us-east-1:${this.account}:certificate/${customDomain.certificateId}`,
-					  ),
+						),
 		})
 		distribution.addBehavior('*.js', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.map', s3Origin, staticFileBehaviour)
