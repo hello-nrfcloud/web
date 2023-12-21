@@ -33,7 +33,7 @@
     "classnames": "2.3.2",
     "code-128-encoder": "3.1.1",
     "compare-versions": "6.1.0",
-    "date-fns": "3.0.1",
+    "date-fns": "3.0.4",
     "e118-iin-list": "4.0.1",
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.21",
