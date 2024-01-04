@@ -50,7 +50,7 @@
     "@aws-sdk/client-cloudfront": "3.485.0",
     "@aws-sdk/client-iam": "3.485.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
-    "@commitlint/config-conventional": "18.4.3",
+    "@commitlint/config-conventional": "18.4.4",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "13.1.5",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.2",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "17.0.0",
