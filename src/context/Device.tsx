@@ -102,7 +102,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							setDevice({
 								id: maybeValid.id,
 								lastSeen:
-									maybeValid.lastSeen !== undefined
+									typeof maybeValid.lastSeen === 'string'
 										? new Date(maybeValid.lastSeen)
 										: undefined,
 								model: type,

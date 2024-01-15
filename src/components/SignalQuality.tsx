@@ -7,14 +7,14 @@ import {
 	SignalMedium,
 	SignalZero,
 	Slash,
-	type LucideProps,
 } from 'lucide-preact'
-import type { JSX } from 'preact/jsx-runtime'
 import { LoadingIndicator } from './ValueLoading.js'
+import type { LucideProps } from './icons/lucide.js'
+import type { FunctionComponent } from 'preact'
 
 export const EnergyEstimateIcons: Record<
 	EnergyEstimate,
-	(props: LucideProps) => JSX.Element
+	FunctionComponent<LucideProps>
 > = {
 	[EnergyEstimate.Bad]: SignalZero,
 	[EnergyEstimate.Poor]: SignalLow,
