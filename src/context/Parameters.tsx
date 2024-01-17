@@ -7,6 +7,10 @@ type Parameters = {
 	mapName: string
 	mapApiKey: string
 	mapRegion: string
+	// Map sharing
+	confirmOwnershipAPIURL: URL
+	devicesAPIURL: URL
+	shareAPIURL: URL
 }
 export const ParametersContext = createContext<{
 	onParameters: (listener: (parameters: Parameters) => void) => void
@@ -27,12 +31,23 @@ const parametersPromise:
 					throw new Error(`Failed to fetch parameters: ${await res.text()}`)
 				}
 				const parameters = await res.json()
-				const { webSocketURI, mapName, mapApiKey, mapRegion } = parameters
+				const {
+					webSocketURI,
+					mapName,
+					mapApiKey,
+					mapRegion,
+					confirmOwnershipAPIURL,
+					devicesAPIURL,
+					shareAPIURL,
+				} = parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
 					mapName,
 					mapApiKey,
 					mapRegion,
+					confirmOwnershipAPIURL: new URL(confirmOwnershipAPIURL),
+					devicesAPIURL: new URL(devicesAPIURL),
+					shareAPIURL: new URL(shareAPIURL),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),
