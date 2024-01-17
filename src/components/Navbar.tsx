@@ -3,7 +3,7 @@ import { useFingerprint } from '#context/Fingerprint.js'
 import { isSSR } from '#utils/isSSR.js'
 import cx from 'classnames'
 import { debounce } from 'lodash-es'
-import { Code2, Cpu, Fingerprint, Link2Icon, TrashIcon } from 'lucide-preact'
+import { Code2, Cpu, Fingerprint, MapPinned, TrashIcon } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
 import { AppUpdateNotifier } from './AppUpdateNotifier.js'
@@ -11,6 +11,7 @@ import { BrandHeader } from './BrandHeader.js'
 import { Transparent } from './Buttons.js'
 import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
 import { Logo } from './icons/Logo.js'
+import { PublicDeviceWarning } from './PublicDeviceWarning.js'
 
 const Link = ({
 	href,
@@ -59,10 +60,10 @@ const Navigation = () => {
 						<TrashIcon class="me-1" /> Forget device
 					</Transparent>
 					<Link
-						href={`/${fingerprint}`}
-						title="Use this link to share your device with someone else"
+						href={`/share#${device.id}`}
+						title="Make your device available to the public"
 					>
-						<Link2Icon class="me-1" /> Share
+						<MapPinned class="me-1" /> Share device
 					</Link>
 				</>
 			)}
@@ -77,6 +78,7 @@ export const Navbar = () => (
 	<>
 		<NavWrapper />
 		<AppUpdateNotifier />
+		<PublicDeviceWarning />
 	</>
 )
 

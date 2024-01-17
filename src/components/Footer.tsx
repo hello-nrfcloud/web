@@ -7,9 +7,7 @@ const CopyrightYear = () => {
 
 	return (
 		<span>
-			{currentYear > startYear
-				? `${startYear}&ndash;${currentYear}`
-				: startYear}
+			{currentYear > startYear ? `${startYear}–${currentYear}` : startYear}
 		</span>
 	)
 }
