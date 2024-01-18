@@ -27,9 +27,9 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "6.3.1",
+    "@hello.nrfcloud.com/proto": "6.4.0",
     "@sentry/browser": "7.93.0",
-    "@sinclair/typebox": "0.32.9",
+    "@sinclair/typebox": "0.32.10",
     "classnames": "2.5.1",
     "code-128-encoder": "3.1.1",
     "compare-versions": "6.1.0",
@@ -63,10 +63,10 @@
     "@types/qrcode": "1.5.5",
     "@types/semver": "7.5.6",
     "@typescript-eslint/eslint-plugin": "6.19.0",
-    "aws-cdk": "2.121.1",
-    "aws-cdk-lib": "2.121.1",
+    "aws-cdk": "2.122.0",
+    "aws-cdk-lib": "2.122.0",
     "bootstrap": "5.3.2",
-    "cdk": "2.121.1",
+    "cdk": "2.122.0",
     "chalk": "5.3.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
@@ -90,7 +90,7 @@
     "tsmatchers": "5.0.2",
     "tsx": "4.7.0",
     "typescript": "5.3.3",
-    "vike": "0.4.156"
+    "vike": "0.4.158"
   },
   "engines": {
     "node": ">=20.0.0",
