@@ -11,6 +11,7 @@ type Parameters = {
 	confirmOwnershipAPIURL: URL
 	devicesAPIURL: URL
 	shareAPIURL: URL
+	sharingStatusAPIURL: URL
 }
 export const ParametersContext = createContext<{
 	onParameters: (listener: (parameters: Parameters) => void) => void
@@ -39,6 +40,7 @@ const parametersPromise:
 					confirmOwnershipAPIURL,
 					devicesAPIURL,
 					shareAPIURL,
+					sharingStatusAPIURL,
 				} = parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
@@ -48,6 +50,7 @@ const parametersPromise:
 					confirmOwnershipAPIURL: new URL(confirmOwnershipAPIURL),
 					devicesAPIURL: new URL(devicesAPIURL),
 					shareAPIURL: new URL(shareAPIURL),
+					sharingStatusAPIURL: new URL(sharingStatusAPIURL),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),

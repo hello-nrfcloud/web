@@ -6,7 +6,13 @@ import { Context, ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import { type Static, type TObject } from '@sinclair/typebox'
 
 type OkFN<T extends TObject> = (value: Static<T>) => void
-type ProblemFN = (problem: Static<typeof ProblemDetail>) => void
+export type FetchProblem = {
+	problem: Static<typeof ProblemDetail>
+	url: URL
+	body?: Record<string, any>
+	awsReqId?: string
+}
+type ProblemFN = (details: FetchProblem) => void
 type DoneFN<T extends TObject> = (
 	args: { problem: Static<typeof ProblemDetail> } | { value: Static<T> },
 ) => void
@@ -41,10 +47,21 @@ export const validatingFetch = <T extends TObject>(
 					},
 		)
 			.then(async (res) => {
+				for (const header of res.headers.entries()) {
+					console.log(header)
+				}
+				const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
 				if (!res.ok) {
 					if (res.headers.get('content-type') === 'application/problem+json') {
 						const problem = await res.json()
-						problemFns.forEach((fn) => fn(problem))
+						problemFns.forEach((fn) =>
+							fn({
+								problem,
+								url,
+								body,
+								awsReqId,
+							}),
+						)
 						doneFns.forEach((fn) => fn({ problem }))
 						console.error(`[validatingFetch]`, problem)
 						return
@@ -58,7 +75,7 @@ export const validatingFetch = <T extends TObject>(
 						status: res.status,
 						title: response,
 					}
-					problemFns.forEach((fn) => fn(problem))
+					problemFns.forEach((fn) => fn({ problem, url, body, awsReqId }))
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}
@@ -77,7 +94,7 @@ export const validatingFetch = <T extends TObject>(
 						title: 'Validation failed',
 						detail: formatTypeBoxErrors(maybeValidResponse.errors),
 					}
-					problemFns.forEach((fn) => fn(problem))
+					problemFns.forEach((fn) => fn({ problem, url, body, awsReqId }))
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}
@@ -91,7 +108,7 @@ export const validatingFetch = <T extends TObject>(
 					title: err.message,
 					detail: err.toString(),
 				}
-				problemFns.forEach((fn) => fn(problem))
+				problemFns.forEach((fn) => fn({ problem, url, body }))
 				doneFns.forEach((fn) => fn({ problem }))
 				return
 			})

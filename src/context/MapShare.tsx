@@ -3,13 +3,14 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from '#context/Device.js'
 import { useParameters } from '#context/Parameters.js'
 import { validatingFetch } from '#utils/validatingFetch.js'
-import { Devices, PublicDevice } from '@hello.nrfcloud.com/proto/hello/map'
+import { PublicDevice } from '@hello.nrfcloud.com/proto/hello/map'
 import type { Static } from '@sinclair/typebox'
 
 export const MapShareContext = createContext<{
 	shared?: Static<typeof PublicDevice>
-}>({})
-const fetchDevices = validatingFetch(Devices)
+	refresh: () => void
+}>({ refresh: () => undefined })
+const fetchDevice = validatingFetch(PublicDevice)
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { device } = useDevice()
@@ -17,25 +18,33 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 	const [shared, setShared] = useState<Static<typeof PublicDevice>>()
 
-	useEffect(() => {
-		if (device === undefined) return
-		console.log(device)
-		onParameters(({ devicesAPIURL }) => {
-			fetchDevices(
+	const fetchPublicDevice = (deviceId: string) => {
+		onParameters(({ sharingStatusAPIURL }) => {
+			fetchDevice(
 				new URL(
-					`${devicesAPIURL}?${new URLSearchParams({ deviceID: device.id })}`,
+					`${sharingStatusAPIURL}?${new URLSearchParams({ id: deviceId })}`,
 				),
-			).ok((publicDevices) => {
-				console.log(`[MapShare]`, publicDevices)
-				if (publicDevices.devices.length > 0) {
-					setShared(publicDevices.devices[0])
-				}
+			).ok((publicDevice) => {
+				console.log(`[MapShare]`, publicDevice)
+				setShared(publicDevice)
 			})
 		})
+	}
+
+	useEffect(() => {
+		if (device === undefined) return
+		fetchPublicDevice(device.id)
 	}, [device])
 
 	return (
-		<MapShareContext.Provider value={{ shared }}>
+		<MapShareContext.Provider
+			value={{
+				shared,
+				refresh: () => {
+					if (device !== undefined) fetchPublicDevice(device.id)
+				},
+			}}
+		>
 			{children}
 		</MapShareContext.Provider>
 	)
