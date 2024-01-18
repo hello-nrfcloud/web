@@ -5,19 +5,38 @@ import { useMapShare } from '#context/MapShare.js'
 import { useParameters } from '#context/Parameters.js'
 import { validatingFetch, type FetchProblem } from '#utils/validatingFetch.js'
 import {
+	Devices,
 	ShareDeviceOwnershipConfirmed,
 	ShareDeviceRequest,
 } from '@hello.nrfcloud.com/proto/hello/map'
-import { MapPinOffIcon } from 'lucide-preact'
+import { MapPinOffIcon, RefreshCwIcon } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 import './Device.css'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { publicDeviceURL } from '#map/publicDeviceLink.js'
+import type { Static } from '@sinclair/typebox'
+import { PublicDevice } from '@hello.nrfcloud.com/proto/hello/map'
+
+const fetchState = validatingFetch(Devices)
 
 export const Share = () => {
 	const { fingerprint } = useFingerprint()
 	const { device } = useDevice()
 	const { shared, refresh } = useMapShare()
+	const { onParameters } = useParameters()
+	const [state, setState] = useState<Static<typeof PublicDevice>['state']>()
+
+	const fetchDeviceState = ({ id }: { id: string }) =>
+		onParameters(({ devicesAPIURL }) => {
+			fetchState(new URL(`${devicesAPIURL}?ids=${id}`)).ok(({ devices }) => {
+				setState(devices[0]?.state)
+			})
+		})
+
+	useEffect(() => {
+		if (shared === undefined) return
+		fetchDeviceState(shared)
+	}, [shared])
 
 	if (fingerprint === null)
 		return (
@@ -47,7 +66,7 @@ export const Share = () => {
 		<main>
 			<article class="container">
 				<section class="row my-4">
-					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
+					<div class="col-12 col-lg-6 offset-lg-1 col-xl-6">
 						<h1 class="py-4">Share device</h1>
 						<table class="table mb-3">
 							<tr>
@@ -147,6 +166,23 @@ export const Share = () => {
 							This also only works if the device connects to nRF Cloud using the{' '}
 							<code>hello.nrfcloud.com</code> credentials.
 						</p>
+					</div>
+					<div class="col-12 col-lg-4 col-xl-6">
+						{shared !== undefined && state !== undefined && (
+							<>
+								<h2 class="d-flex justify-content-between align-items-center">
+									<span>Current state</span>
+									<button
+										type="button"
+										class="btn btn-secondary"
+										onClick={() => fetchDeviceState(shared)}
+									>
+										<RefreshCwIcon strokeWidth={1} />
+									</button>
+								</h2>
+								<pre>{JSON.stringify(state)}</pre>
+							</>
+						)}
 					</div>
 				</section>
 			</article>

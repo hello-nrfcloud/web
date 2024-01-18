@@ -47,9 +47,6 @@ export const validatingFetch = <T extends TObject>(
 					},
 		)
 			.then(async (res) => {
-				for (const header of res.headers.entries()) {
-					console.log(header)
-				}
 				const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
 				if (!res.ok) {
 					if (res.headers.get('content-type') === 'application/problem+json') {
