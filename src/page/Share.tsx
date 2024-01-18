@@ -14,8 +14,13 @@ import { useEffect, useState } from 'preact/hooks'
 import './Device.css'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { publicDeviceURL } from '#map/publicDeviceLink.js'
-import type { Static } from '@sinclair/typebox'
-import { PublicDevice } from '@hello.nrfcloud.com/proto/hello/map'
+import { type Static, Type } from '@sinclair/typebox'
+import {
+	PublicDevice,
+	LwM2MObjectInstance,
+} from '@hello.nrfcloud.com/proto/hello/map'
+import { timestampResources } from '@hello.nrfcloud.com/proto-lwm2m'
+import { formatDistanceToNow } from 'date-fns'
 
 const fetchState = validatingFetch(Devices)
 
@@ -66,7 +71,7 @@ export const Share = () => {
 		<main>
 			<article class="container">
 				<section class="row my-4">
-					<div class="col-12 col-lg-6 offset-lg-1 col-xl-6">
+					<div class="col-12 col-lg-6 offset-lg-1 offset-xl-0 col-xl-6">
 						<h1 class="py-4">Share device</h1>
 						<table class="table mb-3">
 							<tr>
@@ -180,7 +185,7 @@ export const Share = () => {
 										<RefreshCwIcon strokeWidth={1} />
 									</button>
 								</h2>
-								<pre>{JSON.stringify(state)}</pre>
+								<LwM2MStateViewer state={state} />
 							</>
 						)}
 					</div>
@@ -352,3 +357,98 @@ const ShareDevice = ({
 const isEmail = (s?: string) => /.+@.+/.test(s ?? '')
 const isToken = (s?: string) =>
 	/^[ABCDEFGHIJKMNPQRSTUVWXYZ23456789]{6}$/.test(s ?? '')
+
+const State = Type.Array(LwM2MObjectInstance)
+const LwM2MStateViewer = ({ state }: { state: Static<typeof State> }) => {
+	return (
+		<aside>
+			{state.map((instance) => (
+				<LwM2MObjectInstanceView instance={instance} />
+			))}
+		</aside>
+	)
+}
+const LwM2MObjectInstanceView = ({
+	instance,
+}: {
+	instance: Static<typeof LwM2MObjectInstance>
+}) => {
+	return (
+		<div>
+			<table class="table">
+				<tr>
+					<th>ID @ Version</th>
+					<td>
+						<a
+							href={`https://github.com/hello-nrfcloud/proto-lwm2m/blob/saga/lwm2m/${instance.ObjectID}.xml`}
+							target={'_blank'}
+						>
+							{instance.ObjectID}
+						</a>
+						@ {instance.ObjectVersion ?? '1.0'}
+					</td>
+				</tr>
+				<tr>
+					<th>Timestamp</th>
+					<td>
+						<InstanceTimestamp instance={instance} />
+					</td>
+				</tr>
+				<tr>
+					<th>Instance</th>
+					<td>
+						<span>{instance.ObjectInstanceID ?? 0}</span>
+					</td>
+				</tr>
+				<Resources instance={instance} />
+			</table>
+			<hr />
+		</div>
+	)
+}
+
+const InstanceTimestamp = ({
+	instance,
+}: {
+	instance: Static<typeof LwM2MObjectInstance>
+}) => {
+	const tsResource = timestampResources[instance.ObjectID]
+	if (tsResource === undefined)
+		return <span>Unknown ObjectID {instance.ObjectID}</span>
+	const v = instance.Resources[tsResource]
+	if (typeof v !== 'string') return <span>Timestamp could not be parsed.</span>
+	const ts = new Date(v)
+	return (
+		<time dateTime={ts.toISOString()}>
+			{formatDistanceToNow(ts, { addSuffix: true })}
+		</time>
+	)
+}
+
+const Resources = ({
+	instance,
+}: {
+	instance: Static<typeof LwM2MObjectInstance>
+}) => {
+	const tsResource = timestampResources[instance.ObjectID]
+
+	return (
+		<>
+			<tr>
+				<th colSpan={2}>Resources</th>
+			</tr>
+			{Object.entries(instance.Resources)
+				.filter(([ResourceID]) => parseInt(ResourceID, 10) !== tsResource)
+				.map(([ResourceID, value]) => (
+					<tr>
+						<th>
+							<code>{ResourceID}</code>
+						</th>
+						<td>
+							<code>{value}</code>
+						</td>
+					</tr>
+				))}
+		</>
+	)
+}

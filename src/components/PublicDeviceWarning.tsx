@@ -19,8 +19,8 @@ export const PublicDeviceWarning = () => {
 						.
 					</span>
 				</span>
-				<a href="/share" class="btn btn-outline-secondary ms-2">
-					More information
+				<a href={`/share`} class="btn btn-outline-secondary ms-2">
+					Review sharing settings
 				</a>
 			</div>
 		</div>

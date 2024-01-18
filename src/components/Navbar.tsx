@@ -60,7 +60,7 @@ const Navigation = () => {
 						<TrashIcon class="me-1" /> Forget device
 					</Transparent>
 					<Link
-						href={`/share#${device.id}`}
+						href={`/share`}
 						title="Make your device available to the public"
 					>
 						<MapPinned class="me-1" /> Share device
