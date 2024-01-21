@@ -140,6 +140,60 @@ export const ViewSource = () => (
 							(this feature not yet available) of{' '}
 							<code>hello.nrfcloud.com</code>.
 						</p>
+						<h4>Why the attestation token cannot be used</h4>
+						<p>
+							nRF 9x devices with modem firmware &gt;=2.0.0{' '}
+							<a
+								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/Devices/Security/Credentials.html"
+								target="_blank"
+							>
+								ship with an attestation token
+							</a>{' '}
+							which can be used directly to{' '}
+							<a
+								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html"
+								target="_blank"
+							>
+								authenticate against nRF Cloud's CoAP API
+							</a>
+							, but{' '}
+							<a
+								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html#authentication"
+								target="_blank"
+							>
+								only after it has been on-boarded
+							</a>
+							.
+						</p>
+						<p>
+							This means that a device would need to be associated with the{' '}
+							<code>hello.nrfcloud.com</code> nRF Cloud Account for the
+							out-of-box experience to work.
+						</p>
+						<p>
+							But if users want to use their device with <em>their own</em> nRF
+							Cloud it would have to be disassociated from the{' '}
+							<code>hello.nrfcloud.com</code> nRF Cloud account first.
+						</p>
+						<p>
+							This would also not allow a fallback in case the users hands over
+							this device to a colleague. They would then need to disassociate
+							the device from their account first.
+						</p>
+						<p>
+							Provisioning the device with a second certificate solves this:
+						</p>
+						<ul>
+							<li>
+								If a user wants to use the device with their own nRF Cloud
+								account they can flash any firmware as long as it is not using
+								the <code>hello.nrfcloud.com</code> secTag <code>42</code>.
+							</li>
+							<li>
+								If they want the original out-of-box behaviour, they only have
+								to flash the out-of-box firmware back.
+							</li>
+						</ul>
 					</div>
 				</section>
 				<section class="row mt-4">
