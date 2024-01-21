@@ -124,6 +124,22 @@ export const ViewSource = () => (
 							so we can provide pre-compiled builds with the configuration that
 							is optimal for the out-of-box experience. .
 						</p>
+						<h3>Cloud connection</h3>
+						<p>
+							Devices need to connect nRF Cloud using a certificate that is
+							pre-provisioned (in case of our development kits) or has been
+							created using the{' '}
+							<em>
+								<a
+									href="https://github.com/hello-nrfcloud/backend/issues/479"
+									target="_blank"
+								>
+									custom device onboarding
+								</a>
+							</em>{' '}
+							(this feature not yet available) of{' '}
+							<code>hello.nrfcloud.com</code>.
+						</p>
 					</div>
 				</section>
 				<section class="row mt-4">
@@ -177,6 +193,39 @@ export const ViewSource = () => (
 								Lucide
 							</a>{' '}
 							icons are used to annotate interactive elements.
+						</p>
+					</div>
+				</section>
+				<section class="row mt-4">
+					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
+						<h2>The map</h2>
+						<p>
+							Device owners (those who know the fingerprint of a device) can
+							opt-in to make the device data publicly available on{' '}
+							<a href="https://hello.nrfcloud.com/map" target="_blank">
+								hello.nrfcloud.com/map
+							</a>
+							.
+						</p>
+						<p>
+							Data published by the device to nRF Cloud will be visible to
+							everyone if it follows the{' '}
+							<a
+								href="https://github.com/hello-nrfcloud/proto-lwm2m"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								LwM2M object definitions
+							</a>{' '}
+							for this project. This allows anyone to describe the data their
+							device is sending and for the map application interpret arbitrary
+							device information. Certain objects (for example location,
+							environment) will have additional UI features, which can be
+							re-used for all devices that fulfill the object definition.
+						</p>
+						<p>
+							This only works if the device connects to nRF Cloud using the{' '}
+							<code>hello.nrfcloud.com</code> credentials.
 						</p>
 					</div>
 				</section>
