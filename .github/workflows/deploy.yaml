@@ -81,6 +81,10 @@ jobs:
           vars.STACK_NAME }} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey
           == "bucketName") | .OutputValue'`" >> $GITHUB_ENV
 
+      - name: Remove old files
+        run: |
+          aws s3 rm s3://${{ env.BUCKET_NAME }} --recursive --exclude "map/*"
+
       - name: Upload build
         run: |
           aws s3 sync build/client s3://${{ env.BUCKET_NAME }}
