@@ -13,6 +13,7 @@ import {
 } from 'aws-cdk-lib'
 import { readFileSync } from 'fs'
 import path from 'path'
+import { GitHubRole } from './GitHubRole.js'
 
 export class HostingStack extends Stack {
 	public constructor(
@@ -20,11 +21,16 @@ export class HostingStack extends Stack {
 		stackName: string,
 		{
 			repository: r,
+			mapRepository,
 			region,
 			customDomain,
 			gitHubOICDProviderArn,
 		}: {
 			repository: {
+				owner: string
+				repo: string
+			}
+			mapRepository: {
 				owner: string
 				repo: string
 			}
@@ -42,6 +48,24 @@ export class HostingStack extends Stack {
 			},
 		})
 
+		const gitHubOIDC = IAM.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
+			this,
+			'gitHubOICDProvider',
+			gitHubOICDProviderArn,
+		)
+
+		const gitHubWebAppCdRole = new GitHubRole(this, 'ghRole', {
+			roleName: `${stackName}-gh-web-app-cd`,
+			repository: r,
+			gitHubOIDC,
+		})
+
+		const gitHubMapCdRole = new GitHubRole(this, 'ghMapRole', {
+			roleName: `${stackName}-gh-map-cd`,
+			repository: mapRepository,
+			gitHubOIDC,
+		})
+
 		const websiteBucket = new S3.Bucket(this, 'bucket', {
 			autoDeleteObjects: true,
 			removalPolicy: RemovalPolicy.DESTROY,
@@ -55,37 +79,8 @@ export class HostingStack extends Stack {
 			},
 			objectOwnership: S3.ObjectOwnership.OBJECT_WRITER,
 		})
-
-		const gitHubOIDC = IAM.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
-			this,
-			'gitHubOICDProvider',
-			gitHubOICDProviderArn,
-		)
-
-		const ghRole = new IAM.Role(this, 'ghRole', {
-			roleName: `${stackName}-cd`,
-			assumedBy: new IAM.WebIdentityPrincipal(
-				gitHubOIDC.openIdConnectProviderArn,
-				{
-					StringEquals: {
-						[`token.actions.githubusercontent.com:sub`]: `repo:${r.owner}/${r.repo}:environment:production`,
-						[`token.actions.githubusercontent.com:aud`]: 'sts.amazonaws.com',
-					},
-				},
-			),
-			description: `This role is used by GitHub Actions to deploy the website of ${stackName}`,
-			maxSessionDuration: Duration.hours(1),
-		})
-
-		websiteBucket.grantReadWrite(ghRole)
-
-		// Allow to describe this stack (to see outputs)
-		ghRole.addToPolicy(
-			new IAM.PolicyStatement({
-				actions: ['cloudformation:DescribeStacks'],
-				resources: [this.stackId],
-			}),
-		)
+		websiteBucket.grantReadWrite(gitHubWebAppCdRole.role)
+		websiteBucket.grantReadWrite(gitHubMapCdRole.role)
 
 		const fingerprintRedirect = new Cf.experimental.EdgeFunction(
 			this,
@@ -173,11 +168,17 @@ export class HostingStack extends Stack {
 		distribution.addBehavior('*.woff2', s3Origin, staticFileBehaviour)
 
 		// Allow CD to create cache invalidation
-		distribution.grantCreateInvalidation(ghRole)
+		distribution.grantCreateInvalidation(gitHubWebAppCdRole.role)
+		distribution.grantCreateInvalidation(gitHubMapCdRole.role)
 
-		new CfnOutput(this, 'gitHubCdRoleArn', {
-			value: ghRole.roleArn,
-			exportName: `${this.stackName}:gitHubCdRoleArn`,
+		new CfnOutput(this, 'gitHubWebAppCdRoleArn', {
+			value: gitHubWebAppCdRole.role.roleArn,
+			exportName: `${this.stackName}:gitHubWebAppCdRoleArn`,
+		})
+
+		new CfnOutput(this, 'gitHubMapCdRoleArn', {
+			value: gitHubMapCdRole.role.roleArn,
+			exportName: `${this.stackName}:gitHubMapCdRoleArn`,
 		})
 
 		new CfnOutput(this, 'distributionDomainName', {
@@ -198,7 +199,8 @@ export class HostingStack extends Stack {
 }
 
 export type StackOutputs = {
-	gitHubCdRoleArn: string
+	gitHubWebAppCdRoleArn: string
+	gitHubMapCdRoleArn: string
 	distributionDomainName: string
 	bucketName: string
 	distributionId: string

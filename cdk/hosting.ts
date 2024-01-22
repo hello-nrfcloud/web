@@ -16,18 +16,25 @@ const repository = {
 	owner: repoUrl.pathname.split('/')[1] ?? 'hello-nrfcloud',
 	repo: repoUrl.pathname.split('/')[2]?.replace(/\.git$/, '') ?? 'web',
 }
+const mapRepository = {
+	...repository,
+	repo: 'map',
+}
 
 for (const [k, v] of Object.entries({
 	Domain: domainName,
 	'Certificate ID': certificateId,
-	'OICD Owner': repository.owner,
-	'OICD Repo': repository.repo,
+	'Web App Owner': repository.owner,
+	'Web App Repo': repository.repo,
+	'Map Owner': mapRepository.owner,
+	'Map Repo': mapRepository.repo,
 })) {
 	console.debug(chalk.magenta(k), chalk.green(v))
 }
 
 new HostingApp(stackName, {
 	repository,
+	mapRepository,
 	customDomain:
 		domainName !== undefined && certificateId !== undefined
 			? { certificateId, domainName }
