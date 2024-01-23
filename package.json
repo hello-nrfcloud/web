@@ -48,7 +48,7 @@
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.496.0",
     "@aws-sdk/client-cloudfront": "3.496.0",
-    "@aws-sdk/client-iam": "3.496.0",
+    "@aws-sdk/client-iam": "3.498.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@commitlint/config-conventional": "18.5.0",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "13.1.11",
