@@ -21,7 +21,7 @@
   "scripts": {
     "start": "vite",
     "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && cp -v ./manifest.json ./build/client/",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "find ./ -type f -name \\*.spec.ts -not -path './e2e-tests/*' -not -path './node_modules/*' | xargs npx tsx --test --test-reporter spec",
     "test:e2e": "npx playwright test e2e-tests/",
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
@@ -75,7 +75,7 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-unicorn": "50.0.1",
     "glob": "10.3.10",
-    "husky": "8.0.3",
+    "husky": "9.0.7",
     "lint-staged": "15.2.0",
     "playwright": "1.41.1",
     "preact-render-to-string": "6.3.1",
