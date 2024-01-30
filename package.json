@@ -46,9 +46,9 @@
     "yaml": "2.3.4"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.501.0",
-    "@aws-sdk/client-cloudfront": "3.501.0",
-    "@aws-sdk/client-iam": "3.501.0",
+    "@aws-sdk/client-cloudformation": "3.502.0",
+    "@aws-sdk/client-cloudfront": "3.502.0",
+    "@aws-sdk/client-iam": "3.502.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@commitlint/config-conventional": "18.6.0",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "13.1.12",
