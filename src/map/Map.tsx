@@ -553,5 +553,6 @@ const toGEOJsonPoint = ([lat, lng]: [
 			type: 'Point',
 			coordinates: [lng, lat],
 		},
+		properties: {},
 	},
 })

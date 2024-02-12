@@ -56,6 +56,7 @@ export const geoJSONPolygonFromCircle = (
 						),
 					],
 				},
+				properties: {},
 			},
 		],
 	},
