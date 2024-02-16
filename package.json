@@ -54,7 +54,7 @@
     "@commitlint/config-conventional": "18.6.2",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.3",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "17.0.0",
-    "@nordicsemiconductor/from-env": "3.0.0",
+    "@nordicsemiconductor/from-env": "3.0.1",
     "@playwright/test": "1.41.2",
     "@preact/preset-vite": "2.8.1",
     "@swc/core": "1.4.1",
