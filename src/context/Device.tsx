@@ -63,7 +63,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		let pingInterval: NodeJS.Timeout
 
 		onParameters(({ webSocketURI }) => {
-			const deviceURI = `${webSocketURI}?fingerprint=${fingerprint}`
+			const deviceURI = `${webSocketURI.toString()}?fingerprint=${fingerprint}`
 			console.debug(`[WS]`, 'connecting', deviceURI)
 			ws = new WebSocket(deviceURI)
 
