@@ -240,10 +240,10 @@ const ShareDevice = ({
 							maxLength={6}
 							class="form-control"
 							id="token"
-							placeholder='e.g. "gabq6h"'
+							placeholder='e.g. "GABQ6H"'
 							value={token}
 							onChange={(e) => {
-								setToken((e.target as HTMLInputElement).value)
+								setToken((e.target as HTMLInputElement).value.toUpperCase())
 							}}
 						/>
 					</div>
@@ -297,4 +297,4 @@ const ShareDevice = ({
 
 const isEmail = (s?: string) => /.+@.+/.test(s ?? '')
 const isToken = (s?: string) =>
-	/^[ABCDEFGHIJKMNPQRSTUVWXYZ23456789]{6}$/.test(s ?? '')
+	/^[ABCDEFGHIJKMNPQRSTUVWXYZ23456789]{6}$/i.test(s ?? '')
