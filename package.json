@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@hello.nrfcloud.com/proto": "6.4.15",
-    "@sentry/browser": "7.101.1",
+    "@sentry/browser": "7.102.0",
     "@sinclair/typebox": "0.32.14",
     "classnames": "2.5.1",
     "code-128-encoder": "3.1.1",
