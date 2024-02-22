@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@hello.nrfcloud.com/proto": "6.4.15",
-    "@sentry/browser": "7.102.0",
+    "@sentry/browser": "7.102.1",
     "@sinclair/typebox": "0.32.14",
     "classnames": "2.5.1",
     "code-128-encoder": "3.1.1",
@@ -39,7 +39,7 @@
     "lodash-es": "4.17.21",
     "lucide-preact": "0.336.0",
     "maplibre-gl": "4.0.2",
-    "preact": "10.19.5",
+    "preact": "10.19.6",
     "qrcode": "1.5.3",
     "semver": "7.6.0",
     "svg-country-flags": "1.2.10",
