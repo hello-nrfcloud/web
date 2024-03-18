@@ -50,7 +50,7 @@
     "@aws-sdk/client-cloudfront": "3.535.0",
     "@aws-sdk/client-iam": "3.535.0",
     "@babel/plugin-syntax-import-assertions": "7.23.3",
-    "@bifravst/eslint-config-typescript": "6.0.11",
+    "@bifravst/eslint-config-typescript": "6.0.12",
     "@bifravst/prettier-config": "1.0.0",
     "@commitlint/config-conventional": "19.1.0",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.3",
