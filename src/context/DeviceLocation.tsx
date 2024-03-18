@@ -8,14 +8,14 @@ import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice, type MessageListenerFn } from './Device.js'
 import type { IncomingMessageType } from '#proto/proto.js'
-import type { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history/TimeSpan.js'
+import type { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history'
 import { generateUUID } from '#utils/generateUUID.js'
-import type { LocationTrailRequest } from '@hello.nrfcloud.com/proto/hello/history/HistoricalDataRequest.js'
+import type { LocationTrailRequest } from '@hello.nrfcloud.com/proto/hello/history'
 import type {
 	CommonResponse,
 	LocationTrailResponse,
-} from '@hello.nrfcloud.com/proto/hello/history/HistoricalDataResponse.js'
-import type { LocationTrailData } from '@hello.nrfcloud.com/proto/hello/history/HistoricalData.js'
+} from '@hello.nrfcloud.com/proto/hello/history'
+import type { LocationTrailData } from '@hello.nrfcloud.com/proto/hello/history'
 import { byTs } from './byTs.js'
 
 export type Locations = Partial<

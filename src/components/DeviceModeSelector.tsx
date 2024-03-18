@@ -7,7 +7,7 @@ import { Applied } from './Applied.js'
 import { Secondary, Transparent } from './Buttons.js'
 import { SIMIcon } from './icons/SIMIcon.js'
 import type { Static } from '@sinclair/typebox'
-import type { ConfigureDevice } from '@hello.nrfcloud.com/proto/hello/ConfigureDevice.js'
+import type { ConfigureDevice } from '@hello.nrfcloud.com/proto/hello'
 import { Context } from '@hello.nrfcloud.com/proto/hello'
 
 const LOW_POWER_INTERVAL = 3600

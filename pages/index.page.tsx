@@ -5,7 +5,7 @@ import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
 import { Provider as ParametersProvider } from '#context/Parameters.js'
 import { Home } from '#page/Home.js'
-import type { IndexPageProps } from './index.page.server'
+import type { IndexPageProps } from './index.page.server.js'
 
 export const Page = ({ models }: IndexPageProps) => (
 	<ParametersProvider>

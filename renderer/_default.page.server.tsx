@@ -1,11 +1,11 @@
-import renderPreact from 'preact-render-to-string'
+import { renderToString } from 'preact-render-to-string'
 import { dangerouslySkipEscape, escapeInject } from 'vike/server'
 import { GTMId, version } from '../siteInfo.js'
-import type { PageContextCustom } from './_default.page.client'
+import type { PageContextCustom } from './_default.page.client.js'
 
 export const render = async (pageContext: PageContextCustom) => {
 	const { Page, pageProps } = pageContext
-	const viewHtml = renderPreact(<Page {...pageProps} />)
+	const viewHtml = renderToString(<Page {...pageProps} />)
 
 	return escapeInject`<!DOCTYPE html>
     <html lang="en">
