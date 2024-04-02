@@ -6,7 +6,7 @@
         "@hello.nrfcloud.com/proto",
         "@sinclair/typebox"
       ],
-      "groupName": "typebox"
+      "groupName": "proto"
     }
   ]
 }
