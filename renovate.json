@@ -1,3 +1,12 @@
 {
-  "extends": ["github>bifravst/renovate-config"]
+  "extends": ["github>bifravst/renovate-config"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "@hello.nrfcloud.com/proto",
+        "@sinclair/typebox"
+      ],
+      "groupName": "typebox"
+    }
+  ]
 }
