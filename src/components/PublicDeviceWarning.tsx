@@ -19,7 +19,10 @@ export const PublicDeviceWarning = () => {
 						.
 					</span>
 				</span>
-				<a href={`/share`} class="btn btn-outline-secondary ms-2">
+				<a
+					href={`https://hello.nrfcloud.com/map/#manage-device?${new URLSearchParams({ id: shared.id }).toString()}`}
+					class="btn btn-outline-secondary ms-2"
+				>
 					Review sharing settings
 				</a>
 			</div>

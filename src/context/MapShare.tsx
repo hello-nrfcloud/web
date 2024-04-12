@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from '#context/Device.js'
 import { useParameters } from '#context/Parameters.js'
 import { validatingFetch } from '#utils/validatingFetch.js'
-import { PublicDevice } from '@hello.nrfcloud.com/proto/hello/map'
+import { PublicDevice } from '@hello.nrfcloud.com/proto-map/api'
 import type { Static } from '@sinclair/typebox'
 
 export const MapShareContext = createContext<{

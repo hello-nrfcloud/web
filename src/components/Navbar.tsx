@@ -60,7 +60,7 @@ const Navigation = () => {
 						<TrashIcon class="me-1" /> Forget device
 					</Transparent>
 					<Link
-						href={`/share`}
+						href={`https://hello.nrfcloud.com/map/#add-device?${new URLSearchParams({ deviceId: device.id, model: device.model.name }).toString()}`}
 						title="Make your device available to the public"
 					>
 						<MapPinned class="me-1" /> Share device

@@ -8,9 +8,6 @@ type Parameters = {
 	mapApiKey: string
 	mapRegion: string
 	// Map sharing
-	confirmOwnershipAPIURL: URL
-	devicesAPIURL: URL
-	shareAPIURL: URL
 	sharingStatusAPIURL: URL
 }
 export const ParametersContext = createContext<{
@@ -37,9 +34,6 @@ const parametersPromise:
 					mapName,
 					mapApiKey,
 					mapRegion,
-					confirmOwnershipAPIURL,
-					devicesAPIURL,
-					shareAPIURL,
 					sharingStatusAPIURL,
 				} = parameters
 				const parsed = {
@@ -47,9 +41,6 @@ const parametersPromise:
 					mapName,
 					mapApiKey,
 					mapRegion,
-					confirmOwnershipAPIURL: new URL(confirmOwnershipAPIURL),
-					devicesAPIURL: new URL(devicesAPIURL),
-					shareAPIURL: new URL(shareAPIURL),
 					sharingStatusAPIURL: new URL(sharingStatusAPIURL),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
