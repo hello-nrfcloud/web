@@ -29,19 +29,14 @@ const parametersPromise:
 					throw new Error(`Failed to fetch parameters: ${await res.text()}`)
 				}
 				const parameters = await res.json()
-				const {
-					webSocketURI,
-					mapName,
-					mapApiKey,
-					mapRegion,
-					sharingStatusAPIURL,
-				} = parameters
+				const { webSocketURI, mapName, mapApiKey, mapRegion, mapApiURL } =
+					parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
 					mapName,
 					mapApiKey,
 					mapRegion,
-					sharingStatusAPIURL: new URL(sharingStatusAPIURL),
+					sharingStatusAPIURL: new URL('./device/', mapApiURL),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),

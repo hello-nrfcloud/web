@@ -42,7 +42,7 @@ export const validatingFetch = <T extends TObject>(
 						mode: 'cors',
 					}
 				: {
-						method: 'POST',
+						method: 'GET',
 						mode: 'cors',
 					},
 		)

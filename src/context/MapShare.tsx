@@ -20,14 +20,12 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 	const fetchPublicDevice = (deviceId: string) => {
 		onParameters(({ sharingStatusAPIURL }) => {
-			fetchDevice(
-				new URL(
-					`${sharingStatusAPIURL.toString()}?${new URLSearchParams({ id: deviceId }).toString()}`,
-				),
-			).ok((publicDevice) => {
-				console.log(`[MapShare]`, publicDevice)
-				setShared(publicDevice)
-			})
+			fetchDevice(new URL(`./${deviceId}`, sharingStatusAPIURL)).ok(
+				(publicDevice) => {
+					console.log(`[MapShare]`, publicDevice)
+					setShared(publicDevice)
+				},
+			)
 		})
 	}
 
