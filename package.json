@@ -46,9 +46,9 @@
     "yaml": "2.4.1"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.555.0",
-    "@aws-sdk/client-cloudfront": "3.554.0",
-    "@aws-sdk/client-iam": "3.554.0",
+    "@aws-sdk/client-cloudformation": "3.556.0",
+    "@aws-sdk/client-cloudfront": "3.556.0",
+    "@aws-sdk/client-iam": "3.556.0",
     "@babel/plugin-syntax-import-assertions": "7.24.1",
     "@bifravst/eslint-config-typescript": "6.0.23",
     "@bifravst/prettier-config": "1.0.0",
