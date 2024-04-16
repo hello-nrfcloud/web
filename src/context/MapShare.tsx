@@ -1,10 +1,10 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice } from '#context/Device.js'
 import { useParameters } from '#context/Parameters.js'
 import { validatingFetch } from '#utils/validatingFetch.js'
 import { PublicDevice } from '@hello.nrfcloud.com/proto-map/api'
 import type { Static } from '@sinclair/typebox'
+import { useFingerprint } from './Fingerprint.js'
 
 export const MapShareContext = createContext<{
 	shared?: Static<typeof PublicDevice>
@@ -13,33 +13,36 @@ export const MapShareContext = createContext<{
 const fetchDevice = validatingFetch(PublicDevice)
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { device } = useDevice()
+	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 
 	const [shared, setShared] = useState<Static<typeof PublicDevice>>()
 
-	const fetchPublicDevice = (deviceId: string) => {
+	const fetchPublicDevice = (fingerprint: string) => {
 		onParameters(({ sharingStatusAPIURL }) => {
-			fetchDevice(new URL(`./${deviceId}`, sharingStatusAPIURL)).ok(
-				(publicDevice) => {
-					console.log(`[MapShare]`, publicDevice)
-					setShared(publicDevice)
-				},
-			)
+			fetchDevice(
+				new URL(
+					`?${new URLSearchParams({ fingerprint }).toString()}`,
+					sharingStatusAPIURL,
+				),
+			).ok((publicDevice) => {
+				console.log(`[MapShare]`, publicDevice)
+				setShared(publicDevice)
+			})
 		})
 	}
 
 	useEffect(() => {
-		if (device === undefined) return
-		fetchPublicDevice(device.id)
-	}, [device])
+		if (fingerprint === null) return
+		fetchPublicDevice(fingerprint)
+	}, [fingerprint])
 
 	return (
 		<MapShareContext.Provider
 			value={{
 				shared,
 				refresh: () => {
-					if (device !== undefined) fetchPublicDevice(device.id)
+					if (fingerprint !== null) fetchPublicDevice(fingerprint)
 				},
 			}}
 		>

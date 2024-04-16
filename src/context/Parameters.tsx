@@ -36,7 +36,7 @@ const parametersPromise:
 					mapApiKey,
 					mapRegion,
 					sharingStatusAPIURL: new URL(
-						'./device/',
+						'./share/status',
 						'https://api.nordicsemi.world/2024-04-15/',
 					),
 				}

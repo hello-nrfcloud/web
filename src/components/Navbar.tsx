@@ -17,13 +17,15 @@ const Link = ({
 	href,
 	children,
 	title,
-}: PropsWithChildren<{ href: string; title?: string }>) => (
+	target,
+}: PropsWithChildren<{ href: string; title?: string; target?: string }>) => (
 	<a
 		class={cx('me-2 nav-link d-flex align-items-center', {
 			active: isSSR ? false : document.location.href.endsWith(href),
 		})}
 		href={href}
 		title={title}
+		target={target}
 	>
 		{children}
 	</a>
@@ -62,6 +64,7 @@ const Navigation = () => {
 					<Link
 						href={`https://hello.nrfcloud.com/map/#add-device?${new URLSearchParams({ fingerprint }).toString()}`}
 						title="Make your device available to the public"
+						target="_blank"
 					>
 						<MapPinned class="me-1" /> Share device
 					</Link>
