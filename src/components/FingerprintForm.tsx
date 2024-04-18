@@ -17,7 +17,8 @@ export const FingerprintForm = () => {
 					<div class="input-group-text">{DOMAIN_NAME}/</div>
 					<input
 						type="text"
-						minLength={1}
+						minLength={2}
+						maxLength={3}
 						class="form-control form-control-sm"
 						id="productionRunInput"
 						placeholder="92b"
