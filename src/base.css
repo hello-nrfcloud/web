@@ -94,6 +94,9 @@
 .color-error {
   color: var(--color-nordic-red);
 }
+.color-error.light {
+  color: #d4586f;
+}
 .list-group-item.active .color-error {
   color: #ffc3c3;
 }

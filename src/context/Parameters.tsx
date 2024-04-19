@@ -2,6 +2,7 @@ import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
 type Parameters = {
+	helloApiURL: URL
 	webSocketURI: URL
 	// Map resources
 	mapName: string
@@ -29,7 +30,8 @@ const parametersPromise:
 					throw new Error(`Failed to fetch parameters: ${await res.text()}`)
 				}
 				const parameters = await res.json()
-				const { webSocketURI, mapName, mapApiKey, mapRegion } = parameters
+				const { webSocketURI, mapName, mapApiKey, mapRegion, helloApiURL } =
+					parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
 					mapName,
@@ -39,6 +41,7 @@ const parametersPromise:
 						'./share/status',
 						'https://api.nordicsemi.world/2024-04-15/',
 					),
+					helloApiURL: new URL(helloApiURL),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),

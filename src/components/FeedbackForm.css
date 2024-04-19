@@ -1,0 +1,20 @@
+form.feedback .star-rating button {
+  background-color: transparent;
+  border: 0;
+  color: var(--color-nordic-medium-grey);
+}
+form.feedback .stars {
+  margin-right: 1rem;
+}
+form.feedback .star.active {
+  color: var(--color-nordic-sun);
+}
+
+form.feedback .star {
+  font-size: 200%;
+}
+
+form.feedback .star-rating {
+  display: flex;
+  align-items: flex-start;
+}
