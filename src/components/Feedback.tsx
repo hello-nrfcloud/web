@@ -5,10 +5,10 @@ export const Feedback = () => (
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-12 col-md-6">
-					<h2>Got feedback? Get a t-shirt!</h2>
 					<FeedbackForm />
 				</div>
 				<div class="col-12 col-md-4">
+					<h2>Got feedback? Get a t-shirt!</h2>
 					<p>
 						Every month, we'll select 5 new suggestions or feedback posts on{' '}
 						<a

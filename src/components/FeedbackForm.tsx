@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import { Angry, Frown, Laugh, Meh, Smile, X } from 'lucide-preact'
-import { useState } from 'preact/hooks'
+import { useState, useEffect } from 'preact/hooks'
 import { useParameters } from '#context/Parameters.js'
 
 import './FeedbackForm.css'
@@ -17,9 +17,11 @@ export const FeedbackForm = () => {
 	const [submitted, setSubmitted] = useState<boolean>(false)
 	const [submitting, setSubmitting] = useState<boolean>(false)
 	const [failed, setFailed] = useState<boolean>(false)
+	const [userSubmitted, setUserSubmitted] = useState<boolean>(false)
 	const params = useParameters()
 
 	const submit = () => {
+		setUserSubmitted(true)
 		if (!validate()) return
 
 		setFailed(false)
@@ -30,8 +32,8 @@ export const FeedbackForm = () => {
 					method: 'POST',
 					body: JSON.stringify({
 						email,
-						suggestion,
 						stars,
+						suggestion,
 					}),
 				})
 				if (res.ok) {
@@ -50,19 +52,24 @@ export const FeedbackForm = () => {
 	const validate = () => {
 		const e: Array<string> = []
 		if (stars === 0) e.push('stars')
-		if (stars !== 5 && suggestion.length === 0) e.push('suggestion')
+		if (suggestion.trim().length === 0) e.push('suggestion')
 		if (!/.+@.+/.test(email)) e.push('email')
 		setErrors(e)
 		return e.length === 0
 	}
 
+	useEffect(() => {
+		if (!userSubmitted) return
+		validate()
+	}, [suggestion, email, stars, userSubmitted])
+
 	if (submitted) return <p>Thank you for your feedback!</p>
 
 	return (
 		<form onSubmit={noop} class="feedback mb-3">
-			<p>
+			<h2>
 				How would you rate <code>hello.nrfcloud.com</code>?
-			</p>
+			</h2>
 			<p class="star-rating">
 				<span class={cx('stars', { error: errors.includes('stars') })}>
 					{[1, 2, 3, 4, 5].map((rating) => (
@@ -96,46 +103,44 @@ export const FeedbackForm = () => {
 			</p>
 			<div class="mb-3">
 				<label for="suggestion" class="form-label">
-					<p>
-						<span>
-							We are interested to learn what you specifically liked, or didn't
-							like, and maybe what's missing!
+					<span>
+						We are interested to learn what you specifically liked, or didn't
+						like, and maybe what's missing!
+					</span>
+					{errors.includes('suggestion') && (
+						<span class="color-error light ms-2">
+							Please name a thing or two that would make you give
+							hello.nrfcloud.com five stars?
 						</span>
-						{errors.includes('suggestion') && (
-							<span class="color-error light ms-2">
-								Please name a thing or two that would make you give
-								hello.nrfcloud.com five stars?
-							</span>
-						)}
-					</p>
+					)}
 				</label>
-				<input
+				<textarea
 					type="text"
-					class="form-control"
+					class={cx('form-control', {
+						'is-invalid': errors.includes('suggestion'),
+					})}
 					id="suggestion"
 					placeholder={'Your suggestion ...'}
 					value={suggestion}
 					disabled={submitting}
-					required={stars !== 5}
-					onChange={(e) =>
-						setSuggestion((e.target as HTMLInputElement).value.trim())
-					}
+					required={true}
+					onChange={(e) => setSuggestion((e.target as HTMLInputElement).value)}
 				/>
 			</div>
 			<div class="mb-3">
 				<label for="email" class="form-label">
-					<p>
-						<span>Your email:</span>
-						{errors.includes('email') && (
-							<span class="color-error light ms-2">
-								Please provide your email address.
-							</span>
-						)}
-					</p>
+					<span>Your email:</span>
+					{errors.includes('email') && (
+						<span class="color-error light ms-2">
+							Please provide your email address.
+						</span>
+					)}
 				</label>
 				<input
 					type="email"
-					class="form-control"
+					class={cx('form-control', {
+						'is-invalid': errors.includes('email'),
+					})}
 					id="email"
 					placeholder={'Your email'}
 					value={email}
