@@ -41,7 +41,7 @@
     "maplibre-gl": "4.2.0",
     "preact": "10.21.0",
     "qrcode": "1.5.3",
-    "semver": "7.6.1",
+    "semver": "7.6.2",
     "svg-country-flags": "1.2.10",
     "yaml": "2.4.2"
   },
