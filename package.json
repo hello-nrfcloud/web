@@ -39,7 +39,7 @@
     "lodash-es": "4.17.21",
     "lucide-preact": "0.378.0",
     "maplibre-gl": "4.3.1",
-    "preact": "10.21.0",
+    "preact": "10.22.0",
     "qrcode": "1.5.3",
     "semver": "7.6.2",
     "svg-country-flags": "1.2.10",
