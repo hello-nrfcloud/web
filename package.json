@@ -27,8 +27,8 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "10.0.0",
-    "@hello.nrfcloud.com/proto-map": "9.0.1",
+    "@hello.nrfcloud.com/proto": "12.0.1",
+    "@hello.nrfcloud.com/proto-map": "9.1.0",
     "@sentry/browser": "8.4.0",
     "@sinclair/typebox": "0.32.31",
     "classnames": "2.5.1",
@@ -51,7 +51,7 @@
     "@aws-sdk/client-cloudfront": "3.583.0",
     "@aws-sdk/client-iam": "3.583.0",
     "@babel/plugin-syntax-import-assertions": "7.24.6",
-    "@bifravst/eslint-config-typescript": "6.0.26",
+    "@bifravst/eslint-config-typescript": "6.1.0",
     "@bifravst/prettier-config": "1.0.0",
     "@commitlint/config-conventional": "19.2.2",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.3",

@@ -1,4 +1,9 @@
-import { Context, DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
+import {
+	Context,
+	type DeviceIdentity,
+	type LwM2MObjectUpdate,
+	type Shadow,
+} from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import {
@@ -92,29 +97,36 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				let message: any
 				try {
 					message = JSON.parse(msg.data)
-					const maybeValid = validPassthrough(message, (message, errors) => {
-						console.error(`[WS]`, `message dropped`, message, errors)
-					})
-					if (maybeValid !== null) {
-						console.debug(`[WS] <`, maybeValid)
-						setMessages((m) => [...m, message])
-						if (isDeviceIdentity(maybeValid)) {
-							const type = models[maybeValid.model] as Model
-							setDevice({
-								id: maybeValid.id,
-								lastSeen:
-									typeof maybeValid.lastSeen === 'string'
-										? new Date(maybeValid.lastSeen)
-										: undefined,
-								model: type,
-							})
-							setType(maybeValid.model)
-						}
-						listeners.current.map((listener) => listener(message))
-					}
 				} catch (err) {
 					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 					return
+				}
+				if (message === undefined) return
+				const maybeValid = validPassthrough(message, (message, errors) => {
+					console.error(`[WS]`, `message dropped`, message, errors)
+				})
+				if (maybeValid !== null) {
+					console.debug(`[WS] <`, maybeValid)
+					if (isDeviceIdentity(maybeValid)) {
+						const type = models[maybeValid.model] as Model
+						setDevice({
+							id: maybeValid.id,
+							lastSeen:
+								typeof maybeValid.lastSeen === 'string'
+									? new Date(maybeValid.lastSeen)
+									: undefined,
+							model: type,
+						})
+						setType(maybeValid.model)
+					} else if (isShadow(maybeValid)) {
+						const instances = maybeValid.reported.map(parseInstanceTimestamp)
+						setMessages((m) => [...m, ...instances])
+						listeners.current.forEach((listener) => instances.map(listener))
+					} else if (isUpdate(maybeValid)) {
+						const instance = parseInstanceTimestamp(maybeValid)
+						setMessages((m) => [...m, instance])
+						listeners.current.forEach((listener) => listener(instance))
+					}
 				}
 			}
 			ws.addEventListener('message', messageListener)
@@ -188,3 +200,25 @@ const isDeviceIdentity = (
 	isObject(message) &&
 	'@context' in message &&
 	message['@context'] === Context.deviceIdentity.toString()
+
+const isShadow = (message: unknown): message is Static<typeof Shadow> =>
+	isObject(message) &&
+	'@context' in message &&
+	message['@context'] === Context.shadow.toString()
+
+const isUpdate = (
+	message: unknown,
+): message is Static<typeof LwM2MObjectUpdate> =>
+	isObject(message) &&
+	'@context' in message &&
+	message['@context'] === Context.lwm2mObjectUpdate.toString()
+
+const parseInstanceTimestamp = (
+	i: LwM2MObjectInstance,
+): LwM2MObjectInstance => ({
+	...i,
+	Resources: {
+		...i.Resources,
+		99: new Date(i.Resources[99] as number),
+	},
+})
