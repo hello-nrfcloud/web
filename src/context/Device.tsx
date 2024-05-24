@@ -8,11 +8,12 @@ import {
 	useRef,
 	useState,
 } from 'preact/hooks'
-import type { IncomingMessageType, OutgoingMessageType } from '#proto/proto.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
 import { useFingerprint } from './Fingerprint.js'
 import { useModels, type Model } from './Models.js'
 import { useParameters } from './Parameters.js'
+import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import { isObject } from 'lodash-es'
 
 export type Device = {
 	id: string
@@ -29,7 +30,7 @@ export const DeviceContext = createContext<{
 	addMessageListener: (listener: MessageListenerFn) => {
 		remove: () => void
 	}
-	send?: (message: OutgoingMessageType) => void
+	send?: (message: LwM2MObjectInstance) => void
 }>({
 	connected: false,
 	disconnected: false,
@@ -39,13 +40,13 @@ export const DeviceContext = createContext<{
 	connectionFailed: false,
 })
 
-export type MessageListenerFn = (message: IncomingMessageType) => unknown
+export type MessageListenerFn = (message: LwM2MObjectInstance) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [type, setType] = useState<string | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
-	const [messages, setMessages] = useState<IncomingMessageType[]>([])
+	const [messages, setMessages] = useState<LwM2MObjectInstance[]>([])
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { models } = useModels()
@@ -140,7 +141,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		ws === undefined
 			? undefined
 			: useCallback(
-					(message: OutgoingMessageType) => {
+					(message: LwM2MObjectInstance) => {
 						console.log(`[WS] >`, message)
 						ws.send(
 							JSON.stringify({
@@ -182,6 +183,8 @@ export const Consumer = DeviceContext.Consumer
 export const useDevice = () => useContext(DeviceContext)
 
 const isDeviceIdentity = (
-	message: IncomingMessageType,
+	message: unknown,
 ): message is Static<typeof DeviceIdentity> =>
+	isObject(message) &&
+	'@context' in message &&
 	message['@context'] === Context.deviceIdentity.toString()

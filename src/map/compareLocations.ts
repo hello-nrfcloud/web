@@ -1,7 +1,4 @@
-import type { Static } from '@sinclair/typebox'
-import { type Location } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import type { GeoLocation } from '#proto/lwm2m.js'
 
-type LocationLike = Record<string, unknown> &
-	Pick<Static<typeof Location>, 'acc' | 'lat' | 'lng'>
-export const compareLocations = (l1: LocationLike, l2: LocationLike): boolean =>
+export const compareLocations = (l1: GeoLocation, l2: GeoLocation): boolean =>
 	l1.lat === l2.lat && l1.lng === l2.lng && l1.acc === l2.acc

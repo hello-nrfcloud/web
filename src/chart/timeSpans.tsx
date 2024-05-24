@@ -1,12 +1,11 @@
-import { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history'
-import { type Static } from '@sinclair/typebox'
+import { TimeSpan } from '#api/api.js'
 
 export const timeSpans: {
-	id: Static<typeof TimeSpan>
+	id: TimeSpan
 	title: string
 }[] = [
-	{ id: 'lastHour', title: 'last hour' },
-	{ id: 'lastDay', title: 'last day' },
-	{ id: 'lastWeek', title: 'last week' },
-	{ id: 'lastMonth', title: 'last month' },
+	{ id: TimeSpan.lastHour, title: 'last hour' },
+	{ id: TimeSpan.lastDay, title: 'last day' },
+	{ id: TimeSpan.lastWeek, title: 'last week' },
+	{ id: TimeSpan.lastMonth, title: 'last month' },
 ]

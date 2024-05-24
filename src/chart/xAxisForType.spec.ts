@@ -1,10 +1,11 @@
 import { describe, test as it } from 'node:test'
 import { xAxisForType } from './xAxisForType.js'
 import { check, objectMatching } from 'tsmatchers'
+import { TimeSpan } from '#api/api.js'
 
 void describe('xAxisForType()', () => {
 	void it('should create the chart data for the hourly chart', () => {
-		check(xAxisForType('lastHour')).is(
+		check(xAxisForType(TimeSpan.lastHour)).is(
 			objectMatching({
 				color: 'var(--color-nordic-light-grey)',
 				labelEvery: 10,
@@ -15,7 +16,7 @@ void describe('xAxisForType()', () => {
 	})
 
 	void it('should create the chart data for the daily chart', () => {
-		check(xAxisForType('lastDay')).is(
+		check(xAxisForType(TimeSpan.lastDay)).is(
 			objectMatching({
 				color: 'var(--color-nordic-light-grey)',
 				labelEvery: 2 * 60,
@@ -26,7 +27,7 @@ void describe('xAxisForType()', () => {
 	})
 
 	void it('should create the chart data for the weekly chart', () => {
-		check(xAxisForType('lastWeek')).is(
+		check(xAxisForType(TimeSpan.lastWeek)).is(
 			objectMatching({
 				color: 'var(--color-nordic-light-grey)',
 				labelEvery: 24 * 60,
@@ -37,7 +38,7 @@ void describe('xAxisForType()', () => {
 	})
 
 	void it('should create the chart data for the monthly chart', () => {
-		check(xAxisForType('lastMonth')).is(
+		check(xAxisForType(TimeSpan.lastMonth)).is(
 			objectMatching({
 				color: 'var(--color-nordic-light-grey)',
 				labelEvery: 24 * 60 * 2,

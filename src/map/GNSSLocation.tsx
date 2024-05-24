@@ -1,15 +1,13 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useDeviceState } from '#context/DeviceState.js'
+import { gnssEnabled } from '#context/DeviceState.js'
 import { Located } from '#map/Map.js'
-import { LocationSource } from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
+import { LocationSource } from './LocationSourceLabels.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
-	const { state } = useDeviceState()
 	const { locations } = useDeviceLocation()
 	const gnssLocation = locations[LocationSource.GNSS]
-	const gnssEnabled = !(state?.config?.nod ?? ['gnss']).includes('gnss')
 
 	return (
 		<>
@@ -25,7 +23,7 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				Depending on your use-case scenario you can control whether to enable
 				GNSS on this device:
 			</p>
-			{gnssEnabled && (
+			{gnssEnabled() && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
 					{gnssLocation === undefined && (

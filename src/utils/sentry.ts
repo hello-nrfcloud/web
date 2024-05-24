@@ -11,14 +11,13 @@ if (SENTRY_DSN !== undefined) {
 			Sentry.init({
 				dsn: SENTRY_DSN,
 				integrations: [
-					new Sentry.BrowserTracing({
-						tracePropagationTargets: [new RegExp(`^${DOMAIN_NAME}`)],
-					}),
-					new Sentry.Replay(),
+					Sentry.browserTracingIntegration({}),
+					Sentry.replayIntegration(),
 				],
 				tracesSampleRate: 0.1,
 				replaysSessionSampleRate: 0.1,
 				replaysOnErrorSampleRate: 1.0,
+				tracePropagationTargets: [new RegExp(`^${DOMAIN_NAME}`)],
 			})
 			Sentry.setContext('app', {
 				version: VERSION,

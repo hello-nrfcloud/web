@@ -1,14 +1,10 @@
-import { useDevice, type Device } from '#context/Device.js'
-import { useDeviceState } from '#context/DeviceState.js'
+import { type Device } from '#context/Device.js'
 import cx from 'classnames'
 import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 import { Applied } from './Applied.js'
 import { Secondary, Transparent } from './Buttons.js'
 import { SIMIcon } from './icons/SIMIcon.js'
-import type { Static } from '@sinclair/typebox'
-import type { ConfigureDevice } from '@hello.nrfcloud.com/proto/hello'
-import { Context } from '@hello.nrfcloud.com/proto/hello'
 
 const LOW_POWER_INTERVAL = 3600
 const INTERACTIVE_INTERVAL = 120
@@ -22,6 +18,7 @@ const intervalPresets = [
 	{ interval: LOW_POWER_INTERVAL, title: 'Low-power mode' },
 ]
 
+// FIXME: implement
 export const DeviceModeSelector = ({
 	device,
 	onClose,
@@ -29,19 +26,12 @@ export const DeviceModeSelector = ({
 	device: Device
 	onClose?: () => void
 }) => {
-	const { send } = useDevice()
-	const { state, desiredConfig, updateConfig } = useDeviceState()
-	const reportedGNSS = !(state?.config?.nod ?? ['gnss']).includes('gnss')
-	const reportedUpdateInterval = state?.config?.activeWaitTime ?? 120
-	const desiredUpdateInterval = desiredConfig.activeWaitTime
-	const desiredGNSS =
-		desiredConfig.nod !== undefined
-			? !desiredConfig.nod.includes('gnss')
-			: undefined
-	const [gnssInput, setGNSS] = useState<boolean>(desiredGNSS ?? reportedGNSS)
-	const [updateIntervalInput, setUpdateInterval] = useState<number>(
-		desiredUpdateInterval ?? reportedUpdateInterval,
-	)
+	const desiredGNSS: boolean = true as boolean
+	const reportedGNSS: boolean = true as boolean
+	const reportedUpdateInterval = 120
+	const desiredUpdateInterval = 120
+	const [, setGNSS] = useState<boolean>(true)
+	const [updateIntervalInput, setUpdateInterval] = useState<number>(120)
 
 	// Disable GNSS when update interval is < MIN_INTERVAL_FOR_GNSS seconds
 	useEffect(() => {
@@ -144,20 +134,11 @@ export const DeviceModeSelector = ({
 						)}
 					<Secondary
 						onClick={() => {
-							const configureDevice: Static<typeof ConfigureDevice> = {
-								'@context': Context.configureDevice.toString(),
-								id: device.id,
-								configuration: {
-									updateIntervalSeconds: updateIntervalInput,
-									gnss: gnssInput,
-								},
-							}
-							send?.(configureDevice)
-							updateConfig({
-								activeWaitTime: updateIntervalInput,
-								nod: gnssInput ? [] : ['gnss'],
-							})
+							/*
+							FIXME: implement
+							*/
 						}}
+						disabled
 					>
 						apply configuration
 					</Secondary>

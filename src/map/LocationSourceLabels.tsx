@@ -1,0 +1,22 @@
+export enum LocationSource {
+	MCELL = 'MCELL',
+	SCELL = 'SCELL',
+	WIFI = 'WIFI',
+	GNSS = 'GNSS',
+}
+
+// Uses nrfcloud.com wording
+export const LocationSourceLabels = new Map<string, string>([
+	[LocationSource.WIFI, 'Wi-Fi'],
+	[LocationSource.MCELL, 'multi-cell'],
+	[LocationSource.SCELL, 'single-cell'],
+	[LocationSource.GNSS, 'GNSS'],
+])
+
+// Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
+export const locationSourceColors = new Map<string, string>([
+	[LocationSource.GNSS, '#C7F9CC'],
+	[LocationSource.WIFI, '#80ed99'],
+	[LocationSource.MCELL, '#57cc99'],
+	[LocationSource.SCELL, '#38a3a5'],
+])
