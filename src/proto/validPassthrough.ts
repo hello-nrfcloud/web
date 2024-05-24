@@ -1,19 +1,30 @@
+import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import {
-	validate,
-	validators,
-	type LwM2MObjectInstance,
-} from '@hello.nrfcloud.com/proto-map/lwm2m'
+	DeviceIdentity,
+	Shadow,
+	SingleCellGeoLocation,
+	LwM2MObjectUpdate,
+} from '@hello.nrfcloud.com/proto/hello'
+import { Type, type Static } from '@sinclair/typebox'
+import type { ValueError } from '@sinclair/typebox/errors'
 
-const validateInstance = validate(validators)
+const IncomingMessage = Type.Union([
+	SingleCellGeoLocation,
+	DeviceIdentity,
+	Shadow,
+	LwM2MObjectUpdate,
+])
+type IncomingMessageType = Static<typeof IncomingMessage>
+export const incomingMessageValidator = validateWithTypeBox(IncomingMessage)
 
 export const validPassthrough = (
 	v: unknown,
-	onDropped?: (v: unknown, error: Error) => unknown,
-): LwM2MObjectInstance | null => {
-	const maybeValidInstance = validateInstance(v)
-	if ('error' in maybeValidInstance) {
-		onDropped?.(v, maybeValidInstance.error)
+	onDropped?: (v: unknown, errors: Array<ValueError>) => unknown,
+): IncomingMessageType | null => {
+	const maybeValidMessage = incomingMessageValidator(v)
+	if ('errors' in maybeValidMessage) {
+		onDropped?.(v, maybeValidMessage.errors)
 		return null
 	}
-	return maybeValidInstance.object
+	return maybeValidMessage.value
 }
