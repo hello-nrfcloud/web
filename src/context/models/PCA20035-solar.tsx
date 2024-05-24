@@ -1,4 +1,4 @@
-import { TimeSpan } from 'api/api.js'
+import { TimeSpan } from '#api/api.js'
 import {
 	isBatteryAndPower,
 	isButtonPress,
@@ -15,8 +15,8 @@ import {
 } from '#proto/lwm2m.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from '../Device.js'
-import { byTs } from '../byTs.js'
+import { useDevice, type MessageListenerFn } from '#context/Device.js'
+import { byTs } from '#context/byTs.js'
 
 type FromHistory = {
 	fromHistory?: boolean

@@ -2,8 +2,8 @@ import { type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
-import { ValueLoading } from '../ValueLoading.js'
-import { isOutdated } from './isOutdated.js'
+import { ValueLoading } from '#components/ValueLoading.js'
+import { isOutdated } from '#components/deviceInfo/isOutdated.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {

@@ -1,6 +1,6 @@
 import type { Size } from '#components/ResizeObserver.js'
-import { chartMath, type ChartData } from './chartMath.js'
-import { generateLabels } from './generateLabels.js'
+import { chartMath, type ChartData } from '#chart/chartMath.js'
+import { generateLabels } from '#chart/generateLabels.js'
 import { useRef } from 'preact/hooks'
 
 export const HistoryChart = ({

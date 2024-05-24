@@ -1,4 +1,4 @@
-import { isSSR } from './isSSR.js'
+import { isSSR } from '#utils/isSSR.js'
 
 const fullKey = (key: string) => `hello:${key}`
 export const getItem = <StoredType>(key: string): StoredType | null => {

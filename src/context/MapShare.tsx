@@ -4,7 +4,7 @@ import { useParameters } from '#context/Parameters.js'
 import { validatingFetch } from '#utils/validatingFetch.js'
 import { PublicDevice } from '@hello.nrfcloud.com/proto-map/api'
 import type { Static } from '@sinclair/typebox'
-import { useFingerprint } from './Fingerprint.js'
+import { useFingerprint } from '#context/Fingerprint.js'
 
 export const MapShareContext = createContext<{
 	shared?: Static<typeof PublicDevice>

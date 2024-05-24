@@ -7,8 +7,8 @@ import {
 	SignalZero,
 	Slash,
 } from 'lucide-preact'
-import { LoadingIndicator } from './ValueLoading.js'
-import type { LucideProps } from './icons/lucide.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
+import type { LucideProps } from '#components/icons/lucide.js'
 import type { FunctionComponent } from 'preact'
 import {
 	isConnectionInformation,

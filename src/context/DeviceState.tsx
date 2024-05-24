@@ -2,7 +2,7 @@ import { Context, Shadow } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from './Device.js'
+import { useDevice, type MessageListenerFn } from '#context/Device.js'
 import { isObject } from 'lodash-es'
 import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 

@@ -3,7 +3,7 @@ import { type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { gnssEnabled } from '#context/DeviceState.js'
 import { Located } from '#map/Map.js'
-import { LocationSource } from './LocationSourceLabels.js'
+import { LocationSource } from '#map/LocationSourceLabels.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()

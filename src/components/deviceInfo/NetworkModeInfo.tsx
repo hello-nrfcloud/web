@@ -4,8 +4,8 @@ import {
 	isConnectionInformation,
 	toConnectionInformation,
 } from '#proto/lwm2m.js'
-import { LTEm } from '../icons/LTE-m.js'
-import { NBIot } from '../icons/NBIot.js'
+import { LTEm } from '#components/icons/LTE-m.js'
+import { NBIot } from '#components/icons/NBIot.js'
 
 export const NetworkModeInfo = () => {
 	const { state } = useDeviceState()

@@ -4,7 +4,7 @@ import code128 from 'code-128-encoder'
 import { format } from 'date-fns'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
-import type { Size } from './ResizeObserver.js'
+import type { Size } from '#components/ResizeObserver.js'
 
 const encoder = new code128()
 

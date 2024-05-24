@@ -6,9 +6,9 @@ import { BatteryCharging, Sun } from 'lucide-preact'
 import {
 	isNotHistory,
 	useSolarThingyHistory,
-} from '../../../context/models/PCA20035-solar.js'
-import { toChartData } from '../../../chart/toChartData.js'
-import { DateRangeButton } from '../../../chart/DateRangeButton.js'
+} from '#context/models/PCA20035-solar.js'
+import { toChartData } from '#chart/toChartData.js'
+import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { timeSpans } from '#chart/timeSpans.js'
