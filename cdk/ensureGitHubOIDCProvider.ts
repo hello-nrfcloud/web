@@ -1,7 +1,7 @@
+import type { IAMClient } from '@aws-sdk/client-iam'
 import {
 	CreateOpenIDConnectProviderCommand,
 	GetOpenIDConnectProviderCommand,
-	IAMClient,
 	ListOpenIDConnectProvidersCommand,
 } from '@aws-sdk/client-iam'
 import chalk from 'chalk'
