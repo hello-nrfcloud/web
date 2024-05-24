@@ -3,7 +3,10 @@ import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { formatFloat } from '#utils/formatFloat.js'
 import { BatteryCharging, Sun } from 'lucide-preact'
-import { useSolarThingyHistory } from '../../../context/models/PCA20035-solar.js'
+import {
+	isNotHistory,
+	useSolarThingyHistory,
+} from '../../../context/models/PCA20035-solar.js'
 import { toChartData } from '../../../chart/toChartData.js'
 import { DateRangeButton } from '../../../chart/DateRangeButton.js'
 import { WithResize } from '#components/ResizeObserver.js'
@@ -11,12 +14,10 @@ import { WaitingForData } from '#components/WaitingForData.js'
 import { timeSpans } from '#chart/timeSpans.js'
 
 export const SolarThingyChart = () => {
-	const { gain, battery, timeSpan, setTimeSpan } = useSolarThingyHistory()
+	const { battery, gain, timeSpan, setTimeSpan } = useSolarThingyHistory()
 
-	const currentGain = gain?.filter(({ fromHistory }) => fromHistory !== true)[0]
-	const currentBattery = battery.filter(
-		({ fromHistory }) => fromHistory !== true,
-	)[0]
+	const currentBattery = battery.filter(isNotHistory)[0]
+	const currentGain = gain.filter(isNotHistory)[0]
 
 	const hasChartData = gain.length + battery.length > 0
 
@@ -28,7 +29,7 @@ export const SolarThingyChart = () => {
 						<WithResize>
 							{(size) => (
 								<HistoryChart
-									data={toChartData({ gain, battery, type: timeSpan })}
+									data={toChartData({ battery, gain, type: timeSpan })}
 									size={size}
 								/>
 							)}

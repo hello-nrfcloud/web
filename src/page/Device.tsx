@@ -73,14 +73,13 @@ export const Device = () => {
 }
 
 const WaitingForConnection = ({ device }: { device: TDevice }) => {
-	const { gain, battery } = useSolarThingyHistory()
+	const { battery } = useSolarThingyHistory()
 
-	const currentGain = gain.filter(({ fromHistory }) => fromHistory !== true)
 	const currentBattery = battery.filter(
 		({ fromHistory }) => fromHistory !== true,
 	)
 
-	const hasLiveData = currentGain.length + currentBattery.length > 0
+	const hasLiveData = currentBattery.length > 0
 
 	if (hasLiveData) return null
 

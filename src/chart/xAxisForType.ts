@@ -1,9 +1,8 @@
+import type { TimeSpan } from '#api/api.js'
 import type { XAxis } from '#chart/chartMath.js'
 import { format } from 'date-fns'
-import type { Static } from '@sinclair/typebox'
-import type { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history'
 
-export const xAxisForType = (type: Static<typeof TimeSpan>): XAxis => {
+export const xAxisForType = (type: TimeSpan): XAxis => {
 	if (type === 'lastMonth')
 		return {
 			color: 'var(--color-nordic-light-grey)',

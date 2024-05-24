@@ -1,17 +1,19 @@
-import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
-import { IncomingMessage, type IncomingMessageType } from './proto.js'
-import { type ValueError } from '@sinclair/typebox/compiler'
+import {
+	validate,
+	validators,
+	type LwM2MObjectInstance,
+} from '@hello.nrfcloud.com/proto-map/lwm2m'
 
-const validator = validateWithTypeBox(IncomingMessage)
+const validateInstance = validate(validators)
 
 export const validPassthrough = (
 	v: unknown,
-	onDropped?: (v: unknown, errors: ValueError[]) => unknown,
-): IncomingMessageType | null => {
-	const isValid = validator(v)
-	if ('errors' in isValid) {
-		onDropped?.(v, isValid.errors)
+	onDropped?: (v: unknown, error: Error) => unknown,
+): LwM2MObjectInstance | null => {
+	const maybeValidInstance = validateInstance(v)
+	if ('error' in maybeValidInstance) {
+		onDropped?.(v, maybeValidInstance.error)
 		return null
 	}
-	return isValid.value
+	return maybeValidInstance.object
 }

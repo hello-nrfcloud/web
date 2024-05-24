@@ -4,15 +4,17 @@ import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
 import { ValueLoading } from '../ValueLoading.js'
 import { isOutdated } from './isOutdated.js'
+import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { state } = useDeviceState()
 	const type = device.model
 
-	const appV = state?.device?.deviceInfo?.appVersion
-	const modV = parseModemFirmwareVersion(
-		state?.device?.deviceInfo?.modemFirmware ?? '',
-	)
+	const deviceInfo = state
+		.filter(isDeviceInformation)
+		.map(toDeviceInformation)[0]
+	const appV = deviceInfo?.appVersion
+	const modV = parseModemFirmwareVersion(deviceInfo?.modemFirmware ?? '')
 
 	const needsFwUpdate = isOutdated(device.model.firmware.version, appV)
 	const needsMfwUpdate = isOutdated(device.model.mfw.version, modV)

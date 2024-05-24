@@ -43,22 +43,9 @@ export const BME680 = () => (
 )
 
 export const EnvironmentReadings = () => {
-	const { airHumidity, airPressure, airQuality, airTemperature } =
-		useSolarThingyHistory()
-	const airHumidityReading = airHumidity[0]
-	const airPressureReading = airPressure[0]
-	const airQualityReading = airQuality[0]
-	const airTemperatureReading = airTemperature[0]
-	const updateTime =
-		airHumidityReading?.ts ??
-		airPressureReading?.ts ??
-		airQualityReading?.ts ??
-		airTemperatureReading?.ts
+	const { environment } = useSolarThingyHistory()
 
-	const { p } = airHumidityReading ?? {}
-	const { mbar } = airPressureReading ?? {}
-	const { IAQ: iaq } = airQualityReading ?? {}
-	const { c } = airTemperatureReading ?? {}
+	const { p, mbar, IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 
 	return (
 		<>

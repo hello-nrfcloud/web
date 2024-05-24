@@ -31,7 +31,8 @@
       "#utils/*": ["utils/*"],
       "#page/*": ["page/*"],
       "#proto/*": ["proto/*"],
-      "#map/*": ["map/*"]
+      "#map/*": ["map/*"],
+      "#api/*": ["api/*"]
     }
   }
 }

@@ -24,6 +24,12 @@ import { SIMIcon } from './icons/SIMIcon.js'
 import { IAQ } from './model/PCA20035-solar/BME680.js'
 import { BatteryIndicator } from './model/PCA20035-solar/SolarThingyBattery.js'
 import { Applied } from './Applied.js'
+import {
+	isConnectionInformation,
+	isDeviceInformation,
+	toConnectionInformation,
+	toDeviceInformation,
+} from '#proto/lwm2m.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -92,8 +98,9 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 
 const SignalQualityInfo = () => {
 	const { state } = useDeviceState()
-	const { eest } = state?.device?.networkInfo ?? {}
-	const eestTs = state?.lastUpdate?.device?.networkInfo?.eest
+	const { eest, ts } =
+		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
+
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
@@ -110,14 +117,14 @@ const SignalQualityInfo = () => {
 					<span class="d-flex align-items-center">
 						{((SignalIcon) => (
 							<SignalIcon strokeWidth={2} />
-						))(EnergyEstimateIcons[eest] ?? Slash)}
-						<span>{EnergyEstimateLabel[eest]}</span>
+						))(EnergyEstimateIcons.get(eest) ?? Slash)}
+						<span>{EnergyEstimateLabel.get(eest)}</span>
 					</span>
 				</>
 			)}
-			{eestTs !== undefined && (
+			{ts !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(eestTs)} />
+					<Ago date={new Date(ts)} />
 				</small>
 			)}
 		</span>
@@ -125,30 +132,24 @@ const SignalQualityInfo = () => {
 }
 
 const EnvironmentInfo = () => {
-	const { airQuality, airTemperature } = useSolarThingyHistory()
-	const airQualityReading = airQuality[0]
-	const airTemperatureReading = airTemperature[0]
-	const updateTime = airQualityReading?.ts ?? airTemperatureReading?.ts
+	const { environment } = useSolarThingyHistory()
+	const { IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
 				<strong>Environment</strong>
 			</small>
-			{airTemperatureReading?.c === undefined && (
-				<LoadingIndicator width={150} />
-			)}
-			{airTemperatureReading?.c !== undefined && (
+			{c === undefined && <LoadingIndicator width={150} />}
+			{c !== undefined && (
 				<span class="me-2">
-					<ThermometerIcon /> {airTemperatureReading.c} °C
+					<ThermometerIcon /> {c} °C
 				</span>
 			)}
-			{airQualityReading?.IAQ === undefined && (
-				<LoadingIndicator width={150} class="mt-1" />
-			)}
-			{airQualityReading?.IAQ !== undefined && (
+			{iaq === undefined && <LoadingIndicator width={150} class="mt-1" />}
+			{iaq !== undefined && (
 				<span class="me-2">
-					<IAQ iaq={airQualityReading.IAQ} />
+					<IAQ iaq={iaq} />
 				</span>
 			)}
 			{updateTime === undefined && (
@@ -165,8 +166,9 @@ const EnvironmentInfo = () => {
 
 const NetworkModeInfo = () => {
 	const { state } = useDeviceState()
-	const { networkMode, currentBand } = state?.device?.networkInfo ?? {}
-	const networkModeTs = state?.lastUpdate?.device?.networkInfo?.networkMode
+	const { networkMode, currentBand, ts } =
+		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
+
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
@@ -198,9 +200,9 @@ const NetworkModeInfo = () => {
 					)}
 				</abbr>
 			)}
-			{networkModeTs !== undefined && (
+			{ts !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(networkModeTs)} />
+					<Ago date={new Date(ts)} />
 				</small>
 			)}
 		</span>
@@ -221,7 +223,7 @@ const BatteryInfo = () => {
 					<LoadingIndicator height={16} width={100} class="mt-1" />
 				</>
 			)}
-			{batteryReading !== undefined && (
+			{batteryReading?.['%'] !== undefined && (
 				<span>
 					<BatteryIndicator percentage={batteryReading['%']} />
 					{batteryReading['%']} % <small class="text-muted ms-1"></small>
@@ -268,10 +270,11 @@ const Interact = () => {
 	)
 }
 
+// FIXME: make dynamic
 const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
-	const { state, desiredConfig } = useDeviceState()
-	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
-	const gnss = !(state?.config?.nod ?? ['gnss']).includes('gnss')
+	const updateIntervalSeconds = 120
+	const gnss = false
+	const activeWaitTime = undefined
 
 	return (
 		<span class="d-flex flex-column">
@@ -287,11 +290,8 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 					<Settings strokeWidth={1} /> configure
 				</Transparent>
 			</small>
-			{desiredConfig.activeWaitTime !== undefined && (
-				<Applied
-					desired={desiredConfig.activeWaitTime}
-					reported={updateIntervalSeconds}
-				/>
+			{activeWaitTime !== undefined && (
+				<Applied desired={activeWaitTime} reported={updateIntervalSeconds} />
 			)}
 		</span>
 	)
@@ -299,8 +299,9 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 
 const SIMInfo = () => {
 	const { state } = useDeviceState()
-	const { iccid } = state?.device?.simInfo ?? {}
-	const { ts } = state ?? {}
+	const { iccid, ts } =
+		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
+
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">

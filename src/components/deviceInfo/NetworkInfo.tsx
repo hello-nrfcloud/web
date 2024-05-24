@@ -5,13 +5,23 @@ import { CpuIcon } from 'lucide-preact'
 import { SignalQuality } from '../SignalQuality.js'
 import { SIMIcon } from '../icons/SIMIcon.js'
 import { NetworkModeInfo } from './NetworkModeInfo.js'
+import {
+	isConnectionInformation,
+	isDeviceInformation,
+	toConnectionInformation,
+	toDeviceInformation,
+} from '#proto/lwm2m.js'
 
 export const NetworkInfo = () => {
 	const { state } = useDeviceState()
 
-	const { networkMode } = state?.device?.networkInfo ?? {}
-	const { iccid } = state?.device?.simInfo ?? {}
-	const { imei } = state?.device?.deviceInfo ?? {}
+	const networkMode = state
+		.filter(isConnectionInformation)
+		.map(toConnectionInformation)[0]?.networkMode
+
+	const { iccid, imei } =
+		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
+
 	return (
 		<>
 			<h2>Network information</h2>

@@ -1,22 +1,17 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useDeviceState } from '#context/DeviceState.js'
+import { gnssEnabled } from '#context/DeviceState.js'
+import { Located } from '#map/Map.js'
 import { compareLocations } from '#map/compareLocations.js'
-import {
-	Location,
-	LocationSource,
-} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import type { Static } from '@sinclair/typebox'
-import { LocationSourceLabels, Located } from '#map/Map.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
+import { LocationSource, LocationSourceLabels } from './LocationSourceLabels.js'
 
 export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()
-	const { state } = useDeviceState()
-	const gnssEnabled = !(state?.config?.nod ?? ['gnss']).includes('gnss')
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
-	const cellularLocations: Static<typeof Location>[] = []
+	const cellularLocations: GeoLocation[] = []
 	if (scellLocation !== undefined) cellularLocations.push(scellLocation)
 	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
 	return (
@@ -48,7 +43,7 @@ export const CellularLocation = () => {
 				Multi-cell (MCELL) is using multiple cell towers to triangulate the
 				device location. Up to 17 cell towers can be used at once.
 			</p>
-			{gnssEnabled && (
+			{gnssEnabled() && (
 				<div
 					role="alert"
 					style={{
@@ -71,7 +66,7 @@ export const CellularLocation = () => {
 			)}
 			{cellularLocations.map((location) => (
 				<>
-					<h2>{LocationSourceLabels[location.src]}</h2>
+					<h2>{LocationSourceLabels.get(location.src)}</h2>
 					<Located location={location} />
 				</>
 			))}

@@ -1,25 +1,27 @@
+import type { TimeSpan } from '#api/api.js'
 import type { ChartData } from '#chart/chartMath.js'
 import { subHours, subMilliseconds } from 'date-fns'
 import {
-	type GainReadings,
+	type BatteryReading,
 	type BatteryReadings,
+	type GainReadings,
 } from '../context/models/PCA20035-solar.js'
-import type { Static } from '@sinclair/typebox'
-import type { TimeSpan } from '@hello.nrfcloud.com/proto/hello/history'
 import { xAxisForType } from './xAxisForType.js'
 
 export const toChartData = ({
-	gain,
 	battery,
+	gain,
 	type,
 }: {
-	gain: GainReadings
 	battery: BatteryReadings
-	type: Static<typeof TimeSpan>
+	gain: GainReadings
+	type: TimeSpan
 }): ChartData => {
 	const base = new Date(
-		gain[gain.length - 1]?.ts ?? subHours(new Date(), 1).getTime(),
+		battery[battery.length - 1]?.ts ?? subHours(new Date(), 1).getTime(),
 	)
+
+	const stateOfCharge = battery.filter(hasStateOfCharge)
 
 	return {
 		xAxis: xAxisForType(type),
@@ -49,7 +51,7 @@ export const toChartData = ({
 			{
 				min: 0,
 				max: 100,
-				values: battery.map(({ '%': percent, ts }) => [
+				values: stateOfCharge.map(({ '%': percent, ts }) => [
 					percent,
 					subMilliseconds(base, base.getTime() - ts),
 				]),
@@ -59,3 +61,7 @@ export const toChartData = ({
 		],
 	}
 }
+
+const hasStateOfCharge = (
+	message: BatteryReading,
+): message is { '%': number; ts: number } => '%' in message

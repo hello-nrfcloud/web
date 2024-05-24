@@ -1,15 +1,10 @@
 import { describe, test as it } from 'node:test'
 import assert from 'node:assert'
-import type { Static } from '@sinclair/typebox'
-import {
-	LocationSource,
-	type Location,
-} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
 import { compareLocations } from './compareLocations.js'
+import { LocationSource } from './LocationSourceLabels.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
 
-const testLocation: Static<typeof Location> = {
-	'@context':
-		'https://github.com/hello-nrfcloud/proto/transformed/PCA20035%2Bsolar/location',
+const testLocation: GeoLocation = {
 	lat: 63.41999531,
 	lng: 10.42999506,
 	acc: 2420,

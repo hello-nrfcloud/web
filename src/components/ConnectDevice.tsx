@@ -1,13 +1,12 @@
 import { Ago } from '#components/Ago.js'
-import { type Device } from '#context/Device.js'
 import { WaitingForData } from '#components/WaitingForData.js'
-import { BatteryFull, CloudOff, ToggleRight } from 'lucide-preact'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { useDeviceState } from '#context/DeviceState.js'
+import { type Device } from '#context/Device.js'
+import { BatteryFull, CloudOff, ToggleRight } from 'lucide-preact'
 
+// FIXME: make config dynamic
 export const ConnectDevice = ({ device }: { device: Device }) => {
-	const { state } = useDeviceState()
-	const updateIntervalSeconds = state?.config?.activeWaitTime ?? 120
+	const updateIntervalSeconds = 120
 	return (
 		<>
 			<h2>

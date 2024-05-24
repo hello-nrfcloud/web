@@ -8,6 +8,8 @@ import {
 	UnlockIcon,
 } from 'lucide-preact'
 // Needed for SSR build, named exports don't work
+import { DateRangeButton } from '#chart/DateRangeButton.js'
+import { timeSpans } from '#chart/timeSpans.js'
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
@@ -15,15 +17,8 @@ import { type Device } from '#context/Device.js'
 import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useParameters } from '#context/Parameters.js'
+import { CellularLocation } from '#map/CellularLocation.js'
 import { GNSSLocation } from '#map/GNSSLocation.js'
-import {
-	Location,
-	LocationSource,
-} from '@hello.nrfcloud.com/proto/hello/model/PCA20035+solar'
-import type { Static } from '@sinclair/typebox'
-import { formatDistanceToNow } from 'date-fns'
-import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
-import { useEffect, useRef, useState } from 'preact/hooks'
 import '#map/Map.css'
 import {
 	geoJSONPolygonFromCircle,
@@ -31,28 +26,22 @@ import {
 } from '#map/geoJSONPolygonFromCircle.js'
 import { mapStyle } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
-import { CellularLocation } from '#map/CellularLocation.js'
-import { timeSpans } from '#chart/timeSpans.js'
-import { DateRangeButton } from '#chart/DateRangeButton.js'
-
-// Source: https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
-export const locationSourceColors = {
-	[LocationSource.GNSS]: '#C7F9CC',
-	[LocationSource.WIFI]: '#80ed99',
-	[LocationSource.MCELL]: '#57cc99',
-	[LocationSource.SCELL]: '#38a3a5',
-} as const
+import { formatDistanceToNow } from 'date-fns'
+import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import {
+	LocationSource,
+	LocationSourceLabels,
+	locationSourceColors,
+} from './LocationSourceLabels.js'
+import {
+	isConnectionInformation,
+	toConnectionInformation,
+	type GeoLocation,
+} from '#proto/lwm2m.js'
 
 const trailColor = '#e169a5'
-
-// Uses nrfcloud.com wording
-export const LocationSourceLabels = {
-	// [LocationSource.GNSS]: 'GNSS',
-	[LocationSource.WIFI]: 'Wi-Fi',
-	[LocationSource.MCELL]: 'multi-cell',
-	[LocationSource.SCELL]: 'single-cell',
-	[LocationSource.GNSS]: 'GNSS',
-}
+const defaultColor = '#C7C7C7'
 
 // See https://docs.aws.amazon.com/location/latest/developerguide/esri.html for available fonts
 const glyphFonts = {
@@ -60,7 +49,7 @@ const glyphFonts = {
 	bold: 'Ubuntu Medium',
 } as const
 
-const getCenter = (locations: Locations): Static<typeof Location> | undefined =>
+const getCenter = (locations: Locations): GeoLocation | undefined =>
 	Object.values(locations).sort(({ ts: ts1 }, { ts: ts2 }) => ts2 - ts1)[0]
 
 export const Map = ({ device }: { device: Device }) => {
@@ -161,12 +150,12 @@ export const Map = ({ device }: { device: Device }) => {
 					source: locationCenterSourceId,
 					layout: {
 						'symbol-placement': 'point',
-						'text-field': LocationSourceLabels[src],
+						'text-field': LocationSourceLabels.get(src) ?? src,
 						'text-font': [glyphFonts.bold],
 						'text-offset': [0, 0],
 					},
 					paint: {
-						'text-color': locationSourceColors[src],
+						'text-color': locationSourceColors.get(src) ?? defaultColor,
 						'text-halo-color': '#222222',
 						'text-halo-width': 1,
 						'text-halo-blur': 1,
@@ -185,52 +174,54 @@ export const Map = ({ device }: { device: Device }) => {
 						'text-offset': [0, 2],
 					},
 					paint: {
-						'text-color': locationSourceColors[src],
+						'text-color': locationSourceColors.get(src) ?? defaultColor,
 						'text-halo-color': '#222222',
 						'text-halo-width': 1,
 						'text-halo-blur': 1,
 					},
 				})
 				layerIds.push(locationAgeLabel)
-				// Data for Hexagon
-				map.addSource(
-					locationAreaSourceId,
-					geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
-				)
-				sourceIds.push(locationAreaSourceId)
-				// Render Hexagon
-				map.addLayer({
-					id: locationAreaLayerId,
-					type: 'line',
-					source: locationAreaSourceId,
-					layout: {},
-					paint: {
-						'line-color': locationSourceColors[src],
-						'line-opacity': 1,
-						'line-width': 2,
-					},
-				})
-				layerIds.push(locationAreaLayerId)
-				// Render label on Hexagon
-				map.addLayer({
-					id: locationAreaLabelId,
-					type: 'symbol',
-					source: locationAreaSourceId,
-					layout: {
-						'symbol-placement': 'line',
-						'text-field': `${Math.round(acc)} m`,
-						'text-font': [glyphFonts.regular],
-						'text-offset': [0, -1],
-						'text-size': 14,
-					},
-					paint: {
-						'text-color': locationSourceColors[src],
-						'text-halo-color': '#222222',
-						'text-halo-width': 1,
-						'text-halo-blur': 1,
-					},
-				})
-				layerIds.push(locationAreaLabelId)
+				if (acc !== undefined) {
+					// Data for Hexagon
+					map.addSource(
+						locationAreaSourceId,
+						geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
+					)
+					sourceIds.push(locationAreaSourceId)
+					// Render Hexagon
+					map.addLayer({
+						id: locationAreaLayerId,
+						type: 'line',
+						source: locationAreaSourceId,
+						layout: {},
+						paint: {
+							'line-color': locationSourceColors.get(src) ?? defaultColor,
+							'line-opacity': 1,
+							'line-width': 2,
+						},
+					})
+					layerIds.push(locationAreaLayerId)
+					// Render label on Hexagon
+					map.addLayer({
+						id: locationAreaLabelId,
+						type: 'symbol',
+						source: locationAreaSourceId,
+						layout: {
+							'symbol-placement': 'line',
+							'text-field': `${Math.round(acc)} m`,
+							'text-font': [glyphFonts.regular],
+							'text-offset': [0, -1],
+							'text-size': 14,
+						},
+						paint: {
+							'text-color': locationSourceColors.get(src) ?? defaultColor,
+							'text-halo-color': '#222222',
+							'text-halo-width': 1,
+							'text-halo-blur': 1,
+						},
+					})
+					layerIds.push(locationAreaLabelId)
+				}
 			}
 		}
 		return () => {
@@ -249,7 +240,7 @@ export const Map = ({ device }: { device: Device }) => {
 		const sourceIds: string[] = []
 
 		for (const point of trail) {
-			const { lng, lat, ts, count } = point
+			const { lng, lat, ts } = point
 			const locationCenterSourceId = `${point.id}-source-center`
 			const locationSourceLabel = `${point.id}-location-source-label`
 			const centerSource = map.getSource(locationCenterSourceId)
@@ -268,9 +259,7 @@ export const Map = ({ device }: { device: Device }) => {
 					source: locationCenterSourceId,
 					layout: {
 						'symbol-placement': 'point',
-						'text-field': `${formatDistanceToNow(ts, { addSuffix: true })} ${
-							count > 1 ? `${count} positions` : ''
-						}`,
+						'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
 						'text-font': [glyphFonts.regular],
 						'text-offset': [0, 0],
 					},
@@ -324,7 +313,7 @@ export const Map = ({ device }: { device: Device }) => {
 
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
-	const cellularLocations: Static<typeof Location>[] = []
+	const cellularLocations: GeoLocation[] = []
 	if (scellLocation !== undefined) cellularLocations.push(scellLocation)
 	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
 
@@ -351,6 +340,7 @@ export const Map = ({ device }: { device: Device }) => {
 									type="button"
 									onClick={() => {
 										if (map === undefined) return
+										if (acc === undefined) return
 										const coordinates = getPolygonCoordinatesForCircle(
 											[lng, lat],
 											acc,
@@ -374,11 +364,13 @@ export const Map = ({ device }: { device: Device }) => {
 								>
 									<span class="me-2">
 										{[LocationSource.MCELL, LocationSource.SCELL].includes(
-											src,
+											src as LocationSource,
 										) && <RadioTowerIcon />}
 										{src === LocationSource.GNSS && <SatelliteIcon />}
 									</span>
-									<span>{LocationSourceLabels[src]}</span>
+									{LocationSourceLabels.has(src) && (
+										<span>{LocationSourceLabels.get(src)}</span>
+									)}
 								</button>
 							))}
 						</div>
@@ -431,7 +423,9 @@ export const Map = ({ device }: { device: Device }) => {
 
 const NetworkLocation = () => {
 	const { state } = useDeviceState()
-	const mccmnc = state?.device?.networkInfo?.mccmnc
+	const mccmnc = state
+		.filter(isConnectionInformation)
+		.map(toConnectionInformation)[0]?.mccmnc
 	const country =
 		mccmnc === undefined ? undefined : mccmnc2country(mccmnc)?.name
 	if (mccmnc === undefined || country === undefined)
@@ -522,14 +516,10 @@ const MapZoom = ({
 	)
 }
 
-export const Located = ({
-	location,
-}: {
-	location: Static<typeof Location>
-}) => (
+export const Located = ({ location }: { location: GeoLocation }) => (
 	<p>
-		Using {LocationSourceLabels[location.src]}, the location was determined to
-		be{' '}
+		Using {LocationSourceLabels.get(location.src) ?? location.src}, the location
+		was determined to be{' '}
 		<a
 			href={`https://google.com/maps/search/${location.lat},${location.lng}`}
 			target="_blank"
@@ -538,7 +528,12 @@ export const Located = ({
 			{location.lat.toFixed(5).replace(/0+$/, '')},{' '}
 			{location.lng.toFixed(5).replace(/0+$/, '')}
 		</a>{' '}
-		with an accuracy of {Math.round(location.acc)} m.
+		{location.acc !== undefined ? (
+			<>with an accuracy of {Math.round(location.acc)} m</>
+		) : (
+			<>with an unspecified accuary</>
+		)}
+		.
 	</p>
 )
 
