@@ -1,4 +1,5 @@
-import { Context, Shadow } from '@hello.nrfcloud.com/proto/hello'
+import type { Shadow } from '@hello.nrfcloud.com/proto/hello'
+import { Context } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'

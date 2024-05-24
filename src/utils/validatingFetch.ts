@@ -2,7 +2,8 @@ import {
 	formatTypeBoxErrors,
 	validateWithTypeBox,
 } from '@hello.nrfcloud.com/proto'
-import { Context, ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
+import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
+import { Context } from '@hello.nrfcloud.com/proto/hello'
 import { type Static, type TObject } from '@sinclair/typebox'
 
 type OkFN<T extends TObject> = (value: Static<T>) => void

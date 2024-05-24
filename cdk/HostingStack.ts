@@ -1,5 +1,5 @@
+import type { App } from 'aws-cdk-lib'
 import {
-	App,
 	aws_certificatemanager as CertificateManager,
 	aws_cloudfront as Cf,
 	aws_cloudfront_origins as CfOrigins,
