@@ -49,6 +49,7 @@ export default defineConfig({
 			{ find: '#page/', replacement: '/src/page/' },
 			{ find: '#map/', replacement: '/src/map/' },
 			{ find: '#proto/', replacement: '/src/proto/' },
+			{ find: '#api/', replacement: '/src/api/' },
 		],
 	},
 	build: {

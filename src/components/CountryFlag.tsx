@@ -1,4 +1,4 @@
-import { mccmnc2country } from './mccmnc2country.js'
+import { mccmnc2country } from '#components/mccmnc2country.js'
 
 export const CountryFlag = ({
 	mccmnc,

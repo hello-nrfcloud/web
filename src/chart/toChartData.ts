@@ -5,8 +5,8 @@ import {
 	type BatteryReading,
 	type BatteryReadings,
 	type GainReadings,
-} from '../context/models/PCA20035-solar.js'
-import { xAxisForType } from './xAxisForType.js'
+} from '#context/models/PCA20035-solar.js'
+import { xAxisForType } from '#chart/xAxisForType.js'
 
 export const toChartData = ({
 	battery,

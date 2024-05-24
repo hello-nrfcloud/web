@@ -2,9 +2,9 @@ import { type Device } from '#context/Device.js'
 import cx from 'classnames'
 import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
-import { Applied } from './Applied.js'
-import { Secondary, Transparent } from './Buttons.js'
-import { SIMIcon } from './icons/SIMIcon.js'
+import { Applied } from '#components/Applied.js'
+import { Secondary, Transparent } from '#components/Buttons.js'
+import { SIMIcon } from '#components/icons/SIMIcon.js'
 
 const LOW_POWER_INTERVAL = 3600
 const INTERACTIVE_INTERVAL = 120

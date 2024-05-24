@@ -1,7 +1,7 @@
 import type { LocationSource } from '#map/LocationSourceLabels.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from './Device.js'
+import { useDevice, type MessageListenerFn } from '#context/Device.js'
 import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
 import { TimeSpan } from '#api/api.js'
 

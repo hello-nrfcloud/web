@@ -6,12 +6,12 @@ import { debounce } from 'lodash-es'
 import { Code2, Cpu, Fingerprint, MapPinned, TrashIcon } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
-import { AppUpdateNotifier } from './AppUpdateNotifier.js'
-import { BrandHeader } from './BrandHeader.js'
-import { Transparent } from './Buttons.js'
-import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
-import { Logo } from './icons/Logo.js'
-import { PublicDeviceWarning } from './PublicDeviceWarning.js'
+import { AppUpdateNotifier } from '#components/AppUpdateNotifier.js'
+import { BrandHeader } from '#components/BrandHeader.js'
+import { Transparent } from '#components/Buttons.js'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
+import { Logo } from '#components/icons/Logo.js'
+import { PublicDeviceWarning } from '#components/PublicDeviceWarning.js'
 
 const Link = ({
 	href,

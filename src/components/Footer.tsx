@@ -1,5 +1,5 @@
-import { NRFCloudLogo } from './icons/NRFCloudLogo.js'
-import { Ago } from './Ago.js'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
+import { Ago } from '#components/Ago.js'
 
 const CopyrightYear = () => {
 	const startYear = 2023

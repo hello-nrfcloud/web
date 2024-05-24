@@ -33,7 +33,7 @@ import {
 	LocationSource,
 	LocationSourceLabels,
 	locationSourceColors,
-} from './LocationSourceLabels.js'
+} from '#map/LocationSourceLabels.js'
 import {
 	isConnectionInformation,
 	toConnectionInformation,

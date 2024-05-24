@@ -2,9 +2,9 @@ import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
-import { SignalQuality } from '../SignalQuality.js'
-import { SIMIcon } from '../icons/SIMIcon.js'
-import { NetworkModeInfo } from './NetworkModeInfo.js'
+import { SignalQuality } from '#components/SignalQuality.js'
+import { SIMIcon } from '#components/icons/SIMIcon.js'
+import { NetworkModeInfo } from '#components/deviceInfo/NetworkModeInfo.js'
 import {
 	isConnectionInformation,
 	isDeviceInformation,

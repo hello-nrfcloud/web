@@ -13,17 +13,20 @@ import {
 	UploadCloud,
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { Ago } from './Ago.js'
-import { Transparent } from './Buttons.js'
+import { Ago } from '#components/Ago.js'
+import { Transparent } from '#components/Buttons.js'
 import './DeviceHeader.css'
-import { EnergyEstimateIcons, EnergyEstimateLabel } from './SignalQuality.js'
-import { LoadingIndicator } from './ValueLoading.js'
-import { LTEm } from './icons/LTE-m.js'
-import { NBIot } from './icons/NBIot.js'
-import { SIMIcon } from './icons/SIMIcon.js'
-import { IAQ } from './model/PCA20035-solar/BME680.js'
-import { BatteryIndicator } from './model/PCA20035-solar/SolarThingyBattery.js'
-import { Applied } from './Applied.js'
+import {
+	EnergyEstimateIcons,
+	EnergyEstimateLabel,
+} from '#components/SignalQuality.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
+import { LTEm } from '#components/icons/LTE-m.js'
+import { NBIot } from '#components/icons/NBIot.js'
+import { SIMIcon } from '#components/icons/SIMIcon.js'
+import { IAQ } from '#components/model/PCA20035-solar/BME680.js'
+import { BatteryIndicator } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
+import { Applied } from '#components/Applied.js'
 import {
 	isConnectionInformation,
 	isDeviceInformation,

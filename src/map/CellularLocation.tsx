@@ -5,7 +5,10 @@ import { gnssEnabled } from '#context/DeviceState.js'
 import { Located } from '#map/Map.js'
 import { compareLocations } from '#map/compareLocations.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
-import { LocationSource, LocationSourceLabels } from './LocationSourceLabels.js'
+import {
+	LocationSource,
+	LocationSourceLabels,
+} from '#map/LocationSourceLabels.js'
 
 export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()

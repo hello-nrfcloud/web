@@ -9,9 +9,9 @@ import {
 	useState,
 } from 'preact/hooks'
 import { validPassthrough } from '#proto/validPassthrough.js'
-import { useFingerprint } from './Fingerprint.js'
-import { useModels, type Model } from './Models.js'
-import { useParameters } from './Parameters.js'
+import { useFingerprint } from '#context/Fingerprint.js'
+import { useModels, type Model } from '#context/Models.js'
+import { useParameters } from '#context/Parameters.js'
 import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 

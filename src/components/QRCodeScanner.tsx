@@ -2,7 +2,7 @@ import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'
-import { Primary } from './buttons/Button.js'
+import { Primary } from '#components/buttons/Button.js'
 
 type Camera = { id: string; label: string }
 
