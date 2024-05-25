@@ -5,7 +5,7 @@ import {
 	type BatteryReading,
 	type BatteryReadings,
 	type GainReadings,
-} from '#context/models/PCA20035-solar.js'
+} from '#context/LwM2MHistory.js'
 import { xAxisForType } from '#chart/xAxisForType.js'
 
 export const toChartData = ({

@@ -26,7 +26,7 @@ export type BatteryReadings = BatteryReading[]
 export type GainReading = SolarCharge & FromHistory
 export type GainReadings = GainReading[]
 
-export const SolarThingyHistoryContext = createContext<{
+export const LwM2MHistoryContext = createContext<{
 	battery: BatteryReadings
 	gain: GainReadings
 	environment: Environment[]
@@ -43,7 +43,7 @@ export const SolarThingyHistoryContext = createContext<{
 })
 
 // FIXME: Add Gain and Battery history
-export default ({ children }: { children: ComponentChildren }) => {
+export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { addMessageListener } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
 
@@ -76,7 +76,7 @@ export default ({ children }: { children: ComponentChildren }) => {
 	}, [])
 
 	return (
-		<SolarThingyHistoryContext.Provider
+		<LwM2MHistoryContext.Provider
 			value={{
 				battery,
 				gain,
@@ -87,13 +87,13 @@ export default ({ children }: { children: ComponentChildren }) => {
 			}}
 		>
 			{children}
-		</SolarThingyHistoryContext.Provider>
+		</LwM2MHistoryContext.Provider>
 	)
 }
 
-export const Consumer = SolarThingyHistoryContext.Consumer
+export const Consumer = LwM2MHistoryContext.Consumer
 
-export const useSolarThingyHistory = () => useContext(SolarThingyHistoryContext)
+export const useLwM2MHistory = () => useContext(LwM2MHistoryContext)
 
 export const isNotHistory = ({ fromHistory }: FromHistory) =>
 	fromHistory !== true

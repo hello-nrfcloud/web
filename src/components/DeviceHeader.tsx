@@ -1,7 +1,7 @@
 import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
 import { type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
-import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
+import { useLwM2MHistory } from '#context/LwM2MHistory.js'
 import { identifyIssuer } from 'e118-iin-list'
 import {
 	ActivitySquareIcon,
@@ -135,7 +135,7 @@ const SignalQualityInfo = () => {
 }
 
 const EnvironmentInfo = () => {
-	const { environment } = useSolarThingyHistory()
+	const { environment } = useLwM2MHistory()
 	const { IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 
 	return (
@@ -146,7 +146,7 @@ const EnvironmentInfo = () => {
 			{c === undefined && <LoadingIndicator width={150} />}
 			{c !== undefined && (
 				<span class="me-2">
-					<ThermometerIcon /> {c} °C
+					<ThermometerIcon /> {c.toFixed(1)} °C
 				</span>
 			)}
 			{iaq === undefined && <LoadingIndicator width={150} class="mt-1" />}
@@ -213,7 +213,7 @@ const NetworkModeInfo = () => {
 }
 
 const BatteryInfo = () => {
-	const { battery } = useSolarThingyHistory()
+	const { battery } = useLwM2MHistory()
 	const batteryReading = battery[0]
 	return (
 		<span class="d-flex flex-column">
@@ -243,7 +243,7 @@ const BatteryInfo = () => {
 }
 
 const Interact = () => {
-	const { button } = useSolarThingyHistory()
+	const { button } = useLwM2MHistory()
 	const buttonPress = button[0]
 	return (
 		<span class="d-flex flex-column">

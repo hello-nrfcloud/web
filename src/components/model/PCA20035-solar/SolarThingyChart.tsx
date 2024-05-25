@@ -3,10 +3,7 @@ import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { formatFloat } from '#utils/formatFloat.js'
 import { BatteryCharging, Sun } from 'lucide-preact'
-import {
-	isNotHistory,
-	useSolarThingyHistory,
-} from '#context/models/PCA20035-solar.js'
+import { isNotHistory, useLwM2MHistory } from '#context/LwM2MHistory.js'
 import { toChartData } from '#chart/toChartData.js'
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { WithResize } from '#components/ResizeObserver.js'
@@ -14,7 +11,7 @@ import { WaitingForData } from '#components/WaitingForData.js'
 import { timeSpans } from '#chart/timeSpans.js'
 
 export const SolarThingyChart = () => {
-	const { battery, gain, timeSpan, setTimeSpan } = useSolarThingyHistory()
+	const { battery, gain, timeSpan, setTimeSpan } = useLwM2MHistory()
 
 	const currentBattery = battery.filter(isNotHistory)[0]
 	const currentGain = gain.filter(isNotHistory)[0]

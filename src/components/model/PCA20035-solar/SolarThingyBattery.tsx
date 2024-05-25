@@ -1,6 +1,6 @@
 import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
+import { useLwM2MHistory } from '#context/LwM2MHistory.js'
 import {
 	Battery,
 	BatteryFull,
@@ -25,7 +25,7 @@ export const SolarThingyBattery = () => (
 )
 
 const BatteryInfo = () => {
-	const { battery } = useSolarThingyHistory()
+	const { battery } = useLwM2MHistory()
 	const batteryReading = battery[0]
 	if (batteryReading?.['%'] === undefined)
 		return <LoadingIndicator width={150} />

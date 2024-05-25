@@ -1,5 +1,5 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useSolarThingyHistory } from '#context/models/PCA20035-solar.js'
+import { useLwM2MHistory } from '#context/LwM2MHistory.js'
 import {
 	AngryIcon,
 	AnnoyedIcon,
@@ -43,7 +43,7 @@ export const BME680 = () => (
 )
 
 export const EnvironmentReadings = () => {
-	const { environment } = useSolarThingyHistory()
+	const { environment } = useLwM2MHistory()
 
 	const { p, mbar, IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 
@@ -54,12 +54,12 @@ export const EnvironmentReadings = () => {
 				<span>
 					{c !== undefined && (
 						<span class="me-2">
-							<ThermometerIcon /> {c} °C
+							<ThermometerIcon /> {c.toFixed(1)} °C
 						</span>
 					)}
 					{p !== undefined && (
 						<span class="me-2">
-							<DropletsIcon /> {p} %
+							<DropletsIcon /> {p.toFixed(1)} %
 						</span>
 					)}
 					{mbar !== undefined && (
