@@ -100,16 +100,13 @@ export type Environment = WithTimestamp &
 		// airTemperatureReading
 		c: number
 	}>
-export const toEnvironment = (message: Environment_14205): Environment => {
-	const mbar = message['Resources'][2]
-	return {
-		p: message['Resources'][1],
-		mbar: mbar !== undefined ? mbar / 100 : undefined,
-		IAQ: message['Resources'][10],
-		c: message['Resources'][0],
-		ts: message['Resources'][99].getTime(),
-	}
-}
+export const toEnvironment = (message: Environment_14205): Environment => ({
+	p: message['Resources'][1],
+	mbar: message['Resources'][2],
+	IAQ: message['Resources'][10],
+	c: message['Resources'][0],
+	ts: message['Resources'][99].getTime(),
+})
 
 export type ButtonPress = WithTimestamp & {
 	id: number
