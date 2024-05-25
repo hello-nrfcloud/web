@@ -60,6 +60,7 @@ export const Map = ({ device }: { device: Device }) => {
 	const [locked, setLocked] = useState<boolean>(true)
 	const hasLocation = Object.values(locations).length > 0
 	const hasTrail = trail.length > 1 // Only show trail with more than one point
+	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -82,6 +83,10 @@ export const Map = ({ device }: { device: Device }) => {
 			map.dragRotate.disable()
 			map.scrollZoom.disable()
 			map.dragPan.disable()
+
+			map.on('load', () => {
+				setMapLoaded(true)
+			})
 
 			setMap(map)
 		})
@@ -122,6 +127,7 @@ export const Map = ({ device }: { device: Device }) => {
 		if (!hasLocation) return
 		if (map === undefined) return
 		if (device === undefined) return
+		if (!mapLoaded) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
@@ -228,7 +234,7 @@ export const Map = ({ device }: { device: Device }) => {
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [locations, map, device])
+	}, [locations, map, device, mapLoaded])
 
 	// Trail
 	useEffect(() => {
