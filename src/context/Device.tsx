@@ -115,7 +115,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 								typeof maybeValid.lastSeen === 'string'
 									? new Date(maybeValid.lastSeen)
 									: undefined,
-							model: type,
+							model: type ?? models['unsupported'],
 						})
 						setType(maybeValid.model)
 					} else if (isShadow(maybeValid)) {
