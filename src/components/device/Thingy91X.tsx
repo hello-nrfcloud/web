@@ -2,7 +2,7 @@ import { DeviceHeader } from '#components/DeviceHeader.js'
 import { WaitingForConnection } from '#components/WaitingForConnection.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
-import { BME680 } from '#components/model/PCA20035-solar/BME680.js'
+import { BME680 } from '#components/BME680.js'
 import { type Device as TDevice } from '#context/Device.js'
 import { Map } from '#map/Map.js'
 

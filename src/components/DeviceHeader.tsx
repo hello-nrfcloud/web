@@ -24,7 +24,7 @@ import { LoadingIndicator } from '#components/ValueLoading.js'
 import { LTEm } from '#components/icons/LTE-m.js'
 import { NBIot } from '#components/icons/NBIot.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { IAQ } from '#components/model/PCA20035-solar/BME680.js'
+import { IAQ } from '#components/BME680.js'
 import { BatteryIndicator } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
 import { Applied } from '#components/Applied.js'
 import {
