@@ -1,5 +1,5 @@
 import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
-import { type Device } from '#context/Device.js'
+import { useDevice, type Device } from '#context/Device.js'
 import { useDeviceState } from '#context/DeviceState.js'
 import { useLwM2MHistory } from '#context/LwM2MHistory.js'
 import { identifyIssuer } from 'e118-iin-list'
@@ -33,6 +33,7 @@ import {
 	toConnectionInformation,
 	toDeviceInformation,
 } from '#proto/lwm2m.js'
+import { updateIntervalSeconds } from '#context/Models.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -275,7 +276,11 @@ const Interact = () => {
 
 // FIXME: make dynamic
 const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
-	const updateIntervalSeconds = 120
+	const {
+		configuration: {
+			reported: { mode },
+		},
+	} = useDevice()
 	const gnss = false
 	const activeWaitTime = undefined
 
@@ -285,7 +290,7 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 				<strong>Publication interval</strong>
 			</small>
 			<span>
-				<UploadCloud strokeWidth={1} /> {updateIntervalSeconds} seconds
+				<UploadCloud strokeWidth={1} /> {updateIntervalSeconds(mode)} seconds
 				{gnss && <Satellite strokeWidth={1} class="ms-1" />}
 			</span>
 			<small class="text-muted">
@@ -294,7 +299,10 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 				</Transparent>
 			</small>
 			{activeWaitTime !== undefined && (
-				<Applied desired={activeWaitTime} reported={updateIntervalSeconds} />
+				<Applied
+					desired={activeWaitTime}
+					reported={updateIntervalSeconds(mode)}
+				/>
 			)}
 		</span>
 	)

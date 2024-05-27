@@ -3,6 +3,7 @@ import { useModels } from '#context/Models.js'
 
 export const ModelSelector = () => {
 	const { models } = useModels()
+	console.log(models)
 	return (
 		<>
 			<div class="row">

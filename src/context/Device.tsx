@@ -1,5 +1,6 @@
 import {
 	Context,
+	type ProblemDetail,
 	type DeviceIdentity,
 	type LwM2MObjectUpdate,
 	type Shadow,
@@ -15,20 +16,27 @@ import {
 } from 'preact/hooks'
 import { validPassthrough } from '#proto/validPassthrough.js'
 import { useFingerprint } from '#context/Fingerprint.js'
-import { useModels, type Model } from '#context/Models.js'
+import {
+	DefaultConfiguration,
+	useModels,
+	type Configuration,
+	type Model,
+} from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
-import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import {
+	LwM2MObjectID,
+	type LwM2MObjectInstance,
+} from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 
 export type Device = {
 	id: string
 	model: Model
-	lastSeen?: Date
 }
 
 export const DeviceContext = createContext<{
-	type?: Model | undefined
 	device?: Device | undefined
+	lastSeen?: Date
 	connected: boolean
 	connectionFailed: boolean
 	disconnected: boolean
@@ -36,6 +44,13 @@ export const DeviceContext = createContext<{
 		remove: () => void
 	}
 	send?: (message: LwM2MObjectInstance) => void
+	configuration: {
+		desired: Configuration
+		reported: Configuration
+	}
+	configure: (
+		config: Configuration,
+	) => Promise<{ success: true } | { problem: Static<typeof ProblemDetail> }>
 }>({
 	connected: false,
 	disconnected: false,
@@ -43,13 +58,18 @@ export const DeviceContext = createContext<{
 		remove: () => undefined,
 	}),
 	connectionFailed: false,
+	configuration: {
+		desired: DefaultConfiguration,
+		reported: DefaultConfiguration,
+	},
+	configure: async () => Promise.reject(new Error('Not implemented')),
 })
 
 export type MessageListenerFn = (message: LwM2MObjectInstance) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
-	const [type, setType] = useState<string | undefined>(undefined)
+	const [lastSeen, setLastSeen] = useState<Date | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const [messages, setMessages] = useState<LwM2MObjectInstance[]>([])
 	const { fingerprint } = useFingerprint()
@@ -57,6 +77,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { models } = useModels()
 	const [ws, setWebsocket] = useState<WebSocket>()
 	const [disconnected, setDisconnected] = useState<boolean>(false)
+	const [desiredConfig, setDesiredConfig] =
+		useState<Configuration>(DefaultConfiguration)
+	// FIXME: update reported config
+	const [reportedConfig] = useState<Configuration>(DefaultConfiguration)
 
 	const connected = ws !== undefined
 	const listeners = useRef<MessageListenerFn[]>([])
@@ -111,13 +135,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						const type = models[maybeValid.model] as Model
 						setDevice({
 							id: maybeValid.id,
-							lastSeen:
-								typeof maybeValid.lastSeen === 'string'
-									? new Date(maybeValid.lastSeen)
-									: undefined,
 							model: type ?? models['unsupported'],
 						})
-						setType(maybeValid.model)
+						if (maybeValid.lastSeen !== undefined) {
+							setLastSeen(new Date(maybeValid.lastSeen))
+						}
 					} else if (isShadow(maybeValid)) {
 						const instances = maybeValid.reported.map(parseInstanceTimestamp)
 						setMessages((m) => [...m, ...instances])
@@ -126,6 +148,12 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						const instance = parseInstanceTimestamp(maybeValid)
 						setMessages((m) => [...m, instance])
 						listeners.current.forEach((listener) => listener(instance))
+						setLastSeen((l) => {
+							const iDate = instance.Resources[99] as Date
+							if (iDate === undefined) return l
+							if (l === undefined) return iDate
+							return iDate.getTime() > l.getTime() ? iDate : l
+						})
 					}
 				}
 			}
@@ -169,7 +197,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		<DeviceContext.Provider
 			value={{
 				device,
-				type: type === undefined ? undefined : models[type],
+				lastSeen,
 				connected,
 				addMessageListener: (fn) => {
 					listeners.current.push(fn)
@@ -183,6 +211,53 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				connectionFailed,
 				send,
 				disconnected,
+				configuration: {
+					reported: reportedConfig,
+					desired: desiredConfig,
+				},
+				configure: async (config) =>
+					new Promise((resolve) => {
+						onParameters(async ({ helloApiURL }) => {
+							if (device === undefined) return
+							if (fingerprint === null) return
+							try {
+								await fetch(
+									new URL(
+										`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
+										helloApiURL,
+									),
+									{
+										method: 'PATCH',
+										mode: 'cors',
+										body: JSON.stringify({
+											'@context': Context.lwm2mObjectUpdate.toString(),
+											ObjectID: LwM2MObjectID.ApplicationConfiguration_14301,
+											Resources: {
+												'0': config.mode,
+												'1': config.gnssEnabled,
+												'99': Date.now(),
+											},
+										}),
+									},
+								)
+								setDesiredConfig(config)
+								resolve({ success: true })
+							} catch (err) {
+								console.error(
+									'[DeviceContext]',
+									'Configuration update failed',
+									err,
+								)
+								resolve({
+									problem: {
+										'@context': Context.problemDetail.toString(),
+										title: 'Failed to update configuration!',
+										detail: (err as Error).message,
+									},
+								})
+							}
+						})
+					}),
 			}}
 		>
 			{children}

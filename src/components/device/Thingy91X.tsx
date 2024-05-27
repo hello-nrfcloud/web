@@ -10,7 +10,7 @@ export const Thingy91X = ({ device }: { device: TDevice }) => (
 	<>
 		<main>
 			<DeviceHeader device={device} />
-			<WaitingForConnection device={device} />
+			<WaitingForConnection />
 			<div class="container my-4">
 				<div class="row mb-4">
 					<section class="col-12 col-md-6">

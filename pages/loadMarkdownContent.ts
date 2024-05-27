@@ -19,7 +19,7 @@ export const loadMarkdownContent = async <
 		html: string
 	},
 >(
-	dir: 'models',
+	dir: string = 'models',
 ): Promise<(T & { slug: string })[]> => {
 	const resourceFiles = (
 		await readdir(path.join(process.cwd(), 'content', dir))
@@ -32,6 +32,9 @@ export const loadMarkdownContent = async <
 				'utf-8',
 			)
 			const md = await parseMarkdown.process(source)
+
+			console.log(md)
+
 			return {
 				...md.data,
 				html: md.value,

@@ -18,7 +18,16 @@ video:
     id: 5f10sjTznlc
     title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
 bytesPerUpdate: 2200
-freeMbOnSIM: 10
+includedSIM:
+  - vendor: iBasis
+    freeMb: 10
+modeUsagePerDayMB:
+  realTime: 3
+  interactive: 1.5
+  lowPower: 0.05
+defaultConfiguration:
+  mode: interactive
+  gnssEnabled: true
 ---
 
 The Nordic Thingy:91 Solar Shield is a plug-and-play prototyping platform.

@@ -12,7 +12,7 @@ import './SolarThingy91.css'
 export const SolarThingy91 = ({ device }: { device: TDevice }) => (
 	<main>
 		<DeviceHeader device={device} />
-		<WaitingForConnection device={device} />
+		<WaitingForConnection />
 		<div class="grid">
 			<SolarThingyChart />
 			<Map device={device} />

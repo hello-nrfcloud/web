@@ -1,24 +1,21 @@
-import { type Device } from '#context/Device.js'
-import cx from 'classnames'
-import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
-import { useEffect, useState } from 'preact/hooks'
 import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
+import { useDevice, type Device } from '#context/Device.js'
+import { Mode, updateIntervalSeconds } from '#context/Models.js'
+import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
+import type { Static } from '@sinclair/typebox'
+import cx from 'classnames'
+import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
+import { useState } from 'preact/hooks'
+import { Problem } from './Problem.js'
 
-const LOW_POWER_INTERVAL = 3600
-const INTERACTIVE_INTERVAL = 120
-const REAL_TIME_INTERVAL = 60
-
-const MIN_INTERVAL_FOR_GNSS = 120
-
-const intervalPresets = [
-	{ interval: REAL_TIME_INTERVAL, title: 'Real-time mode' },
-	{ interval: INTERACTIVE_INTERVAL, title: 'Interactive mode' },
-	{ interval: LOW_POWER_INTERVAL, title: 'Low-power mode' },
+const modes: Array<[Mode, string]> = [
+	[Mode.realTime, 'Real-time mode'],
+	[Mode.interactive, 'Interactive mode'],
+	[Mode.lowPower, 'Low-power mode'],
 ]
 
-// FIXME: implement
 export const DeviceModeSelector = ({
 	device,
 	onClose,
@@ -26,20 +23,20 @@ export const DeviceModeSelector = ({
 	device: Device
 	onClose?: () => void
 }) => {
-	const desiredGNSS: boolean = true as boolean
-	const reportedGNSS: boolean = true as boolean
-	const reportedUpdateInterval = 120
-	const desiredUpdateInterval = 120
-	const [, setGNSS] = useState<boolean>(true)
-	const [updateIntervalInput, setUpdateInterval] = useState<number>(120)
-
-	// Disable GNSS when update interval is < MIN_INTERVAL_FOR_GNSS seconds
-	useEffect(() => {
-		if (updateIntervalInput === undefined) return
-		if (updateIntervalInput >= MIN_INTERVAL_FOR_GNSS) return
-		if (desiredGNSS === false) return
-		setGNSS(false)
-	}, [desiredGNSS, updateIntervalInput])
+	const {
+		configuration: {
+			reported: { mode: reportedMode, gnssEnabled: reportedGNSS },
+			desired: { mode: desiredMode, gnssEnabled: desiredGNSS },
+		},
+		configure,
+	} = useDevice()
+	const [selectedGNSS, setGNSS] = useState<boolean>(desiredGNSS)
+	const [selectedMode, setMode] = useState<Mode>(reportedMode)
+	const reportedUpdateInterval = updateIntervalSeconds(reportedMode)
+	const desiredUpdateInterval = updateIntervalSeconds(desiredMode)
+	const [problem, setProblem] = useState<
+		Static<typeof ProblemDetail> | undefined
+	>()
 
 	return (
 		<div class="container">
@@ -62,16 +59,14 @@ export const DeviceModeSelector = ({
 						<small>
 							Currently, the device is configured to publish data every{' '}
 							{reportedUpdateInterval} seconds.
-							{desiredUpdateInterval !== undefined && (
-								<Applied
-									desired={desiredUpdateInterval}
-									reported={reportedUpdateInterval}
-								/>
-							)}
 						</small>
-					</p>
-					<p class="mb-0">
-						<DataUsageInfo device={device} interval={reportedUpdateInterval} />
+						{desiredUpdateInterval !== undefined && (
+							<Applied
+								desired={desiredMode}
+								reported={reportedMode}
+								class="ms-2"
+							/>
+						)}
 					</p>
 					<p class={'d-flex align-items-center'}>
 						{reportedGNSS && (
@@ -109,39 +104,33 @@ export const DeviceModeSelector = ({
 						<label class="form-label d-flex align-items-center">
 							<input
 								type="checkbox"
-								checked={desiredGNSS}
+								checked={selectedGNSS}
 								onClick={(e) => {
 									setGNSS((e.target as HTMLInputElement).checked)
 								}}
 								class="me-2"
-								disabled={
-									updateIntervalInput !== undefined &&
-									updateIntervalInput < MIN_INTERVAL_FOR_GNSS
-								}
 							/>
 							<small>enable GNSS</small>
 						</label>
 					</p>
-					{updateIntervalInput !== undefined &&
-						updateIntervalInput < MIN_INTERVAL_FOR_GNSS && (
-							<div role="alert" class={'alert alert-warning p-2'}>
-								<small>
-									GNSS cannot be disabled if the update interval is less than{' '}
-									{MIN_INTERVAL_FOR_GNSS} seconds to allow enough time to
-									reliable get a GNSS fix.
-								</small>
-							</div>
-						)}
 					<Secondary
 						onClick={() => {
-							/*
-							FIXME: implement
-							*/
+							setProblem(undefined)
+							configure({
+								gnssEnabled: selectedGNSS,
+								mode: selectedMode,
+							})
+								.then((maybeUpdate) => {
+									if ('problem' in maybeUpdate) {
+										setProblem(maybeUpdate.problem)
+									}
+								})
+								.catch(console.error)
 						}}
-						disabled
 					>
 						apply configuration
 					</Secondary>
+					{problem !== undefined && <Problem problem={problem} />}
 				</div>
 				<div class="col-12 col-md-6">
 					<p>
@@ -149,8 +138,8 @@ export const DeviceModeSelector = ({
 						usage.
 					</p>
 					<ul class="list-group mb-3">
-						{intervalPresets.map(({ interval, title }) => {
-							const current = updateIntervalInput === interval
+						{modes.map(([mode, title]) => {
+							const current = selectedMode === mode
 							return (
 								<li
 									class={cx(
@@ -161,12 +150,9 @@ export const DeviceModeSelector = ({
 								>
 									<span>
 										{title}
-										<DataUsageInfo device={device} interval={interval} />
+										<DataUsageInfo device={device} mode={mode} />
 									</span>
-									<Secondary
-										onClick={() => setUpdateInterval(interval)}
-										disabled={current}
-									>
+									<Secondary onClick={() => setMode(mode)} disabled={current}>
 										select
 									</Secondary>
 								</li>
@@ -181,18 +167,17 @@ export const DeviceModeSelector = ({
 
 const DataUsageInfo = ({
 	device,
-	interval,
+	mode,
 	class: c,
 }: {
 	device: Device
-	interval: number
+	mode: Mode
 	class?: string
 }) => {
-	const dataUsagePerDay =
-		(((24 * 60 * 60) / interval) * device.model.bytesPerUpdate) / 1024 / 1024
+	const dataUsagePerDay = device.model.modeUsagePerDayMB[mode]
 
-	// Show a warning if the current mode will drain the SIM in less than a month
-	const showDataWarning = device.model.freeMbOnSIM / dataUsagePerDay < 30
+	// Show a warning if the current mode will use more than 1 MB per day
+	const showDataWarning = dataUsagePerDay > 1
 
 	return (
 		<span

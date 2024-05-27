@@ -27,10 +27,55 @@ export type Model = {
 	}
 	// amount of data sent to cloud for every update
 	bytesPerUpdate: number
-	// amount of free data on the shipped SIM in megabytes
-	freeMbOnSIM: number
 	// Do not show in the list of available models
 	hidden?: true
+	includedSIM?: Array<IncludedSIM>
+	modeUsagePerDayMB: {
+		[Mode.realTime]: number //e.g. 3
+		[Mode.interactive]: number //e.g. 1.5
+		[Mode.lowPower]: number //e.g. 0.05
+	}
+	defaultConfiguration: Configuration
+}
+
+export type Configuration = {
+	mode: Mode
+	gnssEnabled: boolean
+}
+
+export enum Mode {
+	realTime = 0,
+	interactive = 1,
+	lowPower = 2,
+}
+
+export const ModeUpdateIntervalSeconds = new Map<Mode, number>([
+	[Mode.realTime, 10],
+	[Mode.interactive, 120],
+	[Mode.lowPower, 600],
+])
+
+export const DefaultConfiguration: Configuration = {
+	mode: Mode.interactive,
+	gnssEnabled: true,
+}
+
+export const defaultUpdateIntervalSeconds =
+	ModeUpdateIntervalSeconds.get(DefaultConfiguration.mode) ?? 120
+
+export const updateIntervalSeconds = (mode?: Mode) =>
+	ModeUpdateIntervalSeconds.get(mode ?? DefaultConfiguration.mode) ??
+	defaultUpdateIntervalSeconds
+
+export enum SIMVendor {
+	iBasis = 'iBasis',
+	onomondo = 'onomondo',
+	WirelessLogic = 'Wireless Logic',
+}
+type IncludedSIM = {
+	vendor: SIMVendor
+	// amount of free data on the shipped SIM in megabytes
+	freeMb: number
 }
 
 export const ModelsContext = createContext<{

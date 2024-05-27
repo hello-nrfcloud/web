@@ -1,27 +1,20 @@
 import { ConnectDevice } from '#components/ConnectDevice.js'
-import { type Device as TDevice } from '#context/Device.js'
-import { useLwM2MHistory } from '#context/LwM2MHistory.js'
+import { useDevice } from '#context/Device.js'
+import { updateIntervalSeconds } from '#context/Models.js'
 
-export const WaitingForConnection = ({ device }: { device: TDevice }) => {
-	const { battery } = useLwM2MHistory()
+export const WaitingForConnection = () => {
+	const {
+		lastSeen,
+		configuration: {
+			reported: { mode },
+		},
+	} = useDevice()
 
-	const currentBattery = battery.filter(
-		({ fromHistory }) => fromHistory !== true,
-	)
-
-	const hasLiveData = currentBattery.length > 0
+	const hasLiveData =
+		lastSeen !== undefined &&
+		Date.now() - lastSeen.getTime() < updateIntervalSeconds(mode) * 1000
 
 	if (hasLiveData) return null
 
-	return (
-		<div class="py-4 bg-light">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<ConnectDevice device={device} />
-					</div>
-				</div>
-			</div>
-		</div>
-	)
+	return <ConnectDevice />
 }
