@@ -25,8 +25,6 @@ export type Model = {
 			title: string
 		}
 	}
-	// amount of data sent to cloud for every update
-	bytesPerUpdate: number
 	// Do not show in the list of available models
 	hidden?: true
 	includedSIM?: Array<IncludedSIM>

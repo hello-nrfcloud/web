@@ -17,7 +17,6 @@ video:
   youtube:
     id: 5f10sjTznlc
     title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
-bytesPerUpdate: 2200
 includedSIM:
   - vendor: iBasis
     freeMb: 10
