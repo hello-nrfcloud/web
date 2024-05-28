@@ -12,7 +12,7 @@ export const RecognizingFingerprint = () => {
 	useEffect(() => {
 		if (!device) return
 		const t = setTimeout(() => {
-			document.location.assign(`/device#${device.id}`)
+			document.location.assign(`/device`)
 		}, 1000)
 
 		return () => {
