@@ -13,9 +13,7 @@ import { timeSpans } from '#chart/timeSpans.js'
 import { CountryFlag } from '#components/CountryFlag.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { mccmnc2country } from '#components/mccmnc2country.js'
-import { type Device } from '#context/Device.js'
-import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
-import { useDeviceState } from '#context/DeviceState.js'
+import { useDevice, type Device } from '#context/Device.js'
 import { useParameters } from '#context/Parameters.js'
 import { CellularLocation } from '#map/CellularLocation.js'
 import { GNSSLocation } from '#map/GNSSLocation.js'
@@ -39,6 +37,7 @@ import {
 	toConnectionInformation,
 	type GeoLocation,
 } from '#proto/lwm2m.js'
+import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
 
 const trailColor = '#e169a5'
 const defaultColor = '#C7C7C7'
@@ -428,8 +427,8 @@ export const Map = ({ device }: { device: Device }) => {
 }
 
 const NetworkLocation = () => {
-	const { state } = useDeviceState()
-	const mccmnc = state
+	const { reported } = useDevice()
+	const mccmnc = reported
 		.filter(isConnectionInformation)
 		.map(toConnectionInformation)[0]?.mccmnc
 	const country =

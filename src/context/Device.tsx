@@ -40,9 +40,14 @@ export const DeviceContext = createContext<{
 	connected: boolean
 	connectionFailed: boolean
 	disconnected: boolean
-	addMessageListener: (listener: MessageListenerFn) => {
+	onReported: (listener: ListenerFn) => {
 		remove: () => void
 	}
+	reported: LwM2MObjectInstance[]
+	onDesired: (listener: ListenerFn) => {
+		remove: () => void
+	}
+	desired: LwM2MObjectInstance[]
 	send?: (message: LwM2MObjectInstance) => void
 	configuration: {
 		desired: Configuration
@@ -54,9 +59,14 @@ export const DeviceContext = createContext<{
 }>({
 	connected: false,
 	disconnected: false,
-	addMessageListener: () => ({
+	onReported: () => ({
 		remove: () => undefined,
 	}),
+	reported: [],
+	onDesired: () => ({
+		remove: () => undefined,
+	}),
+	desired: [],
 	connectionFailed: false,
 	configuration: {
 		desired: DefaultConfiguration,
@@ -65,13 +75,13 @@ export const DeviceContext = createContext<{
 	configure: async () => Promise.reject(new Error('Not implemented')),
 })
 
-export type MessageListenerFn = (message: LwM2MObjectInstance) => unknown
+export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [lastSeen, setLastSeen] = useState<Date | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
-	const [messages, setMessages] = useState<LwM2MObjectInstance[]>([])
+
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { models } = useModels()
@@ -83,7 +93,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [reportedConfig] = useState<Configuration>(DefaultConfiguration)
 
 	const connected = ws !== undefined
-	const listeners = useRef<MessageListenerFn[]>([])
+	const [reported, setReported] = useState<LwM2MObjectInstance[]>([])
+	const reportedListeners = useRef<ListenerFn[]>([])
+	const [desired, setDesired] = useState<LwM2MObjectInstance[]>([])
+	const desiredListeners = useRef<ListenerFn[]>([])
 
 	// Set up websocket connection
 	useEffect(() => {
@@ -141,12 +154,25 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							setLastSeen(new Date(maybeValid.lastSeen))
 						}
 					} else if (isShadow(maybeValid)) {
-						const instances = maybeValid.reported
-						setMessages((m) => [...m, ...instances])
-						listeners.current.forEach((listener) => instances.map(listener))
+						const reported = maybeValid.reported
+						if (reported.length > 0) {
+							setReported((r) => [...reported, ...r])
+							reportedListeners.current.forEach((listener) =>
+								reported.map(listener),
+							)
+						}
+						const desired = maybeValid.desired
+						if (desired.length > 0) {
+							setDesired((d) => [...desired, ...d])
+							desiredListeners.current.forEach((listener) =>
+								desired.map(listener),
+							)
+						}
 					} else if (isUpdate(maybeValid)) {
-						setMessages((m) => [...m, maybeValid])
-						listeners.current.forEach((listener) => listener(maybeValid))
+						setReported((r) => [...r, ...reported])
+						reportedListeners.current.forEach((listener) =>
+							reported.map(listener),
+						)
 						setLastSeen((l) => {
 							const ts = maybeValid.Resources[99] as number
 							if (ts === undefined) return l
@@ -198,15 +224,30 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				device,
 				lastSeen,
 				connected,
-				addMessageListener: (fn) => {
-					listeners.current.push(fn)
-					messages.map(fn)
+				onReported: (fn) => {
+					reportedListeners.current.push(fn)
+					reported.map(fn)
 					return {
 						remove: () => {
-							listeners.current = listeners.current.filter((f) => f !== fn)
+							reportedListeners.current = reportedListeners.current.filter(
+								(f) => f !== fn,
+							)
 						},
 					}
 				},
+				reported,
+				onDesired: (fn) => {
+					desiredListeners.current.push(fn)
+					desired.map(fn)
+					return {
+						remove: () => {
+							desiredListeners.current = desiredListeners.current.filter(
+								(f) => f !== fn,
+							)
+						},
+					}
+				},
+				desired,
 				connectionFailed,
 				send,
 				disconnected,

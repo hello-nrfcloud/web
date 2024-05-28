@@ -5,7 +5,7 @@ import {
 	type BatteryReading,
 	type BatteryReadings,
 	type GainReadings,
-} from '#context/LwM2MHistory.js'
+} from '#context/History.js'
 import { xAxisForType } from '#chart/xAxisForType.js'
 
 export const toChartData = ({

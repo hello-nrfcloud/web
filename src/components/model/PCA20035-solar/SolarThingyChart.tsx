@@ -3,18 +3,42 @@ import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { formatFloat } from '#utils/formatFloat.js'
 import { BatteryCharging, Sun } from 'lucide-preact'
-import { isNotHistory, useLwM2MHistory } from '#context/LwM2MHistory.js'
 import { toChartData } from '#chart/toChartData.js'
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { timeSpans } from '#chart/timeSpans.js'
+import { useHistory } from '#context/History.js'
+import { useDevice } from '#context/Device.js'
+import {
+	isBatteryAndPower,
+	isSolarCharge,
+	toBattery,
+	toSolarCharge,
+} from '#proto/lwm2m.js'
+import {
+	timestampResources,
+	type LwM2MObjectInstance,
+} from '@hello.nrfcloud.com/proto-map/lwm2m'
+
+const byTimestamp = (i1: LwM2MObjectInstance, i2: LwM2MObjectInstance) => {
+	const ts1 = i1.Resources[timestampResources[i1.ObjectID] as number] as number
+	const ts2 = i2.Resources[timestampResources[i2.ObjectID] as number] as number
+	return ts2 - ts1
+}
 
 export const SolarThingyChart = () => {
-	const { battery, gain, timeSpan, setTimeSpan } = useLwM2MHistory()
+	const { battery, gain, timeSpan, setTimeSpan } = useHistory()
+	const { reported } = useDevice()
 
-	const currentBattery = battery.filter(isNotHistory)[0]
-	const currentGain = gain.filter(isNotHistory)[0]
+	const currentBattery = reported
+		.filter(isBatteryAndPower)
+		.sort(byTimestamp)
+		.map(toBattery)[0]
+	const currentGain = reported
+		.filter(isSolarCharge)
+		.sort(byTimestamp)
+		.map(toSolarCharge)[0]
 
 	const hasChartData = gain.length + battery.length > 0
 

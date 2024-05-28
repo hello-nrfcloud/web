@@ -1,7 +1,6 @@
 import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { useDeviceState } from '#context/DeviceState.js'
-import { useLwM2MHistory } from '#context/LwM2MHistory.js'
+import { useHistory } from '#context/History.js'
 import { identifyIssuer } from 'e118-iin-list'
 import {
 	ActivitySquareIcon,
@@ -101,7 +100,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 }
 
 const SignalQualityInfo = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const { eest, ts } =
 		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
 
@@ -136,7 +135,7 @@ const SignalQualityInfo = () => {
 }
 
 const EnvironmentInfo = () => {
-	const { environment } = useLwM2MHistory()
+	const { environment } = useHistory()
 	const { IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 
 	return (
@@ -169,7 +168,7 @@ const EnvironmentInfo = () => {
 }
 
 const NetworkModeInfo = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const { networkMode, currentBand, ts } =
 		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
 
@@ -214,7 +213,7 @@ const NetworkModeInfo = () => {
 }
 
 const BatteryInfo = () => {
-	const { battery } = useLwM2MHistory()
+	const { battery } = useHistory()
 	const batteryReading = battery[0]
 	return (
 		<span class="d-flex flex-column">
@@ -244,7 +243,7 @@ const BatteryInfo = () => {
 }
 
 const Interact = () => {
-	const { button } = useLwM2MHistory()
+	const { button } = useHistory()
 	const buttonPress = button[0]
 	return (
 		<span class="d-flex flex-column">
@@ -309,7 +308,7 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 }
 
 const SIMInfo = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const { iccid, ts } =
 		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
 

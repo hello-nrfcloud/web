@@ -1,14 +1,14 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDeviceState } from '#context/DeviceState.js'
 import {
 	isConnectionInformation,
 	toConnectionInformation,
 } from '#proto/lwm2m.js'
 import { LTEm } from '#components/icons/LTE-m.js'
 import { NBIot } from '#components/icons/NBIot.js'
+import { useDevice } from '#context/Device.js'
 
 export const NetworkModeInfo = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const networkMode = state
 		.filter(isConnectionInformation)
 		.map(toConnectionInformation)[0]?.networkMode
@@ -38,7 +38,7 @@ export const NetworkModeInfo = () => {
 }
 
 export const NetworkModeIcon = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const networkInfo = state
 		.filter(isConnectionInformation)
 		.map(toConnectionInformation)[0]

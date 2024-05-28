@@ -15,18 +15,15 @@ import {
 } from '#proto/lwm2m.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from '#context/Device.js'
+import { useDevice, type ListenerFn } from '#context/Device.js'
 import { byTs } from '#context/byTs.js'
 
-type FromHistory = {
-	fromHistory?: boolean
-}
-export type BatteryReading = Battery & FromHistory
+export type BatteryReading = Battery
 export type BatteryReadings = BatteryReading[]
-export type GainReading = SolarCharge & FromHistory
+export type GainReading = SolarCharge
 export type GainReadings = GainReading[]
 
-export const LwM2MHistoryContext = createContext<{
+export const HistoryContext = createContext<{
 	battery: BatteryReadings
 	gain: GainReadings
 	environment: Environment[]
@@ -44,7 +41,7 @@ export const LwM2MHistoryContext = createContext<{
 
 // FIXME: Add Gain and Battery history
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { addMessageListener } = useDevice()
+	const { onReported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
 
 	const [battery, setBattery] = useState<BatteryReadings>([])
@@ -52,23 +49,23 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [environment, setEnvironment] = useState<Array<Environment>>([])
 	const [button, setButton] = useState<Array<ButtonPress>>([])
 
-	const onMessage: MessageListenerFn = (message) => {
-		if (isBatteryAndPower(message)) {
-			setBattery((b) => [toBattery(message), ...b].sort(byTs))
+	const listener: ListenerFn = (instance) => {
+		if (isBatteryAndPower(instance)) {
+			setBattery((b) => [toBattery(instance), ...b].sort(byTs))
 		}
-		if (isSolarCharge(message)) {
-			setGain((b) => [toSolarCharge(message), ...b].sort(byTs))
+		if (isSolarCharge(instance)) {
+			setGain((b) => [toSolarCharge(instance), ...b].sort(byTs))
 		}
-		if (isEnvironment(message)) {
-			setEnvironment((m) => [toEnvironment(message), ...m].sort(byTs))
+		if (isEnvironment(instance)) {
+			setEnvironment((m) => [toEnvironment(instance), ...m].sort(byTs))
 		}
-		if (isButtonPress(message)) {
-			setButton((m) => [toButton(message), ...m].sort(byTs))
+		if (isButtonPress(instance)) {
+			setButton((m) => [toButton(instance), ...m].sort(byTs))
 		}
 	}
 
 	useEffect(() => {
-		const { remove } = addMessageListener(onMessage)
+		const { remove } = onReported(listener)
 
 		return () => {
 			remove()
@@ -76,7 +73,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	}, [])
 
 	return (
-		<LwM2MHistoryContext.Provider
+		<HistoryContext.Provider
 			value={{
 				battery,
 				gain,
@@ -87,15 +84,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			}}
 		>
 			{children}
-		</LwM2MHistoryContext.Provider>
+		</HistoryContext.Provider>
 	)
 }
 
-export const Consumer = LwM2MHistoryContext.Consumer
+export const Consumer = HistoryContext.Consumer
 
-export const useLwM2MHistory = () => useContext(LwM2MHistoryContext)
-
-export const isNotHistory = ({ fromHistory }: FromHistory) =>
-	fromHistory !== true
-
-export const isHistory = ({ fromHistory }: FromHistory) => fromHistory === true
+export const useHistory = () => useContext(HistoryContext)

@@ -1,4 +1,3 @@
-import { useDeviceState } from '#context/DeviceState.js'
 import {
 	Signal,
 	SignalHigh,
@@ -14,6 +13,7 @@ import {
 	isConnectionInformation,
 	toConnectionInformation,
 } from '#proto/lwm2m.js'
+import { useDevice } from '#context/Device.js'
 
 /**
  * The %CONEVAL AT command returns amongst other data the energy estimate: Relative estimated energy consumption of data transmission compared to nominal consumption. A higher value means smaller energy consumption. 5: Difficulties in setting up connections. Maximum number of repetitions might be needed for data.
@@ -86,7 +86,7 @@ export const EnergyEstimateLabel = new Map<EnergyEstimate, string>([
 ])
 
 export const SignalQuality = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 
 	const eest = state
 		.filter(isConnectionInformation)
@@ -108,7 +108,7 @@ export const SignalQuality = () => {
 }
 
 export const SignalQualityIcon = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
 	const eest = state
 		.filter(isConnectionInformation)
 		.map(toConnectionInformation)[0]?.eest

@@ -1,5 +1,5 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useLwM2MHistory } from '#context/LwM2MHistory.js'
+import { useHistory } from '#context/History.js'
 import {
 	AngryIcon,
 	AnnoyedIcon,
@@ -43,7 +43,7 @@ export const BME680 = () => (
 )
 
 export const EnvironmentReadings = () => {
-	const { environment } = useLwM2MHistory()
+	const { environment } = useHistory()
 
 	const { p, mbar, IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
 

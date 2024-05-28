@@ -1,5 +1,4 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDeviceState } from '#context/DeviceState.js'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
 import { SignalQuality } from '#components/SignalQuality.js'
@@ -11,9 +10,12 @@ import {
 	toConnectionInformation,
 	toDeviceInformation,
 } from '#proto/lwm2m.js'
+import { useDevice } from '#context/Device.js'
 
 export const NetworkInfo = () => {
-	const { state } = useDeviceState()
+	const { reported: state } = useDevice()
+
+	console.log(state)
 
 	const networkMode = state
 		.filter(isConnectionInformation)

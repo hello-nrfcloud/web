@@ -1,7 +1,7 @@
 import type { LocationSource } from '#map/LocationSourceLabels.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type MessageListenerFn } from '#context/Device.js'
+import { useDevice, type ListenerFn } from '#context/Device.js'
 import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
 import { TimeSpan } from '#api/api.js'
 
@@ -27,7 +27,7 @@ export const DeviceLocationContext = createContext<{
  * FIXME: Fetch location history via REST
  */
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { addMessageListener, device } = useDevice()
+	const { onReported, device } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
 
 	const [locations, setLocations] = useState<Locations>({})
@@ -35,14 +35,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 	useEffect(() => {
 		if (device === undefined) return
-		const listener: MessageListenerFn = (message) => {
-			if (isGeolocation(message))
+		const listener: ListenerFn = (instance) => {
+			if (isGeolocation(instance))
 				setLocations((l) => ({
 					...l,
-					[message.Resources[6]]: toGeoLocation(message),
+					[instance.Resources[6]]: toGeoLocation(instance),
 				}))
 		}
-		const { remove } = addMessageListener(listener)
+		const { remove } = onReported(listener)
 
 		return () => {
 			remove()

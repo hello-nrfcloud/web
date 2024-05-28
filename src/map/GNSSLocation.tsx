@@ -1,12 +1,12 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { type Device } from '#context/Device.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { gnssEnabled } from '#context/DeviceState.js'
+import { useDevice, type Device } from '#context/Device.js'
 import { Located } from '#map/Map.js'
 import { LocationSource } from '#map/LocationSourceLabels.js'
+import { useDeviceLocation } from '#context/DeviceLocation.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()
+	const { configuration } = useDevice()
 	const gnssLocation = locations[LocationSource.GNSS]
 
 	return (
@@ -23,7 +23,7 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				Depending on your use-case scenario you can control whether to enable
 				GNSS on this device:
 			</p>
-			{gnssEnabled() && (
+			{configuration.reported.gnssEnabled && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
 					{gnssLocation === undefined && (
