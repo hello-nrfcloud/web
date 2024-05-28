@@ -1,45 +1,19 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
-import { SignalQuality } from '#components/SignalQuality.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { NetworkModeInfo } from '#components/deviceInfo/NetworkModeInfo.js'
-import {
-	isConnectionInformation,
-	isDeviceInformation,
-	toConnectionInformation,
-	toDeviceInformation,
-} from '#proto/lwm2m.js'
+import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { useDevice } from '#context/Device.js'
 
 export const NetworkInfo = () => {
 	const { reported: state } = useDevice()
-
-	console.log(state)
-
-	const networkMode = state
-		.filter(isConnectionInformation)
-		.map(toConnectionInformation)[0]?.networkMode
 
 	const { iccid, imei } =
 		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
 
 	return (
 		<>
-			<h2>Network information</h2>
-			<h3>Network mode</h3>
-			<NetworkModeInfo />
-
-			{(networkMode?.includes('NB-IoT') ?? false) && (
-				<p>
-					<small class="text-muted">
-						Low Power, Range, and Adaptability for Your Applications
-					</small>
-				</p>
-			)}
-			<h3>Signal Quality</h3>
-			<SignalQuality />
-			<h3>IMEI</h3>
+			<h2>IMEI</h2>
 			<p class="mb-0 d-flex align-items-center">
 				{imei === undefined && <LoadingIndicator />}
 				{imei !== undefined && (
@@ -54,7 +28,7 @@ export const NetworkInfo = () => {
 					uniquely identifies the device in a cellular network.
 				</small>
 			</p>
-			<h3>ICCID</h3>
+			<h2>ICCID</h2>
 			<p class="mb-0">
 				{iccid === undefined && <LoadingIndicator />}
 				{iccid !== undefined && (
