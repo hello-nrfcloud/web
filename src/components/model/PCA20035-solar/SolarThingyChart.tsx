@@ -28,41 +28,11 @@ const byTimestamp = (i1: LwM2MObjectInstance, i2: LwM2MObjectInstance) => {
 }
 
 export const SolarThingyChart = () => {
-	const { battery, gain, timeSpan, setTimeSpan } = useHistory()
-	const { reported } = useDevice()
-
-	const currentBattery = reported
-		.filter(isBatteryAndPower)
-		.sort(byTimestamp)
-		.map(toBattery)[0]
-	const currentGain = reported
-		.filter(isSolarCharge)
-		.sort(byTimestamp)
-		.map(toSolarCharge)[0]
-
-	const hasChartData = gain.length + battery.length > 0
+	const { timeSpan, setTimeSpan } = useHistory()
 
 	return (
 		<>
-			<div class="bg-blue-soft">
-				<div class="container py-4">
-					{hasChartData && (
-						<WithResize>
-							{(size) => (
-								<HistoryChart
-									data={toChartData({ battery, gain, type: timeSpan })}
-									size={size}
-								/>
-							)}
-						</WithResize>
-					)}
-					{!hasChartData && (
-						<div class="d-flex align-items-center justify-content-center h-100">
-							<WaitingForData />
-						</div>
-					)}
-				</div>
-			</div>
+			<SolarChart />
 			<div class="bg-blue">
 				<div class="container py-4">
 					<div class="row mb-4">
@@ -83,62 +53,109 @@ export const SolarThingyChart = () => {
 					</div>
 					<div class="row">
 						<div class="col">
-							<p>
-								The Thingy:91 runs the{' '}
-								<a
-									href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
-									target="_blank"
-								>
-									<code>asset_tracker_v2</code>
-								</a>{' '}
-								application configured in low-power mode, requires 3.4 mA when
-								sending updates to the cloud every minute, or 2.3 mA when
-								sending updates to the cloud every hour.
-							</p>
-							<dl>
-								<>
-									<dt style={{ color: 'var(--color-nordic-sun)' }}>
-										<Sun /> Gain
-									</dt>
-									<dd
-										style={{ color: 'var(--color-nordic-sun)' }}
-										class="d-flex flex-column"
-									>
-										{currentGain === undefined && <LoadingIndicator light />}
-										{currentGain !== undefined && (
-											<>
-												<span>{formatFloat(currentGain.mA)} mA</span>
-												<small>
-													<Ago date={new Date(currentGain.ts)} />
-												</small>
-											</>
-										)}
-									</dd>
-								</>
-								<>
-									<dt style={{ color: 'var(--color-nordic-grass)' }}>
-										<BatteryCharging /> Battery
-									</dt>
-									<dd
-										style={{ color: 'var(--color-nordic-grass)' }}
-										class="d-flex flex-column"
-									>
-										{currentBattery === undefined && <LoadingIndicator light />}
-										{currentBattery !== undefined && (
-											<>
-												{currentBattery['%']} %{' '}
-												<small>
-													<Ago date={new Date(currentBattery.ts)} />
-												</small>
-											</>
-										)}
-									</dd>
-								</>
-							</dl>
+							<FirmwareInfo />
 						</div>
 					</div>
 				</div>
 			</div>
+		</>
+	)
+}
+
+const SolarChart = () => {
+	const { battery, gain, timeSpan } = useHistory()
+
+	const hasChartData = gain.length + battery.length > 0
+
+	return (
+		<div class="bg-blue-soft">
+			<div class="container py-4">
+				{hasChartData && (
+					<WithResize>
+						{(size) => (
+							<HistoryChart
+								data={toChartData({ battery, gain, type: timeSpan })}
+								size={size}
+							/>
+						)}
+					</WithResize>
+				)}
+				{!hasChartData && (
+					<div class="d-flex align-items-center justify-content-center h-100">
+						<WaitingForData />
+					</div>
+				)}
+			</div>
+		</div>
+	)
+}
+
+const FirmwareInfo = () => {
+	const { reported } = useDevice()
+
+	const currentBattery = reported
+		.filter(isBatteryAndPower)
+		.sort(byTimestamp)
+		.map(toBattery)[0]
+	const currentGain = reported
+		.filter(isSolarCharge)
+		.sort(byTimestamp)
+		.map(toSolarCharge)[0]
+
+	return (
+		<>
+			<p>
+				The Thingy:91 runs the{' '}
+				<a
+					href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
+					target="_blank"
+				>
+					<code>asset_tracker_v2</code>
+				</a>{' '}
+				application configured in low-power mode, requires 3.4 mA when sending
+				updates to the cloud every minute, or 2.3 mA when sending updates to the
+				cloud every hour.
+			</p>
+			<dl>
+				<>
+					<dt style={{ color: 'var(--color-nordic-sun)' }}>
+						<Sun /> Gain
+					</dt>
+					<dd
+						style={{ color: 'var(--color-nordic-sun)' }}
+						class="d-flex flex-column"
+					>
+						{currentGain === undefined && <LoadingIndicator light />}
+						{currentGain !== undefined && (
+							<>
+								<span>{formatFloat(currentGain.mA)} mA</span>
+								<small>
+									<Ago date={new Date(currentGain.ts)} />
+								</small>
+							</>
+						)}
+					</dd>
+				</>
+				<>
+					<dt style={{ color: 'var(--color-nordic-grass)' }}>
+						<BatteryCharging /> Battery
+					</dt>
+					<dd
+						style={{ color: 'var(--color-nordic-grass)' }}
+						class="d-flex flex-column"
+					>
+						{currentBattery === undefined && <LoadingIndicator light />}
+						{currentBattery !== undefined && (
+							<>
+								{currentBattery['%']} %{' '}
+								<small>
+									<Ago date={new Date(currentBattery.ts)} />
+								</small>
+							</>
+						)}
+					</dd>
+				</>
+			</dl>
 		</>
 	)
 }
