@@ -56,7 +56,7 @@ export const toGeoLocation = ({
 	lat,
 	lng,
 	acc,
-	ts: ts.getTime(),
+	ts,
 })
 
 export type GeoLocation = {
@@ -76,7 +76,7 @@ export type Battery = WithTimestamp &
 export const toBattery = (message: BatteryAndPower_14202): Battery => ({
 	mA: message['Resources'][2],
 	'%': message['Resources'][0],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })
 
 export type SolarCharge = WithTimestamp & {
@@ -86,7 +86,7 @@ export type SolarCharge = WithTimestamp & {
 export const toSolarCharge = (message: SolarCharge_14210): SolarCharge => ({
 	mA: message['Resources'][0],
 	V: message['Resources'][1],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })
 
 export type Environment = WithTimestamp &
@@ -105,7 +105,7 @@ export const toEnvironment = (message: Environment_14205): Environment => ({
 	mbar: message['Resources'][2],
 	IAQ: message['Resources'][10],
 	c: message['Resources'][0],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })
 
 export type ButtonPress = WithTimestamp & {
@@ -113,7 +113,7 @@ export type ButtonPress = WithTimestamp & {
 }
 export const toButton = (message: ButtonPress_14220): ButtonPress => ({
 	id: message['Resources'][0],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })
 
 export type DeviceInformation = WithTimestamp & {
@@ -129,7 +129,7 @@ export const toDeviceInformation = (
 	iccid: message['Resources'][1],
 	appVersion: message['Resources'][3],
 	modemFirmware: message['Resources'][2],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })
 
 export type ConnectionInformation = WithTimestamp & {
@@ -145,5 +145,5 @@ export const toConnectionInformation = (
 	networkMode: message['Resources'][0],
 	currentBand: message['Resources'][1],
 	eest: message['Resources'][11],
-	ts: message['Resources'][99].getTime(),
+	ts: message['Resources'][99],
 })

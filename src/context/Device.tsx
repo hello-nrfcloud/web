@@ -141,18 +141,17 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							setLastSeen(new Date(maybeValid.lastSeen))
 						}
 					} else if (isShadow(maybeValid)) {
-						const instances = maybeValid.reported.map(parseInstanceTimestamp)
+						const instances = maybeValid.reported
 						setMessages((m) => [...m, ...instances])
 						listeners.current.forEach((listener) => instances.map(listener))
 					} else if (isUpdate(maybeValid)) {
-						const instance = parseInstanceTimestamp(maybeValid)
-						setMessages((m) => [...m, instance])
-						listeners.current.forEach((listener) => listener(instance))
+						setMessages((m) => [...m, maybeValid])
+						listeners.current.forEach((listener) => listener(maybeValid))
 						setLastSeen((l) => {
-							const iDate = instance.Resources[99] as Date
-							if (iDate === undefined) return l
-							if (l === undefined) return iDate
-							return iDate.getTime() > l.getTime() ? iDate : l
+							const ts = maybeValid.Resources[99] as number
+							if (ts === undefined) return l
+							if (l === undefined) return new Date(ts)
+							return ts > l.getTime() ? new Date(ts) : l
 						})
 					}
 				}
@@ -287,13 +286,3 @@ const isUpdate = (
 	isObject(message) &&
 	'@context' in message &&
 	message['@context'] === Context.lwm2mObjectUpdate.toString()
-
-const parseInstanceTimestamp = (
-	i: LwM2MObjectInstance,
-): LwM2MObjectInstance => ({
-	...i,
-	Resources: {
-		...i.Resources,
-		99: new Date(i.Resources[99] as number),
-	},
-})
