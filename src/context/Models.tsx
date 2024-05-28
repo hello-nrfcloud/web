@@ -44,10 +44,16 @@ export type Configuration = {
 }
 
 export enum Mode {
-	realTime = 0,
-	interactive = 1,
-	lowPower = 2,
+	realTime = 'realTime',
+	interactive = 'interactive',
+	lowPower = 'lowPower',
 }
+
+export const ModeId = new Map<Mode, number>([
+	[Mode.realTime, 0],
+	[Mode.interactive, 1],
+	[Mode.lowPower, 2],
+])
 
 export const ModeUpdateIntervalSeconds = new Map<Mode, number>([
 	[Mode.realTime, 10],

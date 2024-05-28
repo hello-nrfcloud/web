@@ -33,8 +33,6 @@ export const loadMarkdownContent = async <
 			)
 			const md = await parseMarkdown.process(source)
 
-			console.log(md)
-
 			return {
 				...md.data,
 				html: md.value,

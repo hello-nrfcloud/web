@@ -18,6 +18,7 @@ import { validPassthrough } from '#proto/validPassthrough.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import {
 	DefaultConfiguration,
+	ModeId,
 	useModels,
 	type Configuration,
 	type Model,
@@ -273,7 +274,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 											'@context': Context.lwm2mObjectUpdate.toString(),
 											ObjectID: LwM2MObjectID.ApplicationConfiguration_14301,
 											Resources: {
-												'0': config.mode,
+												'0': ModeId.get(config.mode),
 												'1': config.gnssEnabled,
 												'99': Date.now(),
 											},
