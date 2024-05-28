@@ -6,10 +6,10 @@ import { isOutdated } from '#components/deviceInfo/isOutdated.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
-	const { reported: state } = useDevice()
+	const { reported } = useDevice()
 	const type = device.model
 
-	const deviceInfo = state
+	const deviceInfo = Object.values(reported)
 		.filter(isDeviceInformation)
 		.map(toDeviceInformation)[0]
 

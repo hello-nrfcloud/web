@@ -1,20 +1,3 @@
-import {
-	Context,
-	type ProblemDetail,
-	type DeviceIdentity,
-	type LwM2MObjectUpdate,
-	type Shadow,
-} from '@hello.nrfcloud.com/proto/hello'
-import { type Static } from '@sinclair/typebox'
-import { createContext, type ComponentChildren } from 'preact'
-import {
-	useCallback,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'preact/hooks'
-import { validPassthrough } from '#proto/validPassthrough.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import {
 	DefaultConfiguration,
@@ -24,11 +7,28 @@ import {
 	type Model,
 } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
+import { validPassthrough } from '#proto/validPassthrough.js'
 import {
 	LwM2MObjectID,
 	type LwM2MObjectInstance,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import {
+	Context,
+	type DeviceIdentity,
+	type LwM2MObjectUpdate,
+	type ProblemDetail,
+	type Shadow,
+} from '@hello.nrfcloud.com/proto/hello'
+import { type Static } from '@sinclair/typebox'
 import { isObject } from 'lodash-es'
+import { createContext, type ComponentChildren } from 'preact'
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'preact/hooks'
 
 export type Device = {
 	id: string
@@ -44,11 +44,11 @@ export const DeviceContext = createContext<{
 	onReported: (listener: ListenerFn) => {
 		remove: () => void
 	}
-	reported: LwM2MObjectInstance[]
+	reported: Record<string, LwM2MObjectInstance>
 	onDesired: (listener: ListenerFn) => {
 		remove: () => void
 	}
-	desired: LwM2MObjectInstance[]
+	desired: Record<string, LwM2MObjectInstance>
 	send?: (message: LwM2MObjectInstance) => void
 	configuration: {
 		desired: Configuration
@@ -63,11 +63,11 @@ export const DeviceContext = createContext<{
 	onReported: () => ({
 		remove: () => undefined,
 	}),
-	reported: [],
+	reported: {},
 	onDesired: () => ({
 		remove: () => undefined,
 	}),
-	desired: [],
+	desired: {},
 	connectionFailed: false,
 	configuration: {
 		desired: DefaultConfiguration,
@@ -94,10 +94,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [reportedConfig] = useState<Configuration>(DefaultConfiguration)
 
 	const connected = ws !== undefined
-	const [reported, setReported] = useState<LwM2MObjectInstance[]>([])
-	const reportedListeners = useRef<ListenerFn[]>([])
-	const [desired, setDesired] = useState<LwM2MObjectInstance[]>([])
-	const desiredListeners = useRef<ListenerFn[]>([])
+	const [reported, setReported] = useState<Record<string, LwM2MObjectInstance>>(
+		{},
+	)
+	const reportedListeners = useRef<Array<ListenerFn>>([])
+	const [desired, setDesired] = useState<Record<string, LwM2MObjectInstance>>(
+		{},
+	)
+	const desiredListeners = useRef<Array<ListenerFn>>([])
 
 	// Set up websocket connection
 	useEffect(() => {
@@ -157,22 +161,22 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					} else if (isShadow(maybeValid)) {
 						const reported = maybeValid.reported
 						if (reported.length > 0) {
-							setReported((r) => [...reported, ...r])
+							setReported(mergeInstances(reported))
 							reportedListeners.current.forEach((listener) =>
 								reported.map(listener),
 							)
 						}
 						const desired = maybeValid.desired
 						if (desired.length > 0) {
-							setDesired((d) => [...desired, ...d])
+							setDesired(mergeInstances(desired))
 							desiredListeners.current.forEach((listener) =>
 								desired.map(listener),
 							)
 						}
 					} else if (isUpdate(maybeValid)) {
-						setReported((r) => [...r, ...reported])
+						setReported(mergeInstances([maybeValid]))
 						reportedListeners.current.forEach((listener) =>
-							reported.map(listener),
+							listener(maybeValid),
 						)
 						setLastSeen((l) => {
 							const ts = maybeValid.Resources[99] as number
@@ -227,7 +231,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				connected,
 				onReported: (fn) => {
 					reportedListeners.current.push(fn)
-					reported.map(fn)
+					Object.values(reported).map(fn)
 					return {
 						remove: () => {
 							reportedListeners.current = reportedListeners.current.filter(
@@ -239,7 +243,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				reported,
 				onDesired: (fn) => {
 					desiredListeners.current.push(fn)
-					desired.map(fn)
+					Object.values(desired).map(fn)
 					return {
 						remove: () => {
 							desiredListeners.current = desiredListeners.current.filter(
@@ -328,3 +332,24 @@ const isUpdate = (
 	isObject(message) &&
 	'@context' in message &&
 	message['@context'] === Context.lwm2mObjectUpdate.toString()
+
+const instanceKey = (
+	ObjectID: LwM2MObjectInstance['ObjectID'],
+	ObjectInstanceID: LwM2MObjectInstance['ObjectInstanceID'] = 0,
+): string => `${ObjectID}/${ObjectInstanceID}`
+
+const mergeInstances =
+	(reported: Array<LwM2MObjectInstance>) =>
+	(
+		current: Record<string, LwM2MObjectInstance>,
+	): Record<string, LwM2MObjectInstance> => ({
+		...current,
+		...reported.reduce<Record<string, LwM2MObjectInstance>>((acc, instance) => {
+			acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
+				...(acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] ??
+					{}),
+				...instance,
+			}
+			return acc
+		}, {}),
+	})

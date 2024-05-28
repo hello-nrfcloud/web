@@ -6,10 +6,12 @@ import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { useDevice } from '#context/Device.js'
 
 export const NetworkInfo = () => {
-	const { reported: state } = useDevice()
+	const { reported } = useDevice()
 
 	const { iccid, imei } =
-		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
+		Object.values(reported)
+			.filter(isDeviceInformation)
+			.map(toDeviceInformation)[0] ?? {}
 
 	return (
 		<>

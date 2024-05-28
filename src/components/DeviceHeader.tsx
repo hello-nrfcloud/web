@@ -100,9 +100,11 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 }
 
 const SignalQualityInfo = () => {
-	const { reported: state } = useDevice()
+	const { reported } = useDevice()
 	const { eest, ts } =
-		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
+		Object.values(reported)
+			.filter(isConnectionInformation)
+			.map(toConnectionInformation)[0] ?? {}
 
 	return (
 		<span class="d-flex flex-column">
@@ -168,9 +170,11 @@ const EnvironmentInfo = () => {
 }
 
 const NetworkModeInfo = () => {
-	const { reported: state } = useDevice()
+	const { reported } = useDevice()
 	const { networkMode, currentBand, ts } =
-		state.filter(isConnectionInformation).map(toConnectionInformation)[0] ?? {}
+		Object.values(reported)
+			.filter(isConnectionInformation)
+			.map(toConnectionInformation)[0] ?? {}
 
 	return (
 		<span class="d-flex flex-column">
@@ -308,9 +312,11 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 }
 
 const SIMInfo = () => {
-	const { reported: state } = useDevice()
+	const { reported } = useDevice()
 	const { iccid, ts } =
-		state.filter(isDeviceInformation).map(toDeviceInformation)[0] ?? {}
+		Object.values(reported)
+			.filter(isDeviceInformation)
+			.map(toDeviceInformation)[0] ?? {}
 
 	return (
 		<span class="d-flex flex-column">

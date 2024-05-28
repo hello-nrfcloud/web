@@ -93,11 +93,11 @@ const SolarChart = () => {
 const FirmwareInfo = () => {
 	const { reported } = useDevice()
 
-	const currentBattery = reported
+	const currentBattery = Object.values(reported)
 		.filter(isBatteryAndPower)
 		.sort(byTimestamp)
 		.map(toBattery)[0]
-	const currentGain = reported
+	const currentGain = Object.values(reported)
 		.filter(isSolarCharge)
 		.sort(byTimestamp)
 		.map(toSolarCharge)[0]

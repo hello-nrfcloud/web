@@ -428,7 +428,7 @@ export const Map = ({ device }: { device: Device }) => {
 
 const NetworkLocation = () => {
 	const { reported } = useDevice()
-	const mccmnc = reported
+	const mccmnc = Object.values(reported)
 		.filter(isConnectionInformation)
 		.map(toConnectionInformation)[0]?.mccmnc
 	const country =
