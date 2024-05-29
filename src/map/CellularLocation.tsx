@@ -47,6 +47,12 @@ export const CellularLocation = ({ device }: { device: Device }) => {
 				Multi-cell (MCELL) is using multiple cell towers to triangulate the
 				device location. Up to 17 cell towers can be used at once.
 			</p>
+			<p>
+				Wi-Fi is using the IDs of nearby Wi-Fi access points to triangulate the
+				device location. Like cellular-based location, this saves power by
+				eliminating the need for the GNSS receiver and works especially well in
+				urban areas and indoors.
+			</p>
 			{(configuration.reported?.gnssEnabled ??
 				device.model.defaultConfiguration.gnssEnabled) && (
 				<div
