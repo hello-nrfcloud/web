@@ -1,6 +1,7 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice } from '#context/Device.js'
 import { isEnvironment, toEnvironment } from '#proto/lwm2m.js'
+import { formatFloat } from '#utils/format.js'
 import {
 	AngryIcon,
 	AnnoyedIcon,
@@ -57,12 +58,12 @@ export const EnvironmentReadings = () => {
 				<span>
 					{c !== undefined && (
 						<span class="me-2">
-							<ThermometerIcon /> {c.toFixed(1)} °C
+							<ThermometerIcon /> {formatFloat(c)} °C
 						</span>
 					)}
 					{p !== undefined && (
 						<span class="me-2">
-							<DropletsIcon /> {p.toFixed(1)} %
+							<DropletsIcon /> {formatFloat(p)} %
 						</span>
 					)}
 					{mbar !== undefined && (

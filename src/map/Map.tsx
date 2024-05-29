@@ -38,6 +38,7 @@ import {
 	type GeoLocation,
 } from '#proto/lwm2m.js'
 import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
+import { formatFloat, formatInt } from '#utils/format.js'
 
 const trailColor = '#e169a5'
 const defaultColor = '#C7C7C7'
@@ -530,11 +531,10 @@ export const Located = ({ location }: { location: GeoLocation }) => (
 			target="_blank"
 			class="text-light"
 		>
-			{location.lat.toFixed(5).replace(/0+$/, '')},{' '}
-			{location.lng.toFixed(5).replace(/0+$/, '')}
+			{formatFloat(location.lat, 5)}, {formatFloat(location.lng, 5)}
 		</a>{' '}
 		{location.acc !== undefined ? (
-			<>with an accuracy of {Math.round(location.acc)} m</>
+			<>with an accuracy of {formatInt(location.acc)} m</>
 		) : (
 			<>with an unspecified accuary</>
 		)}

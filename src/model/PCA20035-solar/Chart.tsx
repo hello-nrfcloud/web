@@ -1,7 +1,7 @@
 import { HistoryChart } from '#chart/HistoryChart.js'
 import { Ago } from '#components/Ago.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { formatFloat } from '#utils/formatFloat.js'
+import { formatFloat } from '#utils/format.js'
 import { BatteryCharging, Sun } from 'lucide-preact'
 import { toChartData } from '#chart/toChartData.js'
 import { DateRangeButton } from '#chart/DateRangeButton.js'

@@ -9,6 +9,7 @@ import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { Problem } from './Problem.js'
 import { isEqual } from 'lodash-es'
+import { formatFloat } from '#utils/format.js'
 
 export const DeviceModeSelector = ({
 	device,
@@ -209,7 +210,8 @@ const DataUsageInfo = ({
 		>
 			<SIMIcon class="me-2 flex-shrink-0" size={18} />
 			<small>
-				This mode uses around {dataUsagePerDayMB.toFixed(2)} MB of data per day.
+				This mode uses around {formatFloat(dataUsagePerDayMB, 2)} MB of data per
+				day.
 			</small>
 		</span>
 	)

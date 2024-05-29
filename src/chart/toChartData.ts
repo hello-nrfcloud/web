@@ -7,6 +7,7 @@ import {
 	type GainReadings,
 } from '#model/PCA20035-solar/HistoryContext.js'
 import { xAxisForType } from '#chart/xAxisForType.js'
+import { formatFloat } from '#utils/format.js'
 
 export const toChartData = ({
 	battery,
@@ -35,7 +36,7 @@ export const toChartData = ({
 					subMilliseconds(base, base.getTime() - ts),
 				]),
 				color: 'var(--color-nordic-sun)',
-				format: (v) => `${v.toFixed(1)} mA`,
+				format: (v) => `${formatFloat(v)} mA`,
 				helperLines: [
 					{
 						label: '1m',

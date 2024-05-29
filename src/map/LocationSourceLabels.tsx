@@ -8,8 +8,8 @@ export enum LocationSource {
 // Uses nrfcloud.com wording
 export const LocationSourceLabels = new Map<string, string>([
 	[LocationSource.WIFI, 'Wi-Fi'],
-	[LocationSource.MCELL, 'multi-cell'],
-	[LocationSource.SCELL, 'single-cell'],
+	[LocationSource.MCELL, 'Multi-cell'],
+	[LocationSource.SCELL, 'Single-cell'],
 	[LocationSource.GNSS, 'GNSS'],
 ])
 

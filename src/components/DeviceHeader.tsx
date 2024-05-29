@@ -37,6 +37,8 @@ import {
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import './DeviceHeader.css'
+import { CountryFlag } from './CountryFlag.js'
+import { formatFloat } from '#utils/format.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -156,7 +158,7 @@ const EnvironmentInfo = () => {
 			{c === undefined && <LoadingIndicator width={150} />}
 			{c !== undefined && (
 				<span class="me-2">
-					<ThermometerIcon /> {c.toFixed(1)} °C
+					<ThermometerIcon /> {formatFloat(c)} °C
 				</span>
 			)}
 			{iaq === undefined && <LoadingIndicator width={150} class="mt-1" />}
@@ -179,7 +181,7 @@ const EnvironmentInfo = () => {
 
 const NetworkModeInfo = () => {
 	const { reported } = useDevice()
-	const { networkMode, currentBand, ts } =
+	const { networkMode, currentBand, mccmnc, ts } =
 		Object.values(reported)
 			.filter(isConnectionInformation)
 			.map(toConnectionInformation)[0] ?? {}
@@ -187,7 +189,7 @@ const NetworkModeInfo = () => {
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
-				<strong>Network mode</strong>
+				<strong>Network</strong>
 			</small>
 			{(networkMode === undefined || currentBand === undefined) && (
 				<>
@@ -197,23 +199,26 @@ const NetworkModeInfo = () => {
 			)}
 
 			{networkMode !== undefined && currentBand !== undefined && (
-				<abbr title={`Band ${currentBand}`} class="me-2">
-					{networkMode?.includes('LTE-M') ?? false ? (
-						<LTEm
-							style={{
-								height: '25px',
-								width: 'auto',
-							}}
-						/>
-					) : (
-						<NBIot
-							style={{
-								height: '25px',
-								width: 'auto',
-							}}
-						/>
-					)}
-				</abbr>
+				<span>
+					<abbr title={`Band ${currentBand}`} class="me-2">
+						{networkMode?.includes('LTE-M') ?? false ? (
+							<LTEm
+								style={{
+									height: '25px',
+									width: 'auto',
+								}}
+							/>
+						) : (
+							<NBIot
+								style={{
+									height: '25px',
+									width: 'auto',
+								}}
+							/>
+						)}
+					</abbr>
+					{mccmnc !== undefined && <CountryFlag mccmnc={mccmnc} />}
+				</span>
 			)}
 			{ts !== undefined && (
 				<small class="text-muted">
