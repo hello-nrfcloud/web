@@ -2,17 +2,14 @@ import { Ago } from '#components/Ago.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice } from '#context/Device.js'
-import { SIMVendor, updateIntervalSeconds } from '#context/Models.js'
+import { SIMVendor } from '#context/Models.js'
 import { BatteryFull, CloudOff, ToggleRight } from 'lucide-preact'
 
-// FIXME: make config dynamic
 export const ConnectDevice = () => {
 	const {
 		lastSeen,
 		device,
-		configuration: {
-			reported: { mode },
-		},
+		configuration: { reported },
 	} = useDevice()
 	const hasIBasisSIM = device?.model.includedSIM?.find(
 		({ vendor }) => vendor === SIMVendor.iBasis,
@@ -69,7 +66,10 @@ export const ConnectDevice = () => {
 										<br />
 										<small class="text-muted">
 											Your device should send data to the cloud every{' '}
-											{updateIntervalSeconds(mode)} seconds.
+											{reported?.updateIntervalSeconds ??
+												device?.model.defaultConfiguration
+													.updateIntervalSeconds}{' '}
+											seconds.
 										</small>
 									</p>
 									{lastSeen === undefined && (

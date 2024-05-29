@@ -8,6 +8,7 @@ import {
 	type Environment_14205,
 	type SolarCharge_14210,
 	type ButtonPress_14220,
+	type ApplicationConfiguration_14301,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 
@@ -38,6 +39,9 @@ export const isSolarCharge = isLwM2MObject<SolarCharge_14210>(
 )
 export const isButtonPress = isLwM2MObject<ButtonPress_14220>(
 	LwM2MObjectID.ButtonPress_14220,
+)
+export const isConfig = isLwM2MObject<ApplicationConfiguration_14301>(
+	LwM2MObjectID.ApplicationConfiguration_14301,
 )
 export type LwM2MObjects = Array<
 	| GeoLocation

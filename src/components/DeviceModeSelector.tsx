@@ -2,19 +2,13 @@ import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { Mode, updateIntervalSeconds } from '#context/Models.js'
 import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import cx from 'classnames'
 import { Ban, HistoryIcon, Satellite, Settings2, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { Problem } from './Problem.js'
-
-const modes: Array<[Mode, string]> = [
-	[Mode.realTime, 'Real-time mode'],
-	[Mode.interactive, 'Interactive mode'],
-	[Mode.lowPower, 'Low-power mode'],
-]
+import { isEqual } from 'lodash-es'
 
 export const DeviceModeSelector = ({
 	device,
@@ -24,16 +18,24 @@ export const DeviceModeSelector = ({
 	onClose?: () => void
 }) => {
 	const {
-		configuration: {
-			reported: { mode: reportedMode, gnssEnabled: reportedGNSS },
-			desired: { mode: desiredMode, gnssEnabled: desiredGNSS },
-		},
+		configuration: { reported: reportedConfig, desired: desiredConfig },
 		configure,
 	} = useDevice()
-	const [selectedGNSS, setGNSS] = useState<boolean>(desiredGNSS)
-	const [selectedMode, setMode] = useState<Mode>(reportedMode)
-	const reportedUpdateInterval = updateIntervalSeconds(reportedMode)
-	const desiredUpdateInterval = updateIntervalSeconds(desiredMode)
+	const [selectedGNSS, setGNSS] = useState<boolean>(
+		desiredConfig?.gnssEnabled ?? device.model.defaultConfiguration.gnssEnabled,
+	)
+	const [selectedUpdateIntervalSeconds, setUpdateIntervalSeconds] =
+		useState<number>(
+			desiredConfig?.updateIntervalSeconds ??
+				device.model.defaultConfiguration.updateIntervalSeconds,
+		)
+	const reportedUpdateInterval =
+		reportedConfig?.updateIntervalSeconds ??
+		device.model.defaultConfiguration.updateIntervalSeconds
+	const reportedGNSS =
+		reportedConfig?.gnssEnabled ?? device.model.defaultConfiguration.gnssEnabled
+	const desiredUpdateInterval = desiredConfig?.updateIntervalSeconds
+	const desiredGNSS = desiredConfig?.gnssEnabled
 	const [problem, setProblem] = useState<
 		Static<typeof ProblemDetail> | undefined
 	>()
@@ -62,8 +64,8 @@ export const DeviceModeSelector = ({
 						</small>
 						{desiredUpdateInterval !== undefined && (
 							<Applied
-								desired={desiredMode}
-								reported={reportedMode}
+								desired={desiredUpdateInterval}
+								reported={reportedUpdateInterval}
 								class="ms-2"
 							/>
 						)}
@@ -118,7 +120,7 @@ export const DeviceModeSelector = ({
 							setProblem(undefined)
 							configure({
 								gnssEnabled: selectedGNSS,
-								mode: selectedMode,
+								updateIntervalSeconds: selectedUpdateIntervalSeconds,
 							})
 								.then((maybeUpdate) => {
 									if ('problem' in maybeUpdate) {
@@ -138,26 +140,50 @@ export const DeviceModeSelector = ({
 						usage.
 					</p>
 					<ul class="list-group mb-3">
-						{modes.map(([mode, title]) => {
-							const current = selectedMode === mode
-							return (
-								<li
-									class={cx(
-										'list-group-item d-flex align-items-center justify-content-between',
-										{ active: current },
-									)}
-									aria-current={current}
-								>
-									<span>
-										{title}
-										<DataUsageInfo device={device} mode={mode} />
-									</span>
-									<Secondary onClick={() => setMode(mode)} disabled={current}>
-										select
-									</Secondary>
-								</li>
-							)
-						})}
+						{device.model.configurationPresets.map(
+							({
+								name: title,
+								dataUsagePerDayMB,
+								updateIntervalSeconds,
+								gnssEnabled,
+							}) => {
+								const defaults = device.model.defaultConfiguration
+
+								const reported = {
+									updateIntervalSeconds: reportedUpdateInterval,
+									gnssEnabled: reportedGNSS,
+								}
+								const preset = {
+									updateIntervalSeconds:
+										updateIntervalSeconds ?? defaults.updateIntervalSeconds,
+									gnssEnabled: gnssEnabled ?? defaults.gnssEnabled,
+								}
+
+								const current = isEqual(reported, preset)
+								return (
+									<li
+										class={cx(
+											'list-group-item d-flex align-items-center justify-content-between',
+											{ active: current },
+										)}
+										aria-current={current}
+									>
+										<span>
+											{title}
+											<DataUsageInfo dataUsagePerDayMB={dataUsagePerDayMB} />
+										</span>
+										<Secondary
+											onClick={() =>
+												setUpdateIntervalSeconds(updateIntervalSeconds)
+											}
+											disabled={current}
+										>
+											select
+										</Secondary>
+									</li>
+								)
+							},
+						)}
 					</ul>
 				</div>
 			</div>
@@ -166,18 +192,14 @@ export const DeviceModeSelector = ({
 }
 
 const DataUsageInfo = ({
-	device,
-	mode,
+	dataUsagePerDayMB,
 	class: c,
 }: {
-	device: Device
-	mode: Mode
+	dataUsagePerDayMB: number
 	class?: string
 }) => {
-	const dataUsagePerDay = device.model.modeUsagePerDayMB[mode]
-
 	// Show a warning if the current mode will use more than 1 MB per day
-	const showDataWarning = dataUsagePerDay > 1
+	const showDataWarning = dataUsagePerDayMB > 1
 
 	return (
 		<span
@@ -187,7 +209,7 @@ const DataUsageInfo = ({
 		>
 			<SIMIcon class="me-2 flex-shrink-0" size={18} />
 			<small>
-				This mode uses around {dataUsagePerDay.toFixed(2)} MB of data per day.
+				This mode uses around {dataUsagePerDayMB.toFixed(2)} MB of data per day.
 			</small>
 		</span>
 	)

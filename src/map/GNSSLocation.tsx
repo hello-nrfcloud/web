@@ -23,7 +23,8 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				Depending on your use-case scenario you can control whether to enable
 				GNSS on this device:
 			</p>
-			{configuration.reported.gnssEnabled && (
+			{(configuration.reported?.gnssEnabled ??
+				device.model.defaultConfiguration.gnssEnabled) && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
 					{gnssLocation === undefined && (

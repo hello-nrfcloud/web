@@ -8,9 +8,9 @@ import {
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useDevice } from '#context/Device.js'
+import { useDevice, type Device } from '#context/Device.js'
 
-export const CellularLocation = () => {
+export const CellularLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()
 	const { configuration } = useDevice()
 	const scellLocation = locations[LocationSource.SCELL]
@@ -47,7 +47,8 @@ export const CellularLocation = () => {
 				Multi-cell (MCELL) is using multiple cell towers to triangulate the
 				device location. Up to 17 cell towers can be used at once.
 			</p>
-			{configuration.reported.gnssEnabled && (
+			{(configuration.reported?.gnssEnabled ??
+				device.model.defaultConfiguration.gnssEnabled) && (
 				<div
 					role="alert"
 					style={{

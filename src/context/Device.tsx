@@ -1,12 +1,7 @@
 import { useFingerprint } from '#context/Fingerprint.js'
-import {
-	DefaultConfiguration,
-	ModeId,
-	useModels,
-	type Configuration,
-	type Model,
-} from '#context/Models.js'
+import { useModels, type Configuration, type Model } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
+import { isConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
 import {
 	LwM2MObjectID,
@@ -50,10 +45,10 @@ export const DeviceContext = createContext<{
 	}
 	desired: Record<string, LwM2MObjectInstance>
 	send?: (message: LwM2MObjectInstance) => void
-	configuration: {
+	configuration: Partial<{
 		desired: Configuration
 		reported: Configuration
-	}
+	}>
 	configure: (
 		config: Configuration,
 	) => Promise<{ success: true } | { problem: Static<typeof ProblemDetail> }>
@@ -69,10 +64,7 @@ export const DeviceContext = createContext<{
 	}),
 	desired: {},
 	connectionFailed: false,
-	configuration: {
-		desired: DefaultConfiguration,
-		reported: DefaultConfiguration,
-	},
+	configuration: {},
 	configure: async () => Promise.reject(new Error('Not implemented')),
 })
 
@@ -82,16 +74,17 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [lastSeen, setLastSeen] = useState<Date | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
-
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
 	const { models } = useModels()
 	const [ws, setWebsocket] = useState<WebSocket>()
 	const [disconnected, setDisconnected] = useState<boolean>(false)
-	const [desiredConfig, setDesiredConfig] =
-		useState<Configuration>(DefaultConfiguration)
-	// FIXME: update reported config
-	const [reportedConfig] = useState<Configuration>(DefaultConfiguration)
+	const [desiredConfig, setDesiredConfig] = useState<
+		Configuration | undefined
+	>()
+	const [reportedConfig, setReportedConfig] = useState<
+		Configuration | undefined
+	>()
 
 	const connected = ws !== undefined
 	const [reported, setReported] = useState<Record<string, LwM2MObjectInstance>>(
@@ -102,6 +95,16 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		{},
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
+
+	useEffect(() => {
+		const config =
+			reported[instanceKey(LwM2MObjectID.ApplicationConfiguration_14301)]
+		if (!isConfig(config)) return
+		setReportedConfig({
+			updateIntervalSeconds: config.Resources[0],
+			gnssEnabled: config.Resources[1],
+		})
+	}, [reported])
 
 	// Set up websocket connection
 	useEffect(() => {
@@ -278,7 +281,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 											'@context': Context.lwm2mObjectUpdate.toString(),
 											ObjectID: LwM2MObjectID.ApplicationConfiguration_14301,
 											Resources: {
-												'0': ModeId.get(config.mode),
+												'0': config.updateIntervalSeconds,
 												'1': config.gnssEnabled,
 												'99': Date.now(),
 											},

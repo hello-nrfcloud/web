@@ -28,48 +28,20 @@ export type Model = {
 	// Do not show in the list of available models
 	hidden?: true
 	includedSIM?: Array<IncludedSIM>
-	modeUsagePerDayMB: {
-		[Mode.realTime]: number //e.g. 3
-		[Mode.interactive]: number //e.g. 1.5
-		[Mode.lowPower]: number //e.g. 0.05
-	}
 	defaultConfiguration: Configuration
+	configurationPresets: Array<
+		{
+			name: string
+			dataUsagePerDayMB: number
+		} & Pick<Configuration, 'updateIntervalSeconds'> &
+			Partial<Configuration>
+	>
 }
 
 export type Configuration = {
-	mode: Mode
+	updateIntervalSeconds: number
 	gnssEnabled: boolean
 }
-
-export enum Mode {
-	realTime = 'realTime',
-	interactive = 'interactive',
-	lowPower = 'lowPower',
-}
-
-export const ModeId = new Map<Mode, number>([
-	[Mode.realTime, 0],
-	[Mode.interactive, 1],
-	[Mode.lowPower, 2],
-])
-
-export const ModeUpdateIntervalSeconds = new Map<Mode, number>([
-	[Mode.realTime, 10],
-	[Mode.interactive, 120],
-	[Mode.lowPower, 600],
-])
-
-export const DefaultConfiguration: Configuration = {
-	mode: Mode.interactive,
-	gnssEnabled: true,
-}
-
-export const defaultUpdateIntervalSeconds =
-	ModeUpdateIntervalSeconds.get(DefaultConfiguration.mode) ?? 120
-
-export const updateIntervalSeconds = (mode?: Mode) =>
-	ModeUpdateIntervalSeconds.get(mode ?? DefaultConfiguration.mode) ??
-	defaultUpdateIntervalSeconds
 
 export enum SIMVendor {
 	iBasis = 'iBasis',

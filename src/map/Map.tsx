@@ -417,7 +417,7 @@ export const Map = ({ device }: { device: Device }) => {
 					</div>
 					<div class="row">
 						<div class="col">
-							<CellularLocation />
+							<CellularLocation device={device} />
 						</div>
 					</div>
 				</div>

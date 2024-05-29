@@ -32,7 +32,6 @@ import {
 	toConnectionInformation,
 	toDeviceInformation,
 } from '#proto/lwm2m.js'
-import { updateIntervalSeconds } from '#context/Models.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -73,6 +72,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 								</div>
 								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
 									<PublicationInterval
+										device={device}
 										onConfigure={() =>
 											setModeConfigurationVisible((visible) => !visible)
 										}
@@ -277,15 +277,16 @@ const Interact = () => {
 	)
 }
 
-// FIXME: make dynamic
-const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
+const PublicationInterval = ({
+	device,
+	onConfigure,
+}: {
+	device: Device
+	onConfigure?: () => void
+}) => {
 	const {
-		configuration: {
-			reported: { mode },
-		},
+		configuration: { reported, desired },
 	} = useDevice()
-	const gnss = false
-	const activeWaitTime = undefined
 
 	return (
 		<span class="d-flex flex-column">
@@ -293,18 +294,27 @@ const PublicationInterval = ({ onConfigure }: { onConfigure?: () => void }) => {
 				<strong>Publication interval</strong>
 			</small>
 			<span>
-				<UploadCloud strokeWidth={1} /> {updateIntervalSeconds(mode)} seconds
-				{gnss && <Satellite strokeWidth={1} class="ms-1" />}
+				<UploadCloud strokeWidth={1} />{' '}
+				{reported?.updateIntervalSeconds ??
+					device.model.defaultConfiguration.updateIntervalSeconds}{' '}
+				seconds
+				{(reported?.gnssEnabled ??
+					device.model.defaultConfiguration.gnssEnabled) && (
+					<Satellite strokeWidth={1} class="ms-1" />
+				)}
 			</span>
 			<small class="text-muted">
 				<Transparent class="text-muted" onClick={onConfigure}>
 					<Settings strokeWidth={1} /> configure
 				</Transparent>
 			</small>
-			{activeWaitTime !== undefined && (
+			{desired?.updateIntervalSeconds !== undefined && (
 				<Applied
-					desired={activeWaitTime}
-					reported={updateIntervalSeconds(mode)}
+					desired={desired.updateIntervalSeconds}
+					reported={
+						reported?.updateIntervalSeconds ??
+						device.model.defaultConfiguration.updateIntervalSeconds
+					}
 				/>
 			)}
 		</span>

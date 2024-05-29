@@ -20,13 +20,19 @@ video:
 includedSIM:
   - vendor: iBasis
     freeMb: 10
-modeUsagePerDayMB:
-  realTime: 3
-  interactive: 1.5
-  lowPower: 0.05
 defaultConfiguration:
-  mode: interactive
+  updateIntervalSeconds: 120
   gnssEnabled: true
+configurationPresets:
+  - name: Real-time mode
+    updateIntervalSeconds: 10
+    dataUsagePerDayMB: 3
+  - name: Interactive mode
+    updateIntervalSeconds: 120
+    dataUsagePerDayMB: 1.5
+  - name: Low-power mode
+    updateIntervalSeconds: 600
+    dataUsagePerDayMB: 0.05
 ---
 
 The Nordic Thingy:91 Solar Shield is a plug-and-play prototyping platform.
