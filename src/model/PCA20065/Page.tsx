@@ -6,7 +6,7 @@ import { BME680 } from '#components/BME680.js'
 import { type Device as TDevice } from '#context/Device.js'
 import { Map } from '#map/Map.js'
 
-export const Thingy91X = ({ device }: { device: TDevice }) => (
+export const Page = ({ device }: { device: TDevice }) => (
 	<>
 		<main>
 			<DeviceHeader device={device} />

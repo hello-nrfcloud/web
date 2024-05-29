@@ -1,8 +1,8 @@
 import { Feedback } from '#components/Feedback.js'
 import { ModelResources } from '#components/ModelResources.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
-import { SolarThingy91 } from '#components/device/SolarThingy91.js'
-import { Thingy91X } from '#components/device/Thingy91X.js'
+import { Page as SolarThingy91 } from '#model/PCA20035-solar/Page.js'
+import { Page as Thingy91X } from '#model/PCA20065/Page.js'
 import { useDevice } from '#context/Device.js'
 
 export const Device = () => {

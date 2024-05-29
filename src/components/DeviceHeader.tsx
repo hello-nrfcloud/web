@@ -1,6 +1,30 @@
+import { Ago } from '#components/Ago.js'
+import { Applied } from '#components/Applied.js'
+import { IAQ } from '#components/BME680.js'
+import { Transparent } from '#components/Buttons.js'
 import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
+import {
+	EnergyEstimateIcons,
+	EnergyEstimateLabel,
+} from '#components/SignalQuality.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
+import { LTEm } from '#components/icons/LTE-m.js'
+import { NBIot } from '#components/icons/NBIot.js'
+import { SIMIcon } from '#components/icons/SIMIcon.js'
+import { BatteryIndicator } from '#components/BatteryIndicator.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { useHistory } from '#context/History.js'
+import {
+	isBatteryAndPower,
+	isButtonPress,
+	isConnectionInformation,
+	isDeviceInformation,
+	isEnvironment,
+	toBatteryAndPower,
+	toButtonPress,
+	toConnectionInformation,
+	toDeviceInformation,
+	toEnvironment,
+} from '#proto/lwm2m.js'
 import { identifyIssuer } from 'e118-iin-list'
 import {
 	ActivitySquareIcon,
@@ -12,26 +36,7 @@ import {
 	UploadCloud,
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { Ago } from '#components/Ago.js'
-import { Transparent } from '#components/Buttons.js'
 import './DeviceHeader.css'
-import {
-	EnergyEstimateIcons,
-	EnergyEstimateLabel,
-} from '#components/SignalQuality.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { LTEm } from '#components/icons/LTE-m.js'
-import { NBIot } from '#components/icons/NBIot.js'
-import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { IAQ } from '#components/BME680.js'
-import { BatteryIndicator } from '#components/model/PCA20035-solar/SolarThingyBattery.js'
-import { Applied } from '#components/Applied.js'
-import {
-	isConnectionInformation,
-	isDeviceInformation,
-	toConnectionInformation,
-	toDeviceInformation,
-} from '#proto/lwm2m.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -137,8 +142,11 @@ const SignalQualityInfo = () => {
 }
 
 const EnvironmentInfo = () => {
-	const { environment } = useHistory()
-	const { IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
+	const { reported } = useDevice()
+	const environment = Object.values(reported)
+		.filter(isEnvironment)
+		.map(toEnvironment)[0]
+	const { IAQ: iaq, c, ts: updateTime } = environment ?? {}
 
 	return (
 		<span class="d-flex flex-column">
@@ -217,8 +225,11 @@ const NetworkModeInfo = () => {
 }
 
 const BatteryInfo = () => {
-	const { battery } = useHistory()
-	const batteryReading = battery[0]
+	const { reported } = useDevice()
+	const batteryReading = Object.values(reported)
+		.filter(isBatteryAndPower)
+		.map(toBatteryAndPower)[0]
+
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">
@@ -247,8 +258,11 @@ const BatteryInfo = () => {
 }
 
 const Interact = () => {
-	const { button } = useHistory()
-	const buttonPress = button[0]
+	const { reported } = useDevice()
+	const buttonPress = Object.values(reported)
+		.filter(isButtonPress)
+		.map(toButtonPress)[0]
+
 	return (
 		<span class="d-flex flex-column">
 			<small class="text-muted">

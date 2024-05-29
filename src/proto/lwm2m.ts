@@ -45,7 +45,7 @@ export const isConfig = isLwM2MObject<ApplicationConfiguration_14301>(
 )
 export type LwM2MObjects = Array<
 	| GeoLocation
-	| Battery
+	| BatteryAndPower
 	| ConnectionInformation
 	| DeviceInformation
 	| Environment
@@ -72,12 +72,14 @@ export type GeoLocation = {
 }
 
 export type WithTimestamp = { ts: number }
-export type Battery = WithTimestamp &
+export type BatteryAndPower = WithTimestamp &
 	Partial<{
 		mA: number
 		'%': number
 	}>
-export const toBattery = (message: BatteryAndPower_14202): Battery => ({
+export const toBatteryAndPower = (
+	message: BatteryAndPower_14202,
+): BatteryAndPower => ({
 	mA: message['Resources'][2],
 	'%': message['Resources'][0],
 	ts: message['Resources'][99],
@@ -115,7 +117,7 @@ export const toEnvironment = (message: Environment_14205): Environment => ({
 export type ButtonPress = WithTimestamp & {
 	id: number
 }
-export const toButton = (message: ButtonPress_14220): ButtonPress => ({
+export const toButtonPress = (message: ButtonPress_14220): ButtonPress => ({
 	id: message['Resources'][0],
 	ts: message['Resources'][99],
 })

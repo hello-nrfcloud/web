@@ -32,6 +32,7 @@
       "#page/*": ["page/*"],
       "#proto/*": ["proto/*"],
       "#map/*": ["map/*"],
+      "#model/*": ["model/*"],
       "#api/*": ["api/*"]
     }
   }

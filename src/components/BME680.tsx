@@ -1,5 +1,6 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useHistory } from '#context/History.js'
+import { useDevice } from '#context/Device.js'
+import { isEnvironment, toEnvironment } from '#proto/lwm2m.js'
 import {
 	AngryIcon,
 	AnnoyedIcon,
@@ -43,9 +44,11 @@ export const BME680 = () => (
 )
 
 export const EnvironmentReadings = () => {
-	const { environment } = useHistory()
-
-	const { p, mbar, IAQ: iaq, c, ts: updateTime } = environment[0] ?? {}
+	const { reported } = useDevice()
+	const environment = Object.values(reported)
+		.filter(isEnvironment)
+		.map(toEnvironment)[0]
+	const { p, mbar, IAQ: iaq, c, ts: updateTime } = environment ?? {}
 
 	return (
 		<>

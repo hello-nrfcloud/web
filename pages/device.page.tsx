@@ -5,7 +5,6 @@ import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
 import { Provider as ParametersProvider } from '#context/Parameters.js'
-import { Provider as HistoryProvider } from '#context/History.js'
 import { Device } from '#page/Device.js'
 import type { IndexPageProps } from './index.page.server.js'
 import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNotifier.js'
@@ -18,12 +17,10 @@ export const Page = ({ models }: IndexPageProps) => (
 				<DeviceProvider>
 					<DeviceLocationProvider>
 						<MapShareProvider>
-							<HistoryProvider>
-								<Navbar />
-								<WebsocketDisconnectNotifier />
-								<Device />
-								<Footer />
-							</HistoryProvider>
+							<Navbar />
+							<WebsocketDisconnectNotifier />
+							<Device />
+							<Footer />
 						</MapShareProvider>
 					</DeviceLocationProvider>
 				</DeviceProvider>

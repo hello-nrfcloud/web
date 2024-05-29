@@ -8,12 +8,12 @@ import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { timeSpans } from '#chart/timeSpans.js'
-import { useHistory } from '#context/History.js'
+import { useHistory } from '#model/PCA20035-solar/HistoryContext.js'
 import { useDevice } from '#context/Device.js'
 import {
 	isBatteryAndPower,
 	isSolarCharge,
-	toBattery,
+	toBatteryAndPower,
 	toSolarCharge,
 } from '#proto/lwm2m.js'
 import {
@@ -27,43 +27,23 @@ const byTimestamp = (i1: LwM2MObjectInstance, i2: LwM2MObjectInstance) => {
 	return ts2 - ts1
 }
 
-export const SolarThingyChart = () => {
-	const { timeSpan, setTimeSpan } = useHistory()
-
-	return (
-		<>
-			<SolarChart />
-			<div class="bg-blue">
-				<div class="container py-4">
-					<div class="row mb-4">
-						<div class="col d-flex justify-content-start align-items-center">
-							<span class="me-2 opacity-75">Chart history:</span>
-							{timeSpans.map(({ id, title }) => (
-								<DateRangeButton
-									class="ms-1"
-									disabled={id === timeSpan}
-									onClick={() => {
-										setTimeSpan(id)
-									}}
-									label={title}
-									active={timeSpan === id}
-								/>
-							))}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<FirmwareInfo />
-						</div>
+export const Chart = () => (
+	<>
+		<SolarChart />
+		<div class="bg-blue">
+			<div class="container py-4">
+				<div class="row">
+					<div class="col">
+						<FirmwareInfo />
 					</div>
 				</div>
 			</div>
-		</>
-	)
-}
+		</div>
+	</>
+)
 
 const SolarChart = () => {
-	const { battery, gain, timeSpan } = useHistory()
+	const { battery, gain, timeSpan, setTimeSpan } = useHistory()
 
 	const hasChartData = gain.length + battery.length > 0
 
@@ -86,6 +66,22 @@ const SolarChart = () => {
 					</div>
 				)}
 			</div>
+			<div class="row ms-1">
+				<div class="col d-flex justify-content-start align-items-center">
+					<span class="me-2 opacity-75">Chart history:</span>
+					{timeSpans.map(({ id, title }) => (
+						<DateRangeButton
+							class="ms-1"
+							disabled={id === timeSpan}
+							onClick={() => {
+								setTimeSpan(id)
+							}}
+							label={title}
+							active={timeSpan === id}
+						/>
+					))}
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -96,7 +92,7 @@ const FirmwareInfo = () => {
 	const currentBattery = Object.values(reported)
 		.filter(isBatteryAndPower)
 		.sort(byTimestamp)
-		.map(toBattery)[0]
+		.map(toBatteryAndPower)[0]
 	const currentGain = Object.values(reported)
 		.filter(isSolarCharge)
 		.sort(byTimestamp)
