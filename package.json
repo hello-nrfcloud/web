@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@hello.nrfcloud.com/proto": "13.0.5",
-    "@hello.nrfcloud.com/proto-map": "10.0.2",
+    "@hello.nrfcloud.com/proto-map": "10.0.4",
     "@sentry/browser": "8.5.0",
     "@sinclair/typebox": "0.32.31",
     "classnames": "2.5.1",
