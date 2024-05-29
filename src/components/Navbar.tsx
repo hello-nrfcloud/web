@@ -47,10 +47,7 @@ const Navigation = () => {
 			)}
 			{fingerprint !== null && device !== undefined && (
 				<>
-					<Link
-						href={`/device#${device.id}`}
-						title="Device fingerprint was provided"
-					>
+					<Link href={`/device`} title="Device fingerprint was provided">
 						<Cpu class="me-1" /> Your device
 					</Link>
 					<Transparent

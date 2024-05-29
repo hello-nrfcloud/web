@@ -62,8 +62,7 @@ export const RecognizingFingerprint = () => {
 						<>
 							<h2>Connected!</h2>
 							<p>
-								We are taking you{' '}
-								<a href={`/device#${device.id}`}>to your device</a>...
+								We are taking you <a href={`/device`}>to your device</a>...
 							</p>
 						</>
 					)}
