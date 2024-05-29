@@ -50,14 +50,15 @@ const ShowInstance = ({ instance }: { instance: LwM2MObjectInstance }) => {
 		<>
 			<h3>
 				<span>
-					{instance.ObjectID}/{instance.ObjectInstanceID ?? '0'} (
-					<a
-						href={`https://github.com/hello-nrfcloud/proto-map/blob/v${PROTO_MAP_VERSION}/lwm2m/${instance.ObjectID}.xml`}
-						target="_blank"
-					>
-						{definitions[instance.ObjectID].Name}
-					</a>
-					)
+					{instance.ObjectID}/{instance.ObjectInstanceID ?? '0'}
+					<small class="ms-1">
+						<a
+							href={`https://github.com/hello-nrfcloud/proto-map/blob/v${PROTO_MAP_VERSION}/lwm2m/${instance.ObjectID}.xml`}
+							target="_blank"
+						>
+							{definitions[instance.ObjectID].Name}
+						</a>
+					</small>
 				</span>
 				<Ago date={new Date(instance.Resources['99'] as number)} />
 			</h3>
@@ -72,7 +73,7 @@ const ShowInstance = ({ instance }: { instance: LwM2MObjectInstance }) => {
 								{info?.Type === 'Float' && typeof value === 'number'
 									? formatFloat(value)
 									: value}{' '}
-								<small>{info?.Name ?? '??'}</small>
+								{info?.Units ?? ''} <small>{info?.Name ?? '??'}</small>
 							</dd>
 						</>
 					)
