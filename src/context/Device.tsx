@@ -52,6 +52,8 @@ export const DeviceContext = createContext<{
 	configure: (
 		config: Configuration,
 	) => Promise<{ success: true } | { problem: Static<typeof ProblemDetail> }>
+	debug: boolean
+	setDebug: (debug: boolean) => void
 }>({
 	connected: false,
 	disconnected: false,
@@ -66,12 +68,15 @@ export const DeviceContext = createContext<{
 	connectionFailed: false,
 	configuration: {},
 	configure: async () => Promise.reject(new Error('Not implemented')),
+	debug: false,
+	setDebug: () => undefined,
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
+	const [debug, setDebug] = useState<boolean>(false)
 	const [lastSeen, setLastSeen] = useState<Date | undefined>(undefined)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const { fingerprint } = useFingerprint()
@@ -306,6 +311,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							}
 						})
 					}),
+				debug,
+				setDebug,
 			}}
 		>
 			{children}

@@ -10,6 +10,8 @@ declare const REGISTRY_ENDPOINT: string
 declare const DOMAIN_NAME: string
 /** Sentry DSN, optional */
 declare const SENTRY_DSN: string | undefined
+/** Version of @hello.nrfcloud.com/proto-map */
+declare const PROTO_MAP_VERSION: string
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface ImportMeta {

@@ -7,24 +7,22 @@ import { type Device as TDevice } from '#context/Device.js'
 import { Map } from '#map/Map.js'
 
 export const Page = ({ device }: { device: TDevice }) => (
-	<>
-		<main>
-			<DeviceHeader device={device} />
-			<WaitingForConnection />
-			<div class="container my-4">
-				<div class="row mb-4">
-					<section class="col-12 col-md-6">
-						<NetworkInfo />
-					</section>
-					<section class="col-12 col-md-6">
-						<SoftwareInfo device={device} />
-						<BME680 />
-					</section>
-				</div>
+	<main>
+		<DeviceHeader device={device} />
+		<WaitingForConnection />
+		<div class="container my-4">
+			<div class="row mb-4">
+				<section class="col-12 col-md-6">
+					<NetworkInfo />
+				</section>
+				<section class="col-12 col-md-6">
+					<SoftwareInfo device={device} />
+					<BME680 />
+				</section>
 			</div>
-		</main>
+		</div>
 		<div>
 			<Map device={device} />
 		</div>
-	</>
+	</main>
 )

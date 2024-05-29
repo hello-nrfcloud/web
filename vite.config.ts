@@ -4,6 +4,7 @@ import chalk from 'chalk'
 import { defineConfig } from 'vite'
 import ssr from 'vike/plugin'
 import { homepage, version } from './siteInfo.js'
+import { dependencies } from './package.json'
 
 const { registryEndpoint } = fromEnv({
 	registryEndpoint: 'REGISTRY_ENDPOINT',
@@ -70,5 +71,8 @@ export default defineConfig({
 			process.env.DOMAIN_NAME ?? 'hello.nrfcloud.com',
 		),
 		SENTRY_DSN: JSON.stringify(sentryDSN),
+		PROTO_MAP_VERSION: JSON.stringify(
+			dependencies['@hello.nrfcloud.com/proto-map'],
+		),
 	},
 })

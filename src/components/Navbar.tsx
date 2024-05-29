@@ -3,7 +3,14 @@ import { useFingerprint } from '#context/Fingerprint.js'
 import { isSSR } from '#utils/isSSR.js'
 import cx from 'classnames'
 import { debounce } from 'lodash-es'
-import { Code2, Cpu, Fingerprint, MapPinned, TrashIcon } from 'lucide-preact'
+import {
+	Code2,
+	Cpu,
+	Fingerprint,
+	ListTree,
+	MapPinned,
+	TrashIcon,
+} from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
 import { AppUpdateNotifier } from '#components/AppUpdateNotifier.js'
@@ -31,7 +38,7 @@ const Link = ({
 	</a>
 )
 const Navigation = () => {
-	const { device } = useDevice()
+	const { device, debug, setDebug } = useDevice()
 	const { fingerprint, clear } = useFingerprint()
 	return (
 		<>
@@ -67,6 +74,21 @@ const Navigation = () => {
 					</Link>
 				</>
 			)}
+			{device !== undefined &&
+				document.location.pathname.includes('/device') && (
+					<span class="d-none d-sm-inline">
+						{!debug && (
+							<button
+								class="me-2 nav-link align-items-center  d-md-flex"
+								type="button"
+								onClick={() => setDebug(true)}
+							>
+								<ListTree class="me-1" /> Show LwM2M Objects
+							</button>
+						)}
+					</span>
+				)}
+
 			<Link href="/view-source">
 				<Code2 class="me-1" /> View Source
 			</Link>

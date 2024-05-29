@@ -1,0 +1,58 @@
+div.hasSidebar {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+aside.lwm2m-debug {
+  padding: 1rem;
+}
+
+aside.lwm2m-debug header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+aside.lwm2m-debug header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+aside.lwm2m-debug header button {
+  background-color: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+}
+
+aside.lwm2m-debug a {
+  color: inherit;
+}
+
+aside.lwm2m-debug dl {
+  display: grid;
+  grid-template-columns: 10% auto;
+  margin: 0;
+}
+
+aside.lwm2m-debug dd,
+aside.lwm2m-debug dt {
+  margin: 0;
+}
+
+aside.lwm2m-debug dd {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+aside.lwm2m-debug dd small {
+  opacity: 0.8;
+}
+
+aside.lwm2m-debug h3 {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
