@@ -7,7 +7,6 @@ import {
 	SatelliteIcon,
 	UnlockIcon,
 } from 'lucide-preact'
-// Needed for SSR build, named exports don't work
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { timeSpans } from '#chart/timeSpans.js'
 import { CountryFlag } from '#components/CountryFlag.js'
