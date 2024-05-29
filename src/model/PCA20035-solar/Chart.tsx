@@ -1,31 +1,22 @@
-import { HistoryChart } from '#chart/HistoryChart.js'
-import { Ago } from '#components/Ago.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { formatFloat } from '#utils/format.js'
-import { BatteryCharging, Sun } from 'lucide-preact'
-import { toChartData } from '#chart/toChartData.js'
 import { DateRangeButton } from '#chart/DateRangeButton.js'
-import { WithResize } from '#components/ResizeObserver.js'
-import { WaitingForData } from '#components/WaitingForData.js'
+import { HistoryChart } from '#chart/HistoryChart.js'
 import { timeSpans } from '#chart/timeSpans.js'
-import { useHistory } from '#model/PCA20035-solar/HistoryContext.js'
+import { toChartData } from '#model/PCA20035-solar/toChartData.js'
+import { Ago } from '#components/Ago.js'
+import { WithResize } from '#components/ResizeObserver.js'
+import { LoadingIndicator } from '#components/ValueLoading.js'
+import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
+import { useHistory } from '#model/PCA20035-solar/HistoryContext.js'
 import {
+	byTimestamp,
 	isBatteryAndPower,
 	isSolarCharge,
 	toBatteryAndPower,
 	toSolarCharge,
 } from '#proto/lwm2m.js'
-import {
-	timestampResources,
-	type LwM2MObjectInstance,
-} from '@hello.nrfcloud.com/proto-map/lwm2m'
-
-const byTimestamp = (i1: LwM2MObjectInstance, i2: LwM2MObjectInstance) => {
-	const ts1 = i1.Resources[timestampResources[i1.ObjectID] as number] as number
-	const ts2 = i2.Resources[timestampResources[i2.ObjectID] as number] as number
-	return ts2 - ts1
-}
+import { formatFloat } from '#utils/format.js'
+import { BatteryCharging, Sun } from 'lucide-preact'
 
 export const Chart = () => (
 	<>

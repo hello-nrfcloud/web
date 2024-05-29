@@ -9,6 +9,7 @@ import {
 	type SolarCharge_14210,
 	type ButtonPress_14220,
 	type ApplicationConfiguration_14301,
+	timestampResources,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 
@@ -153,3 +154,12 @@ export const toConnectionInformation = (
 	eest: message['Resources'][11],
 	ts: message['Resources'][99],
 })
+
+export const byTimestamp = (
+	i1: LwM2MObjectInstance,
+	i2: LwM2MObjectInstance,
+): number => {
+	const ts1 = i1.Resources[timestampResources[i1.ObjectID] as number] as number
+	const ts2 = i2.Resources[timestampResources[i2.ObjectID] as number] as number
+	return ts2 - ts1
+}
