@@ -39,6 +39,7 @@ import { useState } from 'preact/hooks'
 import './DeviceHeader.css'
 import { CountryFlag } from './CountryFlag.js'
 import { formatFloat } from '#utils/format.js'
+import { ModelCard } from '#model/ModelCard.js'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
@@ -64,7 +65,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 					</div>
 					{!showModeConfiguration && (
 						<div class="row my-4">
-							<div class="col-12 d-flex flex-wrap">
+							<div class="col-8 d-flex flex-wrap">
 								<div class="me-4 mb-2 mb-lg-4">
 									<NetworkModeInfo />
 								</div>
@@ -91,6 +92,9 @@ export const DeviceHeader = ({ device }: { device: Device }) => {
 								<div class="ms-lg-4 mb-2 mb-lg-4">
 									<Interact />
 								</div>
+							</div>
+							<div class="col-4">
+								<ModelCard model={device.model} />
 							</div>
 						</div>
 					)}
