@@ -32,7 +32,7 @@ export const toChartData = ({
 					subMilliseconds(base, base.getTime() - ts),
 				]),
 				color: 'var(--color-nordic-grass)',
-				format: (v) => `${v} %`,
+				format: (v) => `${Math.round(v)} %`,
 			},
 		],
 	}

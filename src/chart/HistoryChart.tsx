@@ -53,7 +53,7 @@ export const HistoryChart = ({
 								fill={'none'}
 								d={`M ${
 									m.paddingLeft + m.xSpacing * data.xAxis.labelEvery * index
-								},${m.paddingY} v ${m.yAxisHeight}`}
+								},${m.paddingY * 2} v ${m.yAxisHeight}`}
 							/>
 							{!data.xAxis.hideLabels &&
 								index > 0 &&
@@ -87,7 +87,7 @@ export const HistoryChart = ({
 									stroke-linecap={'round'}
 									stroke-linejoin={'round'}
 									stroke-miterlimit={2}
-									d={`M ${xPos},${m.paddingY} h ${length}`}
+									d={`M ${xPos},${m.paddingY * 2} h ${length}`}
 								/>
 								<path
 									stroke={data.xAxis.color}
@@ -95,7 +95,7 @@ export const HistoryChart = ({
 									stroke-linecap={'round'}
 									stroke-linejoin={'round'}
 									stroke-miterlimit={2}
-									d={`M ${xPos},${m.paddingY + m.yAxisHeight} h ${length}`}
+									d={`M ${xPos},${m.paddingY * 2 + m.yAxisHeight} h ${length}`}
 								/>
 							</>
 						)
@@ -118,7 +118,7 @@ export const HistoryChart = ({
 									opacity={0.5}
 									font-weight={700}
 									x={xPos}
-									y={m.paddingY + fontSize / 3}
+									y={m.paddingY * 2 + fontSize / 3}
 									text-anchor={anchor}
 									font-size={fontSize}
 								>
@@ -129,7 +129,7 @@ export const HistoryChart = ({
 									opacity={0.5}
 									font-weight={700}
 									x={xPos}
-									y={m.paddingY + m.yAxisHeight + fontSize / 3}
+									y={m.paddingY * 2 + m.yAxisHeight + fontSize / 3}
 									text-anchor={anchor}
 									font-size={fontSize}
 								>
@@ -182,10 +182,11 @@ export const HistoryChart = ({
 						const [v, ts] = dataset.values[i] as [number, Date]
 						const x = m.xPosition(ts)
 						if (x === null) continue
+						const y = m.yPosition(dataset, v)
 						if (i === 0) {
-							lineDefinition.push(`M ${x},${m.yPosition(dataset, v)}`)
+							lineDefinition.push(`M ${x},${y}`)
 						} else {
-							lineDefinition.push(`L ${x},${m.yPosition(dataset, v)}`)
+							lineDefinition.push(`L ${x},${y}`)
 						}
 					}
 					return (
@@ -202,12 +203,16 @@ export const HistoryChart = ({
 				})}
 				{/* dataset labels */}
 				{data.datasets.map((dataset) => {
+					const numLabels = Math.floor(
+						data.xAxis.minutes / data.xAxis.labelEvery,
+					)
 					const labels = []
 					for (let i = 0; i < dataset.values.length; i++) {
-						if (i % data.xAxis.labelEvery === 0) {
-							const [v, ts] = dataset.values[i] as [number, Date]
-							const x = m.xPosition(ts)
-							if (x === null) continue
+						const [v, ts] = dataset.values[i] as [number, Date]
+						const x = m.xPosition(ts)
+						if (x === null) continue
+						const y = m.yPosition(dataset, v)
+						if (i % numLabels === 0) {
 							labels.push(
 								<circle
 									fill={'none'}
@@ -216,7 +221,7 @@ export const HistoryChart = ({
 									stroke-linecap={'round'}
 									stroke-linejoin={'round'}
 									stroke-miterlimit={2}
-									cy={m.yPosition(dataset, v)}
+									cy={y}
 									cx={x}
 									r="6"
 								/>,
@@ -225,7 +230,7 @@ export const HistoryChart = ({
 								<text
 									fill={dataset.color}
 									font-weight={700}
-									y={m.yPosition(dataset, v) - m.padding / 2}
+									y={y - m.padding / 2}
 									x={x}
 									text-anchor="middle"
 									font-size={fontSize}

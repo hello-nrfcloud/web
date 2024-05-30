@@ -1,9 +1,9 @@
-import type { TimeSpan } from '#api/api.js'
+import { TimeSpan } from '#api/api.js'
 import type { XAxis } from '#chart/chartMath.js'
 import { format } from 'date-fns'
 
 export const xAxisForType = (type: TimeSpan): XAxis => {
-	if (type === 'lastMonth')
+	if (type === TimeSpan.lastMonth)
 		return {
 			color: 'var(--color-nordic-light-grey)',
 			hideLabels: false,
@@ -11,7 +11,7 @@ export const xAxisForType = (type: TimeSpan): XAxis => {
 			minutes: 60 * 24 * 31,
 			format: (d) => format(d, 'd.'),
 		}
-	if (type === 'lastWeek')
+	if (type === TimeSpan.lastWeek)
 		return {
 			color: 'var(--color-nordic-light-grey)',
 			hideLabels: false,
@@ -19,7 +19,7 @@ export const xAxisForType = (type: TimeSpan): XAxis => {
 			minutes: 60 * 24 * 7,
 			format: (d) => format(d, 'd.'),
 		}
-	if (type === 'lastDay')
+	if (type === TimeSpan.lastDay)
 		return {
 			color: 'var(--color-nordic-light-grey)',
 			hideLabels: false,

@@ -57,7 +57,7 @@ export const chartMath = ({
 	const numPaddingLeft = 2
 	const numPaddingRight = 2
 	const paddingY = padding * 0.5
-	const yAxisHeight = height - paddingY * 2 // 1 padding at bottom if labels are not hidden
+	const yAxisHeight = height - paddingY * 3 // 1 padding at top and bottom
 	const xAxisWidth = width - padding * (numPaddingLeft + numPaddingRight)
 	const xSpacing = xAxisWidth / ((minutes / labelEvery + 1) * labelEvery)
 	const nextTenMinutes = addMinutes(
@@ -84,7 +84,7 @@ export const chartMath = ({
 				0,
 				Math.min(1, ((value ?? 0) - min) / (max - min)),
 			)
-			return yAxisHeight + paddingY - valueAsPercent * yAxisHeight
+			return yAxisHeight + paddingY * 2 - valueAsPercent * yAxisHeight
 		},
 		xPosition: (ts: Date): number | null => {
 			const tsInt = ts.getTime()
