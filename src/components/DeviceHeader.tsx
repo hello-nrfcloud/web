@@ -1,8 +1,6 @@
 import { Ago } from '#components/Ago.js'
-import { Applied } from '#components/Applied.js'
 import { IAQ } from '#components/BME680.js'
-import { Transparent } from '#components/Buttons.js'
-import { DeviceModeSelector } from '#components/DeviceModeSelector.js'
+import { BatteryIndicator } from '#components/BatteryIndicator.js'
 import {
 	EnergyEstimateIcons,
 	EnergyEstimateLabel,
@@ -11,98 +9,54 @@ import { LoadingIndicator } from '#components/ValueLoading.js'
 import { LTEm } from '#components/icons/LTE-m.js'
 import { NBIot } from '#components/icons/NBIot.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { BatteryIndicator } from '#components/BatteryIndicator.js'
 import { useDevice, type Device } from '#context/Device.js'
 import {
 	isBatteryAndPower,
-	isButtonPress,
 	isConnectionInformation,
 	isDeviceInformation,
 	isEnvironment,
 	toBatteryAndPower,
-	toButtonPress,
 	toConnectionInformation,
 	toDeviceInformation,
 	toEnvironment,
 } from '#proto/lwm2m.js'
-import { identifyIssuer } from 'e118-iin-list'
-import {
-	ActivitySquareIcon,
-	ChevronDownSquareIcon,
-	Satellite,
-	Settings,
-	Slash,
-	ThermometerIcon,
-	UploadCloud,
-} from 'lucide-preact'
-import { useState } from 'preact/hooks'
-import './DeviceHeader.css'
-import { CountryFlag } from './CountryFlag.js'
 import { formatFloat } from '#utils/format.js'
+import { identifyIssuer } from 'e118-iin-list'
+import { Slash, ThermometerIcon } from 'lucide-preact'
+import { CountryFlag } from './CountryFlag.js'
+import './DeviceHeader.css'
 
 export const DeviceHeader = ({ device }: { device: Device }) => {
 	const type = device.model
-	const [showModeConfiguration, setModeConfigurationVisible] =
-		useState<boolean>(false)
+
 	return (
-		<>
-			<div class="container my-md-4">
-				<header class="mt-md-4">
-					<div class="row mt-3">
-						<div class="col d-flex justify-content-between align-items-center">
-							<h1>
-								<small class="text-muted" style={{ fontSize: '16px' }}>
-									Your model:{' '}
-									<a href={`/model/${encodeURIComponent(type.name)}`}>
-										{type.name}
-									</a>
-								</small>
-								<br />
-								<strong class="ms-1">{type.title}</strong>
-							</h1>
-						</div>
+		<header>
+			<h1>
+				<small class="text-muted" style={{ fontSize: '16px' }}>
+					Your model:{' '}
+					<a href={`/model/${encodeURIComponent(type.name)}`}>{type.name}</a>
+				</small>
+			</h1>
+			<div class="mt-md-4">
+				<div class="d-flex flex-wrap">
+					<div class="me-4 mb-2 mb-lg-4">
+						<NetworkModeInfo />
 					</div>
-					{!showModeConfiguration && (
-						<div class="row my-4">
-							<div class="col-12 d-flex flex-wrap">
-								<div class="me-4 mb-2 mb-lg-4">
-									<NetworkModeInfo />
-								</div>
-								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
-									<SignalQualityInfo />
-								</div>
-								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
-									<SIMInfo />
-								</div>
-								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
-									<BatteryInfo />
-								</div>
-								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
-									<PublicationInterval
-										device={device}
-										onConfigure={() =>
-											setModeConfigurationVisible((visible) => !visible)
-										}
-									/>
-								</div>
-								<div class="me-4 ms-lg-4 mb-2 mb-lg-4">
-									<EnvironmentInfo />
-								</div>
-								<div class="ms-lg-4 mb-2 mb-lg-4">
-									<Interact />
-								</div>
-							</div>
-						</div>
-					)}
-				</header>
+					<div class="me-4 mb-2 mb-lg-4">
+						<SignalQualityInfo />
+					</div>
+					<div class="me-4 mb-2 mb-lg-4">
+						<SIMInfo />
+					</div>
+					<div class="me-4 mb-2 mb-lg-4">
+						<BatteryInfo />
+					</div>
+					<div class="me-4 mb-2 mb-lg-4">
+						<EnvironmentInfo />
+					</div>
+				</div>
 			</div>
-			{showModeConfiguration && (
-				<DeviceModeSelector
-					device={device}
-					onClose={() => setModeConfigurationVisible(false)}
-				/>
-			)}
-		</>
+		</header>
 	)
 }
 
@@ -257,84 +211,6 @@ const BatteryInfo = () => {
 				<small class="text-muted">
 					<Ago date={new Date(batteryReading.ts)} />
 				</small>
-			)}
-		</span>
-	)
-}
-
-const Interact = () => {
-	const { reported } = useDevice()
-	const buttonPress = Object.values(reported)
-		.filter(isButtonPress)
-		.map(toButtonPress)[0]
-
-	return (
-		<span class="d-flex flex-column">
-			<small class="text-muted">
-				<strong>Interact</strong>
-			</small>
-			{buttonPress === undefined && (
-				<small class="d-flex">
-					<ActivitySquareIcon class="me-1" />
-					<span>Press the button on your device!</span>
-				</small>
-			)}
-			{buttonPress !== undefined && (
-				<>
-					<small class="d-flex hot" key={`button-${buttonPress.ts}`}>
-						<ChevronDownSquareIcon class="me-1" />
-						<span>
-							Button <strong>#{buttonPress.id}</strong> pressed
-						</span>
-					</small>
-					<small class="text-muted">
-						<Ago date={new Date(buttonPress.ts)} withSeconds />
-					</small>
-				</>
-			)}
-		</span>
-	)
-}
-
-const PublicationInterval = ({
-	device,
-	onConfigure,
-}: {
-	device: Device
-	onConfigure?: () => void
-}) => {
-	const {
-		configuration: { reported, desired },
-	} = useDevice()
-
-	return (
-		<span class="d-flex flex-column">
-			<small class="text-muted">
-				<strong>Publication interval</strong>
-			</small>
-			<span>
-				<UploadCloud strokeWidth={1} />{' '}
-				{reported?.updateIntervalSeconds ??
-					device.model.defaultConfiguration.updateIntervalSeconds}{' '}
-				seconds
-				{(reported?.gnssEnabled ??
-					device.model.defaultConfiguration.gnssEnabled) && (
-					<Satellite strokeWidth={1} class="ms-1" />
-				)}
-			</span>
-			<small class="text-muted">
-				<Transparent class="text-muted" onClick={onConfigure}>
-					<Settings strokeWidth={1} /> configure
-				</Transparent>
-			</small>
-			{desired?.updateIntervalSeconds !== undefined && (
-				<Applied
-					desired={desired.updateIntervalSeconds}
-					reported={
-						reported?.updateIntervalSeconds ??
-						device.model.defaultConfiguration.updateIntervalSeconds
-					}
-				/>
 			)}
 		</span>
 	)

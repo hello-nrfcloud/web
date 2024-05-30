@@ -1,34 +1,30 @@
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { HistoryChart } from '#chart/HistoryChart.js'
 import { timeSpans } from '#chart/timeSpans.js'
-import { toChartData } from '#model/PCA20065/toChartData.js'
 import { WithResize } from '#components/ResizeObserver.js'
-import { WaitingForData } from '#components/WaitingForData.js'
+import { useDevice } from '#context/Device.js'
 import { useHistory } from '#model/PCA20065/HistoryContext.js'
+import { toChartData } from '#model/PCA20065/toChartData.js'
 
 export const BatteryChart = () => {
+	const { hasLiveData } = useDevice()
 	const { battery, timeSpan, setTimeSpan } = useHistory()
 
-	const hasChartData = battery.length > 0
+	if (!hasLiveData) {
+		return null
+	}
 
 	return (
 		<div class="bg-blue-soft">
 			<div class="container py-4">
-				{hasChartData && (
-					<WithResize>
-						{(size) => (
-							<HistoryChart
-								data={toChartData({ battery, type: timeSpan })}
-								size={size}
-							/>
-						)}
-					</WithResize>
-				)}
-				{!hasChartData && (
-					<div class="d-flex align-items-center justify-content-center h-100">
-						<WaitingForData />
-					</div>
-				)}
+				<WithResize>
+					{(size) => (
+						<HistoryChart
+							data={toChartData({ battery, type: timeSpan })}
+							size={size}
+						/>
+					)}
+				</WithResize>
 				<div class="row px-4 py-4">
 					<div class="col d-flex justify-content-start align-items-center">
 						<span class="me-2 opacity-75">Chart history:</span>

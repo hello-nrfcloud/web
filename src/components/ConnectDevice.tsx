@@ -24,91 +24,73 @@ export const ConnectDevice = () => {
 	const hasSIM = hasIBasisSIM ?? hasOnomondoSIM ?? hasWirelessLogicSIM
 
 	return (
-		<div class="py-4 bg-light">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<h2>
-							Please follow these steps to start retrieving real-time data from
-							your kit:
-						</h2>
-						<section class="mt-4">
-							<div class="row">
-								<div class="col-12 col-lg-6">
-									<p>
-										<BatteryFull class="me-2" />
-										Make sure the battery is charged.
-										<br />
-										<small>
-											To be safe, you can plug the device in using a micro USB
-											cable.
-										</small>
-									</p>
-									<p>
-										<ToggleRight class="me-2" />
-										Turn the kit on
-									</p>
-									{hasSIM && (
-										<>
-											<p>
-												<SIMIcon class="me-2" /> Insert a SIM card
-											</p>
-											{(device?.model?.includedSIM?.length ?? 0) > 1 && (
-												<p>
-													<small>
-														This model comes with{' '}
-														{device?.model?.includedSIM?.length}{' '}
-														<strong>pre-activated</strong> SIM cards. You can
-														choose which one to use.
-													</small>
-												</p>
-											)}
-											<p>
-												<RadioTower class="me-2" /> Sufficient data left on the
-												SIM?
-											</p>
-											<p>{hasIBasisSIM && <IBasisSIMInfo />}</p>
-											<p>{hasOnomondoSIM && <OnomondoSIMInfo />}</p>
-											<p>{hasWirelessLogicSIM && <WirelessLogicSIMInfo />}</p>
-										</>
-									)}
-								</div>
-								<div class="col-12 col-lg-6">
-									<p>
-										<WaitingForData />
-										<br />
-										<small class="text-muted">
-											Your device should send data to the cloud every{' '}
-											{reported?.updateIntervalSeconds ??
-												device?.model.defaultConfiguration
-													.updateIntervalSeconds}{' '}
-											seconds.
-										</small>
-									</p>
-									{lastSeen === undefined && (
-										<p>
-											<CloudOff /> The device has not yet connected to the
-											cloud.
-										</p>
-									)}
-									{lastSeen !== undefined && (
-										<p>
-											<span>
-												<Ago date={lastSeen} strokeWidth={2} size={24} /> ago
-											</span>
-											<br />
-											<small class="text-muted">
-												was when the device has last sent data to the cloud
-											</small>
-										</p>
-									)}
-								</div>
-							</div>
-						</section>
-					</div>
-				</div>
-			</div>
-		</div>
+		<section class="mt-4">
+			<h2>Waiting for data from your device</h2>
+			<p>
+				<WaitingForData />
+				<br />
+				<small class="text-muted">
+					Your device should send data to the cloud every{' '}
+					{reported?.updateIntervalSeconds ??
+						device?.model.defaultConfiguration.updateIntervalSeconds}{' '}
+					seconds.
+				</small>
+			</p>
+			{lastSeen === undefined && (
+				<p>
+					<CloudOff /> The device has not yet connected to the cloud.
+				</p>
+			)}
+			{lastSeen !== undefined && (
+				<p>
+					<span>
+						<Ago date={lastSeen} strokeWidth={2} size={24} /> ago
+					</span>
+					<br />
+					<small class="text-muted">
+						was when the device has last sent data to the cloud
+					</small>
+				</p>
+			)}
+			<h2>
+				Please follow these steps to start retrieving real-time data from your
+				kit:
+			</h2>
+			<p>
+				<BatteryFull class="me-2" />
+				Make sure the battery is charged.
+				<br />
+				<small>
+					To be safe, you can plug the device in using a micro USB cable.
+				</small>
+			</p>
+			<p>
+				<ToggleRight class="me-2" />
+				Turn the kit on
+			</p>
+			{hasSIM && (
+				<>
+					<p>
+						<SIMIcon class="me-2" /> Insert a SIM card
+					</p>
+					{(device?.model?.includedSIM?.length ?? 0) > 1 && (
+						<p>
+							<small>
+								This model comes with {device?.model?.includedSIM?.length}{' '}
+								<strong>pre-activated</strong> SIM cards. You can choose which
+								one to use.
+							</small>
+						</p>
+					)}
+					<p>
+						<RadioTower class="me-2" /> Sufficient data left on the SIM?
+					</p>
+					<p>{hasIBasisSIM && <IBasisSIMInfo />}</p>
+					<p>{hasOnomondoSIM && <OnomondoSIMInfo />}</p>
+					<p>{hasWirelessLogicSIM && <WirelessLogicSIMInfo />}</p>
+				</>
+			)}
+		</section>
 	)
 }
 

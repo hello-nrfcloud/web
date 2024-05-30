@@ -54,6 +54,7 @@ export const DeviceContext = createContext<{
 	) => Promise<{ success: true } | { problem: Static<typeof ProblemDetail> }>
 	debug: boolean
 	setDebug: (debug: boolean) => void
+	hasLiveData: boolean
 }>({
 	connected: false,
 	disconnected: false,
@@ -70,6 +71,7 @@ export const DeviceContext = createContext<{
 	configure: async () => Promise.reject(new Error('Not implemented')),
 	debug: false,
 	setDebug: () => undefined,
+	hasLiveData: false,
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
@@ -231,6 +233,16 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					[ws],
 				)
 
+	let hasLiveData = lastSeen !== undefined
+	if (
+		lastSeen !== undefined &&
+		reportedConfig?.updateIntervalSeconds !== undefined
+	) {
+		hasLiveData =
+			Date.now() - lastSeen.getTime() <
+			reportedConfig?.updateIntervalSeconds * 1000
+	}
+
 	return (
 		<DeviceContext.Provider
 			value={{
@@ -313,6 +325,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					}),
 				debug,
 				setDebug,
+				hasLiveData,
 			}}
 		>
 			{children}

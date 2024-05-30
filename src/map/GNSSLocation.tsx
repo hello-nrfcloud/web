@@ -19,10 +19,6 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				the device is indoors acquiring a GNSS fix might not be possible, and
 				block the modem unnecessary long.
 			</p>
-			<p>
-				Depending on your use-case scenario you can control whether to enable
-				GNSS on this device:
-			</p>
 			{(configuration.reported?.gnssEnabled ??
 				device.model.defaultConfiguration.gnssEnabled) && (
 				<>
