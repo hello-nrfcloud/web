@@ -3,7 +3,7 @@ import { WaitingForData } from '#components/WaitingForData.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice } from '#context/Device.js'
 import { SIMVendor } from '#context/Models.js'
-import { BatteryFull, CloudOff, ToggleRight } from 'lucide-preact'
+import { BatteryFull, CloudOff, RadioTower, ToggleRight } from 'lucide-preact'
 
 export const ConnectDevice = () => {
 	const {
@@ -51,7 +51,20 @@ export const ConnectDevice = () => {
 									{hasSIM && (
 										<>
 											<p>
-												<SIMIcon class="me-2" /> Sufficient data left on the
+												<SIMIcon class="me-2" /> Insert a SIM card
+											</p>
+											{(device?.model?.includedSIM?.length ?? 0) > 1 && (
+												<p>
+													<small>
+														This model comes with{' '}
+														{device?.model?.includedSIM?.length}{' '}
+														<strong>pre-activated</strong> SIM cards. You can
+														choose which one to use.
+													</small>
+												</p>
+											)}
+											<p>
+												<RadioTower class="me-2" /> Sufficient data left on the
 												SIM?
 											</p>
 											<p>{hasIBasisSIM && <IBasisSIMInfo />}</p>
