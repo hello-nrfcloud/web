@@ -29,21 +29,21 @@ export const BatteryChart = () => {
 						<WaitingForData />
 					</div>
 				)}
-			</div>
-			<div class="row px-4 py-4">
-				<div class="col d-flex justify-content-start align-items-center">
-					<span class="me-2 opacity-75">Chart history:</span>
-					{timeSpans.map(({ id, title }) => (
-						<DateRangeButton
-							class="ms-1"
-							disabled={id === timeSpan}
-							onClick={() => {
-								setTimeSpan(id)
-							}}
-							label={title}
-							active={timeSpan === id}
-						/>
-					))}
+				<div class="row px-4 py-4">
+					<div class="col d-flex justify-content-start align-items-center">
+						<span class="me-2 opacity-75">Chart history:</span>
+						{timeSpans.map(({ id, title }) => (
+							<DateRangeButton
+								class="ms-1"
+								disabled={id === timeSpan}
+								onClick={() => {
+									setTimeSpan(id)
+								}}
+								label={title}
+								active={timeSpan === id}
+							/>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>
