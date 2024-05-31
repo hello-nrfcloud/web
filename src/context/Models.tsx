@@ -36,6 +36,9 @@ export type Model = {
 		} & Pick<Configuration, 'updateIntervalSeconds'> &
 			Partial<Configuration>
 	>
+	// Treat this device as a the model specified by the Alias
+	variantOf?: string
+	variant?: string
 }
 
 export type Configuration = {

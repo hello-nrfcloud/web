@@ -2,15 +2,28 @@ import type { Model } from '#context/Models.js'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { loadMarkdownContent } from './loadMarkdownContent.js'
+import { models } from '../content/models.js'
 
 export type ModelPageProps = { model: Model }
 
-export const prerender = async (): Promise<string[]> =>
-	(await readdir(path.join(process.cwd(), 'content', 'models')))
+export const prerender = async (): Promise<string[]> => {
+	const slugs = (await readdir(path.join(process.cwd(), 'content', 'models')))
 		.filter((s) => s.endsWith('.md'))
 		.filter((s) => s !== 'unsupported.md')
 		.map((s) => s.replace(/\.md$/, ''))
+
+	return (
+		await Promise.all(
+			slugs.map(async (slug) => {
+				// Do not build pages for variants
+				if ((await models)[slug]?.variant !== undefined) return undefined
+				return slug
+			}),
+		)
+	)
+		.filter((slug) => slug !== undefined)
 		.map((slug) => `/model/${slug}`)
+}
 
 export const onBeforeRender = async (args: {
 	routeParams: { model: string }

@@ -7,6 +7,12 @@ export const ModelCard = ({ model }: { model: Model }) => (
 			<p class="mb-1">{model.tagline}</p>
 			<p class="mb-0">
 				<code class="text-muted">{model.name}</code>
+				{model.variant !== undefined && (
+					<span>
+						{' '}
+						(<code>{model.variant}</code>)
+					</span>
+				)}
 			</p>
 		</div>
 		<div class="d-flex justify-content-center">

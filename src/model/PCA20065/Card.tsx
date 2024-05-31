@@ -28,6 +28,12 @@ export const Card = ({ model }: { model: Model }) => {
 						<a href={`/model/${encodeURIComponent(model.name)}`}>
 							{model.name}
 						</a>
+						{model.variant !== undefined && (
+							<span>
+								{' '}
+								(<code>{model.variant}</code>)
+							</span>
+						)}
 					</code>
 				</p>
 			</div>
