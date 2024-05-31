@@ -244,6 +244,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							}),
 						},
 					)
+					setDesired(mergeInstances([instance]))
 					resolve({ success: true })
 				} catch (err) {
 					console.error('[DeviceContext]', 'Configuration update failed', err)
@@ -348,17 +349,20 @@ const instanceKey = (
 ): string => `${ObjectID}/${ObjectInstanceID}`
 
 const mergeInstances =
-	(reported: Array<LwM2MObjectInstance>) =>
+	(instances: Array<LwM2MObjectInstance>) =>
 	(
 		current: Record<string, LwM2MObjectInstance>,
 	): Record<string, LwM2MObjectInstance> => ({
 		...current,
-		...reported.reduce<Record<string, LwM2MObjectInstance>>((acc, instance) => {
-			acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
-				...(acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] ??
-					{}),
-				...instance,
-			}
-			return acc
-		}, {}),
+		...instances.reduce<Record<string, LwM2MObjectInstance>>(
+			(acc, instance) => {
+				acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
+					...(acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] ??
+						{}),
+					...instance,
+				}
+				return acc
+			},
+			{},
+		),
 	})
