@@ -8,9 +8,10 @@ import {
 	type LwM2MObjectInstance,
 	type RGBLED_14240,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { CircleStop, Lightbulb } from 'lucide-preact'
+import { Lightbulb } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ColorPicker } from '../../components/colorpicker/ColorPicker.js'
+import { ButtonPresses } from '#components/Interact.js'
 
 export const Card = ({ model }: { model: Model }) => {
 	const [ledColorPickerVisible, showLEDColorPicker] = useState<boolean>(false)
@@ -89,11 +90,7 @@ export const Card = ({ model }: { model: Model }) => {
 								)}
 							</span>
 						</p>
-
-						<p class="d-flex">
-							<CircleStop strokeWidth={1} class="me-2" />
-							<span>Press the button on your device to receive them here.</span>
-						</p>
+						<ButtonPresses />
 					</>
 				)}
 			</div>

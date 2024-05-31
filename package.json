@@ -27,8 +27,8 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "13.0.6",
-    "@hello.nrfcloud.com/proto-map": "10.0.4",
+    "@hello.nrfcloud.com/proto": "13.0.7",
+    "@hello.nrfcloud.com/proto-map": "11.0.0",
     "@sentry/browser": "8.7.0",
     "@sinclair/typebox": "0.32.31",
     "classnames": "2.5.1",
@@ -60,7 +60,7 @@
     "@preact/preset-vite": "2.8.2",
     "@swc/core": "1.5.24",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "20.12.13",
+    "@types/node": "20.12.14",
     "@types/qrcode": "1.5.5",
     "@types/semver": "7.5.8",
     "aws-cdk": "2.143.1",

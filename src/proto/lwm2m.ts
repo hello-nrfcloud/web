@@ -16,8 +16,8 @@ import { isObject } from 'lodash-es'
 
 const isLwM2MObject =
 	<O extends LwM2MObjectInstance>(ObjectID: LwM2MObjectID) =>
-	(message: unknown): message is O =>
-		isObject(message) && 'ObjectID' in message && message.ObjectID === ObjectID
+	(data: unknown): data is O =>
+		isObject(data) && 'ObjectID' in data && data.ObjectID === ObjectID
 
 export const isGeolocation = isLwM2MObject<Geolocation_14201>(
 	LwM2MObjectID.Geolocation_14201,
@@ -92,10 +92,10 @@ export type SolarCharge = WithTimestamp & {
 	mA: number
 	V?: number
 }
-export const toSolarCharge = (message: SolarCharge_14210): SolarCharge => ({
-	mA: message['Resources'][0],
-	V: message['Resources'][1],
-	ts: message['Resources'][99],
+export const toSolarCharge = (instance: SolarCharge_14210): SolarCharge => ({
+	mA: instance['Resources'][0],
+	V: instance['Resources'][1],
+	ts: instance['Resources'][99],
 })
 
 export type Environment = WithTimestamp &
@@ -109,20 +109,22 @@ export type Environment = WithTimestamp &
 		// airTemperatureReading
 		c: number
 	}>
-export const toEnvironment = (message: Environment_14205): Environment => ({
-	p: message['Resources'][1],
-	mbar: message['Resources'][2],
-	IAQ: message['Resources'][10],
-	c: message['Resources'][0],
-	ts: message['Resources'][99],
+export const toEnvironment = (instance: Environment_14205): Environment => ({
+	p: instance['Resources'][1],
+	mbar: instance['Resources'][2],
+	IAQ: instance['Resources'][10],
+	c: instance['Resources'][0],
+	ts: instance['Resources'][99],
 })
 
 export type ButtonPress = WithTimestamp & {
 	id: number
 }
-export const toButtonPress = (message: ButtonPress_14220): ButtonPress => ({
-	id: message['Resources'][0],
-	ts: message['Resources'][99],
+export const toButtonPress = (
+	instance: LwM2MObjectInstance<ButtonPress_14220>,
+): ButtonPress => ({
+	id: instance['ObjectInstanceID'] ?? 0,
+	ts: instance['Resources'][99],
 })
 
 export type LED = WithTimestamp & {
@@ -131,12 +133,12 @@ export type LED = WithTimestamp & {
 	g: number
 	b: number
 }
-export const toLED = (message: LwM2MObjectInstance<RGBLED_14240>): LED => ({
-	r: message['Resources'][0],
-	g: message['Resources'][1],
-	b: message['Resources'][2],
-	id: message['ObjectInstanceID'] ?? 0,
-	ts: message['Resources'][99],
+export const toLED = (instance: LwM2MObjectInstance<RGBLED_14240>): LED => ({
+	r: instance['Resources'][0],
+	g: instance['Resources'][1],
+	b: instance['Resources'][2],
+	id: instance['ObjectInstanceID'] ?? 0,
+	ts: instance['Resources'][99],
 })
 
 export type DeviceInformation = WithTimestamp & {

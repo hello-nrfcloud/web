@@ -89,8 +89,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [reportedConfig, setReportedConfig] = useState<
 		Configuration | undefined
 	>()
-
-	const connected = ws !== undefined
 	const [reported, setReported] = useState<Record<string, LwM2MObjectInstance>>(
 		{},
 	)
@@ -99,6 +97,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		{},
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
+
+	const connected = ws !== undefined
 
 	useEffect(() => {
 		const config =
