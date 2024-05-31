@@ -26,39 +26,34 @@ import { Slash, ThermometerIcon } from 'lucide-preact'
 import { CountryFlag } from './CountryFlag.js'
 import './DeviceHeader.css'
 
-export const DeviceHeader = ({ device }: { device: Device }) => {
-	const type = device.model
-
-	return (
-		<header>
-			<h1>
-				<small class="text-muted" style={{ fontSize: '16px' }}>
-					Your model:{' '}
-					<a href={`/model/${encodeURIComponent(type.name)}`}>{type.name}</a>
-				</small>
-			</h1>
-			<div class="mt-md-4">
-				<div class="d-flex flex-wrap">
-					<div class="me-4 mb-2 mb-lg-4">
-						<NetworkModeInfo />
-					</div>
-					<div class="me-4 mb-2 mb-lg-4">
-						<SignalQualityInfo />
-					</div>
-					<div class="me-4 mb-2 mb-lg-4">
-						<SIMInfo />
-					</div>
-					<div class="me-4 mb-2 mb-lg-4">
-						<BatteryInfo />
-					</div>
-					<div class="me-4 mb-2 mb-lg-4">
-						<EnvironmentInfo />
-					</div>
+export const DeviceHeader = ({ device }: { device: Device }) => (
+	<header>
+		<h1>
+			<small class="text-muted" style={{ fontSize: '16px' }}>
+				Your device: {device.id}
+			</small>
+		</h1>
+		<div class="mt-md-4">
+			<div class="d-flex flex-wrap">
+				<div class="me-4 mb-2 mb-lg-4">
+					<NetworkModeInfo />
+				</div>
+				<div class="me-4 mb-2 mb-lg-4">
+					<SignalQualityInfo />
+				</div>
+				<div class="me-4 mb-2 mb-lg-4">
+					<SIMInfo />
+				</div>
+				<div class="me-4 mb-2 mb-lg-4">
+					<BatteryInfo />
+				</div>
+				<div class="me-4 mb-2 mb-lg-4">
+					<EnvironmentInfo />
 				</div>
 			</div>
-		</header>
-	)
-}
+		</div>
+	</header>
+)
 
 const SignalQualityInfo = () => {
 	const { reported } = useDevice()

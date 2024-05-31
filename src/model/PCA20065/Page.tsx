@@ -8,7 +8,7 @@ import { BatteryChart } from '#model/PCA20065/Chart.js'
 import { Provider } from '#model/PCA20065/HistoryContext.js'
 import { Configuration } from '#components/Configuration.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
-import { ModelCard } from '#model/ModelCard.js'
+import { Card } from '#model/PCA20065/Card.js'
 import { ConnectionSuccess } from './ConnectionSuccess.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
@@ -25,7 +25,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 							{hasLiveData && <ConnectionSuccess />}
 						</div>
 						<div class="col-md-4 mb-4">
-							<ModelCard model={device.model} />
+							<Card model={device.model} />
 						</div>
 					</div>
 				</div>

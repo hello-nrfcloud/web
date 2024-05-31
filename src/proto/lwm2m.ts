@@ -10,6 +10,7 @@ import {
 	type ButtonPress_14220,
 	type ApplicationConfiguration_14301,
 	timestampResources,
+	type RGBLED_14240,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 
@@ -41,6 +42,7 @@ export const isSolarCharge = isLwM2MObject<SolarCharge_14210>(
 export const isButtonPress = isLwM2MObject<ButtonPress_14220>(
 	LwM2MObjectID.ButtonPress_14220,
 )
+export const isLED = isLwM2MObject<RGBLED_14240>(LwM2MObjectID.RGBLED_14240)
 export const isConfig = isLwM2MObject<ApplicationConfiguration_14301>(
 	LwM2MObjectID.ApplicationConfiguration_14301,
 )
@@ -120,6 +122,20 @@ export type ButtonPress = WithTimestamp & {
 }
 export const toButtonPress = (message: ButtonPress_14220): ButtonPress => ({
 	id: message['Resources'][0],
+	ts: message['Resources'][99],
+})
+
+export type LED = WithTimestamp & {
+	id: number
+	r: number
+	g: number
+	b: number
+}
+export const toLED = (message: LwM2MObjectInstance<RGBLED_14240>): LED => ({
+	r: message['Resources'][0],
+	g: message['Resources'][1],
+	b: message['Resources'][2],
+	id: message['ObjectInstanceID'] ?? 0,
 	ts: message['Resources'][99],
 })
 

@@ -17,18 +17,16 @@ import {
 import { type Static } from '@sinclair/typebox'
 import { isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
-import {
-	useCallback,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'preact/hooks'
+import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 
 export type Device = {
 	id: string
 	model: Model
 }
+
+type UpdateResult = Promise<
+	{ success: true } | { problem: Static<typeof ProblemDetail> }
+>
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
@@ -44,14 +42,12 @@ export const DeviceContext = createContext<{
 		remove: () => void
 	}
 	desired: Record<string, LwM2MObjectInstance>
-	send?: (message: LwM2MObjectInstance) => void
+	update: (instance: LwM2MObjectInstance) => UpdateResult
 	configuration: Partial<{
 		desired: Configuration
 		reported: Configuration
 	}>
-	configure: (
-		config: Configuration,
-	) => Promise<{ success: true } | { problem: Static<typeof ProblemDetail> }>
+	configure: (config: Configuration) => UpdateResult
 	debug: boolean
 	setDebug: (debug: boolean) => void
 	hasLiveData: boolean
@@ -69,6 +65,7 @@ export const DeviceContext = createContext<{
 	connectionFailed: false,
 	configuration: {},
 	configure: async () => Promise.reject(new Error('Not implemented')),
+	update: async () => Promise.reject(new Error('Not implemented')),
 	debug: false,
 	setDebug: () => undefined,
 	hasLiveData: false,
@@ -217,22 +214,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		}
 	}, [fingerprint])
 
-	const send =
-		ws === undefined
-			? undefined
-			: useCallback(
-					(message: LwM2MObjectInstance) => {
-						console.log(`[WS] >`, message)
-						ws.send(
-							JSON.stringify({
-								message: 'message',
-								payload: message,
-							}),
-						)
-					},
-					[ws],
-				)
-
 	let hasLiveData = lastSeen !== undefined
 	if (
 		lastSeen !== undefined &&
@@ -242,6 +223,40 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			Date.now() - lastSeen.getTime() <
 			reportedConfig?.updateIntervalSeconds * 1000
 	}
+
+	const update = async (instance: LwM2MObjectInstance): UpdateResult =>
+		new Promise((resolve) => {
+			onParameters(async ({ helloApiURL }) => {
+				if (device === undefined) return
+				if (fingerprint === null) return
+				try {
+					await fetch(
+						new URL(
+							`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
+							helloApiURL,
+						),
+						{
+							method: 'PATCH',
+							mode: 'cors',
+							body: JSON.stringify({
+								'@context': Context.lwm2mObjectUpdate.toString(),
+								...instance,
+							}),
+						},
+					)
+					resolve({ success: true })
+				} catch (err) {
+					console.error('[DeviceContext]', 'Configuration update failed', err)
+					resolve({
+						problem: {
+							'@context': Context.problemDetail.toString(),
+							title: 'Failed to update configuration!',
+							detail: (err as Error).message,
+						},
+					})
+				}
+			})
+		})
 
 	return (
 		<DeviceContext.Provider
@@ -274,55 +289,26 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				},
 				desired,
 				connectionFailed,
-				send,
 				disconnected,
 				configuration: {
 					reported: reportedConfig,
 					desired: desiredConfig,
 				},
 				configure: async (config) =>
-					new Promise((resolve) => {
-						onParameters(async ({ helloApiURL }) => {
-							if (device === undefined) return
-							if (fingerprint === null) return
-							try {
-								await fetch(
-									new URL(
-										`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
-										helloApiURL,
-									),
-									{
-										method: 'PATCH',
-										mode: 'cors',
-										body: JSON.stringify({
-											'@context': Context.lwm2mObjectUpdate.toString(),
-											ObjectID: LwM2MObjectID.ApplicationConfiguration_14301,
-											Resources: {
-												'0': config.updateIntervalSeconds,
-												'1': config.gnssEnabled,
-												'99': Date.now(),
-											},
-										}),
-									},
-								)
-								setDesiredConfig(config)
-								resolve({ success: true })
-							} catch (err) {
-								console.error(
-									'[DeviceContext]',
-									'Configuration update failed',
-									err,
-								)
-								resolve({
-									problem: {
-										'@context': Context.problemDetail.toString(),
-										title: 'Failed to update configuration!',
-										detail: (err as Error).message,
-									},
-								})
-							}
-						})
+					update({
+						ObjectID: LwM2MObjectID.ApplicationConfiguration_14301,
+						Resources: {
+							'0': config.updateIntervalSeconds,
+							'1': config.gnssEnabled,
+							'99': Date.now(),
+						},
+					}).then((res) => {
+						if (!('problem' in res)) {
+							setDesiredConfig(config)
+						}
+						return res
 					}),
+				update,
 				debug,
 				setDebug,
 				hasLiveData,
