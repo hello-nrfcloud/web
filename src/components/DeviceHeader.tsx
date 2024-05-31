@@ -30,7 +30,7 @@ export const DeviceHeader = ({ device }: { device: Device }) => (
 	<header>
 		<h1>
 			<small class="text-muted" style={{ fontSize: '16px' }}>
-				Your device: {device.id}
+				Your device: <DeviceID device={device} />
 			</small>
 		</h1>
 		<div class="mt-md-4">
@@ -54,6 +54,18 @@ export const DeviceHeader = ({ device }: { device: Device }) => (
 		</div>
 	</header>
 )
+
+const DeviceID = ({ device }: { device: Device }) => {
+	const { reported } = useDevice()
+
+	return (
+		<span>
+			{Object.values(reported)
+				.filter(isDeviceInformation)
+				.map(toDeviceInformation)[0]?.imei ?? device.id}
+		</span>
+	)
+}
 
 const SignalQualityInfo = () => {
 	const { reported } = useDevice()
