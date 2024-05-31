@@ -35,7 +35,7 @@ export const Card = ({ model }: { model: Model }) => {
 			<div class="d-flex justify-content-center">
 				<Thingy91XVisual
 					title={`${model.title} (${model.name})`}
-					ledColor={reportedLEDColor}
+					ledColor={desiredLEDColor ?? reportedLEDColor}
 					style={{ maxWidth: '250px' }}
 					onLEDClick={() => showLEDColorPicker(true)}
 					showLEDHint={!ledColorPickerVisible && desiredLEDColor === undefined}
