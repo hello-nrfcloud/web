@@ -17,9 +17,8 @@ video:
   youtube:
     id: 5f10sjTznlc
     title: Getting Started with the Nordic Thingy:91 and Powerfoyle Shield
-includedSIM:
-  - vendor: iBasis
-    freeMb: 10
+includedSIMs:
+  - ibasis
 defaultConfiguration:
   updateIntervalSeconds: 120
   gnssEnabled: true

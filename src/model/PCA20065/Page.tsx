@@ -10,6 +10,7 @@ import { Configuration } from '#components/Configuration.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
 import { Card } from '#model/PCA20065/Card.js'
 import { ConnectionSuccess } from './ConnectionSuccess.js'
+import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -28,6 +29,14 @@ export const Page = ({ device }: { device: TDevice }) => {
 							<Card model={device.model} />
 						</div>
 					</div>
+					{device.model.includedSIMs.length > 0 && !hasLiveData && (
+						<div class="row">
+							<div class="col-md-7">
+								<h2>Included SIMs</h2>
+								<IncludedSIMs includedSIMs={device.model.includedSIMs} />
+							</div>
+						</div>
+					)}
 				</div>
 				<BatteryChart />
 				<Map device={device} />

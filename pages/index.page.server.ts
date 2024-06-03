@@ -1,5 +1,5 @@
 import type { Model } from '#context/Models.js'
-import { models } from '../content/models.js'
+import { models } from '#content/models.js'
 
 export type IndexPageProps = { models: Record<string, Model> }
 

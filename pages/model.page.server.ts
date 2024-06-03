@@ -1,8 +1,7 @@
 import type { Model } from '#context/Models.js'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { loadMarkdownContent } from './loadMarkdownContent.js'
-import { models } from '../content/models.js'
+import { models } from '#content/models.js'
 
 export type ModelPageProps = { model: Model }
 
@@ -30,8 +29,7 @@ export const onBeforeRender = async (args: {
 }): Promise<{
 	pageContext: { pageProps: ModelPageProps }
 }> => {
-	const models = await loadMarkdownContent<Model>('models')
-	const model = models.find(({ slug }) => slug === args.routeParams.model)
+	const model = (await models)[args.routeParams.model]
 	if (model === undefined)
 		throw new Error(`Could not find model: ${args.routeParams.model}!`)
 

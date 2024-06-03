@@ -1,0 +1,16 @@
+.sim-info {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 1rem;
+}
+
+.sim-info .logo {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.sim-info .logo img {
+  max-width: 250px;
+  max-height: 100px;
+}

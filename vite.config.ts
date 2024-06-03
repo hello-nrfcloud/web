@@ -52,6 +52,7 @@ export default defineConfig({
 			{ find: '#model/', replacement: '/src/model/' },
 			{ find: '#proto/', replacement: '/src/proto/' },
 			{ find: '#api/', replacement: '/src/api/' },
+			{ find: '#content/', replacement: '/content/' },
 		],
 	},
 	build: {

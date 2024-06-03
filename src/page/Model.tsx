@@ -1,3 +1,4 @@
+import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { ScanQR } from '#components/ScanQR.js'
 import { YouTubeVideo } from '#components/YouTubeVideo.js'
 import { type Model as TModel } from '#context/Models.js'
@@ -24,6 +25,12 @@ export const Model = ({ model }: { model: TModel }) => (
 							id={model.video.youtube.id}
 							title={model.video.youtube.title}
 						/>
+					)}
+					{model.includedSIMs.length > 0 && (
+						<>
+							<h2>Included SIMs</h2>
+							<IncludedSIMs includedSIMs={model.includedSIMs} />
+						</>
 					)}
 				</section>
 				<aside class="col-12 col-md-6 col-lg-4 offset-lg-2">

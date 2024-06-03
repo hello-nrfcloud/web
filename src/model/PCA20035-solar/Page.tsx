@@ -11,6 +11,7 @@ import { Chart } from '#model/PCA20035-solar/Chart.js'
 import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
 import './Page.css'
+import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -21,13 +22,22 @@ export const Page = ({ device }: { device: TDevice }) => {
 					<div class="row">
 						<div class="col-md-8">
 							<DeviceHeader device={device} />
+
 							{!hasLiveData && <ConnectDevice />}
 							{hasLiveData && <ConnectionSuccess />}
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 mb-4">
 							<ModelCard model={device.model} />
 						</div>
 					</div>
+					{device.model.includedSIMs.length > 0 && !hasLiveData && (
+						<div class="row">
+							<div class="col-md-7">
+								<h2>Included SIMs</h2>
+								<IncludedSIMs includedSIMs={device.model.includedSIMs} />
+							</div>
+						</div>
+					)}
 				</div>
 				<div class="grid">
 					<Chart />

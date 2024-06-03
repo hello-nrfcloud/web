@@ -1,9 +1,8 @@
 import { Ago } from '#components/Ago.js'
 import { WaitingForData } from '#components/WaitingForData.js'
-import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice } from '#context/Device.js'
-import { SIMVendor } from '#context/Models.js'
 import { BatteryFull, CloudOff, RadioTower, ToggleRight } from 'lucide-preact'
+import { SIMIcon } from './icons/SIMIcon.js'
 
 export const ConnectDevice = () => {
 	const {
@@ -11,17 +10,6 @@ export const ConnectDevice = () => {
 		device,
 		configuration: { reported },
 	} = useDevice()
-	const hasIBasisSIM = device?.model.includedSIM?.find(
-		({ vendor }) => vendor === SIMVendor.iBasis,
-	)
-	const hasOnomondoSIM = device?.model.includedSIM?.find(
-		({ vendor }) => vendor === SIMVendor.onomondo,
-	)
-	const hasWirelessLogicSIM = device?.model.includedSIM?.find(
-		({ vendor }) => vendor === SIMVendor.WirelessLogic,
-	)
-
-	const hasSIM = hasIBasisSIM ?? hasOnomondoSIM ?? hasWirelessLogicSIM
 
 	return (
 		<section class="mt-4">
@@ -68,82 +56,21 @@ export const ConnectDevice = () => {
 				<ToggleRight class="me-2" />
 				Turn the kit on
 			</p>
-			{hasSIM && (
-				<>
-					<p>
-						<SIMIcon class="me-2" /> Insert a SIM card
-					</p>
-					{(device?.model?.includedSIM?.length ?? 0) > 1 && (
-						<p>
-							<small>
-								This model comes with {device?.model?.includedSIM?.length}{' '}
-								<strong>pre-activated</strong> SIM cards. You can choose which
-								one to use.
-							</small>
-						</p>
-					)}
-					<p>
-						<RadioTower class="me-2" /> Sufficient data left on the SIM?
-					</p>
-					<p>{hasIBasisSIM && <IBasisSIMInfo />}</p>
-					<p>{hasOnomondoSIM && <OnomondoSIMInfo />}</p>
-					<p>{hasWirelessLogicSIM && <WirelessLogicSIMInfo />}</p>
-				</>
+			<p>
+				<SIMIcon class="me-2" /> Insert a SIM card
+			</p>
+			{(device?.model.includedSIMs?.length ?? 0) > 1 && (
+				<p>
+					<small>
+						This model comes with {device?.model.includedSIMs?.length}{' '}
+						<strong>pre-activated</strong> SIM cards. You can choose which one
+						to use.
+					</small>
+				</p>
 			)}
+			<p>
+				<RadioTower class="me-2" /> Sufficient data left on the SIM?
+			</p>
 		</section>
 	)
 }
-
-const IBasisSIMInfo = () => (
-	<small>
-		This model comes with a <strong>pre-activated</strong>{' '}
-		<a
-			href="https://ibasis.com/solutions/esim-technology/"
-			target="_blank"
-			rel="noreferrer noopener"
-		>
-			SIM card from iBasis
-		</a>
-		. You may run of data depending on your usage. You can check the the amount
-		of data left on your SIM card{' '}
-		<a
-			href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/device_guides/working_with_nrf/nrf91/thingy91_gsg.html#connecting-to-nrf-cloud"
-			target="_blank"
-			rel="noreferrer noopener"
-		>
-			by adding the SIM to your nRF Cloud account
-		</a>
-		.
-	</small>
-)
-
-const OnomondoSIMInfo = () => (
-	<small>
-		This model comes with a <strong>pre-activated</strong>{' '}
-		<a
-			href="https://onomondo.com/go/nordic-dev-kit/#form"
-			target="_blank"
-			rel="noreferrer noopener"
-		>
-			SIM card from onomondo
-		</a>
-		. You may run of data depending on your usage. You can check the the amount
-		of data left on your SIM card by registering for a free onomondo account.
-	</small>
-)
-
-const WirelessLogicSIMInfo = () => (
-	<small>
-		This model comes with a <strong>pre-activated</strong>{' '}
-		<a
-			href="https://www.wirelesslogic.com/iot-solutions/"
-			target="_blank"
-			rel="noreferrer noopener"
-		>
-			SIM card from Wireless Logic
-		</a>
-		. You may run of data depending on your usage. You can check the the amount
-		of data left on your SIM card by registering for a free Wireless Logic
-		account.
-	</small>
-)

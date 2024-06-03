@@ -1,5 +1,5 @@
 import { useFingerprint } from '#context/Fingerprint.js'
-import { useModels, type Configuration, type Model } from '#context/Models.js'
+import { useModels, type Model } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
 import { isConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
@@ -27,6 +27,11 @@ export type Device = {
 type UpdateResult = Promise<
 	{ success: true } | { problem: Static<typeof ProblemDetail> }
 >
+
+export type Configuration = {
+	updateIntervalSeconds: number
+	gnssEnabled: boolean
+}
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
