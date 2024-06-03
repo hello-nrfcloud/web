@@ -4,6 +4,7 @@ import { useDevice, type Device } from '#context/Device.js'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ConfigureDevice } from './ConfigureDevice.js'
+import { formatDistance } from '#utils/format.js'
 
 export const PublicationInterval = ({ device }: { device: Device }) => {
 	const {
@@ -17,9 +18,10 @@ export const PublicationInterval = ({ device }: { device: Device }) => {
 			</small>
 			<span>
 				<UploadCloud strokeWidth={1} />{' '}
-				{reported?.updateIntervalSeconds ??
-					device.model.defaultConfiguration.updateIntervalSeconds}{' '}
-				seconds
+				{formatDistance(
+					reported?.updateIntervalSeconds ??
+						device.model.defaultConfiguration.updateIntervalSeconds,
+				)}{' '}
 				{(reported?.gnssEnabled ??
 					device.model.defaultConfiguration.gnssEnabled) && (
 					<Satellite strokeWidth={1} class="ms-1" />

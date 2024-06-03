@@ -2,6 +2,7 @@ export const format = (
 	locales?: Intl.LocalesArgument,
 ): {
 	formatInt: (value: number) => string
+	formatDistance: (value: number) => string
 	formatFloat: (value: number, maximumFractionDigits?: number) => string
 } => {
 	const intFormatter = new Intl.NumberFormat(locales, {
@@ -28,12 +29,29 @@ export const format = (
 		return formatters.get(maximumFractionDigits)!.format(value)
 	}
 
+	const formatDistance = (distance: number): string => {
+		if (distance === 1) {
+			return '1 second'
+		} else if (distance < 60) {
+			return `${formatInt(distance)} seconds`
+		} else if (distance === 60) {
+			return '1 minute'
+		} else if (distance < 3600) {
+			return `${formatInt(Math.floor(distance / 60))} minutes`
+		} else if (distance === 3600) {
+			return '1 hour'
+		} else {
+			return `${formatInt(Math.floor(distance / 3600))} hours`
+		}
+	}
+
 	return {
 		formatInt,
 		formatFloat,
+		formatDistance,
 	}
 }
 
-const { formatFloat, formatInt } = format()
+const { formatFloat, formatInt, formatDistance } = format()
 
-export { formatFloat, formatInt }
+export { formatFloat, formatInt, formatDistance }

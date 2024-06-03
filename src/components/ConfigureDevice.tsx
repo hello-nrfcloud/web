@@ -2,7 +2,7 @@ import { Applied } from '#components/Applied.js'
 import { Secondary } from '#components/Buttons.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { formatFloat, formatInt } from '#utils/format.js'
+import { formatDistance, formatFloat } from '#utils/format.js'
 import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import cx from 'classnames'
@@ -104,7 +104,7 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 										<br />
 										<small>
 											<CloudUpload size={18} strokeWidth={1} class="me-1" />{' '}
-											Updates every {formatInt(updateIntervalSeconds)} seconds.
+											Updates interval: {formatDistance(updateIntervalSeconds)}.
 										</small>
 										<DataUsageInfo dataUsagePerDayMB={dataUsagePerDayMB} />
 									</span>
