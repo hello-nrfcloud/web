@@ -42,19 +42,21 @@ export const Page = ({ device }: { device: TDevice }) => {
 				<Map device={device} />
 				<div class="container my-4">
 					<div class="row mb-4">
-						<section class="col-12 col-md-6">
-							<NetworkInfo />
+						<section class="col-12 col-md-4">
+							<div class="my-4">
+								<NetworkInfo />
+							</div>
+							<div class="my-4">
+								<SoftwareInfo device={device} />
+							</div>
+							<div class="my-4">
+								<BME680 />
+							</div>
 						</section>
-						<section class="col-12 col-md-6">
-							<SoftwareInfo device={device} />
-						</section>
-					</div>
-					<div class="row mb-4">
-						<section class="col-12 col-md-6">
-							<Configuration device={device} />
-						</section>
-						<section class="col-12 col-md-6">
-							<BME680 />
+						<section class="col-12 col-md-6 offset-md-2">
+							<div class="my-4">
+								<Configuration device={device} />
+							</div>
 						</section>
 					</div>
 				</div>

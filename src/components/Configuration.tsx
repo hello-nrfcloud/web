@@ -44,7 +44,7 @@ export const Configuration = ({ device }: { device: Device }) => {
 	const [showConfiguration, setShowConfiguration] = useState<boolean>(false)
 
 	return (
-		<div id="device-configuration" class="mt-4">
+		<div id="device-configuration">
 			<h2 class="d-flex align-items-center justify-content-between">
 				<span>Device configuration</span>
 				{showConfiguration && (
@@ -55,15 +55,17 @@ export const Configuration = ({ device }: { device: Device }) => {
 						<X />
 					</Transparent>
 				)}
+				{!showConfiguration && (
+					<Secondary onClick={() => setShowConfiguration(true)}>
+						<Settings2 /> configure
+					</Secondary>
+				)}
 			</h2>
 			{showConfiguration ? (
 				<ConfigureDevice device={device} />
 			) : (
 				<div class="d-flex justify-content-between">
 					<PublicationInterval device={device} />
-					<Secondary onClick={() => setShowConfiguration(true)}>
-						<Settings2 /> configure
-					</Secondary>
 				</div>
 			)}
 		</div>

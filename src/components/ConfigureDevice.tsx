@@ -103,8 +103,8 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 										{title}
 										<br />
 										<small>
-											<CloudUpload size={18} strokeWidth={1} class="me-1" />{' '}
-											Updates interval: {formatDistance(updateIntervalSeconds)}.
+											<CloudUpload size={18} strokeWidth={1} /> Update interval:{' '}
+											{formatDistance(updateIntervalSeconds)}.
 										</small>
 										<DataUsageInfo dataUsagePerDayMB={dataUsagePerDayMB} />
 									</span>
@@ -126,8 +126,16 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 							}}
 							class="me-2"
 						/>
-						<small>enable GNSS</small>
+						<small>enable GNSS (should be used outdoors only)</small>
 					</label>
+				</p>
+				<p>
+					<small>
+						Enabling GNSS consumes more power, compared to cellular based
+						location. If the device is indoors, it will spend a long time
+						searching for satellites, limiting the ability to receive and send
+						cloud updates.
+					</small>
 				</p>
 				<Secondary
 					onClick={() => {
@@ -168,7 +176,7 @@ const DataUsageInfo = ({
 				'color-error': showDataWarning,
 			})}
 		>
-			<SIMIcon class="me-2 flex-shrink-0" size={18} />
+			<SIMIcon class="me-1 flex-shrink-0" size={18} />
 			<small>
 				This mode uses around {formatFloat(dataUsagePerDayMB, 2)} MB of data per
 				day.
