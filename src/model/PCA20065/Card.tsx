@@ -18,6 +18,7 @@ export const Card = ({ model }: { model: Model }) => {
 	const { reported, desired, update } = useDevice()
 	const reportedLEDColor = Object.values(reported).filter(isLED).map(toLED)[0]
 	const desiredLEDColor = Object.values(desired).filter(isLED).map(toLED)[0]
+
 	return (
 		<div class="card">
 			<div class="card-header">

@@ -1,4 +1,5 @@
 import { CheckCircle, ZapOff } from 'lucide-preact'
+import { isEqual } from 'lodash-es'
 
 export const Applied = ({
 	reported,
@@ -11,7 +12,7 @@ export const Applied = ({
 	reported: unknown
 	desired: unknown
 }) => {
-	const applied = reported === desired
+	const applied = isEqual(reported, desired)
 	if (applied)
 		return (
 			<abbr
