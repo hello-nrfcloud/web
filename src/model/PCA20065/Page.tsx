@@ -11,6 +11,7 @@ import { ConnectDevice } from '#components/ConnectDevice.js'
 import { Card } from '#model/PCA20065/Card.js'
 import { ConnectionSuccess } from './ConnectionSuccess.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
+import { DeviceBehaviourInfo } from './DeviceBehaviourInfo.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -54,6 +55,9 @@ export const Page = ({ device }: { device: TDevice }) => {
 							</div>
 						</section>
 						<section class="col-12 col-md-6 offset-md-2">
+							<div class="my-4">
+								<DeviceBehaviourInfo />
+							</div>
 							<div class="my-4">
 								<Configuration device={device} />
 							</div>
