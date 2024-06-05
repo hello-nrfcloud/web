@@ -33,9 +33,7 @@ export const DeviceLocationContext = createContext<{
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
-	const [locations, setLocations] = useState<Locations>(
-		locationsFromReported(reported),
-	)
+	const [locations, setLocations] = useState<Locations>({})
 	const [trail] = useState<TrailPoint[]>([])
 
 	useEffect(() => {
@@ -53,6 +51,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			remove()
 		}
 	}, [device])
+
+	useEffect(() => {
+		if (reported === undefined) return
+		setLocations(locationsFromReported(reported))
+	}, [reported])
 
 	return (
 		<DeviceLocationContext.Provider
