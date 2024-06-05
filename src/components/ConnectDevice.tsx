@@ -3,6 +3,7 @@ import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
 import { BatteryFull, CloudOff, RadioTower, ToggleRight } from 'lucide-preact'
 import { SIMIcon } from './icons/SIMIcon.js'
+import { formatDistance } from '#utils/format.js'
 
 export const ConnectDevice = () => {
 	const {
@@ -18,10 +19,13 @@ export const ConnectDevice = () => {
 				<WaitingForData />
 				<br />
 				<small class="text-muted">
-					Your device should send data to the cloud every{' '}
-					{reported?.updateIntervalSeconds ??
-						device?.model.defaultConfiguration.updateIntervalSeconds}{' '}
-					seconds.
+					The update interval of your device is set to{' '}
+					{formatDistance(
+						reported?.updateIntervalSeconds ??
+							device?.model.defaultConfiguration.updateIntervalSeconds ??
+							60,
+					)}
+					.
 				</small>
 			</p>
 			{lastSeen === undefined && (

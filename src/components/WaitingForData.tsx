@@ -1,3 +1,4 @@
+import { formatDistance } from '#utils/format.js'
 import { Clock12, CloudOff } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 
@@ -17,7 +18,7 @@ export const WaitingForData = () => {
 	return (
 		<small>
 			<CloudOff /> waiting for data <ClockForNumber seconds={seconds} />{' '}
-			{seconds}s
+			{formatDistance(seconds)}
 		</small>
 	)
 }

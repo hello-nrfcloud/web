@@ -3,6 +3,10 @@ import type { Static } from '@sinclair/typebox'
 
 export const Problem = ({
 	problem,
+	class: className,
 }: {
 	problem: Static<typeof ProblemDetail>
-}) => <div class="alert alert-danger problem">{problem.title}</div>
+	class?: string
+}) => (
+	<div class={`alert alert-danger problem ${className}`}>{problem.title}</div>
+)

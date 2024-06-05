@@ -1,42 +1,80 @@
 import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
-import { useDevice, type Device } from '#context/Device.js'
+import {
+	useDevice,
+	type Configuration as DeviceConfiguration,
+	type Device,
+} from '#context/Device.js'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ConfigureDevice } from './ConfigureDevice.js'
 import { formatDistance } from '#utils/format.js'
 
-export const PublicationInterval = ({ device }: { device: Device }) => {
+export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 	const {
 		configuration: { reported, desired },
 	} = useDevice()
 
 	return (
-		<div class="d-flex flex-column">
-			<small class="text-muted">
-				<strong>Publication interval</strong>
-			</small>
-			<span>
-				<UploadCloud strokeWidth={1} />{' '}
-				{formatDistance(
-					reported?.updateIntervalSeconds ??
-						device.model.defaultConfiguration.updateIntervalSeconds,
-				)}{' '}
-				{(reported?.gnssEnabled ??
-					device.model.defaultConfiguration.gnssEnabled) && (
-					<Satellite strokeWidth={1} class="ms-1" />
-				)}
-			</span>
-			{desired?.updateIntervalSeconds !== undefined && (
-				<Applied
-					desired={desired.updateIntervalSeconds}
-					reported={
+		<table>
+			<tr>
+				<th>
+					<UploadCloud class="me-1" strokeWidth={1} /> Publication Interval
+				</th>
+				<td class="ps-2">
+					{formatDistance(
 						reported?.updateIntervalSeconds ??
-						device.model.defaultConfiguration.updateIntervalSeconds
-					}
-				/>
-			)}
-		</div>
+							device.model.defaultConfiguration.updateIntervalSeconds,
+					)}
+				</td>
+				<td class="ps-2">
+					{desired?.updateIntervalSeconds !== undefined && (
+						<Applied
+							desired={desired.updateIntervalSeconds}
+							reported={
+								reported?.updateIntervalSeconds ??
+								device.model.defaultConfiguration.updateIntervalSeconds
+							}
+						/>
+					)}
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<Satellite strokeWidth={1} class="me-1" /> GNSS
+				</th>
+				<td class="ps-2">
+					<GNSSState device={device} reported={reported} />
+				</td>
+				<td class="ps-2">
+					{desired?.gnssEnabled !== undefined && (
+						<Applied
+							desired={desired.gnssEnabled}
+							reported={
+								reported?.gnssEnabled ??
+								device.model.defaultConfiguration.gnssEnabled
+							}
+						/>
+					)}
+				</td>
+			</tr>
+		</table>
+	)
+}
+
+const GNSSState = ({
+	device,
+	reported,
+}: {
+	device: Device
+	reported?: DeviceConfiguration
+}) => {
+	if (reported?.gnssEnabled === true) return <span>enabled</span>
+	if (reported?.gnssEnabled === false) return <span>disabled</span>
+	return device.model.defaultConfiguration.gnssEnabled ? (
+		<span>enabled</span>
+	) : (
+		<span>disabled</span>
 	)
 }
 
@@ -55,18 +93,18 @@ export const Configuration = ({ device }: { device: Device }) => {
 						<X />
 					</Transparent>
 				)}
-				{!showConfiguration && (
-					<Secondary onClick={() => setShowConfiguration(true)}>
-						<Settings2 /> configure
-					</Secondary>
-				)}
 			</h2>
 			{showConfiguration ? (
 				<ConfigureDevice device={device} />
 			) : (
-				<div class="d-flex justify-content-between">
-					<PublicationInterval device={device} />
-				</div>
+				<>
+					<ShowDeviceConfiguration device={device} />
+					<p class="mt-2">
+						<Secondary onClick={() => setShowConfiguration(true)}>
+							<Settings2 /> configure
+						</Secondary>
+					</p>
+				</>
 			)}
 		</div>
 	)
