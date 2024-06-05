@@ -83,7 +83,7 @@
     "remark-rehype": "11.1.0",
     "tsmatchers": "5.0.2",
     "tsx": "4.11.2",
-    "vike": "0.4.172"
+    "vike": "0.4.173"
   },
   "engines": {
     "node": ">=20.0.0",
