@@ -7,16 +7,17 @@ import { useHistory } from '#model/PCA20065/HistoryContext.js'
 import { toChartData } from '#model/PCA20065/toChartData.js'
 
 export const BatteryChart = () => {
-	const { hasLiveData } = useDevice()
+	const { lastSeen } = useDevice()
 	const { battery, timeSpan, setTimeSpan } = useHistory()
 
-	if (!hasLiveData) {
+	if (lastSeen === undefined) {
 		return null
 	}
 
 	return (
 		<div class="bg-blue-soft">
 			<div class="container py-4">
+				<h2>State of charge</h2>
 				<WithResize>
 					{(size) => (
 						<HistoryChart
