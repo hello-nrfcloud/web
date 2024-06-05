@@ -4,9 +4,12 @@ import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
 import { ValueLoading } from '#components/ValueLoading.js'
 import { isOutdated } from '#components/deviceInfo/isOutdated.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
+import { UpdateDevice } from '#components/fota/UpdateDevice.js'
+import { useFingerprint } from '#context/Fingerprint.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { reported } = useDevice()
+	const { fingerprint } = useFingerprint()
 	const type = device.model
 
 	const deviceInfo = Object.values(reported)
@@ -30,15 +33,10 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 							<abbr
 								class="ms-1"
 								title={`Application firmware update available, device is running ${appV}, release version is ${type.firmware.version}`}
+								style={{ color: 'var(--color-nordic-red)' }}
 							>
-								<a
-									href={type.firmware.link}
-									target="_blank"
-									style={{ color: 'var(--color-nordic-red)' }}
-								>
-									<AlertTriangle class="me-1" />
-									Update available ({type.firmware.version})
-								</a>
+								<AlertTriangle class="me-1" />
+								Update available ({type.firmware.version})
 							</abbr>
 						)}
 						{!needsFwUpdate && (
@@ -61,6 +59,16 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					for your device.
 				</small>
 			</p>
+			{fingerprint !== null &&
+				needsFwUpdate &&
+				device.model.firmware.bundleId !== undefined && (
+					<UpdateDevice
+						device={device}
+						fingerprint={fingerprint}
+						bundleId={device.model.firmware.bundleId}
+						version={device.model.firmware.version}
+					/>
+				)}
 			<h3>Modem firmware version</h3>
 			<p class="mb-0 d-flex align-items-center">
 				<ValueLoading value={modV} />

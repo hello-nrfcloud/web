@@ -16,6 +16,7 @@ export type ModelMarkdown = {
 	firmware: {
 		version: string
 		link: string
+		bundleId?: string // e.g. 'APP*1e29dfa3*v2.0.0'
 	}
 	mfw: {
 		version: string
