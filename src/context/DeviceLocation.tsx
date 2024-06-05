@@ -1,9 +1,13 @@
-import type { LocationSource } from '#map/LocationSourceLabels.js'
+import { TimeSpan } from '#api/api.js'
+import { useDevice, type ListenerFn } from '#context/Device.js'
+import {
+	toLocationSource,
+	type LocationSource,
+} from '#map/LocationSourceLabels.js'
+import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
+import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice, type ListenerFn } from '#context/Device.js'
-import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
-import { TimeSpan } from '#api/api.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -27,10 +31,11 @@ export const DeviceLocationContext = createContext<{
  * FIXME: Fetch location history via REST
  */
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { onReported, device } = useDevice()
+	const { onReported, device, reported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
-
-	const [locations, setLocations] = useState<Locations>({})
+	const [locations, setLocations] = useState<Locations>(
+		locationsFromReported(reported),
+	)
 	const [trail] = useState<TrailPoint[]>([])
 
 	useEffect(() => {
@@ -66,3 +71,13 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 export const Consumer = DeviceLocationContext.Consumer
 
 export const useDeviceLocation = () => useContext(DeviceLocationContext)
+
+const locationsFromReported = (
+	reported: Record<string, LwM2MObjectInstance>,
+): Locations =>
+	Object.values(reported).reduce<Locations>((acc, instance) => {
+		if (isGeolocation(instance)) {
+			acc[toLocationSource(instance.Resources[6])] = toGeoLocation(instance)
+		}
+		return acc
+	}, {})
