@@ -9,7 +9,7 @@ import {
 	type BatteryAndPower,
 } from '#proto/lwm2m.js'
 import { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { isNumber, isObject } from 'lodash-es'
+import { isNumber, isObject, isString } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { getObjectHistory } from '../../api/getObjectHistory.js'
@@ -54,9 +54,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					setBattery(
 						partialInstances
 							.filter(isBattery)
-							.map(({ '0': SoC, '99': ts }) => ({
+							.map(({ '0': SoC, ts }) => ({
 								'%': SoC,
-								ts,
+								ts: new Date(ts).getTime(),
 							}))
 							.sort(byTs),
 					)
@@ -82,8 +82,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	)
 }
 
-const isBattery = (o: unknown): o is { 0: number; 99: number } =>
-	isObject(o) && '0' in o && isNumber(o['0']) && '99' in o && isNumber(o['99'])
+const isBattery = (o: unknown): o is { 0: number; ts: string } =>
+	isObject(o) && '0' in o && isNumber(o['0']) && 'ts' in o && isString(o['ts'])
 
 export const Consumer = HistoryContext.Consumer
 
