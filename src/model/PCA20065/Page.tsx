@@ -12,6 +12,7 @@ import { Card } from '#model/PCA20065/Card.js'
 import { ConnectionSuccess } from './ConnectionSuccess.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { DeviceBehaviourInfo } from './DeviceBehaviourInfo.js'
+import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -49,6 +50,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 							</div>
 							<div class="my-4">
 								<SoftwareInfo device={device} />
+								<FOTAJobs />
 							</div>
 							<div class="my-4">
 								<BME680 />

@@ -1,30 +1,25 @@
 import { Primary } from '#components/Buttons.js'
 import { Problem } from '#components/Problem.js'
 import { Success } from '#components/Success.js'
-import type { Device } from '#context/Device.js'
-import { useParameters } from '#context/Parameters.js'
-import { Context, type ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
+import { useFOTA } from '#context/FOTA.js'
+import { type ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import { noop } from 'lodash-es'
 import { useState } from 'preact/hooks'
 
 export const UpdateDevice = ({
-	device,
-	fingerprint,
 	bundleId,
 	version,
 }: {
-	device: Device
-	fingerprint: string
 	bundleId: string
 	version: string
 }) => {
+	const { scheduleJob } = useFOTA()
 	const [success, setSuccess] = useState(false)
 	const [inProgress, setInProgress] = useState(false)
 	const [problem, setProblem] = useState<
 		Static<typeof ProblemDetail> | undefined
 	>()
-	const { onParameters } = useParameters()
 	return (
 		<form onSubmit={noop} class="mb-4">
 			<h4>Firmware Update over the Air (FOTA)</h4>
@@ -41,37 +36,21 @@ export const UpdateDevice = ({
 			</p>
 			<Primary
 				onClick={() => {
-					setInProgress(true)
-					setSuccess(false)
-					setProblem(undefined)
-					onParameters(async ({ helloApiURL }) => {
-						if (device === undefined) return
-						if (fingerprint === null) return
-						try {
-							await fetch(
-								new URL(
-									`./device/${device.id}/fota?${new URLSearchParams({ fingerprint }).toString()}`,
-									helloApiURL,
-								),
-								{
-									method: 'PATCH',
-									mode: 'cors',
-									body: JSON.stringify({
-										bundleId,
-									}),
-								},
-							)
-							setInProgress(false)
+					scheduleJob(bundleId)
+						.start(() => {
+							setInProgress(true)
+							setSuccess(false)
+							setProblem(undefined)
+						})
+						.ok(() => {
 							setSuccess(true)
-						} catch (err) {
-							console.error(err)
+						})
+						.problem((problem) => {
+							setProblem(problem.problem)
+						})
+						.done(() => {
 							setInProgress(false)
-							setProblem({
-								'@context': Context.problemDetail.toString(),
-								title: `Failed to schedule FOTA (${(err as Error).message})!`,
-							})
-						}
-					})
+						})
 				}}
 				disabled={inProgress}
 			>

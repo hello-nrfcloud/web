@@ -5,11 +5,9 @@ import { ValueLoading } from '#components/ValueLoading.js'
 import { isOutdated } from '#components/deviceInfo/isOutdated.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { UpdateDevice } from '#components/fota/UpdateDevice.js'
-import { useFingerprint } from '#context/Fingerprint.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { reported } = useDevice()
-	const { fingerprint } = useFingerprint()
 	const model = device.model
 
 	const deviceInfo = Object.values(reported)
@@ -61,16 +59,12 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					</small>
 				</p>
 			)}
-			{fingerprint !== null &&
-				needsFwUpdate &&
-				model.firmware.bundleId !== undefined && (
-					<UpdateDevice
-						device={device}
-						fingerprint={fingerprint}
-						bundleId={model.firmware.bundleId}
-						version={model.firmware.version}
-					/>
-				)}
+			{needsFwUpdate && model.firmware.bundleId !== undefined && (
+				<UpdateDevice
+					bundleId={model.firmware.bundleId}
+					version={model.firmware.version}
+				/>
+			)}
 			<h3>Modem firmware version</h3>
 			<p class="mb-0 d-flex align-items-center">
 				<ValueLoading value={modV} />
@@ -113,16 +107,12 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					</small>
 				</p>
 			)}
-			{fingerprint !== null &&
-				needsMfwUpdate &&
-				model.mfw.bundleId !== undefined && (
-					<UpdateDevice
-						device={device}
-						fingerprint={fingerprint}
-						bundleId={model.mfw.bundleId}
-						version={model.mfw.version}
-					/>
-				)}
+			{needsMfwUpdate && model.mfw.bundleId !== undefined && (
+				<UpdateDevice
+					bundleId={model.mfw.bundleId}
+					version={model.mfw.version}
+				/>
+			)}
 		</>
 	)
 }

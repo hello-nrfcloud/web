@@ -12,6 +12,7 @@ import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
 import './Page.css'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
+import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -50,6 +51,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 						</section>
 						<section class="col-12 col-md-6">
 							<SoftwareInfo device={device} />
+							<FOTAJobs />
 							<Battery />
 							<BME680 />
 						</section>

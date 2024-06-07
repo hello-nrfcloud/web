@@ -6,9 +6,13 @@ import { Page as Thingy91X } from '#model/PCA20065/Page.js'
 import { useDevice } from '#context/Device.js'
 import { LwM2MDebug } from '#components/LwM2MDebug.js'
 import cx from 'classnames'
+import { Provider as FOTAProvider } from '#context/FOTA.js'
+import { useFingerprint } from '#context/Fingerprint.js'
+import { WithParameters } from '#context/Parameters.js'
 
 export const Device = () => {
 	const { device, debug } = useDevice()
+	const { fingerprint } = useFingerprint()
 
 	if (device === undefined)
 		return (
@@ -38,13 +42,26 @@ export const Device = () => {
 
 	return (
 		<>
-			<div class={cx({ hasSidebar: debug })}>
-				{device.model.name === 'PCA20035+solar' && (
-					<SolarThingy91 device={device} />
+			<WithParameters>
+				{({ helloApiURL }) => (
+					<FOTAProvider
+						device={device}
+						fingerprint={fingerprint!}
+						helloApiURL={helloApiURL}
+					>
+						<div class={cx({ hasSidebar: debug })}>
+							{device.model.name === 'PCA20035+solar' && (
+								<SolarThingy91 device={device} />
+							)}
+							{device.model.name === 'PCA20065' && (
+								<Thingy91X device={device} />
+							)}
+							{debug && <LwM2MDebug />}
+						</div>
+					</FOTAProvider>
 				)}
-				{device.model.name === 'PCA20065' && <Thingy91X device={device} />}
-				{debug && <LwM2MDebug />}
-			</div>
+			</WithParameters>
+
 			<ModelResources type={device.model} />
 			<Feedback />
 		</>

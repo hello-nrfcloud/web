@@ -8,5 +8,13 @@ export const Problem = ({
 	problem: Static<typeof ProblemDetail>
 	class?: string
 }) => (
-	<div class={`alert alert-danger problem ${className}`}>{problem.title}</div>
+	<div class={`alert alert-danger problem ${className}`}>
+		{problem.title}
+		{problem.detail !== undefined && (
+			<>
+				<br />
+				<small>{problem.detail}</small>
+			</>
+		)}
+	</div>
 )

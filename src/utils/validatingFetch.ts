@@ -19,7 +19,7 @@ type DoneFN<T extends TObject> = (
 ) => void
 type StartFN = (url: URL, body?: Record<string, any>) => void
 
-type ResultHandlers<T extends TObject> = {
+export type ResultHandlers<T extends TObject> = {
 	ok: (okFn: OkFN<T>) => ResultHandlers<T>
 	problem: (problemFn: ProblemFN) => ResultHandlers<T>
 	done: (doneFn: DoneFN<T>) => ResultHandlers<T>
