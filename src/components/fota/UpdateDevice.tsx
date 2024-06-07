@@ -50,7 +50,7 @@ export const UpdateDevice = ({
 						try {
 							await fetch(
 								new URL(
-									`./device/${device.id}/firmware?${new URLSearchParams({ fingerprint }).toString()}`,
+									`./device/${device.id}/fota?${new URLSearchParams({ fingerprint }).toString()}`,
 									helloApiURL,
 								),
 								{

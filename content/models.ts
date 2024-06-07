@@ -3,6 +3,12 @@ import type { Model, IncludedSIM } from '#context/Models.js'
 import { loadMarkdownContent } from '../pages/loadMarkdownContent.js'
 import { sims } from './sims.js'
 
+type Firmware = {
+	version: string
+	link: string
+	bundleId?: string // e.g. 'APP*1e29dfa3*v2.0.0'
+}
+
 export type ModelMarkdown = {
 	name: string
 	title: string
@@ -13,15 +19,8 @@ export type ModelMarkdown = {
 		learnMore: string
 		documentation: string
 	}
-	firmware: {
-		version: string
-		link: string
-		bundleId?: string // e.g. 'APP*1e29dfa3*v2.0.0'
-	}
-	mfw: {
-		version: string
-		link: string
-	}
+	firmware: Firmware
+	mfw: Firmware
 	video?: {
 		youtube?: {
 			id: string

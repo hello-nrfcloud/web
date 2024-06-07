@@ -10,7 +10,7 @@ import { useFingerprint } from '#context/Fingerprint.js'
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { reported } = useDevice()
 	const { fingerprint } = useFingerprint()
-	const type = device.model
+	const model = device.model
 
 	const deviceInfo = Object.values(reported)
 		.filter(isDeviceInformation)
@@ -19,8 +19,8 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const appV = deviceInfo?.appVersion
 	const modV = parseModemFirmwareVersion(deviceInfo?.modemFirmware ?? '')
 
-	const needsFwUpdate = isOutdated(device.model.firmware.version, appV)
-	const needsMfwUpdate = isOutdated(device.model.mfw.version, modV)
+	const needsFwUpdate = isOutdated(model.firmware.version, appV)
+	const needsMfwUpdate = isOutdated(model.mfw.version, modV)
 	return (
 		<>
 			<h2>Software information</h2>
@@ -32,11 +32,11 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 						{needsFwUpdate && (
 							<abbr
 								class="ms-1"
-								title={`Application firmware update available, device is running ${appV}, release version is ${type.firmware.version}`}
+								title={`Application firmware update available, device is running ${appV}, release version is ${model.firmware.version}`}
 								style={{ color: 'var(--color-nordic-red)' }}
 							>
 								<AlertTriangle class="me-1" />
-								Update available ({type.firmware.version})
+								Update available ({model.firmware.version})
 							</abbr>
 						)}
 						{!needsFwUpdate && (
@@ -51,22 +51,24 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					</>
 				)}
 			</p>
-			<p>
-				<small class="text-muted">
-					<a href={type.firmware.link} target="_blank">
-						Download the latest application firmware version
-					</a>{' '}
-					for your device.
-				</small>
-			</p>
+			{needsFwUpdate && (
+				<p>
+					<small class="text-muted">
+						<a href={model.firmware.link} target="_blank">
+							Download the latest application firmware version
+						</a>{' '}
+						for your device.
+					</small>
+				</p>
+			)}
 			{fingerprint !== null &&
 				needsFwUpdate &&
-				device.model.firmware.bundleId !== undefined && (
+				model.firmware.bundleId !== undefined && (
 					<UpdateDevice
 						device={device}
 						fingerprint={fingerprint}
-						bundleId={device.model.firmware.bundleId}
-						version={device.model.firmware.version}
+						bundleId={model.firmware.bundleId}
+						version={model.firmware.version}
 					/>
 				)}
 			<h3>Modem firmware version</h3>
@@ -77,15 +79,15 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 						{needsMfwUpdate && (
 							<abbr
 								class="ms-1"
-								title={`Modem firmware update available, device is running ${modV}, release version is ${type.mfw.version}`}
+								title={`Modem firmware update available, device is running ${modV}, release version is ${model.mfw.version}`}
 							>
 								<a
-									href={type.mfw.link}
+									href={model.mfw.link}
 									target="_blank"
 									style={{ color: 'var(--color-nordic-red)' }}
 								>
 									<AlertTriangle class="me-1" />
-									Update available ({type.mfw.version})
+									Update available ({model.mfw.version})
 								</a>
 							</abbr>
 						)}
@@ -101,14 +103,26 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					</>
 				)}
 			</p>
-			<p>
-				<small class="text-muted">
-					<a href={type.mfw.link} target="_blank">
-						Download the latest modem firmware version
-					</a>{' '}
-					for your device.
-				</small>
-			</p>
+			{needsMfwUpdate && (
+				<p>
+					<small class="text-muted">
+						<a href={model.mfw.link} target="_blank">
+							Download the latest modem firmware version
+						</a>{' '}
+						for your device.
+					</small>
+				</p>
+			)}
+			{fingerprint !== null &&
+				needsMfwUpdate &&
+				model.mfw.bundleId !== undefined && (
+					<UpdateDevice
+						device={device}
+						fingerprint={fingerprint}
+						bundleId={model.mfw.bundleId}
+						version={model.mfw.version}
+					/>
+				)}
 		</>
 	)
 }
