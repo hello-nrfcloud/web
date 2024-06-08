@@ -27,8 +27,8 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "13.2.3",
-    "@hello.nrfcloud.com/proto-map": "12.0.0",
+    "@hello.nrfcloud.com/proto": "13.2.4",
+    "@hello.nrfcloud.com/proto-map": "12.1.1",
     "@sentry/browser": "8.8.0",
     "@sinclair/typebox": "0.32.31",
     "classnames": "2.5.1",

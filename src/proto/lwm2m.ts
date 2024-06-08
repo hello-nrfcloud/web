@@ -11,6 +11,7 @@ import {
 	type ApplicationConfiguration_14301,
 	timestampResources,
 	type RGBLED_14240,
+	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isObject } from 'lodash-es'
 
@@ -46,15 +47,9 @@ export const isLED = isLwM2MObject<RGBLED_14240>(LwM2MObjectID.RGBLED_14240)
 export const isConfig = isLwM2MObject<ApplicationConfiguration_14301>(
 	LwM2MObjectID.ApplicationConfiguration_14301,
 )
-export type LwM2MObjects = Array<
-	| GeoLocation
-	| BatteryAndPower
-	| ConnectionInformation
-	| DeviceInformation
-	| Environment
-	| SolarCharge
-	| ButtonPress
->
+export const isNRFCloudServiceInfo = isLwM2MObject<NRFCloudServiceInfo_14401>(
+	LwM2MObjectID.NRFCloudServiceInfo_14401,
+)
 
 export const toGeoLocation = ({
 	Resources: { 6: src, 0: lat, 1: lng, 3: acc, 99: ts },
@@ -141,19 +136,13 @@ export const toLED = (instance: LwM2MObjectInstance<RGBLED_14240>): LED => ({
 	ts: instance['Resources'][99],
 })
 
-export type DeviceInformation = WithTimestamp & {
-	imei: string
-	iccid?: string
-	appVersion: string
-	modemFirmware: string
+export type NRFCloudServiceInfo = WithTimestamp & {
+	fwTypes?: Array<string>
 }
-export const toDeviceInformation = (
-	message: DeviceInformation_14204,
-): DeviceInformation => ({
-	imei: message['Resources'][0],
-	iccid: message['Resources'][1],
-	appVersion: message['Resources'][3],
-	modemFirmware: message['Resources'][2],
+export const toNRFCloudServiceInfo = (
+	message: NRFCloudServiceInfo_14401,
+): NRFCloudServiceInfo => ({
+	fwTypes: message['Resources'][0],
 	ts: message['Resources'][99],
 })
 
@@ -170,6 +159,22 @@ export const toConnectionInformation = (
 	networkMode: message['Resources'][0],
 	currentBand: message['Resources'][1],
 	eest: message['Resources'][11],
+	ts: message['Resources'][99],
+})
+
+export type DeviceInformation = WithTimestamp & {
+	imei: string
+	iccid?: string
+	appVersion: string
+	modemFirmware: string
+}
+export const toDeviceInformation = (
+	message: DeviceInformation_14204,
+): DeviceInformation => ({
+	imei: message['Resources'][0],
+	iccid: message['Resources'][1],
+	appVersion: message['Resources'][3],
+	modemFirmware: message['Resources'][2],
 	ts: message['Resources'][99],
 })
 
