@@ -17,8 +17,10 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const appV = deviceInfo?.appVersion
 	const modV = parseModemFirmwareVersion(deviceInfo?.modemFirmware ?? '')
 
-	const needsFwUpdate = isOutdated(model.firmware.version, appV)
-	const needsMfwUpdate = isOutdated(model.mfw.version, modV)
+	const needsFwUpdate =
+		appV !== undefined && isOutdated(model.firmware.version, appV)
+	const needsMfwUpdate =
+		modV !== undefined && isOutdated(model.mfw.version, modV)
 	return (
 		<>
 			<h2>Software information</h2>
