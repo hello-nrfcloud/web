@@ -82,7 +82,7 @@
     "remark-frontmatter": "5.0.0",
     "remark-rehype": "11.1.0",
     "tsmatchers": "5.0.2",
-    "tsx": "4.14.0",
+    "tsx": "4.14.1",
     "vike": "0.4.174"
   },
   "engines": {
