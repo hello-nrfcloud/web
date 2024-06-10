@@ -5,6 +5,8 @@ import {
 	definitions,
 	timestampResources,
 	type LwM2MObjectID,
+	type LwM2MResourceInfo,
+	type LwM2MResourceValue,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { formatFloat } from '#utils/format.js'
 import { Ago } from './Ago.js'
@@ -104,15 +106,47 @@ const ShowInstance = ({ instance }: { instance: LwM2MObjectInstance }) => {
 						<>
 							<dt>{ResourceID}</dt>
 							<dd>
-								{info?.Type === 'Float' && typeof value === 'number'
-									? formatFloat(value)
-									: value}{' '}
-								{info?.Units ?? ''} <small>{info?.Name ?? '??'}</small>
+								<ShowResource info={info} value={value} />
 							</dd>
 						</>
 					)
 				})}
 			</dl>
 		</div>
+	)
+}
+
+const ShowResource = ({
+	info,
+	value,
+}: {
+	info: LwM2MResourceInfo | undefined
+	value: LwM2MResourceValue | undefined
+}) => {
+	if (value === undefined) return <span>&mdash;</span>
+	return (
+		<>
+			{info?.Multiple === true &&
+				Array.isArray(value) &&
+				value.map((v, k) => (
+					<>
+						<small>{k}:</small>
+						<span class="ms-1 me-1 value">
+							{info?.Type === 'Float' && typeof v === 'number'
+								? formatFloat(v)
+								: v}
+						</span>
+					</>
+				))}
+			{info?.Multiple !== true && (
+				<span class="value">
+					{info?.Type === 'Float' && typeof value === 'number'
+						? formatFloat(value)
+						: value}
+				</span>
+			)}
+			{info?.Units ?? ''}
+			<small class="unit ms-1">{info?.Name ?? '??'}</small>
+		</>
 	)
 }
