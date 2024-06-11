@@ -203,42 +203,40 @@ export const HistoryChart = ({
 				})}
 				{/* dataset labels */}
 				{data.datasets.map((dataset) => {
-					const numLabels = Math.floor(
-						data.xAxis.minutes / data.xAxis.labelEvery,
-					)
+					let lastX = Number.MAX_SAFE_INTEGER
 					const labels = []
-					for (let i = 0; i < dataset.values.length; i++) {
-						const [v, ts] = dataset.values[i] as [number, Date]
+					for (const [v, ts] of dataset.values) {
 						const x = m.xPosition(ts)
+						const labelText = dataset.format(v)
 						if (x === null) continue
+						if (lastX - x < fontSize * 3) continue
 						const y = m.yPosition(dataset, v)
-						if (i % numLabels === 0) {
-							labels.push(
-								<circle
-									fill={'none'}
-									stroke={dataset.color}
-									stroke-width={2}
-									stroke-linecap={'round'}
-									stroke-linejoin={'round'}
-									stroke-miterlimit={2}
-									cy={y}
-									cx={x}
-									r="6"
-								/>,
-							)
-							labels.push(
-								<text
-									fill={dataset.color}
-									font-weight={700}
-									y={y - m.padding / 2}
-									x={x}
-									text-anchor="middle"
-									font-size={fontSize}
-								>
-									{dataset.format(v)}
-								</text>,
-							)
-						}
+						lastX = x
+						labels.push(
+							<circle
+								fill={'none'}
+								stroke={dataset.color}
+								stroke-width={2}
+								stroke-linecap={'round'}
+								stroke-linejoin={'round'}
+								stroke-miterlimit={2}
+								cy={y}
+								cx={x}
+								r="6"
+							/>,
+						)
+						labels.push(
+							<text
+								fill={dataset.color}
+								font-weight={700}
+								y={y - m.padding / 2}
+								x={x}
+								text-anchor="middle"
+								font-size={fontSize}
+							>
+								{labelText}
+							</text>,
+						)
 					}
 					return labels
 				})}
