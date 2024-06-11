@@ -4,6 +4,7 @@ import { X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { hexToRGB } from '#components/colorpicker/hexToRGB.js'
 import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
+import { isRGB } from './isRGB.js'
 
 export type RGB = { r: number; g: number; b: number }
 
@@ -17,7 +18,7 @@ export const ColorPicker = ({
 	onClose: () => void
 }) => {
 	const [selectedColor, setSelectedColor] = useState<string>(
-		RGBtoHEX(color ?? { r: 0, g: 0, b: 0 }),
+		RGBtoHEX(isRGB(color) ? color : { r: 0, g: 0, b: 0 }),
 	)
 
 	const handleColorChange = (event: Event) => {
