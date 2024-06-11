@@ -1,6 +1,6 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { Located } from '#map/Map.js'
+import { Located } from './Located.js'
 import { LocationSource } from '#map/LocationSourceLabels.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 

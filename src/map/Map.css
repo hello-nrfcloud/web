@@ -67,6 +67,10 @@ section.map {
   align-items: center;
 }
 
+.mapHistoryControls {
+  margin-left: 1rem;
+}
+
 .mapLocations {
   display: flex;
   flex-direction: row;

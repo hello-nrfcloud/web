@@ -13,6 +13,8 @@ import { ConnectionSuccess } from './ConnectionSuccess.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { DeviceBehaviourInfo } from './DeviceBehaviourInfo.js'
 import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
+import { LocationHelp } from '#map/LocationHelp.js'
+import './Page.css'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -41,7 +43,10 @@ export const Page = ({ device }: { device: TDevice }) => {
 					)}
 				</div>
 				<BatteryChart />
-				<Map device={device} />
+				<div class="bg-dark grid">
+					<Map device={device} />
+					<LocationHelp device={device} class="p-4 location-help" />
+				</div>
 				<div class="container my-4">
 					<div class="row mb-4">
 						<section class="col-12 col-md-4">

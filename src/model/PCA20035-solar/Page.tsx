@@ -10,9 +10,11 @@ import { Battery } from '#model/PCA20035-solar/Battery.js'
 import { Chart } from '#model/PCA20035-solar/Chart.js'
 import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
-import './Page.css'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
+import { LocationHelp } from '#map/LocationHelp.js'
+
+import './Page.css'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -40,9 +42,21 @@ export const Page = ({ device }: { device: TDevice }) => {
 						</div>
 					)}
 				</div>
-				<div class="grid">
+				<div class="gridSolar">
 					<Chart />
 					<Map device={device} />
+					<div
+						class={'bg-dark'}
+						style={{
+							color: '#ccc',
+						}}
+					>
+						<div class="container py-4">
+							<div class="row mb-2">
+								<LocationHelp device={device} />
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="container my-4">
 					<div class="row mb-4">

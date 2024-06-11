@@ -10,13 +10,8 @@ import {
 } from 'lucide-preact'
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { timeSpans } from '#chart/timeSpans.js'
-import { CountryFlag } from '#components/CountryFlag.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { mccmnc2country } from '#components/mccmnc2country.js'
-import { useDevice, type Device } from '#context/Device.js'
+import { type Device } from '#context/Device.js'
 import { useParameters } from '#context/Parameters.js'
-import { CellularLocation } from '#map/CellularLocation.js'
-import { GNSSLocation } from '#map/GNSSLocation.js'
 import '#map/Map.css'
 import {
 	geoJSONPolygonFromCircle,
@@ -32,13 +27,8 @@ import {
 	LocationSourceLabels,
 	locationSourceColors,
 } from '#map/LocationSourceLabels.js'
-import {
-	isConnectionInformation,
-	toConnectionInformation,
-	type GeoLocation,
-} from '#proto/lwm2m.js'
+import { type GeoLocation } from '#proto/lwm2m.js'
 import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
-import { formatFloat, formatInt } from '#utils/format.js'
 
 const trailColor = '#e169a5'
 const defaultColor = '#C7C7C7'
@@ -324,137 +314,76 @@ export const Map = ({ device }: { device: Device }) => {
 	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
 
 	return (
-		<>
-			<section class="map bg-dark">
-				<div id="map" ref={containerRef} />
+		<section class="map bg-dark">
+			<div id="map" ref={containerRef} />
 
-				{!hasLocation && locked && (
-					<div class="noLocationInfo">
-						<span>
-							<MapPinOff /> waiting for location
-						</span>
-					</div>
-				)}
-				{map !== undefined && (
-					<MapZoom map={map} locked={locked} onLock={setLocked} />
-				)}
-				<div class="mapControls">
-					{hasLocation && (
-						<div class="mapLocations">
-							{Object.values(locations).map(({ src, lat, lng, acc }) => (
-								<button
-									type="button"
-									onClick={() => {
-										if (map === undefined) return
-										if (acc === undefined) return
-										const coordinates = getPolygonCoordinatesForCircle(
-											[lng, lat],
-											acc,
-											6,
-											Math.PI / 2,
-										)
-										const bounds = coordinates.reduce(
-											(bounds, coord) => {
-												return bounds.extend(coord)
-											},
-											new maplibregl.LngLatBounds(
-												coordinates[0],
-												coordinates[0],
-											),
-										)
-										map.fitBounds(bounds, {
-											padding: 20,
-										})
-									}}
-									class="d-flex flex-row align-items-center"
-								>
-									<span class="me-2">
-										{[LocationSource.MCELL, LocationSource.SCELL].includes(
-											src as LocationSource,
-										) && <RadioTowerIcon />}
-										{src === LocationSource.WIFI && <WifiIcon />}
-										{src === LocationSource.GNSS && <SatelliteIcon />}
-									</span>
-									{LocationSourceLabels.has(src) && (
-										<span>{LocationSourceLabels.get(src)}</span>
-									)}
-								</button>
-							))}
-						</div>
-					)}
+			{!hasLocation && locked && (
+				<div class="noLocationInfo">
+					<span>
+						<MapPinOff /> waiting for location
+					</span>
 				</div>
-			</section>
-			<div
-				class={'bg-dark'}
-				style={{
-					color: '#ccc',
-				}}
-			>
-				<div class="container py-4">
-					<div class="row mb-4">
-						<div class="col d-flex justify-content-start align-items-center">
-							<span class="me-2 opacity-75">Location history:</span>
-							{timeSpans.map(({ id, title }) => (
-								<DateRangeButton
-									class="ms-1"
-									disabled={id === timeSpan}
-									onClick={() => {
-										setTimeSpan(id)
-									}}
-									label={title}
-									active={timeSpan === id}
-								/>
-							))}
-						</div>
+			)}
+			{map !== undefined && (
+				<MapZoom map={map} locked={locked} onLock={setLocked} />
+			)}
+			<div class="mapControls">
+				{hasLocation && (
+					<div class="mapLocations">
+						{Object.values(locations).map(({ src, lat, lng, acc }) => (
+							<button
+								type="button"
+								onClick={() => {
+									if (map === undefined) return
+									if (acc === undefined) return
+									const coordinates = getPolygonCoordinatesForCircle(
+										[lng, lat],
+										acc,
+										6,
+										Math.PI / 2,
+									)
+									const bounds = coordinates.reduce(
+										(bounds, coord) => {
+											return bounds.extend(coord)
+										},
+										new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+									)
+									map.fitBounds(bounds, {
+										padding: 20,
+									})
+								}}
+								class="d-flex flex-row align-items-center"
+							>
+								<span class="me-2">
+									{[LocationSource.MCELL, LocationSource.SCELL].includes(
+										src as LocationSource,
+									) && <RadioTowerIcon />}
+									{src === LocationSource.WIFI && <WifiIcon />}
+									{src === LocationSource.GNSS && <SatelliteIcon />}
+								</span>
+								{LocationSourceLabels.has(src) && (
+									<span>{LocationSourceLabels.get(src)}</span>
+								)}
+							</button>
+						))}
 					</div>
-					<div class="row mb-2">
-						<div class="col">
-							<GNSSLocation device={device} />
-						</div>
-					</div>
-					<div class="row mb-2">
-						<div class="col">
-							<NetworkLocation />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<CellularLocation />
-						</div>
-					</div>
+				)}
+				<div class="mapHistoryControls col d-flex justify-content-start align-items-center">
+					<span class="me-2 opacity-75">Location history:</span>
+					{timeSpans.map(({ id, title }) => (
+						<DateRangeButton
+							class="ms-1"
+							disabled={id === timeSpan}
+							onClick={() => {
+								setTimeSpan(id)
+							}}
+							label={title}
+							active={timeSpan === id}
+						/>
+					))}
 				</div>
 			</div>
-		</>
-	)
-}
-
-const NetworkLocation = () => {
-	const { reported } = useDevice()
-	const mccmnc = Object.values(reported)
-		.filter(isConnectionInformation)
-		.map(toConnectionInformation)[0]?.mccmnc
-	const country =
-		mccmnc === undefined ? undefined : mccmnc2country(mccmnc)?.name
-	if (mccmnc === undefined || country === undefined)
-		return (
-			<>
-				<h2>
-					Network location <LoadingIndicator light width={20} height={15} />
-				</h2>
-				<p>
-					Based on the network your device is connected to, it can be coarsely
-					located in a country right after it connected.
-				</p>
-			</>
-		)
-	return (
-		<>
-			<h2>Network location: {<CountryFlag mccmnc={mccmnc} />}</h2>
-			<p>
-				Based on the network code (<code>{mccmnc}</code>) your device is
-				registered to, it can be coarsely located in {country}.
-			</p>
-		</>
+		</section>
 	)
 }
 
@@ -522,26 +451,6 @@ const MapZoom = ({
 		</>
 	)
 }
-
-export const Located = ({ location }: { location: GeoLocation }) => (
-	<p>
-		Using {LocationSourceLabels.get(location.src) ?? location.src}, the location
-		was determined to be{' '}
-		<a
-			href={`https://google.com/maps/search/${location.lat},${location.lng}`}
-			target="_blank"
-			class="text-light"
-		>
-			{formatFloat(location.lat, 5)}, {formatFloat(location.lng, 5)}
-		</a>{' '}
-		{location.acc !== undefined ? (
-			<>with an accuracy of {formatInt(location.acc)} m</>
-		) : (
-			<>with an unspecified accuary</>
-		)}
-		.
-	</p>
-)
 
 const toGEOJsonPoint = ([lat, lng]: [
 	lat: number,

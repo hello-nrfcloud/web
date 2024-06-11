@@ -5,7 +5,7 @@ import {
 	LocationSource,
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
-import { Located } from '#map/Map.js'
+import { Located } from './Located.js'
 import { compareLocations } from '#map/compareLocations.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
 
