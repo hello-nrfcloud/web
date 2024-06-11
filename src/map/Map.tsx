@@ -307,6 +307,19 @@ export const Map = ({ device }: { device: Device }) => {
 		}
 	}, [trail, map, device])
 
+	// Enable zoom
+	useEffect(() => {
+		if (locked) {
+			map?.dragRotate.disable()
+			map?.scrollZoom.disable()
+			map?.dragPan.disable()
+		} else {
+			map?.dragRotate.enable()
+			map?.scrollZoom.enable()
+			map?.dragPan.enable()
+		}
+	}, [locked])
+
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
 	const cellularLocations: GeoLocation[] = []
