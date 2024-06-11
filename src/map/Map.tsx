@@ -429,7 +429,7 @@ const MapZoom = ({
 								onLock(() => false)
 							}}
 						>
-							<UnlockIcon />
+							<LockIcon />
 						</button>{' '}
 						to enable the map.
 					</span>
@@ -458,7 +458,7 @@ const MapZoom = ({
 						onLock((locked) => !locked)
 					}}
 				>
-					{locked ? <UnlockIcon /> : <LockIcon />}
+					{locked ? <LockIcon /> : <UnlockIcon />}
 				</button>
 			</div>
 		</>
