@@ -1,18 +1,16 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
-import { Located } from '#map/Map.js'
-import { compareLocations } from '#map/compareLocations.js'
-import type { GeoLocation } from '#proto/lwm2m.js'
+import { useDeviceLocation } from '#context/DeviceLocation.js'
 import {
 	LocationSource,
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useDevice, type Device } from '#context/Device.js'
+import { Located } from '#map/Map.js'
+import { compareLocations } from '#map/compareLocations.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
 
-export const CellularLocation = ({ device }: { device: Device }) => {
+export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()
-	const { configuration } = useDevice()
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
 	const cellularLocations: GeoLocation[] = []
@@ -53,20 +51,6 @@ export const CellularLocation = ({ device }: { device: Device }) => {
 				eliminating the need for the GNSS receiver and works especially well in
 				urban areas and indoors.
 			</p>
-			{(configuration.reported?.gnssEnabled ??
-				device.model.defaultConfiguration.gnssEnabled) && (
-				<div
-					role="alert"
-					style={{
-						color: 'var(--color-nordic-sun)',
-					}}
-				>
-					<p>
-						Since GNSS location is enabled, the device will not query for
-						neighboring cells. Therefore you will not see a multi-cell location.
-					</p>
-				</div>
-			)}
 			{cellularLocations.length === 0 && (
 				<>
 					<p>If available, the map will show both locations for comparison.</p>
