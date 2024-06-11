@@ -6,6 +6,7 @@ import {
 	RadioTowerIcon,
 	SatelliteIcon,
 	UnlockIcon,
+	WifiIcon,
 } from 'lucide-preact'
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { timeSpans } from '#chart/timeSpans.js'
@@ -371,6 +372,7 @@ export const Map = ({ device }: { device: Device }) => {
 										{[LocationSource.MCELL, LocationSource.SCELL].includes(
 											src as LocationSource,
 										) && <RadioTowerIcon />}
+										{src === LocationSource.WIFI && <WifiIcon />}
 										{src === LocationSource.GNSS && <SatelliteIcon />}
 									</span>
 									{LocationSourceLabels.has(src) && (
