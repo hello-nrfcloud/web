@@ -45,7 +45,7 @@ section.map {
   border-left: 1px solid var(--color-nordic-middle-grey);
 }
 
-.map .controls button[disabled] {
+.map .controls button.control[disabled] {
   color: var(--color-nordic-middle-grey);
 }
 
