@@ -15,24 +15,34 @@ section.map {
   top: 1rem;
   display: flex;
   flex-direction: column;
+}
+
+.map .controls {
   background-color: var(--color-nordic-light-grey);
   border: 1px solid var(--color-nordic-middle-grey);
   border-radius: 5px;
 }
 
-.mapControls button,
-.mapControls .button {
+.map .controls button.control,
+.map .controls .button.control {
   border: 0;
   padding: 0.5rem;
   background-color: transparent;
   color: var(--color-nordic-dark-grey);
 }
 
-.mapControls button + button,
-.mapControls button + .button,
-.mapControls .button + button,
-.mapControls .button + .button {
+.map .controls.vertical button.control + button,
+.map .controls.vertical button.control + .button.control,
+.map .controls.vertical .button.control + button,
+.map .controls.vertical .button.control + .button.control {
   border-top: 1px solid var(--color-nordic-middle-grey);
+}
+
+.map .controls.horizontal button.control + button,
+.map .controls.horizontal button.control + .button.control,
+.map .controls.horizontal .button.control + button,
+.map .controls.horizontal .button.control + .button.control {
+  border-left: 1px solid var(--color-nordic-middle-grey);
 }
 
 .lockInfo {
@@ -65,34 +75,13 @@ section.map {
 
 .locationControls {
   position: absolute;
-  top: 1rem;
+  top: 0.5rem;
   left: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.mapHistoryControls {
-  margin-left: 1rem;
-}
-
-.mapLocations {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: var(--color-nordic-light-grey);
-  border: 1px solid var(--color-nordic-middle-grey);
-  border-radius: 5px;
-}
-
-.mapLocations button {
-  border: 0;
-  padding: 0.5rem;
-  background-color: transparent;
-}
-
-.mapLocations button + button {
-  border-left: 1px solid var(--color-nordic-middle-grey);
+  flex-wrap: wrap;
+  margin-right: 50px;
 }
 
 .noLocationInfo {

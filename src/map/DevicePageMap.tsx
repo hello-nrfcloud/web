@@ -7,7 +7,11 @@ export const DevicePageMap = () => (
 		<Map
 			mapControls={
 				<>
-					<a href="/device/map" class="button" title={'Show fullscreen map'}>
+					<a
+						href="/device/map"
+						class="button control"
+						title={'Show fullscreen map'}
+					>
 						<ExpandIcon />
 					</a>
 				</>

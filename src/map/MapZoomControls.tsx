@@ -1,12 +1,13 @@
 import { LockIcon, MinusIcon, PlusIcon, UnlockIcon } from 'lucide-preact'
 import { useMap } from '#context/Map.js'
 
-export const MapZoom = () => {
+export const MapZoomControls = () => {
 	const { map, locked, toggleLock } = useMap()
 	return (
 		<>
 			<button
 				type="button"
+				class="control"
 				title="Zoom in"
 				onClick={() => {
 					map?.setZoom(map.getZoom() + 1)
@@ -16,6 +17,7 @@ export const MapZoom = () => {
 			</button>
 			<button
 				type="button"
+				class="control"
 				title="Zoom out"
 				onClick={() => {
 					map?.setZoom(map.getZoom() - 1)
@@ -25,6 +27,7 @@ export const MapZoom = () => {
 			</button>
 			<button
 				type="button"
+				class="control"
 				title="Lock map"
 				onClick={() => {
 					toggleLock()

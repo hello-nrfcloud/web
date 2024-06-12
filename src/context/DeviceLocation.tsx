@@ -1,4 +1,4 @@
-import { TimeSpan } from '#api/api.js'
+import type { TimeSpan } from '#api/api.js'
 import { useDevice, type ListenerFn } from '#context/Device.js'
 import {
 	toLocationSource,
@@ -18,12 +18,11 @@ export type TrailPoint = GeoLocation & { id: string }
 
 export const DeviceLocationContext = createContext<{
 	locations: Locations
-	timeSpan: TimeSpan
-	setTimeSpan: (type: TimeSpan) => void
+	timeSpan?: TimeSpan
+	setTimeSpan: (type?: TimeSpan) => void
 	trail: TrailPoint[]
 }>({
 	locations: {},
-	timeSpan: TimeSpan.lastHour,
 	setTimeSpan: () => undefined,
 	trail: [],
 })
@@ -33,7 +32,7 @@ export const DeviceLocationContext = createContext<{
  */
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
-	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
+	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>()
 	const [locations, setLocations] = useState<Locations>({})
 	const [trail] = useState<TrailPoint[]>([])
 

@@ -26,7 +26,11 @@ export const DeviceMap = () => {
 				<Map
 					mapControls={
 						<>
-							<a href="/device" class="button" title={'Close fullscreen map'}>
+							<a
+								href="/device"
+								class="button control"
+								title={'Close fullscreen map'}
+							>
 								<ShrinkIcon />
 							</a>
 						</>

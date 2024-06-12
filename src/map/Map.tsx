@@ -15,9 +15,10 @@ import { MapPinOff } from 'lucide-preact'
 import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { LockInfo } from '#map/LockInfo.js'
-import { MapZoom } from '#map/MapZoom.js'
-import { LocationControls } from '#map/LocationControls.js'
+import { MapZoomControls } from '#map/MapZoomControls.js'
+import { HistoryControls } from '#map/HistoryControls.js'
 import type React from 'preact/compat'
+import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
 
 import '#map/Map.css'
 
@@ -326,10 +327,13 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 				</div>
 			)}
 			<LockInfo />
-			<LocationControls />
-			<div class="mapControls">
+			<div class="locationControls">
+				<CenterOnMapLocations />
+				<HistoryControls />
+			</div>
+			<div class="mapControls controls vertical">
 				{mapControls}
-				<MapZoom />
+				<MapZoomControls />
 			</div>
 		</section>
 	)
