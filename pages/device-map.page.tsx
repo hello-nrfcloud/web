@@ -2,7 +2,6 @@ import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNoti
 import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
-import { Provider as MapShareProvider } from '#context/MapShare.js'
 import { Provider as ModelsProvider } from '#context/Models.js'
 import { Provider as ParametersProvider } from '#context/Parameters.js'
 import { DeviceMap } from '#page/DeviceMap.js'
@@ -14,10 +13,8 @@ export const Page = ({ models }: IndexPageProps) => (
 			<ModelsProvider models={models}>
 				<DeviceProvider>
 					<DeviceLocationProvider>
-						<MapShareProvider>
-							<WebsocketDisconnectNotifier />
-							<DeviceMap />
-						</MapShareProvider>
+						<WebsocketDisconnectNotifier />
+						<DeviceMap />
 					</DeviceLocationProvider>
 				</DeviceProvider>
 			</ModelsProvider>

@@ -6,6 +6,7 @@ import {
 } from '#map/LocationSourceLabels.js'
 import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
 import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import { isEqual } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
@@ -54,7 +55,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 	useEffect(() => {
 		if (reported === undefined) return
-		setLocations(locationsFromReported(reported))
+		const newLocations = locationsFromReported(reported)
+		if (isEqual(newLocations, locations)) return
+		setLocations(newLocations)
 	}, [reported])
 
 	return (
