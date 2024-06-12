@@ -48,7 +48,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 		onParameters(({ helloApiURL }) => {
 			const g = getObjectHistory(helloApiURL, device, fingerprint)
-			console.log('helloApiURL', helloApiURL)
 			g(LwM2MObjectID.BatteryAndPower_14202, timeSpan).ok(
 				({ partialInstances }) => {
 					setBattery(

@@ -5,10 +5,16 @@ import {
 	type LocationSource,
 } from '#map/LocationSourceLabels.js'
 import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
-import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import {
+	LwM2MObjectID,
+	type LwM2MObjectInstance,
+} from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isEqual } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
+import { useParameters } from './Parameters.js'
+import { useFingerprint } from './Fingerprint.js'
+import { getObjectHistory } from '#api/getObjectHistory.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -34,7 +40,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>()
 	const [locations, setLocations] = useState<Locations>({})
-	const [trail] = useState<TrailPoint[]>([])
+	const [trail, setTrail] = useState<TrailPoint[]>([])
+	const { onParameters } = useParameters()
+	const { fingerprint } = useFingerprint()
 
 	useEffect(() => {
 		if (device === undefined) return
@@ -58,6 +66,22 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (isEqual(newLocations, locations)) return
 		setLocations(newLocations)
 	}, [reported])
+
+	useEffect(() => {
+		if (device === undefined) return
+		if (fingerprint === null) return
+		if (timeSpan === undefined) {
+			console.log(`[MapHistory]`, 'off')
+			setTrail([])
+			return
+		}
+		console.log(`[MapHistory]`, timeSpan)
+
+		onParameters(({ helloApiURL }) => {
+			const g = getObjectHistory(helloApiURL, device, fingerprint)
+			g(LwM2MObjectID.Geolocation_14201, timeSpan).ok(console.log)
+		})
+	}, [timeSpan])
 
 	return (
 		<DeviceLocationContext.Provider

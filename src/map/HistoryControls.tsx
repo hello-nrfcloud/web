@@ -24,6 +24,7 @@ export const HistoryControls = () => {
 					onClick={() => {
 						setExpanded(true)
 					}}
+					disabled={true}
 				>
 					<span>
 						History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
