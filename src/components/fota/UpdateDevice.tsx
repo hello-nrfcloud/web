@@ -42,14 +42,19 @@ export const UpdateDevice = ({
 					<p>The firmware running on this device does not support FOTA.</p>
 				)}
 				{fwTypes.length > 0 && (
-					<p>
-						The firmware running on this device does not support this type of
-						FOTA. Only these are supported:{' '}
-						{fwTypes.map((type) => (
-							<code class="me-1">{type}</code>
-						))}
-						.
-					</p>
+					<>
+						<p>
+							The firmware running on this device does not support this type of
+							FOTA. Only these are supported:{' '}
+						</p>
+						<ul>
+							{fwTypes.map((type) => (
+								<li>
+									<code class="me-1">{type}</code>
+								</li>
+							))}
+						</ul>
+					</>
 				)}
 				<p>
 					You can use{' '}
