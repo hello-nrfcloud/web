@@ -1,0 +1,1 @@
+export default '/device/map'

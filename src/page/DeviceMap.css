@@ -1,0 +1,11 @@
+body.pages-device-map {
+  margin-top: 0;
+}
+body.pages-device-map,
+body.pages-device-map #page-view,
+#deviceMap,
+body.pages-device-map section.map,
+body.pages-device-map #map {
+  height: 100vh;
+  width: 100vw;
+}

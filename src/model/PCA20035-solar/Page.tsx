@@ -1,18 +1,18 @@
 import { BME680 } from '#components/BME680.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
+import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
+import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
-import { Map } from '#map/Map.js'
+import { DevicePageMap } from '#map/DevicePageMap.js'
+import { LocationHelp } from '#map/LocationHelp.js'
 import { ModelCard } from '#model/ModelCard.js'
 import { Battery } from '#model/PCA20035-solar/Battery.js'
 import { Chart } from '#model/PCA20035-solar/Chart.js'
-import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
-import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
-import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
-import { LocationHelp } from '#map/LocationHelp.js'
+import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 
 import './Page.css'
 
@@ -44,7 +44,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<div class="gridSolar">
 					<Chart />
-					<Map device={device} />
+					<DevicePageMap />
 					<div
 						class={'bg-dark'}
 						style={{

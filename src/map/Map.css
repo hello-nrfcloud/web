@@ -9,7 +9,7 @@ section.map {
   min-height: 50vh;
 }
 
-.mapZoom {
+.mapControls {
   position: absolute;
   right: 1rem;
   top: 1rem;
@@ -20,13 +20,18 @@ section.map {
   border-radius: 5px;
 }
 
-.mapZoom button {
+.mapControls button,
+.mapControls .button {
   border: 0;
   padding: 0.5rem;
   background-color: transparent;
+  color: var(--color-nordic-dark-grey);
 }
 
-.mapZoom button + button {
+.mapControls button + button,
+.mapControls button + .button,
+.mapControls .button + button,
+.mapControls .button + .button {
   border-top: 1px solid var(--color-nordic-middle-grey);
 }
 
@@ -58,7 +63,7 @@ section.map {
   margin: 0;
 }
 
-.mapControls {
+.locationControls {
   position: absolute;
   top: 1rem;
   left: 1rem;

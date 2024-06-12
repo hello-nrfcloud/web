@@ -1,19 +1,20 @@
-import { DeviceHeader } from '#components/DeviceHeader.js'
-import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
-import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { BME680 } from '#components/BME680.js'
-import { useDevice, type Device as TDevice } from '#context/Device.js'
-import { Map } from '#map/Map.js'
-import { BatteryChart } from '#model/PCA20065/Chart.js'
-import { Provider } from '#model/PCA20065/HistoryContext.js'
 import { Configuration } from '#components/Configuration.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
-import { Card } from '#model/PCA20065/Card.js'
-import { ConnectionSuccess } from './ConnectionSuccess.js'
+import { DeviceHeader } from '#components/DeviceHeader.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
-import { DeviceBehaviourInfo } from './DeviceBehaviourInfo.js'
 import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
+import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
+import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
+import { useDevice, type Device as TDevice } from '#context/Device.js'
+import { DevicePageMap } from '#map/DevicePageMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
+import { Card } from '#model/PCA20065/Card.js'
+import { BatteryChart } from '#model/PCA20065/Chart.js'
+import { Provider } from '#model/PCA20065/HistoryContext.js'
+import { ConnectionSuccess } from '#model/PCA20065/ConnectionSuccess.js'
+import { DeviceBehaviourInfo } from '#model/PCA20065/DeviceBehaviourInfo.js'
+
 import './Page.css'
 
 export const Page = ({ device }: { device: TDevice }) => {
@@ -44,7 +45,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<BatteryChart />
 				<div class="bg-dark grid">
-					<Map device={device} />
+					<DevicePageMap />
 					<LocationHelp device={device} class="p-4 location-help" />
 				</div>
 				<div class="container my-4">

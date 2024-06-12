@@ -1,34 +1,25 @@
-import {
-	LockIcon,
-	MapPinOff,
-	MinusIcon,
-	PlusIcon,
-	RadioTowerIcon,
-	SatelliteIcon,
-	UnlockIcon,
-	WifiIcon,
-} from 'lucide-preact'
-import { DateRangeButton } from '#chart/DateRangeButton.js'
-import { timeSpans } from '#chart/timeSpans.js'
-import { type Device } from '#context/Device.js'
+import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
+import { useMap } from '#context/Map.js'
 import { useParameters } from '#context/Parameters.js'
-import '#map/Map.css'
-import {
-	geoJSONPolygonFromCircle,
-	getPolygonCoordinatesForCircle,
-} from '#map/geoJSONPolygonFromCircle.js'
-import { mapStyle } from '#map/style.js'
-import { transformRequest } from '#map/transformRequest.js'
-import { formatDistanceToNow } from 'date-fns'
-import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
-import { useEffect, useRef, useState } from 'preact/hooks'
 import {
 	LocationSource,
 	LocationSourceLabels,
 	locationSourceColors,
 } from '#map/LocationSourceLabels.js'
+import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
+import { mapStyle } from '#map/style.js'
+import { transformRequest } from '#map/transformRequest.js'
 import { type GeoLocation } from '#proto/lwm2m.js'
-import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
+import { formatDistanceToNow } from 'date-fns'
+import { MapPinOff } from 'lucide-preact'
+import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import { LockInfo } from '#map/LockInfo.js'
+import { MapZoom } from '#map/MapZoom.js'
+import { LocationControls } from '#map/LocationControls.js'
+import type React from 'preact/compat'
+
+import '#map/Map.css'
 
 const trailColor = '#e169a5'
 const defaultColor = '#C7C7C7'
@@ -42,15 +33,14 @@ const glyphFonts = {
 const getCenter = (locations: Locations): GeoLocation | undefined =>
 	Object.values(locations).sort(({ ts: ts1 }, { ts: ts2 }) => ts2 - ts1)[0]
 
-export const Map = ({ device }: { device: Device }) => {
+export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
-	const { locations, trail, timeSpan, setTimeSpan } = useDeviceLocation()
-	const [map, setMap] = useState<maplibregl.Map>()
-	const [locked, setLocked] = useState<boolean>(true)
+	const { locations, trail } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	const hasTrail = trail.length > 1 // Only show trail with more than one point
 	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
+	const { locked, setMap, clearMap, map } = useMap()
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -82,7 +72,7 @@ export const Map = ({ device }: { device: Device }) => {
 		})
 
 		return () => {
-			map?.remove()
+			clearMap()
 		}
 	}, [containerRef.current])
 
@@ -116,7 +106,6 @@ export const Map = ({ device }: { device: Device }) => {
 	useEffect(() => {
 		if (!hasLocation) return
 		if (map === undefined) return
-		if (device === undefined) return
 		if (!mapLoaded) return
 
 		const layerIds: string[] = []
@@ -224,13 +213,12 @@ export const Map = ({ device }: { device: Device }) => {
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [locations, map, device, mapLoaded])
+	}, [locations, map, mapLoaded])
 
 	// Trail
 	useEffect(() => {
 		if (!hasTrail) return
 		if (map === undefined) return
-		if (device === undefined) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
@@ -305,7 +293,7 @@ export const Map = ({ device }: { device: Device }) => {
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [trail, map, device])
+	}, [trail, map])
 
 	// Enable zoom
 	useEffect(() => {
@@ -337,131 +325,13 @@ export const Map = ({ device }: { device: Device }) => {
 					</span>
 				</div>
 			)}
-			{map !== undefined && (
-				<MapZoom map={map} locked={locked} onLock={setLocked} />
-			)}
+			<LockInfo />
+			<LocationControls />
 			<div class="mapControls">
-				{hasLocation && (
-					<div class="mapLocations">
-						{Object.values(locations).map(({ src, lat, lng, acc }) => (
-							<button
-								type="button"
-								onClick={() => {
-									if (map === undefined) return
-									if (acc === undefined) return
-									const coordinates = getPolygonCoordinatesForCircle(
-										[lng, lat],
-										acc,
-										6,
-										Math.PI / 2,
-									)
-									const bounds = coordinates.reduce(
-										(bounds, coord) => {
-											return bounds.extend(coord)
-										},
-										new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
-									)
-									map.fitBounds(bounds, {
-										padding: 20,
-									})
-								}}
-								class="d-flex flex-row align-items-center"
-							>
-								<span class="me-2">
-									{[LocationSource.MCELL, LocationSource.SCELL].includes(
-										src as LocationSource,
-									) && <RadioTowerIcon />}
-									{src === LocationSource.WIFI && <WifiIcon />}
-									{src === LocationSource.GNSS && <SatelliteIcon />}
-								</span>
-								{LocationSourceLabels.has(src) && (
-									<span>{LocationSourceLabels.get(src)}</span>
-								)}
-							</button>
-						))}
-					</div>
-				)}
-				<div class="mapHistoryControls col d-flex justify-content-start align-items-center">
-					<span class="me-2 opacity-75">Location history:</span>
-					{timeSpans.map(({ id, title }) => (
-						<DateRangeButton
-							class="ms-1"
-							disabled={id === timeSpan}
-							onClick={() => {
-								setTimeSpan(id)
-							}}
-							label={title}
-							active={timeSpan === id}
-						/>
-					))}
-				</div>
+				{mapControls}
+				<MapZoom />
 			</div>
 		</section>
-	)
-}
-
-const MapZoom = ({
-	map,
-	locked,
-	onLock,
-}: {
-	map: maplibregl.Map
-	locked: boolean
-	onLock: (setter: (current: boolean) => boolean) => void
-}) => {
-	useEffect(() => {
-		if (locked) {
-			map.dragPan.disable()
-		} else {
-			map.dragPan.enable()
-		}
-	}, [locked])
-
-	return (
-		<>
-			{locked && (
-				<div class="lockInfo">
-					<span>
-						Click the{' '}
-						<button
-							type="button"
-							onClick={() => {
-								onLock(() => false)
-							}}
-						>
-							<LockIcon />
-						</button>{' '}
-						to enable the map.
-					</span>
-				</div>
-			)}
-			<div class="mapZoom">
-				<button
-					type="button"
-					onClick={() => {
-						map.setZoom(map.getZoom() + 1)
-					}}
-				>
-					<PlusIcon />
-				</button>
-				<button
-					type="button"
-					onClick={() => {
-						map.setZoom(map.getZoom() - 1)
-					}}
-				>
-					<MinusIcon />
-				</button>
-				<button
-					type="button"
-					onClick={() => {
-						onLock((locked) => !locked)
-					}}
-				>
-					{locked ? <LockIcon /> : <UnlockIcon />}
-				</button>
-			</div>
-		</>
 	)
 }
 

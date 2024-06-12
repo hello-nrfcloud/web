@@ -75,7 +75,7 @@ const Navigation = () => {
 				</>
 			)}
 			{device !== undefined &&
-				document.location.pathname.includes('/device') && (
+				document.location.pathname.endsWith('/device') && (
 					<span class="d-none d-sm-inline">
 						{!debug && (
 							<button
@@ -127,7 +127,7 @@ const NavWrapper = () => {
 		const body = document.getElementsByTagName('body')[0]
 		if (body === undefined) return
 		if (isDesktop) {
-			body.className = 'desktop'
+			body.className = (body.className ?? '') + ' desktop'
 		}
 	}, [isDesktop])
 
