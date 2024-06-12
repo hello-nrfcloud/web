@@ -71,7 +71,7 @@
     "eslint-plugin-jsx-a11y": "6.8.0",
     "glob": "10.4.1",
     "husky": "9.0.11",
-    "lint-staged": "15.2.6",
+    "lint-staged": "15.2.7",
     "playwright": "1.44.1",
     "preact-render-to-string": "6.5.4",
     "prettier-plugin-organize-imports": "3.2.4",
