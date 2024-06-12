@@ -35,6 +35,9 @@ export const FeedbackForm = () => {
 						stars,
 						suggestion,
 					}),
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8',
+					},
 				})
 				if (res.ok) {
 					setSubmitted(true)

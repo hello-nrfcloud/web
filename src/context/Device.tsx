@@ -247,6 +247,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 								'@context': Context.lwm2mObjectUpdate.toString(),
 								...instance,
 							}),
+							headers: {
+								'Content-Type': 'application/json; charset=utf-8',
+							},
 						},
 					)
 					setDesired(mergeInstances([instance]))

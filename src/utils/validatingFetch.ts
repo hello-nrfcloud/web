@@ -41,6 +41,9 @@ export const validatingFetch = <T extends TObject>(
 						method: 'POST',
 						body: JSON.stringify(body),
 						mode: 'cors',
+						headers: {
+							'Content-Type': 'application/json; charset=utf-8',
+						},
 					}
 				: {
 						method: 'GET',
