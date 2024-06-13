@@ -8,7 +8,8 @@ const byTimeSpan = (timeSpan: TimeSpan | undefined) => (t: TimeSpanInfo) =>
 	t.id === timeSpan
 
 export const HistoryControls = () => {
-	const { timeSpan, setTimeSpan } = useDeviceLocation()
+	const { timeSpan, setTimeSpan, enableClustering, clustering } =
+		useDeviceLocation()
 	const [expanded, setExpanded] = useState<boolean>(false)
 
 	if (!expanded) {
@@ -24,7 +25,6 @@ export const HistoryControls = () => {
 					onClick={() => {
 						setExpanded(true)
 					}}
-					disabled={true}
 				>
 					<span>
 						History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
@@ -62,6 +62,19 @@ export const HistoryControls = () => {
 					{title}
 				</button>
 			))}
+			<div class="button control">
+				<label htmlFor="clusterLocations" class="d-flex align-items-center">
+					<input
+						type="checkbox"
+						id="clusterLocations"
+						checked={clustering}
+						onChange={(ev) => {
+							enableClustering((ev.target as HTMLInputElement).checked)
+						}}
+					/>{' '}
+					<span class="ms-2">cluster nearby locations </span>
+				</label>
+			</div>
 		</div>
 	)
 }

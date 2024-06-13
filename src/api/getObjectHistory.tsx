@@ -6,12 +6,17 @@ import type { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
 
 export const getObjectHistory =
 	(helloApiURL: URL, device: Device, fingerprint: string) =>
-	(ObjectID: LwM2MObjectID, timeSpan: TimeSpan) =>
+	(
+		ObjectID: LwM2MObjectID,
+		timeSpan: TimeSpan,
+		extraParams?: URLSearchParams,
+	) =>
 		validatingFetch(LwM2MObjectHistory)(
 			new URL(
 				`./device/${device.id}/history/${ObjectID}/0?${new URLSearchParams({
 					fingerprint,
 					timeSpan,
+					...(extraParams !== undefined ? Object.fromEntries(extraParams) : {}),
 				}).toString()}`,
 				helloApiURL,
 			),

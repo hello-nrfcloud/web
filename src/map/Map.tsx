@@ -37,9 +37,8 @@ const getCenter = (locations: Locations): GeoLocation | undefined =>
 export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
-	const { locations, trail } = useDeviceLocation()
+	const { locations, trail, clustering } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
-	const hasTrail = trail.length > 1 // Only show trail with more than one point
 	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
 	const { locked, setMap, clearMap, map } = useMap()
 
@@ -95,7 +94,6 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		if (!locked) return // Don't override user set center
 		if (map === undefined) return
 		if (hasLocation) return
-		if (!hasTrail) return
 		console.log(`[Map]`, 'center', trail[trail.length - 1])
 		map.flyTo({
 			center: trail[trail.length - 1],
@@ -115,9 +113,6 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		for (const location of Object.values(locations)) {
 			const { lng, lat, acc, src, ts } = location
 			const locationCenterSourceId = `${location.src}-source-center`
-			const locationAreaSourceId = `${location.src}-location-area-source`
-			const locationAreaLayerId = `${location.src}-location-area-layer`
-			const locationAreaLabelId = `${location.src}-location-area-label`
 			const locationSourceLabel = `${location.src}-location-source-label`
 			const locationAgeLabel = `${location.src}-location-age-label`
 			const centerSource = map.getSource(locationCenterSourceId)
@@ -168,45 +163,13 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 				})
 				layerIds.push(locationAgeLabel)
 				if (acc !== undefined) {
-					// Data for Hexagon
-					map.addSource(
-						locationAreaSourceId,
-						geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
+					const hexagon = addHexagon(
+						map,
+						{ ...location, acc },
+						locationSourceColors.get(src) ?? defaultColor,
 					)
-					sourceIds.push(locationAreaSourceId)
-					// Render Hexagon
-					map.addLayer({
-						id: locationAreaLayerId,
-						type: 'line',
-						source: locationAreaSourceId,
-						layout: {},
-						paint: {
-							'line-color': locationSourceColors.get(src) ?? defaultColor,
-							'line-opacity': 1,
-							'line-width': 2,
-						},
-					})
-					layerIds.push(locationAreaLayerId)
-					// Render label on Hexagon
-					map.addLayer({
-						id: locationAreaLabelId,
-						type: 'symbol',
-						source: locationAreaSourceId,
-						layout: {
-							'symbol-placement': 'line',
-							'text-field': `${Math.round(acc)} m`,
-							'text-font': [glyphFonts.regular],
-							'text-offset': [0, -1],
-							'text-size': 14,
-						},
-						paint: {
-							'text-color': locationSourceColors.get(src) ?? defaultColor,
-							'text-halo-color': '#222222',
-							'text-halo-width': 1,
-							'text-halo-blur': 1,
-						},
-					})
-					layerIds.push(locationAreaLabelId)
+					sourceIds.push(...hexagon.sourceIds)
+					layerIds.push(...hexagon.layerIds)
 				}
 			}
 		}
@@ -218,8 +181,8 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 
 	// Trail
 	useEffect(() => {
-		if (!hasTrail) return
 		if (map === undefined) return
+		if (!mapLoaded) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
@@ -256,6 +219,16 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 					},
 				})
 				layerIds.push(locationSourceLabel)
+
+				if (clustering === true && point.acc !== undefined) {
+					const hexagon = addHexagon(
+						map,
+						{ ...point, acc: point.acc },
+						trailColor,
+					)
+					sourceIds.push(...hexagon.sourceIds)
+					layerIds.push(...hexagon.layerIds)
+				}
 			}
 		}
 
@@ -294,7 +267,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [trail, map])
+	}, [trail, map, clustering, mapLoaded])
 
 	// Enable zoom
 	useEffect(() => {
@@ -353,3 +326,59 @@ const toGEOJsonPoint = ([lat, lng]: [
 		properties: {},
 	},
 })
+
+const addHexagon = (
+	map: maplibregl.Map,
+	{ lng, lat, src, acc }: GeoLocation & { acc: number },
+	color: string,
+) => {
+	const locationAreaSourceId = `${src}-location-area-source`
+	const locationAreaLayerId = `${src}-location-area-layer`
+	const locationAreaLabelId = `${src}-location-area-label`
+	const sourceIds = []
+	const layerIds = []
+	// Data for Hexagon
+	map.addSource(
+		locationAreaSourceId,
+		geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
+	)
+	sourceIds.push(locationAreaSourceId)
+	// Render Hexagon
+	map.addLayer({
+		id: locationAreaLayerId,
+		type: 'line',
+		source: locationAreaSourceId,
+		layout: {},
+		paint: {
+			'line-color': color,
+			'line-opacity': 1,
+			'line-width': 2,
+		},
+	})
+	layerIds.push(locationAreaLayerId)
+	// Render label on Hexagon
+	map.addLayer({
+		id: locationAreaLabelId,
+		type: 'symbol',
+		source: locationAreaSourceId,
+		layout: {
+			'symbol-placement': 'line',
+			'text-field': `${Math.round(acc)} m`,
+			'text-font': [glyphFonts.regular],
+			'text-offset': [0, -1],
+			'text-size': 14,
+		},
+		paint: {
+			'text-color': color,
+			'text-halo-color': '#222222',
+			'text-halo-width': 1,
+			'text-halo-blur': 1,
+		},
+	})
+	layerIds.push(locationAreaLabelId)
+
+	return {
+		layerIds,
+		sourceIds,
+	}
+}

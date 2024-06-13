@@ -7,6 +7,7 @@ import {
 import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
 import {
 	LwM2MObjectID,
+	type Geolocation_14201,
 	type LwM2MObjectInstance,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isEqual } from 'lodash-es'
@@ -27,18 +28,20 @@ export const DeviceLocationContext = createContext<{
 	timeSpan?: TimeSpan
 	setTimeSpan: (type?: TimeSpan) => void
 	trail: TrailPoint[]
+	enableClustering: (clustering: boolean) => void
+	clustering: boolean
 }>({
 	locations: {},
 	setTimeSpan: () => undefined,
 	trail: [],
+	enableClustering: () => undefined,
+	clustering: false,
 })
 
-/**
- * FIXME: Fetch location history via REST
- */
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>()
+	const [clustering, setClustering] = useState<boolean>(false)
 	const [locations, setLocations] = useState<Locations>({})
 	const [trail, setTrail] = useState<TrailPoint[]>([])
 	const { onParameters } = useParameters()
@@ -79,9 +82,34 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 		onParameters(({ helloApiURL }) => {
 			const g = getObjectHistory(helloApiURL, device, fingerprint)
-			g(LwM2MObjectID.Geolocation_14201, timeSpan).ok(console.log)
+			g(
+				LwM2MObjectID.Geolocation_14201,
+				timeSpan,
+				clustering ? new URLSearchParams({ trail: '1' }) : undefined,
+			).ok(({ partialInstances }) => {
+				console.log(`[MapHistory]`, partialInstances)
+				setTrail(
+					partialInstances.map((instance) => {
+						const {
+							0: lat,
+							1: lng,
+							3: acc,
+							6: src,
+							99: ts,
+						} = instance as LwM2MObjectInstance<Geolocation_14201>['Resources']
+						return {
+							lat,
+							lng,
+							acc,
+							src,
+							ts,
+							id: `${device.id}-${src}-${ts}`,
+						}
+					}),
+				)
+			})
 		})
-	}, [timeSpan])
+	}, [timeSpan, clustering])
 
 	return (
 		<DeviceLocationContext.Provider
@@ -90,6 +118,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				timeSpan,
 				setTimeSpan,
 				trail,
+				enableClustering: (clustering) => setClustering(clustering),
+				clustering,
 			}}
 		>
 			{children}
