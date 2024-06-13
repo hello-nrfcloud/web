@@ -9,6 +9,7 @@ import { CloudUpload, Satellite } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { Problem } from '#components/Problem.js'
 import { Success } from '#components/Success.js'
+import { ProgressBar } from './ProgressBar.js'
 
 export const ConfigureDevice = ({ device }: { device: Device }) => {
 	const {
@@ -27,6 +28,7 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 		Static<typeof ProblemDetail> | undefined
 	>()
 	const [success, setSuccess] = useState<boolean | undefined>()
+	const [inProgress, setInProgress] = useState<boolean>(false)
 
 	return (
 		<>
@@ -93,6 +95,7 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 				onClick={() => {
 					setProblem(undefined)
 					setSuccess(undefined)
+					setInProgress(true)
 					configure({
 						gnssEnabled: selectedGNSS,
 						updateIntervalSeconds: selectedUpdateIntervalSeconds,
@@ -105,6 +108,9 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 							}
 						})
 						.catch(console.error)
+						.finally(() => {
+							setInProgress(false)
+						})
 				}}
 			>
 				apply configuration
@@ -113,6 +119,7 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 			{success !== undefined && (
 				<Success class="mt-2">Configuration updated!</Success>
 			)}
+			{inProgress && <ProgressBar class="mt-2" />}
 		</>
 	)
 }

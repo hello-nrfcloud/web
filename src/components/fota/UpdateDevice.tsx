@@ -8,6 +8,7 @@ import { type ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import { noop } from 'lodash-es'
 import { useState } from 'preact/hooks'
+import { ProgressBar } from '#components/ProgressBar.js'
 
 export const UpdateDevice = ({
 	bundleId,
@@ -103,19 +104,7 @@ export const UpdateDevice = ({
 			>
 				Update to {version}
 			</Primary>
-			{inProgress && (
-				<div class="progress mt-2">
-					<div
-						class="progress-bar progress-bar-striped progress-bar-animated"
-						role="progressbar"
-						aria-label="Animated striped example"
-						aria-valuenow={50}
-						aria-valuemin={0}
-						aria-valuemax={100}
-						style="width: 50%"
-					/>
-				</div>
-			)}
+			{inProgress && <ProgressBar class="mt-2" />}
 			{success && <Success class="mt-2">FOTA scheduled!</Success>}
 			{problem !== undefined && <Problem class="mt-2" problem={problem} />}
 		</form>
