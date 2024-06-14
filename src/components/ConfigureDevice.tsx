@@ -9,7 +9,6 @@ import { CloudUpload, Satellite } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { Problem } from '#components/Problem.js'
 import { Success } from '#components/Success.js'
-import { ProgressBar } from './ProgressBar.js'
 
 export const ConfigureDevice = ({ device }: { device: Device }) => {
 	const {
@@ -112,14 +111,14 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 							setInProgress(false)
 						})
 				}}
+				disabled={inProgress}
 			>
-				apply configuration
+				{inProgress ? 'applying ...' : 'apply configuration'}
 			</Secondary>
 			{problem !== undefined && <Problem class="mt-2" problem={problem} />}
 			{success !== undefined && (
 				<Success class="mt-2">Configuration updated!</Success>
 			)}
-			{inProgress && <ProgressBar class="mt-2" />}
 		</>
 	)
 }

@@ -8,7 +8,6 @@ import { type ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import { noop } from 'lodash-es'
 import { useState } from 'preact/hooks'
-import { ProgressBar } from '#components/ProgressBar.js'
 
 export const UpdateDevice = ({
 	bundleId,
@@ -102,9 +101,8 @@ export const UpdateDevice = ({
 				}}
 				disabled={inProgress}
 			>
-				Update to {version}
+				{inProgress ? 'sending ...' : <>Update to {version}</>}
 			</Primary>
-			{inProgress && <ProgressBar class="mt-2" />}
 			{success && <Success class="mt-2">FOTA scheduled!</Success>}
 			{problem !== undefined && <Problem class="mt-2" problem={problem} />}
 		</form>
