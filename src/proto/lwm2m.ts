@@ -13,7 +13,7 @@ import {
 	type RGBLED_14240,
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { isObject } from 'lodash-es'
+import { isNumber, isObject } from 'lodash-es'
 
 const isLwM2MObject =
 	<O extends LwM2MObjectInstance>(ObjectID: LwM2MObjectID) =>
@@ -190,3 +190,6 @@ export const byTimestamp = (
 	] as number
 	return ts2 - ts1
 }
+
+export const isTime = (n: unknown): n is number =>
+	isNumber(n) && n > 1600000000 && n < 2000000000
