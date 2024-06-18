@@ -20,6 +20,7 @@ import { type Static } from '@sinclair/typebox'
 import { isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
+import { instanceKey, mergeInstances } from '../proto/mergeInstances.js'
 
 export type Device = {
 	id: string
@@ -347,27 +348,3 @@ const isUpdate = (
 	isObject(message) &&
 	'@context' in message &&
 	message['@context'] === Context.lwm2mObjectUpdate.toString()
-
-const instanceKey = (
-	ObjectID: LwM2MObjectInstance['ObjectID'],
-	ObjectInstanceID: LwM2MObjectInstance['ObjectInstanceID'] = 0,
-): string => `${ObjectID}/${ObjectInstanceID}`
-
-const mergeInstances =
-	(instances: Array<LwM2MObjectInstance>) =>
-	(
-		current: Record<string, LwM2MObjectInstance>,
-	): Record<string, LwM2MObjectInstance> => ({
-		...current,
-		...instances.reduce<Record<string, LwM2MObjectInstance>>(
-			(acc, instance) => {
-				acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
-					...(acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] ??
-						{}),
-					...instance,
-				}
-				return acc
-			},
-			{},
-		),
-	})
