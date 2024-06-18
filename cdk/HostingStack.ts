@@ -46,6 +46,7 @@ export class HostingStack extends Stack {
 			env: {
 				region,
 			},
+			description: `Hosting resources for the hello.nrfcloud.com website.`,
 		})
 
 		const gitHubOIDC = IAM.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
