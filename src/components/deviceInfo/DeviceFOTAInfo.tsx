@@ -16,18 +16,20 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 		<>
 			<h2>Firmware update over the air (FOTA)</h2>
 			{fwTypes.length === 0 && (
-				<p
-					class="mt-2 d-flex align-items-start"
-					style={{ color: 'var(--color-nordic-fall)' }}
-				>
-					<AlertCircleIcon strokeWidth={2} size={30} class={'me-1'} />
-					<span class="mt-1">
-						The firmware running on this device does not support FOTA.
-					</span>
-				</p>
+				<div class="mb-4">
+					<p
+						class="mt-2 d-flex align-items-start"
+						style={{ color: 'var(--color-nordic-fall)' }}
+					>
+						<AlertCircleIcon strokeWidth={2} size={30} class={'me-1'} />
+						<span class="mt-1">
+							The firmware running on this device does not support FOTA.
+						</span>
+					</p>
+				</div>
 			)}
 			{fwTypes.length > 0 && (
-				<>
+				<div class="mb-4">
 					<h3>Supported firmware types</h3>
 					<ul>
 						{fwTypes.map((type) => (
@@ -36,11 +38,14 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 							</li>
 						))}
 					</ul>
-				</>
+				</div>
 			)}
-
-			<SoftwareInfo device={device} />
-			<FOTAJobs />
+			<div class="mb-4">
+				<FOTAJobs />
+			</div>
+			<div class="mb-4">
+				<SoftwareInfo device={device} />
+			</div>
 		</>
 	)
 }

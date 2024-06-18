@@ -86,7 +86,7 @@ export const ModelVariantOf = Type.Object(
 	{ title: 'Variant', description: 'A variant of another model.' },
 )
 
-export type ModelMarkdownType = Static<typeof ModelMarkdown>
+type ModelMarkdownType = Static<typeof ModelMarkdown>
 
 export const UnsupportedModel = Type.Object({
 	title: Type.String({ minLength: 1 }),
@@ -95,22 +95,9 @@ export const UnsupportedModel = Type.Object({
 })
 export type UnsupportedModelType = Static<typeof UnsupportedModel>
 
-type FirmwareWithURL = Omit<Static<typeof Firmware>, 'link'> & {
-	link: URL
-}
-
-export type Model = Omit<
-	ModelMarkdownType,
-	'includedSIMs' | 'links' | 'firmware' | 'mfw'
-> & {
+export type Model = Omit<ModelMarkdownType, 'includedSIMs'> & {
 	includedSIMs: Array<IncludedSIMType>
 	variant?: string
-	links: {
-		learnMore: URL
-		documentation: URL
-	}
-	firmware: FirmwareWithURL
-	mfw: FirmwareWithURL
 }
 
 export const ModelDefinitions = Type.Union([

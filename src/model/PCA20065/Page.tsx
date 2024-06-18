@@ -3,7 +3,6 @@ import { Configuration } from '#components/Configuration.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
-import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
 import { DevicePageMap } from '#map/DevicePageMap.js'
@@ -56,7 +55,6 @@ export const Page = ({ device }: { device: TDevice }) => {
 							</div>
 							<div class="my-4">
 								<DeviceFOTAInfo device={device} />
-								<FOTAJobs />
 							</div>
 							<div class="my-4">
 								<BME680 />

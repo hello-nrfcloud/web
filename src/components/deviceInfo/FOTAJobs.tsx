@@ -7,18 +7,19 @@ export const FOTAJobs = () => {
 	if (jobs.length === 0) return null
 
 	return (
-		<section class="mt-4">
-			<h2>Firmware Update of the Air (FOTA)</h2>
-			{jobs.map((job) => (
-				<div class="mb-2">
-					<h3>
-						{job.id} <Ago date={new Date(job.lastUpdatedAt)} />
-					</h3>
-					<p>
-						<code>{job.status}</code> {job.statusDetail ?? ''}
+		<>
+			<h3>Scheduled FOTAs</h3>
+			<div class="mb-2">
+				{jobs.map((job) => (
+					<p class="mb-1">
+						<Ago date={new Date(job.lastUpdatedAt)} />{' '}
+						<abbr title={`Job ${job.id}`}>
+							(<code>{job.id.split('-')[0]}</code>)
+						</abbr>{' '}
+						<code>{job.status}</code>: {job.statusDetail ?? ''}
 					</p>
-				</div>
-			))}
-		</section>
+				))}
+			</div>
+		</>
 	)
 }

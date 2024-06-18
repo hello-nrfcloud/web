@@ -56,7 +56,7 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					<small class="text-muted">
 						Download the latest application firmware version for your device on{' '}
 						<a href={model.firmware.link.toString()} target="_blank">
-							{niceLink(new URL(model.firmware.link.toString()))}
+							{niceLink(model.firmware.link)}
 						</a>
 						.
 					</small>
@@ -74,7 +74,7 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					<small class="mt-1">
 						The application firmware for your devices is published on{' '}
 						<a href={model.firmware.link.toString()} target="_blank">
-							{niceLink(new URL(model.firmware.link.toString()))}
+							{niceLink(model.firmware.link)}
 						</a>
 						.
 					</small>

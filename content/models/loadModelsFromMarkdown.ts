@@ -7,7 +7,6 @@ import {
 	isUnsupported,
 	isVariant,
 	type Model,
-	type ModelMarkdownType,
 	type UnsupportedModelType,
 } from './types.js'
 import { Type } from '@sinclair/typebox'
@@ -17,23 +16,6 @@ export const getSIM = async (vendor: string): Promise<IncludedSIMType> => {
 	if (sim === undefined) throw new Error(`Unknown SIM: ${vendor}!`)
 	return sim
 }
-
-const parseLinks = (
-	model: ModelMarkdownType,
-): Pick<Model, 'links' | 'firmware' | 'mfw'> => ({
-	links: {
-		learnMore: new URL(model.links.learnMore),
-		documentation: new URL(model.links.documentation),
-	},
-	firmware: {
-		...model.firmware,
-		link: new URL(model.firmware.link),
-	},
-	mfw: {
-		...model.mfw,
-		link: new URL(model.mfw.link),
-	},
-})
 
 const v = validateWithTypeBox(Type.Array(ModelDefinitions, { minItems: 1 }))
 
@@ -58,7 +40,6 @@ export const loadModelsFromMarkdown = (async (): Promise<
 			result[model.slug] = {
 				...model,
 				includedSIMs: await Promise.all((model.includedSIMs ?? []).map(getSIM)),
-				...parseLinks(model),
 			}
 			continue
 		}
@@ -72,7 +53,6 @@ export const loadModelsFromMarkdown = (async (): Promise<
 
 		result[model.slug] = {
 			...baseModel,
-			...parseLinks(baseModel),
 			slug: model.variantOf,
 			variant: model.slug,
 			includedSIMs: await Promise.all(baseModel.includedSIMs.map(getSIM)),
