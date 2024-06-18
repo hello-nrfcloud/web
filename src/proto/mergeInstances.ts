@@ -13,15 +13,19 @@ export const mergeInstances =
 	(
 		current: Record<string, LwM2MObjectInstance>,
 	): Record<string, LwM2MObjectInstance> =>
-		instances.reduce<Record<string, LwM2MObjectInstance>>((acc, instance) => {
-			const old = acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)]
-			acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
-				...(old ?? {}),
-				...instance,
-				Resources: {
-					...(old?.Resources ?? {}),
-					...instance.Resources,
-				},
-			}
-			return acc
-		}, current)
+		instances.reduce<Record<string, LwM2MObjectInstance>>(
+			(acc, instance) => {
+				const old =
+					acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)]
+				acc[instanceKey(instance.ObjectID, instance.ObjectInstanceID)] = {
+					...(old ?? {}),
+					...instance,
+					Resources: {
+						...(old?.Resources ?? {}),
+						...instance.Resources,
+					},
+				}
+				return acc
+			},
+			{ ...current },
+		)

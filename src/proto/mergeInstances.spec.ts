@@ -5,15 +5,7 @@ import { mergeInstances } from './mergeInstances.js'
 void describe('mergeInstances()', () => {
 	void it('should merge an update', () => {
 		const ts = Math.floor(Date.now() / 1000)
-		const res = mergeInstances([
-			{
-				ObjectID: 14203,
-				Resources: {
-					'1': 21,
-					'99': ts,
-				},
-			},
-		])({
+		const orig = {
 			'14203/0': {
 				ObjectID: 14203,
 				ObjectVersion: '1.0',
@@ -27,7 +19,16 @@ void describe('mergeInstances()', () => {
 					'99': 1718721319,
 				},
 			},
-		})
+		}
+		const res = mergeInstances([
+			{
+				ObjectID: 14203,
+				Resources: {
+					'1': 21,
+					'99': ts,
+				},
+			},
+		])(orig)
 
 		assert.deepEqual(res, {
 			'14203/0': {
@@ -44,5 +45,6 @@ void describe('mergeInstances()', () => {
 				},
 			},
 		})
+		assert.equal(orig === res, false, 'should not mutate the original object')
 	})
 })
