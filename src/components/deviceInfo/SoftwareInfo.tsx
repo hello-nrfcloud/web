@@ -1,10 +1,10 @@
-import { useDevice, type Device } from '#context/Device.js'
-import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
-import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
 import { ValueLoading } from '#components/ValueLoading.js'
 import { isOutdated } from '#components/deviceInfo/isOutdated.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { UpdateDevice } from '#components/fota/UpdateDevice.js'
+import { useDevice, type Device } from '#context/Device.js'
+import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
+import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
+import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { reported } = useDevice()
@@ -23,7 +23,6 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 		modV !== undefined && isOutdated(model.mfw.version, modV)
 	return (
 		<>
-			<h2>Software information</h2>
 			<h3>Application firmware version</h3>
 			<p class="mb-0 d-flex align-items-center">
 				<ValueLoading value={appV} />

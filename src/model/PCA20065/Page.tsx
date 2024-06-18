@@ -5,16 +5,16 @@ import { DeviceHeader } from '#components/DeviceHeader.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
-import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
 import { DevicePageMap } from '#map/DevicePageMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
 import { Card } from '#model/PCA20065/Card.js'
 import { BatteryChart } from '#model/PCA20065/Chart.js'
-import { Provider } from '#model/PCA20065/HistoryContext.js'
 import { ConnectionSuccess } from '#model/PCA20065/ConnectionSuccess.js'
 import { DeviceBehaviourInfo } from '#model/PCA20065/DeviceBehaviourInfo.js'
+import { Provider } from '#model/PCA20065/HistoryContext.js'
 
+import { DeviceFOTAInfo } from '#components/deviceInfo/DeviceFOTAInfo.js'
 import './Page.css'
 
 export const Page = ({ device }: { device: TDevice }) => {
@@ -50,19 +50,19 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<div class="container my-4">
 					<div class="row mb-4">
-						<section class="col-12 col-md-4">
+						<section class="col-12 col-md-6 col-lg-4">
 							<div class="my-4">
 								<NetworkInfo />
 							</div>
 							<div class="my-4">
-								<SoftwareInfo device={device} />
+								<DeviceFOTAInfo device={device} />
 								<FOTAJobs />
 							</div>
 							<div class="my-4">
 								<BME680 />
 							</div>
 						</section>
-						<section class="col-12 col-md-6 offset-md-2">
+						<section class="col-12 col-md-6 col-lg-6 offset-lg-2">
 							<div class="my-4">
 								<DeviceBehaviourInfo />
 							</div>

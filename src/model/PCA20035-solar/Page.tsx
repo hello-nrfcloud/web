@@ -2,9 +2,8 @@ import { BME680 } from '#components/BME680.js'
 import { ConnectDevice } from '#components/ConnectDevice.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
-import { FOTAJobs } from '#components/deviceInfo/FOTAJobs.js'
+import { DeviceFOTAInfo } from '#components/deviceInfo/DeviceFOTAInfo.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
-import { SoftwareInfo } from '#components/deviceInfo/SoftwareInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
 import { DevicePageMap } from '#map/DevicePageMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
@@ -64,8 +63,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 							<NetworkInfo />
 						</section>
 						<section class="col-12 col-md-6">
-							<SoftwareInfo device={device} />
-							<FOTAJobs />
+							<DeviceFOTAInfo device={device} />
 							<Battery />
 							<BME680 />
 						</section>
