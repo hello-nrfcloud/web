@@ -15,7 +15,8 @@ export const toChartData = ({
 	type: TimeSpan
 }): ChartData => {
 	const base = new Date(
-		battery[battery.length - 1]?.ts ?? subHours(new Date(), 1).getTime(),
+		battery[battery.length - 1]?.ts.getTime() ??
+			subHours(new Date(), 1).getTime(),
 	)
 
 	const stateOfCharge = battery.filter(hasStateOfCharge)
@@ -29,7 +30,7 @@ export const toChartData = ({
 				max: 100,
 				values: stateOfCharge.map(({ '%': percent, ts }) => [
 					percent,
-					subMilliseconds(base, base.getTime() - ts),
+					subMilliseconds(base, base.getTime() - ts.getTime()),
 				]),
 				color: 'var(--color-nordic-grass)',
 				format: (v) => `${Math.round(v)} %`,
@@ -40,4 +41,4 @@ export const toChartData = ({
 
 const hasStateOfCharge = (
 	message: BatteryReading,
-): message is { '%': number; ts: number } => '%' in message
+): message is { '%': number; ts: Date } => '%' in message

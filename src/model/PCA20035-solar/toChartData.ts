@@ -33,7 +33,7 @@ export const toChartData = ({
 				max: 6.5,
 				values: gain.map(({ mA, ts }) => [
 					mA,
-					subMilliseconds(base, base.getTime() - ts),
+					subMilliseconds(base, base.getTime() - ts.getTime()),
 				]),
 				color: 'var(--color-nordic-sun)',
 				format: (v) => `${formatFloat(v)} mA`,
@@ -54,7 +54,7 @@ export const toChartData = ({
 				max: 100,
 				values: stateOfCharge.map(({ '%': percent, ts }) => [
 					percent,
-					subMilliseconds(base, base.getTime() - ts),
+					subMilliseconds(base, base.getTime() - ts.getTime()),
 				]),
 				color: 'var(--color-nordic-grass)',
 				format: (v) => `${v} %`,
@@ -65,4 +65,4 @@ export const toChartData = ({
 
 const hasStateOfCharge = (
 	message: BatteryReading,
-): message is { '%': number; ts: number } => '%' in message
+): message is { '%': number; ts: Date } => '%' in message

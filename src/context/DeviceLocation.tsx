@@ -4,7 +4,12 @@ import {
 	toLocationSource,
 	type LocationSource,
 } from '#map/LocationSourceLabels.js'
-import { isGeolocation, toGeoLocation, type GeoLocation } from '#proto/lwm2m.js'
+import {
+	isGeolocation,
+	timeToDate,
+	toGeoLocation,
+	type GeoLocation,
+} from '#proto/lwm2m.js'
 import {
 	LwM2MObjectID,
 	type Geolocation_14201,
@@ -102,7 +107,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							lng,
 							acc,
 							src,
-							ts,
+							ts: timeToDate(ts),
 							id: `${device.id}-${src}-${ts}`,
 						}
 					}),

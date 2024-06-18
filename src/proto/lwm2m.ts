@@ -9,9 +9,9 @@ import {
 	type SolarCharge_14210,
 	type ButtonPress_14220,
 	type ApplicationConfiguration_14301,
-	timestampResources,
 	type RGBLED_14240,
 	type NRFCloudServiceInfo_14401,
+	instanceTs,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 
@@ -58,7 +58,7 @@ export const toGeoLocation = ({
 	lat,
 	lng,
 	acc,
-	ts,
+	ts: timeToDate(ts),
 })
 
 export type GeoLocation = {
@@ -66,21 +66,23 @@ export type GeoLocation = {
 	lat: number
 	lng: number
 	acc?: number
-	ts: number
+	ts: Date
 }
 
-export type WithTimestamp = { ts: number }
+export type WithTimestamp = {
+	ts: Date
+}
 export type BatteryAndPower = WithTimestamp &
 	Partial<{
 		mA: number
 		'%': number
 	}>
 export const toBatteryAndPower = (
-	message: BatteryAndPower_14202,
+	instance: BatteryAndPower_14202,
 ): BatteryAndPower => ({
-	mA: message['Resources'][2],
-	'%': message['Resources'][0],
-	ts: message['Resources'][99],
+	mA: instance['Resources'][2],
+	'%': instance['Resources'][0],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type SolarCharge = WithTimestamp & {
@@ -90,7 +92,7 @@ export type SolarCharge = WithTimestamp & {
 export const toSolarCharge = (instance: SolarCharge_14210): SolarCharge => ({
 	mA: instance['Resources'][0],
 	V: instance['Resources'][1],
-	ts: instance['Resources'][99],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type Environment = WithTimestamp &
@@ -109,7 +111,7 @@ export const toEnvironment = (instance: Environment_14205): Environment => ({
 	mbar: instance['Resources'][2],
 	IAQ: instance['Resources'][10],
 	c: instance['Resources'][0],
-	ts: instance['Resources'][99],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type ButtonPress = WithTimestamp & {
@@ -119,7 +121,7 @@ export const toButtonPress = (
 	instance: LwM2MObjectInstance<ButtonPress_14220>,
 ): ButtonPress => ({
 	id: instance['ObjectInstanceID'] ?? 0,
-	ts: instance['Resources'][99],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type LED = WithTimestamp & {
@@ -133,17 +135,17 @@ export const toLED = (instance: LwM2MObjectInstance<RGBLED_14240>): LED => ({
 	g: instance['Resources'][1],
 	b: instance['Resources'][2],
 	id: instance['ObjectInstanceID'] ?? 0,
-	ts: instance['Resources'][99],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type NRFCloudServiceInfo = WithTimestamp & {
 	fwTypes?: Array<string>
 }
 export const toNRFCloudServiceInfo = (
-	message: NRFCloudServiceInfo_14401,
+	instance: NRFCloudServiceInfo_14401,
 ): NRFCloudServiceInfo => ({
-	fwTypes: message['Resources'][0],
-	ts: message['Resources'][99],
+	fwTypes: instance['Resources'][0],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type ConnectionInformation = WithTimestamp & {
@@ -153,13 +155,13 @@ export type ConnectionInformation = WithTimestamp & {
 	eest?: number
 }
 export const toConnectionInformation = (
-	message: ConnectionInformation_14203,
+	instance: ConnectionInformation_14203,
 ): ConnectionInformation => ({
-	mccmnc: message['Resources'][5],
-	networkMode: message['Resources'][0],
-	currentBand: message['Resources'][1],
-	eest: message['Resources'][11],
-	ts: message['Resources'][99],
+	mccmnc: instance['Resources'][5],
+	networkMode: instance['Resources'][0],
+	currentBand: instance['Resources'][1],
+	eest: instance['Resources'][11],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export type DeviceInformation = WithTimestamp & {
@@ -169,27 +171,30 @@ export type DeviceInformation = WithTimestamp & {
 	modemFirmware: string
 }
 export const toDeviceInformation = (
-	message: DeviceInformation_14204,
+	instance: DeviceInformation_14204,
 ): DeviceInformation => ({
-	imei: message['Resources'][0],
-	iccid: message['Resources'][1],
-	appVersion: message['Resources'][3],
-	modemFirmware: message['Resources'][2],
-	ts: message['Resources'][99],
+	imei: instance['Resources'][0],
+	iccid: instance['Resources'][1],
+	appVersion: instance['Resources'][3],
+	modemFirmware: instance['Resources'][2],
+	ts: timeToDate(instance['Resources'][99]),
 })
 
 export const byTimestamp = (
 	i1: LwM2MObjectInstance,
 	i2: LwM2MObjectInstance,
 ): number => {
-	const ts1 = i1.Resources[
-		timestampResources.get(i1.ObjectID) as number
-	] as number
-	const ts2 = i2.Resources[
-		timestampResources.get(i2.ObjectID) as number
-	] as number
+	const ts1 = instanceTs(i1)
+	const ts2 = instanceTs(i2)
 	return ts2 - ts1
 }
 
 export const isTime = (n: unknown): n is number =>
-	isNumber(n) && n > 1600000000 && n < 2000000000
+	isNumber(n) && n > 1700000000 && n < 2000000000
+
+export const timeToDate = (
+	/**
+	 * Unix time in seconds
+	 */
+	time: number,
+): Date => new Date(time * 1000)

@@ -16,9 +16,12 @@ export const ButtonPresses = () => {
 				<span>
 					<span>Press the button on your device to receive them here.</span>
 					{buttonPress !== undefined &&
-						Date.now() - buttonPress.ts < 60 * 1000 && (
+						Date.now() - buttonPress.ts.getTime() < 60 * 1000 && (
 							<span class="d-flex">
-								<small class="d-flex hot" key={`button-${buttonPress.ts}`}>
+								<small
+									class="d-flex hot"
+									key={`button-${buttonPress.ts.getTime()}`}
+								>
 									<ChevronDownSquareIcon strokeWidth={1} class="me-1" />
 									<span>
 										Button <strong>#{buttonPress.id}</strong> pressed

@@ -193,8 +193,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						setLastSeen((l) => {
 							const ts = maybeValid.Resources[99] as number
 							if (ts === undefined) return l
-							if (l === undefined) return new Date(ts)
-							return ts > l.getTime() ? new Date(ts) : l
+							if (l === undefined) return new Date(ts * 1000)
+							return ts > l.getTime() ? new Date(ts * 1000) : l
 						})
 					}
 				}
@@ -309,7 +309,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						Resources: {
 							'0': config.updateIntervalSeconds,
 							'1': config.gnssEnabled,
-							'99': Date.now(),
+							'99': Math.floor(Date.now() / 1000),
 						},
 					}).then((res) => {
 						if (!('problem' in res)) {

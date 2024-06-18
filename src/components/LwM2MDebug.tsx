@@ -3,7 +3,7 @@ import { useDevice } from '#context/Device.js'
 import {
 	type LwM2MObjectInstance,
 	definitions,
-	timestampResources,
+	instanceTsAsDate,
 	type LwM2MObjectID,
 	type LwM2MResourceInfo,
 	type LwM2MResourceValue,
@@ -86,9 +86,7 @@ const ObjectHeader = ({ ObjectID }: { ObjectID: LwM2MObjectID }) => (
 )
 
 const ShowInstance = ({ instance }: { instance: LwM2MObjectInstance }) => {
-	const ts = instance.Resources[
-		timestampResources.get(instance.ObjectID) as number
-	] as number
+	const ts = instanceTsAsDate(instance)
 	return (
 		<div class="mb-4">
 			<h4 class="d-flex justify-content-between">

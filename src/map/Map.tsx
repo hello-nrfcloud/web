@@ -19,6 +19,7 @@ import { MapZoomControls } from '#map/MapZoomControls.js'
 import { HistoryControls } from '#map/HistoryControls.js'
 import type React from 'preact/compat'
 import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
+import { byTs } from '#utils/byTs.js'
 
 import '#map/Map.css'
 
@@ -32,7 +33,7 @@ const glyphFonts = {
 } as const
 
 const getCenter = (locations: Locations): GeoLocation | undefined =>
-	Object.values(locations).sort(({ ts: ts1 }, { ts: ts2 }) => ts2 - ts1)[0]
+	Object.values(locations).sort(byTs)[0]
 
 export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 	const { onParameters } = useParameters()

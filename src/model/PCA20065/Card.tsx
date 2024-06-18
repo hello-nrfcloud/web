@@ -62,7 +62,7 @@ export const Card = ({ model }: { model: Model }) => {
 									0: color.r,
 									1: color.g,
 									2: color.b,
-									99: Date.now(),
+									99: Math.floor(Date.now() / 1000),
 								},
 							}
 							update(instance).catch(console.error)

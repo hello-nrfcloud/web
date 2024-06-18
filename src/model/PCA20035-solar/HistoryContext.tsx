@@ -3,11 +3,12 @@ import { getObjectHistory } from '#api/getObjectHistory.js'
 import { useDevice, type ListenerFn } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useParameters } from '#context/Parameters.js'
-import { byTs } from '#context/byTs.js'
+import { byTs } from '#utils/byTs.js'
 import {
 	isBatteryAndPower,
 	isSolarCharge,
 	isTime,
+	timeToDate,
 	toBatteryAndPower,
 	toSolarCharge,
 	type BatteryAndPower,
@@ -67,7 +68,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							.filter(isGain)
 							.map(({ '0': mA, '99': ts }) => ({
 								mA,
-								ts: ts * 1000,
+								ts: timeToDate(ts),
 							}))
 							.sort(byTs),
 					)
@@ -80,7 +81,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							.filter(isBattery)
 							.map(({ '0': SoC, '99': ts }) => ({
 								'%': SoC,
-								ts: ts * 1000,
+								ts: timeToDate(ts),
 							}))
 							.sort(byTs),
 					)

@@ -2,10 +2,11 @@ import { TimeSpan } from '#api/api.js'
 import { useDevice, type ListenerFn } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useParameters } from '#context/Parameters.js'
-import { byTs } from '#context/byTs.js'
+import { byTs } from '#utils/byTs.js'
 import {
 	isBatteryAndPower,
 	isTime,
+	timeToDate,
 	toBatteryAndPower,
 	type BatteryAndPower,
 } from '#proto/lwm2m.js'
@@ -56,7 +57,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							.filter(isBattery)
 							.map(({ '0': SoC, '99': ts }) => ({
 								'%': SoC,
-								ts: ts * 1000,
+								ts: timeToDate(ts),
 							}))
 							.sort(byTs),
 					)

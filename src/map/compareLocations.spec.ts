@@ -9,7 +9,7 @@ const testLocation: GeoLocation = {
 	lng: 10.42999506,
 	acc: 2420,
 	src: LocationSource.MCELL,
-	ts: Date.now(),
+	ts: new Date(),
 }
 
 void describe('compareLocations()', () => {
