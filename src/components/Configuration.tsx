@@ -1,10 +1,7 @@
 import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
-import {
-	useDevice,
-	type Configuration as DeviceConfiguration,
-	type Device,
-} from '#context/Device.js'
+import { useDevice, type Device } from '#context/Device.js'
+import type { ConfigurationType as DeviceConfiguration } from '#content/models/types.js'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ConfigureDevice } from './ConfigureDevice.js'

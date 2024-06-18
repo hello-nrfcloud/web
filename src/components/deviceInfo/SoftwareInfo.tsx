@@ -4,7 +4,8 @@ import { UpdateDevice } from '#components/fota/UpdateDevice.js'
 import { useDevice, type Device } from '#context/Device.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
-import { AlertTriangle, CheckCircle2 } from 'lucide-preact'
+import { AlertTriangle, CheckCircle2, InfoIcon } from 'lucide-preact'
+import { niceLink } from '#utils/niceLink.js'
 
 export const SoftwareInfo = ({ device }: { device: Device }) => {
 	const { reported } = useDevice()
@@ -53,10 +54,11 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 			{needsFwUpdate && (
 				<p>
 					<small class="text-muted">
-						<a href={model.firmware.link} target="_blank">
-							Download the latest application firmware version
-						</a>{' '}
-						for your device.
+						Download the latest application firmware version for your device on{' '}
+						<a href={model.firmware.link.toString()} target="_blank">
+							{niceLink(new URL(model.firmware.link.toString()))}
+						</a>
+						.
 					</small>
 				</p>
 			)}
@@ -65,6 +67,18 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					bundleId={model.firmware.bundleId}
 					version={model.firmware.version}
 				/>
+			)}
+			{!needsFwUpdate && (
+				<p class="mt-2 d-flex align-items-start">
+					<InfoIcon strokeWidth={1} size={30} class={'me-1'} />
+					<small class="mt-1">
+						The application firmware for your devices is published on{' '}
+						<a href={model.firmware.link.toString()} target="_blank">
+							{niceLink(new URL(model.firmware.link.toString()))}
+						</a>
+						.
+					</small>
+				</p>
 			)}
 			<h3>Modem firmware version</h3>
 			<p class="mb-0 d-flex align-items-center">
@@ -77,7 +91,7 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 								title={`Modem firmware update available, device is running ${modV}, release version is ${model.mfw.version}`}
 							>
 								<a
-									href={model.mfw.link}
+									href={model.mfw.link.toString()}
 									target="_blank"
 									style={{ color: 'var(--color-nordic-red)' }}
 								>
@@ -101,10 +115,11 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 			{needsMfwUpdate && (
 				<p>
 					<small class="text-muted">
-						<a href={model.mfw.link} target="_blank">
-							Download the latest modem firmware version
-						</a>{' '}
-						for your device.
+						Download the latest modem firmware version for your device on{' '}
+						<a href={model.mfw.link.toString()} target="_blank">
+							{niceLink(model.mfw.link)}
+						</a>
+						.
 					</small>
 				</p>
 			)}
@@ -113,6 +128,18 @@ export const SoftwareInfo = ({ device }: { device: Device }) => {
 					bundleId={model.mfw.bundleId}
 					version={model.mfw.version}
 				/>
+			)}
+			{!needsMfwUpdate && (
+				<p class="mt-2 d-flex align-items-start">
+					<InfoIcon strokeWidth={1} size={30} class={'me-1'} />
+					<small class="mt-1">
+						The modem firmware for your devices is published on{' '}
+						<a href={model.mfw.link.toString()} target="_blank">
+							{niceLink(model.mfw.link)}
+						</a>
+						.
+					</small>
+				</p>
 			)}
 		</>
 	)

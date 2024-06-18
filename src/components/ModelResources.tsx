@@ -1,4 +1,4 @@
-import type { Model } from '#context/Models.js'
+import { type Model } from '#content/models/types.js'
 import { FileText, Laptop2 } from 'lucide-preact'
 
 export const ModelResources = ({ type }: { type: Model }) => (
@@ -34,7 +34,7 @@ export const ModelResources = ({ type }: { type: Model }) => (
 					<p>
 						Read the{' '}
 						<a
-							href={type.links.documentation}
+							href={type.links.documentation.toString()}
 							title={`Documentation for ${type.title}`}
 						>
 							<em>{type.title}</em> documentation

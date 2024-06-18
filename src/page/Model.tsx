@@ -1,7 +1,7 @@
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { ScanQR } from '#components/ScanQR.js'
 import { YouTubeVideo } from '#components/YouTubeVideo.js'
-import { type Model as TModel } from '#context/Models.js'
+import type { Model as TModel } from '#content/models/types.js'
 import { ModelCard } from '#model/ModelCard.js'
 
 export const Model = ({ model }: { model: TModel }) => (
@@ -38,6 +38,6 @@ export const Model = ({ model }: { model: TModel }) => (
 				</aside>
 			</div>
 		</div>
-		<ScanQR type={model} />
+		<ScanQR model={model} />
 	</main>
 )

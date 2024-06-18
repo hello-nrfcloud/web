@@ -1,5 +1,5 @@
 import { readdir, readFile } from 'node:fs/promises'
-import path from 'node:path'
+import path, { parse } from 'node:path'
 import format from 'rehype-format'
 import html from 'rehype-stringify'
 import { remark } from 'remark'
@@ -14,30 +14,36 @@ const parseMarkdown = remark()
 	.use(remark2rehype)
 	.use(format)
 	.use(html)
-export const loadMarkdownContent = async <
-	T extends {
-		html: string
-	},
->(
+
+export type MarkdownContent = Record<string, any> & {
+	slug: string
+	html: string
+}
+export type MarkdownContents = Array<MarkdownContent>
+
+export const loadMarkdownContent = async (
 	dir: string = 'models',
-): Promise<(T & { slug: string })[]> => {
+): Promise<MarkdownContents> => {
 	const resourceFiles = (
 		await readdir(path.join(process.cwd(), 'content', dir))
 	).filter((f) => f.endsWith('.md'))
 
 	return await Promise.all(
-		resourceFiles.map(async (f) => {
-			const source = await readFile(
-				path.join(process.cwd(), 'content', dir, f),
-				'utf-8',
-			)
-			const md = await parseMarkdown.process(source)
-
-			return {
-				...md.data,
-				html: md.value,
-				slug: f.replace(/\.md$/, ''),
-			} as T & { slug: string }
-		}),
+		resourceFiles.map(async (f) =>
+			loadMarkdownContentFromFile(path.join(process.cwd(), 'content', dir, f)),
+		),
 	)
+}
+
+export const loadMarkdownContentFromFile = async (
+	file: string,
+): Promise<MarkdownContent> => {
+	const source = await readFile(file, 'utf-8')
+	const md = await parseMarkdown.process(source)
+
+	return {
+		...md.data,
+		html: md.value,
+		slug: parse(file).base.replace(/\.md$/, ''),
+	} as MarkdownContent
 }

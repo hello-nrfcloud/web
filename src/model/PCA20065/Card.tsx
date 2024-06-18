@@ -1,6 +1,6 @@
 import { Applied } from '#components/Applied.js'
 import { useDevice } from '#context/Device.js'
-import type { Model } from '#context/Models.js'
+import { type Model } from '#content/models/types.js'
 import { Thingy91XVisual } from '#model/PCA20065/Thingy91XVisual.js'
 import { isLED, toLED } from '#proto/lwm2m.js'
 import {
@@ -26,8 +26,8 @@ export const Card = ({ model }: { model: Model }) => {
 				<p class="mb-1">{model.tagline}</p>
 				<p class="mb-0">
 					<code class="text-muted">
-						<a href={`/model/${encodeURIComponent(model.name)}`}>
-							{model.name}
+						<a href={`/model/${encodeURIComponent(model.slug)}`}>
+							{model.slug}
 						</a>
 						{model.variant !== undefined && (
 							<span>
@@ -41,7 +41,7 @@ export const Card = ({ model }: { model: Model }) => {
 
 			<div class="d-flex justify-content-center">
 				<Thingy91XVisual
-					title={`${model.title} (${model.name})`}
+					title={`${model.title} (${model.slug})`}
 					ledColor={reportedLEDColor}
 					style={{ maxWidth: '250px' }}
 					onLEDClick={() => showLEDColorPicker(true)}

@@ -1,4 +1,4 @@
-import { type Model } from '#context/Models.js'
+import type { Model } from '#content/models/types.js'
 import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import {

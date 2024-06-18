@@ -1,5 +1,7 @@
+import type { ConfigurationType } from '#content/models/types.js'
 import { useFingerprint } from '#context/Fingerprint.js'
-import { useModels, type Model } from '#context/Models.js'
+import { useModels } from '#context/Models.js'
+import type { Model } from '#content/models/types.js'
 import { useParameters } from '#context/Parameters.js'
 import { isConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
@@ -28,11 +30,6 @@ type UpdateResult = Promise<
 	{ success: true } | { problem: Static<typeof ProblemDetail> }
 >
 
-export type Configuration = {
-	updateIntervalSeconds: number
-	gnssEnabled: boolean
-}
-
 export const DeviceContext = createContext<{
 	device?: Device | undefined
 	lastSeen?: Date
@@ -49,10 +46,10 @@ export const DeviceContext = createContext<{
 	desired: Record<string, LwM2MObjectInstance>
 	update: (instance: LwM2MObjectInstance) => UpdateResult
 	configuration: Partial<{
-		desired: Configuration
-		reported: Configuration
+		desired: ConfigurationType
+		reported: ConfigurationType
 	}>
-	configure: (config: Configuration) => UpdateResult
+	configure: (config: ConfigurationType) => UpdateResult
 	debug: boolean
 	setDebug: (debug: boolean) => void
 	hasLiveData: boolean
@@ -89,10 +86,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [ws, setWebsocket] = useState<WebSocket>()
 	const [disconnected, setDisconnected] = useState<boolean>(false)
 	const [desiredConfig, setDesiredConfig] = useState<
-		Configuration | undefined
+		ConfigurationType | undefined
 	>()
 	const [reportedConfig, setReportedConfig] = useState<
-		Configuration | undefined
+		ConfigurationType | undefined
 	>()
 	const [reported, setReported] = useState<Record<string, LwM2MObjectInstance>>(
 		{},

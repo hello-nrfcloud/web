@@ -1,7 +1,7 @@
-import type { Model } from '#context/Models.js'
+import { isUnsupported, type Model } from '#content/models/types.js'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { models } from '#content/models.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
 
 export type ModelPageProps = { model: Model }
 
@@ -15,7 +15,8 @@ export const prerender = async (): Promise<string[]> => {
 		await Promise.all(
 			slugs.map(async (slug) => {
 				// Do not build pages for variants
-				if ((await models)[slug]?.variant !== undefined) return undefined
+				if ('variant' in ((await loadModelsFromMarkdown)[slug] ?? {}))
+					return undefined
 				return slug
 			}),
 		)
@@ -29,16 +30,18 @@ export const onBeforeRender = async (args: {
 }): Promise<{
 	pageContext: { pageProps: ModelPageProps }
 }> => {
-	const model = (await models)[args.routeParams.model]
+	const model = (await loadModelsFromMarkdown)[args.routeParams.model]
 	if (model === undefined)
 		throw new Error(`Could not find model: ${args.routeParams.model}!`)
+	if (isUnsupported(model))
+		throw new Error(`Model ${model.slug} is unsupported!`)
 
 	return {
 		pageContext: {
 			pageProps: {
 				model: {
 					...model,
-					name: args.routeParams.model,
+					slug: args.routeParams.model,
 				},
 			},
 		},

@@ -1,8 +1,8 @@
-import type { IncludedSIM } from '#context/Models.js'
+import type { IncludedSIMType } from '#content/sims/types.js'
 
 import './IncludedSIMInfo.css'
 
-export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIM }) => {
+export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIMType }) => {
 	return (
 		<div class="sim-info">
 			<div
@@ -13,7 +13,7 @@ export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIM }) => {
 			></div>
 			<div class="logo">
 				<img
-					src={`/static/sim/${sim.vendor}.svg`}
+					src={`/static/sim/${sim.slug}.svg`}
 					alt={sim.companyName}
 					class="logo"
 				/>
@@ -25,7 +25,7 @@ export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIM }) => {
 export const IncludedSIMs = ({
 	includedSIMs,
 }: {
-	includedSIMs: Array<IncludedSIM>
+	includedSIMs: Array<IncludedSIMType>
 }) => {
 	const hasSIM = (includedSIMs.length ?? 0) > 0
 	if (hasSIM === false) return null

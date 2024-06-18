@@ -25,7 +25,23 @@ export const Device = () => {
 			</div>
 		)
 
-	if (device.model.name === 'unsupported') {
+	if (device.model === undefined) {
+		return (
+			<div class="container">
+				<div class="row">
+					<div class="col my-4">
+						<h1>Unsupported model</h1>
+						<p>
+							The application does not support the model specified for this
+							device (<code>{device.id}</code>).
+						</p>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	if (device.model.slug === 'unsupported') {
 		return (
 			<div class="container">
 				<div class="row">
@@ -50,10 +66,10 @@ export const Device = () => {
 						helloApiURL={helloApiURL}
 					>
 						<div class={cx({ hasSidebar: debug })}>
-							{device.model.name === 'PCA20035+solar' && (
+							{device.model.slug === 'PCA20035+solar' && (
 								<SolarThingy91 device={device} />
 							)}
-							{device.model.name === 'PCA20065' && (
+							{device.model.slug === 'PCA20065' && (
 								<Thingy91X device={device} />
 							)}
 							{debug && <LwM2MDebug />}
