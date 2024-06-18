@@ -30,8 +30,8 @@ export const BME680 = () => (
 					Bosch BME680 environment sensor
 				</a>
 				.<br />
-				The air quality rating is based on a proprietary algorithm. See page 8
-				in{' '}
+				The air quality rating is based on a proprietary algorithm. See
+				page&nbsp;8 in{' '}
 				<a
 					href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf"
 					target="_blank"
