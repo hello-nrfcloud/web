@@ -75,7 +75,8 @@ const Navigation = () => {
 				</>
 			)}
 			{device !== undefined &&
-				document.location.pathname.endsWith('/device/') && (
+				(document.location.pathname.endsWith('/device/') ||
+					document.location.pathname.endsWith('/device')) && (
 					<span class="d-none d-sm-inline">
 						{!debug && (
 							<button
