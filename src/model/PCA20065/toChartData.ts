@@ -1,17 +1,16 @@
 import type { TimeSpan } from '#api/api.js'
 import type { ChartData } from '#chart/chartMath.js'
 import { xAxisForType } from '#chart/xAxisForType.js'
-import {
-	type BatteryReading,
-	type BatteryReadings,
-} from '#model/PCA20065/HistoryContext.js'
+import type { BatteryAndPower, Reboot } from '#proto/lwm2m.js'
 import { subHours, subMilliseconds } from 'date-fns'
 
 export const toChartData = ({
 	battery,
+	reboots,
 	type,
 }: {
-	battery: BatteryReadings
+	battery: Array<BatteryAndPower>
+	reboots: Array<Reboot>
 	type: TimeSpan
 }): ChartData => {
 	const base = new Date(
@@ -36,9 +35,16 @@ export const toChartData = ({
 				format: (v) => `${Math.round(v)} %`,
 			},
 		],
+		// Reboots
+		events: [
+			{
+				color: 'var(--color-nordic-red)',
+				events: reboots.map(({ ts }) => ts),
+			},
+		],
 	}
 }
 
 const hasStateOfCharge = (
-	message: BatteryReading,
+	message: BatteryAndPower,
 ): message is { '%': number; ts: Date } => '%' in message

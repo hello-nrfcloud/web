@@ -12,6 +12,7 @@ import {
 	type RGBLED_14240,
 	type NRFCloudServiceInfo_14401,
 	instanceTs,
+	type Reboot_14250,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 
@@ -27,6 +28,7 @@ export const isGeolocation = isLwM2MObject<Geolocation_14201>(
 export const isBatteryAndPower = isLwM2MObject<BatteryAndPower_14202>(
 	LwM2MObjectID.BatteryAndPower_14202,
 )
+
 export const isConnectionInformation =
 	isLwM2MObject<ConnectionInformation_14203>(
 		LwM2MObjectID.ConnectionInformation_14203,
@@ -198,3 +200,11 @@ export const timeToDate = (
 	 */
 	time: number,
 ): Date => new Date(time * 1000)
+
+export type Reboot = WithTimestamp & {
+	reason?: number
+}
+export const toReboot = (instance: Reboot_14250): Reboot => ({
+	reason: instance['Resources'][0],
+	ts: timeToDate(instance['Resources'][99]),
+})

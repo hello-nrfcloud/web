@@ -1,6 +1,6 @@
 import { addMinutes } from 'date-fns'
 
-export type Values = [value: number, ts: Date][]
+export type Values = Array<[value: number, ts: Date]>
 
 export type Dataset = {
 	min: number
@@ -8,7 +8,11 @@ export type Dataset = {
 	values: Values
 	color: string
 	format: (v: number) => string
-	helperLines?: HelperLine[]
+	helperLines?: Array<HelperLine>
+}
+export type Eventset = {
+	color: string
+	events: Array<Date>
 }
 export type XAxis = {
 	minutes: number
@@ -23,7 +27,8 @@ export type HelperLine = {
 }
 export type ChartData = {
 	xAxis: XAxis
-	datasets: Dataset[]
+	datasets: Array<Dataset>
+	events?: Array<Eventset>
 }
 export const chartMath = ({
 	width,

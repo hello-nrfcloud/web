@@ -8,7 +8,7 @@ import { useDevice, type Device as TDevice } from '#context/Device.js'
 import { DevicePageMap } from '#map/DevicePageMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
 import { Card } from '#model/PCA20065/Card.js'
-import { BatteryChart } from '#model/PCA20065/Chart.js'
+import { Chart } from '#model/PCA20065/Chart.js'
 import { ConnectionSuccess } from '#model/PCA20065/ConnectionSuccess.js'
 import { DeviceBehaviourInfo } from '#model/PCA20065/DeviceBehaviourInfo.js'
 import { Provider } from '#model/PCA20065/HistoryContext.js'
@@ -42,7 +42,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 						</div>
 					)}
 				</div>
-				<BatteryChart />
+				<Chart />
 				<div class="bg-dark grid">
 					<DevicePageMap />
 					<LocationHelp device={device} class="p-4 location-help" />

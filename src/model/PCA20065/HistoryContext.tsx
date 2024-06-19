@@ -9,6 +9,7 @@ import {
 	timeToDate,
 	toBatteryAndPower,
 	type BatteryAndPower,
+	type Reboot,
 } from '#proto/lwm2m.js'
 import { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
@@ -16,18 +17,31 @@ import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { getObjectHistory } from '../../api/getObjectHistory.js'
 
-export type BatteryReading = BatteryAndPower
-export type BatteryReadings = Array<BatteryReading>
+type BatteryReadings = Array<BatteryAndPower>
+type Reboots = Array<Reboot>
 
 export const HistoryContext = createContext<{
 	battery: BatteryReadings
+	reboots: Reboots
 	timeSpan: TimeSpan
 	setTimeSpan: (type: TimeSpan) => void
 }>({
 	battery: [],
+	reboots: [],
 	timeSpan: TimeSpan.lastHour,
 	setTimeSpan: () => undefined,
 })
+
+const isBattery = (o: unknown): o is { 0: number; 99: number } =>
+	isObject(o) && '0' in o && isNumber(o['0']) && '99' in o && isTime(o['99'])
+
+const isReboot = (
+	o: unknown,
+): o is { 99: number; 0: number } | { 99: number } =>
+	isObject(o) &&
+	(('0' in o && isNumber(o['0'])) || true) &&
+	'99' in o &&
+	isTime(o['99'])
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device } = useDevice()
@@ -36,6 +50,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onParameters } = useParameters()
 
 	const [battery, setBattery] = useState<BatteryReadings>([])
+	const [reboots, setReboots] = useState<Reboots>([])
 
 	const listener: ListenerFn = (instance) => {
 		if (isBatteryAndPower(instance)) {
@@ -50,6 +65,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 		onParameters(({ helloApiURL }) => {
 			const g = getObjectHistory(helloApiURL, device, fingerprint)
+			// Fetch state of charge history
 			g(LwM2MObjectID.BatteryAndPower_14202, timeSpan).ok(
 				({ partialInstances }) => {
 					setBattery(
@@ -63,6 +79,18 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					)
 				},
 			)
+			// Fetch reboots
+			g(LwM2MObjectID.Reboot_14250, timeSpan).ok(({ partialInstances }) => {
+				setReboots(
+					partialInstances
+						.filter(isReboot)
+						.map((i) => ({
+							reason: '0' in i ? i['0'] : undefined,
+							ts: timeToDate(i['99']),
+						}))
+						.sort(byTs),
+				)
+			})
 		})
 
 		return () => {
@@ -74,6 +102,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		<HistoryContext.Provider
 			value={{
 				battery,
+				reboots,
 				timeSpan,
 				setTimeSpan,
 			}}
@@ -82,9 +111,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		</HistoryContext.Provider>
 	)
 }
-
-const isBattery = (o: unknown): o is { 0: number; 99: number } =>
-	isObject(o) && '0' in o && isNumber(o['0']) && '99' in o && isTime(o['99'])
 
 export const Consumer = HistoryContext.Consumer
 
