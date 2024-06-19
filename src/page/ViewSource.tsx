@@ -96,106 +96,126 @@ export const ViewSource = () => (
 						</p>
 					</div>
 				</section>
-				<section class="row mt-4">
-					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
-						<h2>The firmware</h2>
-						<p>
-							Devices connect directly to the{' '}
-							<a
-								href="https://docs.nrfcloud.com/APIs/MQTT/MQTTIntro/"
-								target="_blank"
-							>
-								nRF Cloud MQTT endpoint
-							</a>{' '}
-							and are running the{' '}
-							<a
-								href="https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/applications/asset_tracker_v2/README.html"
-								target="_blank"
-							>
-								<code>asset_tracker_v2</code> application
-							</a>
-							. Firmware builds are published in an{' '}
-							<a
-								href="https://github.com/hello-nrfcloud/firmware"
-								target="_blank"
-							>
-								out-of-tree repository on GitHub
-							</a>{' '}
-							so we can provide pre-compiled builds with the configuration that
-							is optimal for the out-of-box experience. .
-						</p>
-						<h3>Cloud connection</h3>
-						<p>
-							Devices need to connect nRF Cloud using a certificate that is
-							pre-provisioned (in case of our development kits) or has been
-							created using the{' '}
-							<em>
+			</div>
+			<div class="bg-light py-4">
+				<div class="container my-4">
+					<section class="row mt-4">
+						<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
+							<h2>The firmware</h2>
+							<p>
+								Devices connect directly to the{' '}
 								<a
-									href="https://github.com/hello-nrfcloud/backend/issues/479"
+									href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html"
 									target="_blank"
 								>
-									custom device onboarding
+									nRF Cloud CoAP endpoint
+								</a>{' '}
+								and are running a firmware based on the{' '}
+								<a
+									href="https://github.com/nrfconnect/ncs-example-application"
+									target="_blank"
+								>
+									NCS Example Application
 								</a>
-							</em>{' '}
-							(this feature not yet available) of{' '}
-							<code>hello.nrfcloud.com</code>.
-						</p>
-						<h4>Why the attestation token cannot be used</h4>
-						<p>
-							nRF 9x devices with modem firmware &gt;=2.0.0{' '}
-							<a
-								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/Devices/Security/Credentials.html"
-								target="_blank"
-							>
-								ship with an attestation token
-							</a>{' '}
-							which can be used directly to{' '}
-							<a
-								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html"
-								target="_blank"
-							>
-								authenticate against nRF Cloud's CoAP API
-							</a>
-							, but{' '}
-							<a
-								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html#authentication"
-								target="_blank"
-							>
-								only after it has been on-boarded
-							</a>
-							.
-						</p>
-						<p>
-							This means that a device would need to be associated with the{' '}
-							<code>hello.nrfcloud.com</code> nRF Cloud Account for the
-							out-of-box experience to work.
-						</p>
-						<p>
-							But if users want to use their device with <em>their own</em> nRF
-							Cloud it would have to be disassociated from the{' '}
-							<code>hello.nrfcloud.com</code> nRF Cloud account first.
-						</p>
-						<p>
-							This would also not allow a fallback in case the users hands over
-							this device to a colleague. They would then need to disassociate
-							the device from their account first.
-						</p>
-						<p>
-							Provisioning the device with a second certificate solves this:
-						</p>
-						<ul>
-							<li>
-								If a user wants to use the device with their own nRF Cloud
-								account they can flash any firmware as long as it is not using
-								the <code>hello.nrfcloud.com</code> secTag <code>42</code>.
-							</li>
-							<li>
-								If they want the original out-of-box behaviour, they only have
-								to flash the out-of-box firmware back.
-							</li>
-						</ul>
-					</div>
-				</section>
+								. Firmware builds are published in an{' '}
+								<a
+									href="https://github.com/hello-nrfcloud/firmware"
+									target="_blank"
+								>
+									out-of-tree repository on GitHub
+								</a>{' '}
+								so we can provide pre-compiled builds with the configuration
+								that is optimal for the out-of-box experience.
+							</p>
+							<h3>Cloud connection</h3>
+							<p>
+								Devices need to connect nRF Cloud using a certificate that is
+								pre-provisioned (in case of our development kits) or has been
+								created using the{' '}
+								<em>
+									<a
+										href="https://hello.nrfcloud.com/map/#add-device"
+										target="_blank"
+									>
+										custom device onboarding
+									</a>
+								</em>{' '}
+								of <code>hello.nrfcloud.com/map</code>.
+							</p>
+							<h4>Why the attestation token cannot be used</h4>
+							<p>
+								nRF 9x devices with modem firmware &gt;=2.0.0{' '}
+								<a
+									href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/Devices/Security/Credentials.html"
+									target="_blank"
+								>
+									ship with an attestation token
+								</a>{' '}
+								which can be used directly to{' '}
+								<a
+									href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html"
+									target="_blank"
+								>
+									authenticate against nRF Cloud's CoAP API
+								</a>
+								, but{' '}
+								<a
+									href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/APIs/CoAP/CoAPOverview.html#authentication"
+									target="_blank"
+								>
+									only after it has been on-boarded
+								</a>
+								.
+							</p>
+							<p>
+								This means that a device would need to be associated with the{' '}
+								<code>hello.nrfcloud.com</code> nRF Cloud Account for the
+								out-of-box experience to work.
+							</p>
+							<p>
+								But if users want to use their device with <em>their own</em>{' '}
+								nRF Cloud it would have to be disassociated from the{' '}
+								<code>hello.nrfcloud.com</code> nRF Cloud account first.
+							</p>
+							<p>
+								This would also not allow a fallback in case the users hands
+								over this device to a colleague. They would then need to
+								disassociate the device from their account first.
+							</p>
+							<p>
+								Provisioning the device with a second certificate solves this:
+							</p>
+							<ul>
+								<li>
+									If a user wants to use the device with their own nRF Cloud
+									account they can flash any firmware as long as it is not using
+									the <code>hello.nrfcloud.com</code> secTag <code>42</code>.
+								</li>
+								<li>
+									If they want the original out-of-box behaviour, they only have
+									to flash the out-of-box firmware back.
+								</li>
+							</ul>
+						</div>
+						<aside class="col-12 col-lg-8 offset-lg-2 col-xl-4 offset-xl-0 mt-4 mt-xl-0">
+							<h3>Memfault integration</h3>
+							<p>
+								The{' '}
+								<a
+									href="https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/samples/debug/memfault/README.html"
+									target="_blank"
+								>
+									Memfault SDK
+								</a>{' '}
+								is enabled in the firmware. This allows us to show device
+								metrics, for example whether the device crashed recently to the
+								user.
+							</p>
+						</aside>
+					</section>
+				</div>
+			</div>
+			<div class="container my-4">
 				<section class="row mt-4">
 					<div class="col-12 col-lg-8 offset-lg-2 col-xl-6">
 						<h2>The frontend</h2>
