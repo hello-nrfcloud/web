@@ -37,7 +37,16 @@
 
   /* Other */
   --color-panel-bg: #0b0b0f75;
+  --color-error-light: #d4586f;
   --bs-link-color-rgb: 0, 100, 255;
+
+  /* QuickGlance */
+  --color-status-ok: #76a34a;
+  --color-status-problem: #cd1111;
+  --color-status-warning: #d6a03b6b;
+  --text-color-status-ok: #fff;
+  --text-color-status-problem: #eee;
+  --text-color-status-warning: #111;
 }
 /* These color variants are there to improve contrast.
    Check with https://dequeuniversity.com/rules/axe/4.7/color-contrast
@@ -95,7 +104,7 @@
   color: var(--color-nordic-red);
 }
 .color-error.light {
-  color: #d4586f;
+  color: var(--color-error-light);
 }
 .list-group-item.active .color-error {
   color: #ffc3c3;

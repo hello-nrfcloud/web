@@ -93,12 +93,12 @@ const SignalQualityInfo = () => {
 						))(EnergyEstimateIcons.get(eest) ?? Slash)}
 						<span>{EnergyEstimateLabel.get(eest)}</span>
 					</span>
+					{ts !== undefined && (
+						<small class="text-muted">
+							<Ago date={new Date(ts)} />
+						</small>
+					)}
 				</>
-			)}
-			{ts !== undefined && (
-				<small class="text-muted">
-					<Ago date={new Date(ts)} />
-				</small>
 			)}
 		</span>
 	)

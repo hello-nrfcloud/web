@@ -1,27 +1,12 @@
 import { ValueLoading } from '#components/ValueLoading.js'
-import { isOutdated } from '#components/deviceInfo/isOutdated.js'
 import { UpdateDevice } from '#components/fota/UpdateDevice.js'
-import { useDevice, type Device } from '#context/Device.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
-import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
-import { AlertTriangle, CheckCircle2, InfoIcon } from 'lucide-preact'
+import { type Device } from '#context/Device.js'
+import { useFOTA } from '#context/FOTA.js'
 import { niceLink } from '#utils/niceLink.js'
+import { AlertTriangle, CheckCircle2, InfoIcon } from 'lucide-preact'
 
-export const SoftwareInfo = ({ device }: { device: Device }) => {
-	const { reported } = useDevice()
-	const model = device.model
-
-	const deviceInfo = Object.values(reported)
-		.filter(isDeviceInformation)
-		.map(toDeviceInformation)[0]
-
-	const appV = deviceInfo?.appVersion
-	const modV = parseModemFirmwareVersion(deviceInfo?.modemFirmware ?? '')
-
-	const needsFwUpdate =
-		appV !== undefined && isOutdated(model.firmware.version, appV)
-	const needsMfwUpdate =
-		modV !== undefined && isOutdated(model.mfw.version, modV)
+export const SoftwareInfo = ({ device: { model } }: { device: Device }) => {
+	const { needsFwUpdate, needsMfwUpdate, appV, modV } = useFOTA()
 	return (
 		<>
 			<h3>Application firmware version</h3>

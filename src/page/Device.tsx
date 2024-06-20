@@ -9,6 +9,7 @@ import cx from 'classnames'
 import { Provider as FOTAProvider } from '#context/FOTA.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WithParameters } from '#context/Parameters.js'
+import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
 
 export const Device = () => {
 	const { device, debug } = useDevice()
@@ -65,6 +66,7 @@ export const Device = () => {
 						fingerprint={fingerprint!}
 						helloApiURL={helloApiURL}
 					>
+						<QuickGlance />
 						<div class={cx({ hasSidebar: debug })}>
 							{device.model.slug === 'PCA20035+solar' && (
 								<SolarThingy91 device={device} />
@@ -77,7 +79,6 @@ export const Device = () => {
 					</FOTAProvider>
 				)}
 			</WithParameters>
-
 			<ModelResources type={device.model} />
 			<Feedback />
 		</>

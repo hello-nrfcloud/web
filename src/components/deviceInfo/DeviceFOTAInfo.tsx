@@ -14,7 +14,7 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 
 	return (
 		<>
-			<h2>Firmware update over the air (FOTA)</h2>
+			<h2 id="fota">Firmware update over the air (FOTA)</h2>
 			{fwTypes.length === 0 && (
 				<div class="mb-4">
 					<p

@@ -8,6 +8,10 @@ import {
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
+import { useDevice } from './Device.js'
+import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
+import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
+import { isOutdated } from '#components/fota/isOutdated.js'
 
 export type Device = {
 	id: string
@@ -22,11 +26,17 @@ export type Configuration = {
 export const FOTAContext = createContext<{
 	jobs: Array<Static<typeof FOTAJobExecution>>
 	scheduleJob: (bundleId: string) => ResultHandlers<typeof FOTAJobExecution>
+	needsFwUpdate: boolean
+	needsMfwUpdate: boolean
+	appV?: string
+	modV?: string
 }>({
 	jobs: [],
 	scheduleJob: () => {
 		throw new Error(`Not implemented!`)
 	},
+	needsFwUpdate: false,
+	needsMfwUpdate: false,
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
@@ -43,6 +53,21 @@ export const Provider = ({
 	device: Device
 }) => {
 	const [jobs, setJobs] = useState<Array<Static<typeof FOTAJobExecution>>>([])
+
+	const { reported } = useDevice()
+	const model = device.model
+
+	const deviceInfo = Object.values(reported)
+		.filter(isDeviceInformation)
+		.map(toDeviceInformation)[0]
+
+	const appV = deviceInfo?.appVersion
+	const modV = parseModemFirmwareVersion(deviceInfo?.modemFirmware ?? '')
+
+	const needsFwUpdate =
+		appV !== undefined && isOutdated(model.firmware.version, appV)
+	const needsMfwUpdate =
+		modV !== undefined && isOutdated(model.mfw.version, modV)
 
 	useEffect(() => {
 		validatingFetch(FOTAJobExecutions)(
@@ -71,6 +96,10 @@ export const Provider = ({
 					).ok((job) => {
 						setJobs((jobs) => [job, ...jobs])
 					}),
+				needsFwUpdate,
+				needsMfwUpdate,
+				appV,
+				modV,
 			}}
 		>
 			{children}
