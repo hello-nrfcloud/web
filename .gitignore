@@ -2,3 +2,4 @@ node_modules/
 build/
 cdk.out/
 static/flags/
+test-results/
