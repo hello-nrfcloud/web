@@ -10,12 +10,12 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 	const serviceInfo = Object.values(reported)
 		.filter(isNRFCloudServiceInfo)
 		.map(toNRFCloudServiceInfo)[0]
-	const fwTypes = serviceInfo?.fwTypes ?? []
+	const fwTypes = serviceInfo?.fwTypes
 
 	return (
 		<>
 			<h2 id="fota">Firmware update over the air (FOTA)</h2>
-			{fwTypes.length === 0 && (
+			{Array.isArray(fwTypes) && fwTypes.length === 0 && (
 				<div class="mb-4">
 					<p
 						class="mt-2 d-flex align-items-start"
@@ -28,7 +28,7 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 					</p>
 				</div>
 			)}
-			{fwTypes.length > 0 && (
+			{Array.isArray(fwTypes) && fwTypes.length > 0 && (
 				<div class="mb-4">
 					<h3>Supported firmware types</h3>
 					<ul>

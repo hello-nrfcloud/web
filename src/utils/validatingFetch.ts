@@ -4,9 +4,9 @@ import {
 } from '@hello.nrfcloud.com/proto'
 import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import { Context } from '@hello.nrfcloud.com/proto/hello'
-import { type Static, type TObject } from '@sinclair/typebox'
+import { type Static, type TSchema } from '@sinclair/typebox'
 
-type OkFN<T extends TObject> = (value: Static<T>) => void
+type OkFN<T extends TSchema> = (value: Static<T>) => void
 export type FetchProblem = {
 	problem: Static<typeof ProblemDetail>
 	url: URL
@@ -14,23 +14,31 @@ export type FetchProblem = {
 	awsReqId?: string
 }
 type ProblemFN = (details: FetchProblem) => void
-type DoneFN<T extends TObject> = (
+type DoneFN<T extends TSchema> = (
 	args: { problem: Static<typeof ProblemDetail> } | { value: Static<T> },
 ) => void
 type StartFN = (url: URL, body?: Record<string, any>) => void
 
-export type ResultHandlers<T extends TObject> = {
+export type ResultHandlers<T extends TSchema> = {
 	ok: (okFn: OkFN<T>) => ResultHandlers<T>
 	problem: (problemFn: ProblemFN) => ResultHandlers<T>
 	done: (doneFn: DoneFN<T>) => ResultHandlers<T>
 	start: (startFn: StartFN) => ResultHandlers<T>
 }
 
-export const validatingFetch = <T extends TObject>(
+export const validatingFetch = <T extends TSchema>(
 	expectedType: T,
-): ((url: URL, body?: Record<string, any>) => ResultHandlers<T>) => {
+): ((
+	url: URL,
+	body?: Record<string, any>,
+	method?: string,
+) => ResultHandlers<T>) => {
 	const validate = validateWithTypeBox(expectedType)
-	return (url: URL, body?: Record<string, any>): ResultHandlers<T> => {
+	return (
+		url: URL,
+		body?: Record<string, any>,
+		method?: string,
+	): ResultHandlers<T> => {
 		const problemFns: ProblemFN[] = []
 		const okFns: OkFN<T>[] = []
 		const doneFns: DoneFN<T>[] = []
@@ -38,7 +46,7 @@ export const validatingFetch = <T extends TObject>(
 			url,
 			body !== undefined
 				? {
-						method: 'POST',
+						method: method ?? 'POST',
 						body: JSON.stringify(body),
 						mode: 'cors',
 						headers: {
@@ -46,7 +54,7 @@ export const validatingFetch = <T extends TObject>(
 						},
 					}
 				: {
-						method: 'GET',
+						method: method ?? 'GET',
 						mode: 'cors',
 					},
 		)
@@ -80,7 +88,10 @@ export const validatingFetch = <T extends TObject>(
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}
-				const response = await res.json()
+				const response =
+					parseInt(res.headers.get('content-length') ?? '0', 10) > 0
+						? await res.json()
+						: undefined
 				const maybeValidResponse = validate(response)
 				if ('errors' in maybeValidResponse) {
 					console.error(
@@ -99,6 +110,7 @@ export const validatingFetch = <T extends TObject>(
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}
+
 				okFns.forEach((fn) => fn(maybeValidResponse.value))
 				doneFns.forEach((fn) => fn({ value: maybeValidResponse.value }))
 			})

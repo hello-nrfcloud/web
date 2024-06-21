@@ -15,6 +15,7 @@ import { Provider } from '#model/PCA20065/HistoryContext.js'
 
 import { DeviceFOTAInfo } from '#components/deviceInfo/DeviceFOTAInfo.js'
 import './Page.css'
+import { HideDataBefore } from '#components/HideDataBefore.js'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
@@ -66,6 +67,9 @@ export const Page = ({ device }: { device: TDevice }) => {
 							</div>
 							<div class="my-4">
 								<Configuration device={device} />
+							</div>
+							<div class="my-4">
+								<HideDataBefore />
 							</div>
 						</section>
 					</div>

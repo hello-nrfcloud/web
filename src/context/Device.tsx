@@ -16,20 +16,24 @@ import {
 	type ProblemDetail,
 	type Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
-import { type Static } from '@sinclair/typebox'
+import { Type, type Static } from '@sinclair/typebox'
 import { isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { instanceKey, mergeInstances } from '../proto/mergeInstances.js'
+import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 
 export type Device = {
 	id: string
 	model: Model
+	hideDataBefore?: Date
 }
 
 type UpdateResult = Promise<
 	{ success: true } | { problem: Static<typeof ProblemDetail> }
 >
+
+const EmptyResponse = Type.Undefined()
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
@@ -54,6 +58,7 @@ export const DeviceContext = createContext<{
 	debug: boolean
 	setDebug: (debug: boolean) => void
 	hasLiveData: boolean
+	hideDataBefore: () => ResultHandlers<typeof EmptyResponse>
 }>({
 	connected: false,
 	disconnected: false,
@@ -72,6 +77,9 @@ export const DeviceContext = createContext<{
 	debug: false,
 	setDebug: () => undefined,
 	hasLiveData: false,
+	hideDataBefore: () => {
+		throw new Error(`Not implemented!`)
+	},
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
@@ -100,8 +108,15 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		{},
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
+	const [helloApiURL, setHelloApiURL] = useState<URL>()
 
 	const connected = ws !== undefined
+
+	useEffect(() => {
+		onParameters(async ({ helloApiURL }) => {
+			setHelloApiURL(helloApiURL)
+		})
+	}, [onParameters])
 
 	useEffect(() => {
 		const config =
@@ -164,6 +179,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						setDevice({
 							id: maybeValid.id,
 							model: type ?? models['unsupported'],
+							hideDataBefore:
+								maybeValid.hideDataBefore !== undefined
+									? new Date(maybeValid.hideDataBefore)
+									: undefined,
 						})
 						if (maybeValid.lastSeen !== undefined) {
 							setLastSeen(new Date(maybeValid.lastSeen))
@@ -217,7 +236,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		}
 	}, [fingerprint])
 
-	let hasLiveData = lastSeen !== undefined
+	let hasLiveData =
+		lastSeen !== undefined &&
+		(device?.hideDataBefore === undefined ||
+			lastSeen.getTime() > device.hideDataBefore.getTime())
 	if (
 		lastSeen !== undefined &&
 		reportedConfig?.updateIntervalSeconds !== undefined
@@ -227,43 +249,41 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			reportedConfig?.updateIntervalSeconds * 1000
 	}
 
-	const update = async (instance: LwM2MObjectInstance): UpdateResult =>
-		new Promise((resolve) => {
-			onParameters(async ({ helloApiURL }) => {
-				if (device === undefined) return
-				if (fingerprint === null) return
-				try {
-					await fetch(
-						new URL(
-							`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
-							helloApiURL,
-						),
-						{
-							method: 'PATCH',
-							mode: 'cors',
-							body: JSON.stringify({
-								'@context': Context.lwm2mObjectUpdate.toString(),
-								...instance,
-							}),
-							headers: {
-								'Content-Type': 'application/json; charset=utf-8',
-							},
-						},
-					)
-					setDesired(mergeInstances([instance]))
-					resolve({ success: true })
-				} catch (err) {
-					console.error('[DeviceContext]', 'Configuration update failed', err)
-					resolve({
-						problem: {
-							'@context': Context.problemDetail.toString(),
-							title: 'Failed to update configuration!',
-							detail: (err as Error).message,
-						},
-					})
-				}
-			})
-		})
+	const update = async (instance: LwM2MObjectInstance): UpdateResult => {
+		if (device === undefined) throw new Error(`Device not yet loaded!`)
+		if (fingerprint === null) throw new Error(`fingerprint not available!`)
+		if (helloApiURL === undefined) throw new Error(`helloApiURL not available!`)
+		try {
+			await fetch(
+				new URL(
+					`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
+					helloApiURL,
+				),
+				{
+					method: 'PATCH',
+					mode: 'cors',
+					body: JSON.stringify({
+						'@context': Context.lwm2mObjectUpdate.toString(),
+						...instance,
+					}),
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+				},
+			)
+			setDesired(mergeInstances([instance]))
+			return { success: true }
+		} catch (err) {
+			console.error('[DeviceContext]', 'Configuration update failed', err)
+			return {
+				problem: {
+					'@context': Context.problemDetail.toString(),
+					title: 'Failed to update configuration!',
+					detail: (err as Error).message,
+				},
+			}
+		}
+	}
 
 	return (
 		<DeviceContext.Provider
@@ -319,6 +339,26 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				debug,
 				setDebug,
 				hasLiveData,
+				hideDataBefore: () => {
+					if (device === undefined) throw new Error(`Device not yet loaded!`)
+					if (fingerprint === null)
+						throw new Error(`fingerprint not available!`)
+					if (helloApiURL === undefined)
+						throw new Error(`helloApiURL not available!`)
+					return validatingFetch(EmptyResponse)(
+						new URL(
+							`./device/${device.id}/hideDataBefore?${new URLSearchParams({ fingerprint }).toString()}`,
+							helloApiURL,
+						),
+						undefined,
+						'POST',
+					).ok(() => {
+						setDevice((d) => {
+							if (d === undefined) return d
+							return { ...d, hideDataBefore: new Date() }
+						})
+					})
+				},
 			}}
 		>
 			{children}
