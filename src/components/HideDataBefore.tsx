@@ -42,7 +42,7 @@ export const HideDataBefore = () => {
 					}}
 					disabled={inProgress}
 				>
-					{inProgress ? 'sending ...' : 'hide historical until now'}
+					{inProgress ? 'sending ...' : 'hide historical data until now'}
 				</Secondary>
 			</p>
 		</div>
