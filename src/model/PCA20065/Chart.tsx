@@ -8,10 +8,10 @@ import { toChartData } from '#model/PCA20065/toChartData.js'
 import { CircleIcon, DotIcon } from 'lucide-preact'
 
 export const Chart = () => {
-	const { lastSeen } = useDevice()
+	const { hasLiveData } = useDevice()
 	const { battery, reboots, timeSpan, setTimeSpan } = useHistory()
 
-	if (lastSeen === undefined) {
+	if (!hasLiveData) {
 		return null
 	}
 
