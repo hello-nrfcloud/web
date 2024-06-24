@@ -2,7 +2,7 @@ import { isUnsupported, type Model } from '#content/models/types.js'
 import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
 import type { PageContextClient } from 'vike/types'
 
-export type ModelPageProps = { model: Model }
+export type ModelPageProps = { model: Model; pageTitle: string }
 
 export const data = async (
 	pageContext: PageContextClient,
@@ -19,5 +19,6 @@ export const data = async (
 			...model,
 			slug: modelId,
 		},
+		pageTitle: `${model.title} (${modelId})`,
 	}
 }

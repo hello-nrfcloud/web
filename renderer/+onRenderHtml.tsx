@@ -6,7 +6,8 @@ import type { Page } from './+onRenderClient.js'
 
 export const onRenderHtml = async (pageContext: PageContextClient) => {
 	const Page = pageContext.Page as Page
-	const pageProps = pageContext.data as Record<string, any>
+	const pageProps = pageContext.data as undefined | Record<string, any>
+	const title = pageProps?.pageTitle
 	const viewHtml = renderToString(<Page {...pageProps} />)
 
 	return escapeInject`<!DOCTYPE html>
@@ -19,7 +20,7 @@ export const onRenderHtml = async (pageContext: PageContextClient) => {
         />
         <meta name="application-name" content="hello.nrfcloud.com" />
         <title>
-        hello.nrfcloud.com
+          ${title !== undefined ? `hello.nrfcloud.com · ${title}` : 'hello.nrfcloud.com'}
         </title>
         <meta
           name="description"
