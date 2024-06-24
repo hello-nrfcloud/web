@@ -1,6 +1,6 @@
 import { renderToString } from 'preact-render-to-string'
 import { dangerouslySkipEscape, escapeInject } from 'vike/server'
-import { GTMId, version } from '../siteInfo.js'
+import { GTMId, version } from '../vite/siteInfo.js'
 import type { PageContextClient } from 'vike/types'
 import type { Page } from './+onRenderClient.js'
 

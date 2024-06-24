@@ -26,10 +26,34 @@ npm start
 
 ### Running the tests
 
-You can run the tests using
+End-to-end tests are run completely without a backend using Vite's built-in dev
+server to serve the data.
+
+Make sure to export `MAP_REGION`, `MAP_NAME`, and `MAP_API_KEY` before running
+it.
+
+> Note: It's currently not possible to run test for multiple browsers in
+> parallel since the `webServer` >
+> [cannot be defined per project](https://github.com/microsoft/playwright/issues/22496),
+> and there is a state in the backend mock server that gets manipulated by the
+> tests. So by default only the `chrome` project is run
 
 ```bash
 npm run test:e2e
+```
+
+### Run the Playwright code generator
+
+Start the dev server:
+
+```bash
+npm run start:e2e
+```
+
+Run the interactive code generator:
+
+```bash
+npx playwright codegen
 ```
 
 ## Deploy

@@ -1,7 +1,7 @@
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
-type Parameters = {
+export type Parameters = {
 	helloApiURL: URL
 	webSocketURI: URL
 	// Map resources

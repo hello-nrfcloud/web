@@ -24,6 +24,7 @@
     "prepare": "husky",
     "test": "find ./ -type f -name *.spec.ts -not -path './e2e-tests/*' -not -path './node_modules/*' | xargs npx tsx --test --test-reporter spec",
     "test:e2e": "npx playwright test e2e-tests/",
+    "start:e2e": "vite -c e2e-tests/vite.config.e2e.ts",
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
