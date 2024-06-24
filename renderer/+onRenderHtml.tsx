@@ -1,10 +1,12 @@
 import { renderToString } from 'preact-render-to-string'
 import { dangerouslySkipEscape, escapeInject } from 'vike/server'
 import { GTMId, version } from '../siteInfo.js'
-import type { PageContextCustom } from './_default.page.client.js'
+import type { PageContextClient } from 'vike/types'
+import type { Page } from './+onRenderClient.js'
 
-export const render = async (pageContext: PageContextCustom) => {
-	const { Page, pageProps } = pageContext
+export const onRenderHtml = async (pageContext: PageContextClient) => {
+	const Page = pageContext.Page as Page
+	const pageProps = pageContext.data as Record<string, any>
 	const viewHtml = renderToString(<Page {...pageProps} />)
 
 	return escapeInject`<!DOCTYPE html>
@@ -72,5 +74,3 @@ const GTMNoScript = () => {
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->`
 }
-
-export const passToClient = ['pageProps']

@@ -1,30 +1,15 @@
 import { formatDistanceToNow } from 'date-fns'
 import type { VNode } from 'preact'
 import { hydrate } from 'preact'
-import type { PageContextBuiltInClientWithClientRouting } from 'vike/types'
+import type { PageContextClient } from 'vike/types'
 import '../src/utils/sentry.js'
 import '../src/base.css'
 
-type Page = (pageProps: PageProps) => VNode<any>
-type PageProps = Record<string, any>
+export type Page = (pageProps: Record<string, any>) => VNode<any>
 
-export type PageContextCustom = {
-	Page: Page
-	pageProps?: PageProps
-	urlPathname: string
-	exports: {
-		documentProps?: {
-			title?: string
-			description?: string
-		}
-	}
-}
-
-type PageContextClient = PageContextBuiltInClientWithClientRouting<Page> &
-	PageContextCustom
-
-export const render = (pageContext: PageContextClient) => {
-	const { Page, pageProps } = pageContext
+export const onRenderClient = (pageContext: PageContextClient) => {
+	const Page = pageContext.Page as Page
+	const pageProps = pageContext.data as Record<string, any>
 	const pageViewElement = document.getElementById('page-view')
 	if (pageViewElement === null)
 		throw new Error(`Could not find page-view element!`)
