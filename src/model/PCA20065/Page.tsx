@@ -12,10 +12,10 @@ import { Chart } from '#model/PCA20065/Chart.js'
 import { ConnectionSuccess } from '#model/PCA20065/ConnectionSuccess.js'
 import { DeviceBehaviourInfo } from '#model/PCA20065/DeviceBehaviourInfo.js'
 import { Provider } from '#model/PCA20065/HistoryContext.js'
-
-import { DeviceFOTAInfo } from '#components/deviceInfo/DeviceFOTAInfo.js'
-import './Page.css'
+import { DeviceFOTAInfo } from '#components/fota/DeviceFOTAInfo.js'
 import { HideDataBefore } from '#components/HideDataBefore.js'
+
+import './Page.css'
 
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()

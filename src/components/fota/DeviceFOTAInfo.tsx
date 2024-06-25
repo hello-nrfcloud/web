@@ -1,6 +1,6 @@
 import { AlertCircleIcon } from 'lucide-preact'
 import { FOTAJobs } from './FOTAJobs.js'
-import { SoftwareInfo } from './SoftwareInfo.js'
+import { SoftwareInfo } from '../deviceInfo/SoftwareInfo.js'
 import { useFOTA } from '#context/FOTA.js'
 
 export const DeviceFOTAInfo = () => {
