@@ -1,6 +1,7 @@
 import { getItem, setItem } from '#utils/localStorage.js'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import { compare, parse } from 'semver'
+import { RotateCwIcon } from 'lucide-preact'
 
 export const AppUpdateNotifier = () => {
 	const [newerVersion, setNewerVersion] = useState<string | undefined>()
@@ -61,7 +62,15 @@ export const AppUpdateNotifier = () => {
 			<div class="container">
 				<div class="row">
 					<div class="col p-2 d-flex justify-content-between align-items-center">
-						<span>A newer version ({newerVersion}) is available.</span>
+						<div>
+							<RotateCwIcon
+								size={36}
+								strokeWidth={1}
+								class="me-2"
+								title={`A newer version ({newerVersion}) is available.`}
+							/>
+							<span>A newer version ({newerVersion}) is available.</span>
+						</div>
 						<span class="flex-shrink-0">
 							<button
 								type="button"
