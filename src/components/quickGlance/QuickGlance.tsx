@@ -11,9 +11,10 @@ import {
 import type { PropsWithChildren } from 'preact/compat'
 
 export const QuickGlance = () => {
-	const { needsFwUpdate, needsMfwUpdate } = useFOTA()
+	const { needsFwUpdate, needsMfwUpdate, fwTypes } = useFOTA()
 	const { hasLiveData } = useDevice()
-	const ok = !needsFwUpdate && !needsMfwUpdate && hasLiveData
+	const fotaSupported = fwTypes.length > 0
+	const ok = !needsFwUpdate && !needsMfwUpdate && hasLiveData && fotaSupported
 	return (
 		<section id="quickGlance" class="mb-2">
 			{ok && (
@@ -58,6 +59,15 @@ export const QuickGlance = () => {
 					</small>
 				</Entry>
 			)}
+			{!fotaSupported && (
+				<Entry icon={CloudDownloadIcon} title="FOTA" type="warning">
+					Firmware updated not supported
+					<br />
+					<small>
+						The device does not support Firmware updates over the air (FOTA).
+					</small>
+				</Entry>
+			)}
 		</section>
 	)
 }
@@ -81,8 +91,8 @@ const Entry = ({
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-lg-8 py-2 d-flex align-items-center flex-row">
-					<span class="icon">
-						{icon({ size: 36, strokeWidth: 2, class: 'me-2', title })}
+					<span class="icon" style={{ opacity: 0.8 }}>
+						{icon({ size: 36, strokeWidth: 1, class: 'me-2', title })}
 					</span>
 					<div class="d-flex align-items-center justify-content-between flex-grow-1">
 						<p class="m-0 me-3">{children}</p>

@@ -9,7 +9,12 @@ import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from './Device.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
+import {
+	isDeviceInformation,
+	isNRFCloudServiceInfo,
+	toDeviceInformation,
+	toNRFCloudServiceInfo,
+} from '#proto/lwm2m.js'
 import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { isOutdated } from '#components/fota/isOutdated.js'
 
@@ -30,6 +35,10 @@ export const FOTAContext = createContext<{
 	needsMfwUpdate: boolean
 	appV?: string
 	modV?: string
+	/**
+	 * The supported FW update types
+	 */
+	fwTypes: Array<string>
 }>({
 	jobs: [],
 	scheduleJob: () => {
@@ -37,6 +46,7 @@ export const FOTAContext = createContext<{
 	},
 	needsFwUpdate: false,
 	needsMfwUpdate: false,
+	fwTypes: [],
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
@@ -69,6 +79,11 @@ export const Provider = ({
 	const needsMfwUpdate =
 		modV !== undefined && isOutdated(model.mfw.version, modV)
 
+	const serviceInfo = Object.values(reported)
+		.filter(isNRFCloudServiceInfo)
+		.map(toNRFCloudServiceInfo)[0]
+	const fwTypes = serviceInfo?.fwTypes ?? []
+
 	useEffect(() => {
 		validatingFetch(FOTAJobExecutions)(
 			new URL(
@@ -100,6 +115,7 @@ export const Provider = ({
 				needsMfwUpdate,
 				appV,
 				modV,
+				fwTypes,
 			}}
 		>
 			{children}

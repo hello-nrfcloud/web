@@ -55,7 +55,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 								<NetworkInfo />
 							</div>
 							<div class="my-4">
-								<DeviceFOTAInfo device={device} />
+								<DeviceFOTAInfo />
 							</div>
 							<div class="my-4">
 								<BME680 />

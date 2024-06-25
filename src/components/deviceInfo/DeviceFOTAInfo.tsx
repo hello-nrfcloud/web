@@ -1,21 +1,15 @@
-import { useDevice, type Device } from '#context/Device.js'
-import { isNRFCloudServiceInfo, toNRFCloudServiceInfo } from '#proto/lwm2m.js'
 import { AlertCircleIcon } from 'lucide-preact'
 import { FOTAJobs } from './FOTAJobs.js'
 import { SoftwareInfo } from './SoftwareInfo.js'
+import { useFOTA } from '#context/FOTA.js'
 
-export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
-	const { reported } = useDevice()
-
-	const serviceInfo = Object.values(reported)
-		.filter(isNRFCloudServiceInfo)
-		.map(toNRFCloudServiceInfo)[0]
-	const fwTypes = serviceInfo?.fwTypes
+export const DeviceFOTAInfo = () => {
+	const { fwTypes } = useFOTA()
 
 	return (
 		<>
 			<h2 id="fota">Firmware update over the air (FOTA)</h2>
-			{Array.isArray(fwTypes) && fwTypes.length === 0 && (
+			{fwTypes.length === 0 && (
 				<div class="mb-4">
 					<p
 						class="mt-2 d-flex align-items-start"
@@ -28,7 +22,7 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 					</p>
 				</div>
 			)}
-			{Array.isArray(fwTypes) && fwTypes.length > 0 && (
+			{fwTypes.length > 0 && (
 				<div class="mb-4">
 					<h3>Supported firmware types</h3>
 					<ul>
@@ -44,7 +38,7 @@ export const DeviceFOTAInfo = ({ device }: { device: Device }) => {
 				<FOTAJobs />
 			</div>
 			<div class="mb-4">
-				<SoftwareInfo device={device} />
+				<SoftwareInfo />
 			</div>
 		</>
 	)

@@ -1,10 +1,10 @@
-import type { ConfigurationType } from '#content/models/types.js'
+import type { ConfigurationType, Model } from '#content/models/types.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useModels } from '#context/Models.js'
-import type { Model } from '#content/models/types.js'
 import { useParameters } from '#context/Parameters.js'
 import { isConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
+import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 import {
 	LwM2MObjectID,
 	type LwM2MObjectInstance,
@@ -21,7 +21,6 @@ import { isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { instanceKey, mergeInstances } from '../proto/mergeInstances.js'
-import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 
 export type Device = {
 	id: string

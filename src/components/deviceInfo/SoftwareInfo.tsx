@@ -1,12 +1,15 @@
 import { ValueLoading } from '#components/ValueLoading.js'
 import { UpdateDevice } from '#components/fota/UpdateDevice.js'
-import { type Device } from '#context/Device.js'
+import { useDevice } from '#context/Device.js'
 import { useFOTA } from '#context/FOTA.js'
 import { niceLink } from '#utils/niceLink.js'
 import { AlertTriangle, CheckCircle2, InfoIcon } from 'lucide-preact'
 
-export const SoftwareInfo = ({ device: { model } }: { device: Device }) => {
+export const SoftwareInfo = () => {
+	const { device } = useDevice()
 	const { needsFwUpdate, needsMfwUpdate, appV, modV } = useFOTA()
+	const model = device?.model
+	if (model === undefined) return null
 	return (
 		<>
 			<h3>Application firmware version</h3>

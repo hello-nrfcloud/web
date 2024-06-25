@@ -63,7 +63,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 							<NetworkInfo />
 						</section>
 						<section class="col-12 col-md-6">
-							<DeviceFOTAInfo device={device} />
+							<DeviceFOTAInfo />
 							<Battery />
 							<BME680 />
 						</section>
