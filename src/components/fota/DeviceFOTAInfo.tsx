@@ -2,14 +2,16 @@ import { AlertCircleIcon } from 'lucide-preact'
 import { FOTAJobs } from './FOTAJobs.js'
 import { SoftwareInfo } from '../deviceInfo/SoftwareInfo.js'
 import { useFOTA } from '#context/FOTA.js'
+import { useDevice } from '#context/Device.js'
 
 export const DeviceFOTAInfo = () => {
 	const { fwTypes } = useFOTA()
+	const { hasLiveData } = useDevice()
 
 	return (
 		<>
 			<h2 id="fota">Firmware update over the air (FOTA)</h2>
-			{fwTypes.length === 0 && (
+			{hasLiveData && fwTypes.length === 0 && (
 				<div class="mb-4">
 					<p
 						class="mt-2 d-flex align-items-start"
