@@ -9,8 +9,10 @@ export const testdataServerPlugin = ({
 }): Plugin => ({
 	name: 'testdata-server',
 	configureServer: (server) => {
-		Object.entries(mockBackend({ registry })).forEach(([route, handler]) =>
-			server.middlewares.use(route, handler),
-		)
+		Object.entries(
+			mockBackend({
+				registry,
+			}),
+		).forEach(([route, handler]) => server.middlewares.use(route, handler))
 	},
 })

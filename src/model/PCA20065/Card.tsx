@@ -26,7 +26,10 @@ export const Card = ({ model }: { model: Model }) => {
 				<p class="mb-1">{model.tagline}</p>
 				<p class="mb-0">
 					<code class="text-muted">
-						<a href={`/model/${encodeURIComponent(model.slug)}`}>
+						<a
+							href={`/model/${encodeURIComponent(model.slug)}`}
+							data-testid="model-name"
+						>
 							{model.slug}
 						</a>
 						{model.variant !== undefined && (

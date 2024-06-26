@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from 'http'
+import { type IncomingMessage, type ServerResponse } from 'http'
 import type { Connect } from 'vite'
 import type { Parameters } from '../../src/context/Parameters.tsx'
 
@@ -7,7 +7,7 @@ export const mockBackend = ({
 }: {
 	registry: Parameters
 }): Record<string, Connect.SimpleHandleFunction> => ({
-	'/e2e/registry.json': (req, res) =>
+	'/e2e/registry.json': (_, res) =>
 		sendJSON(res, generateRegistryResponse(registry)),
 })
 
