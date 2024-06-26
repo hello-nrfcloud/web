@@ -2,11 +2,28 @@ import { Type, type Static } from '@sinclair/typebox'
 import type { IncludedSIMType } from '#content/sims/types.js'
 
 const Link = Type.String({ pattern: 'https://.*' })
+const SemVer = Type.RegExp(
+	// See https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+	/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/,
+	{
+		title: 'SemVer',
+		description:
+			'A version number that follows the semantic versioning specification',
+	},
+)
 
 export const Firmware = Type.Object({
-	version: Type.String({ minLength: 1 }),
+	version: SemVer,
 	link: Link,
-	bundleId: Type.Optional(Type.String({ minLength: 1 })), // e.g. 'APP*1e29dfa3*v2.0.0'
+	bundleId: Type.Optional(
+		Type.RegExp(
+			/^(APP|MODEM|BOOT|SOFTDEVICE|BOOTLOADER|MDM_FULL)\*([0-9a-f]+)\*.+/,
+			{
+				title: 'Bundle ID',
+				examples: ['APP*1e29dfa3*v2.0.0'],
+			},
+		),
+	),
 })
 
 export const updateIntervalSeconds = Type.Number({

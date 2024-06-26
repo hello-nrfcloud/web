@@ -30,7 +30,7 @@ export const UpdateDevice = ({
 
 	const fwTypes = serviceInfo?.fwTypes ?? []
 	const fotaSupported =
-		fwTypes.find((type) => bundleId.startsWith(type)) !== undefined
+		fwTypes.find((type) => bundleId.split('*')[0] === type) !== undefined
 
 	if (!fotaSupported) {
 		return (
