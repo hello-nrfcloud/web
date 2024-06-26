@@ -69,7 +69,16 @@ export const AppUpdateNotifier = () => {
 								class="me-2"
 								title={`A newer version ({newerVersion}) is available.`}
 							/>
-							<span>A newer version ({newerVersion}) is available.</span>
+							<span>
+								A newer version ({newerVersion}) is available. (
+								<a
+									href="https://github.com/hello-nrfcloud/web/releases"
+									target="_blank"
+								>
+									Release notes
+								</a>
+								)
+							</span>
 						</div>
 						<span class="flex-shrink-0">
 							<button
