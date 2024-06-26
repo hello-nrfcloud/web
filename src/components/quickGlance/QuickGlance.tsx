@@ -55,7 +55,7 @@ export const QuickGlance = () => {
 								href: '#fota',
 							}}
 						>
-							Firmware updated needed
+							firmware update needed
 							<br />
 							<small>
 								The firmware on your device is not up to date. You can schedule
@@ -69,7 +69,7 @@ export const QuickGlance = () => {
 							title="FOTA"
 							type="warning"
 						>
-							Firmware updated not supported
+							firmware update not supported
 							<br />
 							<small>
 								The device does not support Firmware updates over the air
