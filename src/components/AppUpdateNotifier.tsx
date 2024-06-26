@@ -58,7 +58,7 @@ export const AppUpdateNotifier = () => {
 
 	if (newerVersion === undefined) return null
 	return (
-		<div role="alert" class="bg-sun">
+		<div role="alert" class="bg-sun" style={{ marginBottom: '1px' }}>
 			<div class="container">
 				<div class="row">
 					<div class="col p-2 d-flex justify-content-between align-items-center">
