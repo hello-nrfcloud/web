@@ -1,20 +1,16 @@
+import type { Size } from '#components/ResizeObserver.js'
+import { generateFingerprint } from '#utils/generateFingerprint.js'
 import { generateIMEI } from '#utils/generateIMEI.js'
-import { generateCode } from '#utils/generateCode.js'
 import code128 from 'code-128-encoder'
 import { format } from 'date-fns'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import QRCode from 'qrcode'
-import type { Size } from '#components/ResizeObserver.js'
 
 const encoder = new code128()
 
 export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 	const ref = useRef<HTMLImageElement>(null)
-	const [fingerprint] = useState<string>(
-		`${parseInt(`${format(new Date(), 'yyw')}`, 10).toString(
-			16,
-		)}.${generateCode()}`,
-	)
+	const [fingerprint] = useState<string>(generateFingerprint())
 	const [qrcodeSVG, setSVG] = useState<string>()
 
 	const scale = (size?.width ?? 100) / 100

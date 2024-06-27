@@ -2,6 +2,7 @@ import { fromEnv } from '@nordicsemiconductor/from-env'
 import { createConfig } from '../vite/config.js'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.js'
 import { mockWebsocket } from './lib/mockWebsocket.js'
+import { createContext } from './lib/mock-backend/context.js'
 
 const { mapRegion, mapName, mapApiKey } = fromEnv({
 	mapRegion: 'MAP_REGION',
@@ -9,10 +10,12 @@ const { mapRegion, mapName, mapApiKey } = fromEnv({
 	mapApiKey: 'MAP_API_KEY',
 })(process.env)
 
+const context = createContext()
+
 const base = 'http://localhost:8080'
 
 const wsPort = 1024 + Math.floor(Math.random() * (65535 - 1024))
-mockWebsocket(wsPort)
+mockWebsocket(wsPort, context)
 
 export default createConfig({
 	domainName: 'localhost:8080',
@@ -30,6 +33,7 @@ export default createConfig({
 				// WebSocket
 				webSocketURI: new URL(`ws://localhost:${wsPort}`),
 			},
+			context,
 		}),
 	],
 	baseURL: '',

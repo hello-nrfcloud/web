@@ -1,11 +1,14 @@
 import { expect, test, type Page } from '@playwright/test'
 import { checkForConsoleErrors } from '../checkForConsoleErrors.js'
+import { apiClient } from '../lib/mock-backend/apiClient.js'
 
 let page: Page
 
 test.beforeAll(async ({ browser }) => {
+	const { fingerprint } = await apiClient.registerDevice('PCA20065')
+	console.log(`New device`, { fingerprint })
 	page = await browser.newPage()
-	await page.goto('http://localhost:8080/29a.n3d4t4')
+	await page.goto(`http://localhost:8080/${fingerprint}`)
 	await page.waitForURL('http://localhost:8080/device')
 })
 
