@@ -46,16 +46,14 @@ npm run test:e2e
 
 ### Run the Playwright code generator
 
-Start the dev server:
-
-```bash
-npm run start:e2e
-```
-
-Run the interactive code generator:
-
 ```bash
 npx playwright codegen
+```
+
+### Debug individual tests
+
+```bash
+PWDEBUG=1 npx playwright test e2e-tests/
 ```
 
 ## Deploy

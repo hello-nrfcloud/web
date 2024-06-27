@@ -1,8 +1,8 @@
+import { Primary } from '#components/buttons/Button.js'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
 import { useEffect, useId, useState } from 'preact/hooks'
-import { Primary } from '#components/buttons/Button.js'
 
 type Camera = { id: string; label: string }
 
@@ -46,11 +46,13 @@ export const QRCodeScanner = () => {
 			verbose: true,
 		})
 
+		console.log(`[QR code]`, `Scanning for QR code linking to`, DOMAIN_NAME)
+
 		html5QRCode
 			.start(
 				currentCamera.id,
 				{
-					fps: 1,
+					fps: 15,
 					qrbox: (viewfinderWidth, viewfinderHeight) => {
 						const m = Math.floor(
 							Math.min(viewfinderHeight, viewfinderWidth) * 0.66,
@@ -62,23 +64,30 @@ export const QRCodeScanner = () => {
 					},
 				},
 				(decodedText) => {
+					console.log(decodedText)
+					let url: URL | undefined = undefined
 					try {
-						const u = new URL(decodedText)
-						if (
-							u.hostname === DOMAIN_NAME &&
-							isFingerprint(u.pathname.slice(1))
-						) {
-							setFoundURL(u)
-							console.log(`[QR code]`, `Found URL`, u)
-							stopped = true
-							html5QRCode.stop().catch((err) => {
-								console.error(`[QR Code]`, `Failed to stop`, err)
-							})
-							setState('idle')
-						}
+						url = new URL(decodedText)
 					} catch {
 						console.error(`[QR code]`, `Not a URL`, decodedText)
+						return
 					}
+					if (url === undefined) return
+					if (url.host !== DOMAIN_NAME) {
+						console.error(`[QR code]`, `Unexpected hostname`, url.host)
+						return
+					}
+					if (!isFingerprint(url.pathname.slice(1))) {
+						console.error(`[QR code]`, `Not a fingerprint`, url.pathname)
+						return
+					}
+					setFoundURL(url)
+					console.log(`[QR code]`, `Found URL`, url)
+					stopped = true
+					html5QRCode.stop().catch((err) => {
+						console.error(`[QR Code]`, `Failed to stop`, err)
+					})
+					setState('idle')
 				},
 				(errorMessage) => {
 					console.warn(`[QR code]`, errorMessage)
