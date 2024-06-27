@@ -18,14 +18,14 @@ export const Problem = ({
 		{awsApiGwReqId !== undefined && (
 			<>
 				<br />
-				<small>API Gateway Request ID</small>
+				<small class="me-1">API Gateway Request ID:</small>
 				<code>{awsApiGwReqId}</code>
 			</>
 		)}
 		{awsReqId !== undefined && (
 			<>
 				<br />
-				<small>Request ID</small>
+				<small class="me-1">Request ID:</small>
 				<code>{awsReqId}</code>
 			</>
 		)}
