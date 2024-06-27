@@ -12,12 +12,18 @@
   --color-nordic-lake: rgb(var(--color-nordic-lake-rgb));
 
   /* Nordic Style Guide: Supporting colors */
-  --color-nordic-grass: #cedd50; /* nRF51 Series */
-  --color-nordic-sun: #f4cb43; /* nRF52 Series */
-  --color-nordic-fall: #de823b; /* nRF91 Series */
-  --color-nordic-power: #8bc058; /* nPM Family   */
-  --color-nordic-red: #d1314f; /* nRF53 Series */
-  --color-nordic-pink: #c6007e; /* nRF21 Series */
+  --color-nordic-grass: #cedd50;
+  /* nRF51 Series */
+  --color-nordic-sun: #f4cb43;
+  /* nRF52 Series */
+  --color-nordic-fall: #de823b;
+  /* nRF91 Series */
+  --color-nordic-power: #8bc058;
+  /* nPM Family   */
+  --color-nordic-red: #d1314f;
+  /* nRF53 Series */
+  --color-nordic-pink: #c6007e;
+  /* nRF21 Series */
 
   /* Nordic Style Guide: Neutral colors */
   --color-nordic-light-grey: #d9e1e2;
@@ -49,67 +55,86 @@
   --text-color-status-problem: #eee;
   --text-color-status-warning: #111;
 }
+
 /* These color variants are there to improve contrast.
    Check with https://dequeuniversity.com/rules/axe/4.7/color-contrast
 */
 .bg-light {
   background: var(--color-nordic-light-grey);
 }
+
 .bg-light code {
   color: #bb0760;
 }
+
 .bg-dark {
   background: var(--color-nordic-dark-grey);
   color: #ffffffcc;
 }
+
 .bg-dark a {
   color: #00ceff;
 }
+
 .bg-dark code {
   color: #e169a5;
 }
+
 .bg-blue {
   background: var(--color-nordic-blueslate);
   color: #ffffffcc;
 }
+
 .bg-blue a {
   color: #00ceff;
 }
+
 .bg-blue-soft {
   background: rgb(0 65 109);
   color: #ffffffcc;
 }
+
 .bg-blue-soft a {
   color: #00ceff;
 }
+
 .bg-sun {
   background-color: var(--color-nordic-sun);
   color: var(--color-nordic-dark-grey);
 }
+
 .bg-sun a {
   color: rgb(0 65 109);
 }
+
 .bg-fall {
   background-color: var(--color-nordic-fall);
 }
+
 .bg-fall a {
   color: rgb(9, 42, 65);
 }
+
 .color-success {
   color: var(--color-nordic-power);
 }
+
 .color-warning {
   color: var(--color-nordic-fall);
 }
+
 .color-error {
   color: var(--color-nordic-red);
 }
+
 .color-error.light {
   color: var(--color-error-light);
 }
+
 .list-group-item.active .color-error {
   color: #ffc3c3;
 }
+
 /* Bootstrap Button Overrides */
 .btn {
   --bs-btn-border-radius: 0;
@@ -119,6 +144,7 @@
   --bs-btn-disabled-color: white;
   padding: 8px 22px;
 }
+
 .btn-primary {
   /* Blue adjusted to #00809E for better contrast ratio */
   --bs-btn-bg: #00809e;
@@ -128,6 +154,7 @@
   --bs-btn-active-bg: var(--color-nordic-blue);
   --bs-btn-active-border-color: var(--color-nordic-blue);
 }
+
 .btn-secondary {
   --bs-btn-border-width: 2px;
   padding: 6px 20px;
@@ -142,12 +169,14 @@
   --bs-btn-disabled-color: var(--color-nordic-middle-grey);
   --bs-btn-disabled-border-color: var(--color-nordic-light-grey);
 }
+
 .btn-outline-secondary {
   --bs-btn-border-color: var(--color-nordic-lake);
   --bs-btn-color: var(--color-nordic-lake);
   --bs-btn-hover-bg: var(--color-nordic-lake);
   --bs-btn-hover-border-color: var(--color-nordic-lake);
 }
+
 .btn-success {
   --bs-btn-color: var(--color-nordic-dark-grey);
   --bs-btn-hover-color: var(--color-nordic-dark-grey);
@@ -158,6 +187,7 @@
   --bs-btn-active-bg: var(--color-nordic-grass);
   --bs-btn-active-border-color: var(--color-nordic-grass);
 }
+
 .btn-danger {
   --bs-btn-bg: var(--color-nordic-red);
   --bs-btn-border-color: var(--color-nordic-red);
@@ -166,6 +196,7 @@
   --bs-btn-active-bg: var(--color-nordic-red);
   --bs-btn-active-border-color: var(--color-nordic-red);
 }
+
 .btn-warning {
   --bs-btn-color: var(--color-nordic-dark-grey);
   --bs-btn-bg: var(--color-nordic-sun);
@@ -175,6 +206,7 @@
   --bs-btn-active-bg: var(--color-nordic-sun);
   --bs-btn-active-border-color: var(--color-nordic-sun);
 }
+
 .btn-info {
   --bs-btn-color: white;
   --bs-btn-hover-color: white;
@@ -185,6 +217,7 @@
   --bs-btn-active-bg: var(--color-nordic-blueslate);
   --bs-btn-active-border-color: var(--color-nordic-blueslate);
 }
+
 .btn-light {
   --bs-btn-bg: var(--color-nordic-light-grey);
   --bs-btn-border-color: var(--color-nordic-light-grey);
@@ -193,6 +226,7 @@
   --bs-btn-active-bg: var(--color-nordic-light-grey);
   --bs-btn-active-border-color: var(--color-nordic-light-grey);
 }
+
 .btn-outline-light {
   --bs-btn-bg: transparent;
   --bs-btn-border-color: var(--color-nordic-light-grey);
@@ -202,6 +236,7 @@
   --bs-btn-active-bg: var(--color-nordic-light-grey);
   --bs-btn-active-border-color: var(--color-nordic-light-grey);
 }
+
 .btn-dark {
   --bs-btn-bg: var(--color-nordic-dark-grey);
   --bs-btn-border-color: var(--color-nordic-dark-grey);
