@@ -2,11 +2,12 @@ import { createServer } from 'http'
 import { server as WebSocketServer } from 'websocket'
 import type { Static } from '@sinclair/typebox'
 import { Context, type DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
+import type { createContext } from './mock-backend/context.js'
 
-const randomIMEI = () =>
-	(350006660000000 + Math.floor(Math.random() * 10000000)).toString()
-
-export const mockWebsocket = (port: number): void => {
+export const mockWebsocket = (
+	port: number,
+	context: ReturnType<typeof createContext>,
+): void => {
 	const server = createServer()
 	const wsServer = new WebSocketServer({
 		httpServer: server,
@@ -16,16 +17,20 @@ export const mockWebsocket = (port: number): void => {
 	})
 	wsServer.on('request', (request) => {
 		const fingerprint = request.resourceURL.query['fingerprint']
-		if (fingerprint === '29a.n3d4t4') {
+		const maybeDevice = context.devices.find(
+			(device) => device.fingerprint === fingerprint,
+		)
+		if (maybeDevice !== undefined) {
 			console.debug(`[WS]`, fingerprint, 'connected')
 			const connection = request.accept(undefined, request.origin)
 			const identity: Static<typeof DeviceIdentity> = {
 				'@context': Context.deviceIdentity.toString(),
-				id: `oob-${randomIMEI()}`,
-				model: 'PCA20065',
+				id: maybeDevice.id,
+				model: maybeDevice.model,
 			}
 			connection.send(JSON.stringify(identity))
 		} else {
+			console.debug(`[WS]`, `Device not found for fingerprint`, fingerprint)
 			request.reject(404, 'Not found')
 		}
 	})
