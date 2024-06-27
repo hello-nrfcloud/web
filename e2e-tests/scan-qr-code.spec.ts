@@ -16,7 +16,7 @@ test('I can scan a QR code', async () => {
 			`--use-file-for-fake-video-capture=${path.join(
 				process.cwd(),
 				'e2e-tests',
-				'qr-code.mjpeg',
+				'qr-code.y4m',
 			)}`,
 		],
 	})
@@ -28,9 +28,8 @@ test('I can scan a QR code', async () => {
 	await page.goto('http://localhost:8080/')
 	await page.getByRole('button', { name: 'Scan QR code' }).click()
 	await expect(page.getByTestId('qr-code-scan')).toHaveText(
-		'https://hello.nrfcloud.com/29a.5392db',
+		'http://localhost:8080/29a.5392db',
 	)
-
-	// Do not check redirect page for now, forbidden to be access by GitHub servers
-	// await page.waitForURL('https://hello.nrfcloud.com/')
+	await page.waitForURL('http://localhost:8080/29a.5392db')
+	await page.waitForURL('http://localhost:8080/recognizing-fingerprint')
 })
