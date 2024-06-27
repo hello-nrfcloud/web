@@ -38,7 +38,7 @@ export const toChartData = ({
 		// Reboots
 		events: [
 			{
-				color: 'var(--color-nordic-red)',
+				color: 'var(--color-reboot)',
 				events: reboots.map(({ ts }) => ts),
 			},
 		],

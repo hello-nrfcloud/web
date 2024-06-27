@@ -34,7 +34,7 @@ export const Chart = () => {
 							<small
 								class="d-flex align-items-center"
 								style={{
-									color: 'var(--color-nordic-pink)',
+									color: 'var(--color-reboot)',
 									textShadow: '0px 0px 2px #000',
 								}}
 							>
