@@ -175,6 +175,25 @@ export const HistoryChart = ({
 							)
 						}),
 					)}
+				{/* events */}
+				{data.events?.map(({ color, events }) =>
+					events.map((ts) => {
+						const x = m.xPosition(ts)
+						if (x === null) return
+						return (
+							<>
+								<line
+									stroke={color}
+									stroke-width={2}
+									x1={x}
+									x2={x}
+									y1={m.paddingY * 2}
+									y2={m.yAxisHeight + m.paddingY * 2}
+								/>
+							</>
+						)
+					}),
+				)}
 				{/* datasets lines */}
 				{data.datasets.map((dataset) => {
 					const lineDefinition: string[] = []
@@ -240,25 +259,6 @@ export const HistoryChart = ({
 					}
 					return labels
 				})}
-				{/* events */}
-				{data.events?.map(({ color, events }) =>
-					events.map((ts) => {
-						const x = m.xPosition(ts)
-						if (x === null) return
-						return (
-							<>
-								<line
-									stroke={color}
-									stroke-width={2}
-									x1={x}
-									x2={x}
-									y1={m.paddingY * 2}
-									y2={m.yAxisHeight + m.paddingY * 2}
-								/>
-							</>
-						)
-					}),
-				)}
 			</svg>
 		</div>
 	)
