@@ -1,4 +1,12 @@
+import { isOutdated } from '#components/fota/isOutdated.js'
 import type { Model } from '#content/models/types.js'
+import {
+	isDeviceInformation,
+	isNRFCloudServiceInfo,
+	toDeviceInformation,
+	toNRFCloudServiceInfo,
+} from '#proto/lwm2m.js'
+import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import {
@@ -9,14 +17,6 @@ import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from './Device.js'
-import {
-	isDeviceInformation,
-	isNRFCloudServiceInfo,
-	toDeviceInformation,
-	toNRFCloudServiceInfo,
-} from '#proto/lwm2m.js'
-import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
-import { isOutdated } from '#components/fota/isOutdated.js'
 
 export type Device = {
 	id: string
@@ -91,7 +91,7 @@ export const Provider = ({
 				helloApiURL,
 			),
 		).ok(({ jobs }) => {
-			setJobs(jobs)
+			setJobs(jobs.sort(byTimestamp))
 		})
 	}, [fingerprint])
 
@@ -109,7 +109,7 @@ export const Provider = ({
 							bundleId,
 						},
 					).ok((job) => {
-						setJobs((jobs) => [job, ...jobs])
+						setJobs((jobs) => [job, ...jobs].sort(byTimestamp))
 					}),
 				needsFwUpdate,
 				needsMfwUpdate,
@@ -126,3 +126,8 @@ export const Provider = ({
 export const Consumer = FOTAContext.Consumer
 
 export const useFOTA = () => useContext(FOTAContext)
+
+const byTimestamp = (
+	{ lastUpdatedAt: a }: Static<typeof FOTAJobExecution>,
+	{ lastUpdatedAt: b }: Static<typeof FOTAJobExecution>,
+) => b.localeCompare(a)
