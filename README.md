@@ -29,8 +29,10 @@ npm start
 End-to-end tests are run completely without a backend using Vite's built-in dev
 server to serve the data.
 
-Make sure to export `MAP_REGION`, `MAP_NAME`, and `MAP_API_KEY` before running
-it.
+Deploy an instance of the
+[AWS Map resources](https://github.com/hello-nrfcloud/aws-map) and export the
+map settings as environment variables `MAP_REGION`, `MAP_NAME`, and
+`MAP_API_KEY` before running it.
 
 > Note: It's currently not possible to run test for multiple browsers in
 > parallel since the `webServer` >
@@ -98,4 +100,17 @@ Store the stack name and the region as a variable:
 ```bash
 gh variable set STACK_NAME --env production --body "${STACK_NAME:-hello-nrfcloud-web}"
 gh variable set AWS_REGION --env production --body "eu-west-1"
+```
+
+## Continuous integration
+
+Deploy an instance of the
+[AWS Map resources](https://github.com/hello-nrfcloud/aws-map) to the CI AWS
+account and store the map settings as variables:
+
+```bash
+# Make sure that the `ci` environment exists in this repo
+gh variable set MAP_REGION --env ci --body "<mapRegion>"
+gh variable set MAP_NAME --env ci --body "<mapName>"
+gh variable set MAP_API_KEY --env ci --body "<apiKey>"
 ```

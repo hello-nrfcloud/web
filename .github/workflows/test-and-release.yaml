@@ -3,13 +3,14 @@ name: Test and Release
 on:
   push:
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: write
   actions: write
 
 jobs:
-  main:
+  build:
     runs-on: ubuntu-latest
 
     environment: production
@@ -48,6 +49,24 @@ jobs:
           mkdir -p build/client/node_modules/maplibre-gl/dist/
           cp node_modules/maplibre-gl/dist/maplibre-gl.css build/client/node_modules/maplibre-gl/dist/
 
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    environment: ci
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
       - name: Store Playwright's Version
         run: |
           PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
@@ -68,9 +87,9 @@ jobs:
       - name: Run end to end tests
         env:
           VERSION: ${{ env.VERSION }}
-          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
-          # Encoded in QR code
-          DOMAIN_NAME: hello.nrfcloud.com
+          MAP_REGION: ${{ vars.MAP_REGION }}
+          MAP_NAME: ${{ vars.MAP_NAME }}
+          MAP_API_KEY: ${{ vars.MAP_API_KEY }}
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in
@@ -87,14 +106,29 @@ jobs:
           path: |
             test-results
 
+  release:
+    runs-on: ubuntu-latest
+
+    needs: [build, e2e-tests]
+
+    if: github.ref == 'refs/heads/saga'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
       - name: Semantic release
-        continue-on-error: true
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger deployment workflow
-        if: github.ref == 'refs/heads/saga'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run deploy.yaml
