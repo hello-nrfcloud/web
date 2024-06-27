@@ -6,6 +6,7 @@ import {
 	getJSON,
 	sendJSON,
 	sendStatus,
+	sendText,
 } from './mock-backend/sendJSON.js'
 import type { createContext } from './mock-backend/context.js'
 import type { Static } from '@sinclair/typebox'
@@ -32,4 +33,5 @@ export const mockBackend = ({
 		)
 		sendStatus(res, 201)
 	},
+	'GET /.well-known/release': (_, res) => sendText(res, context.release),
 })

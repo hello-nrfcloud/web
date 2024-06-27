@@ -12,6 +12,16 @@ export const sendJSON = (
 	sendStatus(res, 200)
 }
 
+export const sendText = (
+	res: ServerResponse<IncomingMessage>,
+	payload: string,
+): void => {
+	res.setHeader('Content-type', 'application/text; charset=utf-8')
+	res.setHeader('Content-length', payload.length.toString())
+	res.write(payload)
+	sendStatus(res, 200)
+}
+
 export const sendStatus = (
 	res: ServerResponse<IncomingMessage>,
 	statusCode: number,
