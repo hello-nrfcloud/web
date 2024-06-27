@@ -12,6 +12,7 @@ export type FetchProblem = {
 	url: URL
 	body?: Record<string, any>
 	awsReqId?: string
+	awsApiGwReqId?: string
 }
 type ProblemFN = (details: FetchProblem) => void
 type DoneFN<T extends TSchema> = (
@@ -60,6 +61,7 @@ export const validatingFetch = <T extends TSchema>(
 		)
 			.then(async (res) => {
 				const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
+				const awsApiGwReqId = res.headers.get('Apigw-Requestid') ?? undefined
 				if (!res.ok) {
 					if (res.headers.get('content-type') === 'application/problem+json') {
 						const problem = await res.json()
@@ -69,6 +71,7 @@ export const validatingFetch = <T extends TSchema>(
 								url,
 								body,
 								awsReqId,
+								awsApiGwReqId,
 							}),
 						)
 						doneFns.forEach((fn) => fn({ problem }))
@@ -84,7 +87,9 @@ export const validatingFetch = <T extends TSchema>(
 						status: res.status,
 						title: response,
 					}
-					problemFns.forEach((fn) => fn({ problem, url, body, awsReqId }))
+					problemFns.forEach((fn) =>
+						fn({ problem, url, body, awsReqId, awsApiGwReqId }),
+					)
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}
@@ -106,7 +111,9 @@ export const validatingFetch = <T extends TSchema>(
 						title: 'Validation failed',
 						detail: formatTypeBoxErrors(maybeValidResponse.errors),
 					}
-					problemFns.forEach((fn) => fn({ problem, url, body, awsReqId }))
+					problemFns.forEach((fn) =>
+						fn({ problem, url, body, awsReqId, awsApiGwReqId }),
+					)
 					doneFns.forEach((fn) => fn({ problem }))
 					return
 				}

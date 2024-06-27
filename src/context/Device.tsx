@@ -4,7 +4,11 @@ import { useModels } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
 import { isConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
-import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
+import {
+	validatingFetch,
+	type FetchProblem,
+	type ResultHandlers,
+} from '#utils/validatingFetch.js'
 import {
 	LwM2MObjectID,
 	type LwM2MObjectInstance,
@@ -13,7 +17,6 @@ import {
 	Context,
 	type DeviceIdentity,
 	type LwM2MObjectUpdate,
-	type ProblemDetail,
 	type Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'
@@ -28,9 +31,7 @@ export type Device = {
 	hideDataBefore?: Date
 }
 
-type UpdateResult = Promise<
-	{ success: true } | { problem: Static<typeof ProblemDetail> }
->
+type UpdateResult = Promise<{ success: true } | { problem: FetchProblem }>
 
 const EmptyResponse = Type.Undefined()
 
@@ -252,33 +253,34 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (device === undefined) throw new Error(`Device not yet loaded!`)
 		if (fingerprint === null) throw new Error(`fingerprint not available!`)
 		if (helloApiURL === undefined) throw new Error(`helloApiURL not available!`)
+		const url = new URL(
+			`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
+			helloApiURL,
+		)
 		try {
-			await fetch(
-				new URL(
-					`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
-					helloApiURL,
-				),
-				{
-					method: 'PATCH',
-					mode: 'cors',
-					body: JSON.stringify({
-						'@context': Context.lwm2mObjectUpdate.toString(),
-						...instance,
-					}),
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-					},
+			await fetch(url, {
+				method: 'PATCH',
+				mode: 'cors',
+				body: JSON.stringify({
+					'@context': Context.lwm2mObjectUpdate.toString(),
+					...instance,
+				}),
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8',
 				},
-			)
+			})
 			setDesired(mergeInstances([instance]))
 			return { success: true }
 		} catch (err) {
 			console.error('[DeviceContext]', 'Configuration update failed', err)
 			return {
 				problem: {
-					'@context': Context.problemDetail.toString(),
-					title: 'Failed to update configuration!',
-					detail: (err as Error).message,
+					url,
+					problem: {
+						'@context': Context.problemDetail.toString(),
+						title: 'Failed to update configuration!',
+						detail: (err as Error).message,
+					},
 				},
 			}
 		}

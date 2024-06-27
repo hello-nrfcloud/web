@@ -1,11 +1,10 @@
-import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
-import type { Static } from '@sinclair/typebox'
+import type { FetchProblem } from '#utils/validatingFetch.js'
 
 export const Problem = ({
-	problem,
+	problem: { problem, awsApiGwReqId, awsReqId },
 	class: className,
 }: {
-	problem: Static<typeof ProblemDetail>
+	problem: FetchProblem
 	class?: string
 }) => (
 	<div class={`alert alert-danger problem ${className}`}>
@@ -14,6 +13,20 @@ export const Problem = ({
 			<>
 				<br />
 				<small>{problem.detail}</small>
+			</>
+		)}
+		{awsApiGwReqId !== undefined && (
+			<>
+				<br />
+				<small>API Gateway Request ID</small>
+				<code>{awsApiGwReqId}</code>
+			</>
+		)}
+		{awsReqId !== undefined && (
+			<>
+				<br />
+				<small>Request ID</small>
+				<code>{awsReqId}</code>
 			</>
 		)}
 	</div>

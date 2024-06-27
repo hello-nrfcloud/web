@@ -1,14 +1,13 @@
 import { Secondary } from '#components/Buttons.js'
+import { Problem } from '#components/Problem.js'
+import { Success } from '#components/Success.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice, type Device } from '#context/Device.js'
 import { formatDistance, formatFloat } from '#utils/format.js'
-import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
-import type { Static } from '@sinclair/typebox'
+import type { FetchProblem } from '#utils/validatingFetch.js'
 import cx from 'classnames'
 import { CloudUpload, Satellite } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { Problem } from '#components/Problem.js'
-import { Success } from '#components/Success.js'
 
 export const ConfigureDevice = ({ device }: { device: Device }) => {
 	const {
@@ -23,9 +22,7 @@ export const ConfigureDevice = ({ device }: { device: Device }) => {
 			desiredConfig?.updateIntervalSeconds ??
 				device.model.defaultConfiguration.updateIntervalSeconds,
 		)
-	const [problem, setProblem] = useState<
-		Static<typeof ProblemDetail> | undefined
-	>()
+	const [problem, setProblem] = useState<FetchProblem | undefined>()
 	const [success, setSuccess] = useState<boolean | undefined>()
 	const [inProgress, setInProgress] = useState<boolean>(false)
 

@@ -4,8 +4,7 @@ import { Success } from '#components/Success.js'
 import { useDevice } from '#context/Device.js'
 import { useFOTA } from '#context/FOTA.js'
 import { isNRFCloudServiceInfo, toNRFCloudServiceInfo } from '#proto/lwm2m.js'
-import { type ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
-import type { Static } from '@sinclair/typebox'
+import type { FetchProblem } from '#utils/validatingFetch.js'
 import { noop } from 'lodash-es'
 import { useState } from 'preact/hooks'
 
@@ -20,9 +19,7 @@ export const UpdateDevice = ({
 	const { scheduleJob } = useFOTA()
 	const [success, setSuccess] = useState(false)
 	const [inProgress, setInProgress] = useState(false)
-	const [problem, setProblem] = useState<
-		Static<typeof ProblemDetail> | undefined
-	>()
+	const [problem, setProblem] = useState<FetchProblem | undefined>()
 
 	const serviceInfo = Object.values(reported)
 		.filter(isNRFCloudServiceInfo)
@@ -75,7 +72,7 @@ export const UpdateDevice = ({
 							setSuccess(true)
 						})
 						.problem((problem) => {
-							setProblem(problem.problem)
+							setProblem(problem)
 						})
 						.done(() => {
 							setInProgress(false)
