@@ -53,7 +53,10 @@ export const Footer = () => (
 					<div>
 						<h2 class="text-body-secondary">Support</h2>
 						<p>
-							<a href="https://devzone.nordicsemi.com/" target="_blank">
+							<a
+								href="https://devzone.nordicsemi.com/f/nordic-q-a/tags/hello-nrfcloud"
+								target="_blank"
+							>
 								<img
 									src="/static/images/devzone-dark.svg"
 									alt="{DevZone"

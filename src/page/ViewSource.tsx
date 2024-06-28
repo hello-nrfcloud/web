@@ -287,7 +287,6 @@ export const ViewSource = () => (
 							<a
 								href="https://github.com/hello-nrfcloud/proto-lwm2m"
 								target="_blank"
-								rel="noopener noreferrer"
 							>
 								LwM2M object definitions
 							</a>{' '}
