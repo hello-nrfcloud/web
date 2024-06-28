@@ -31,7 +31,7 @@ aside.lwm2m-debug a {
 
 aside.lwm2m-debug dl {
   display: grid;
-  grid-template-columns: 5% auto;
+  grid-template-columns: minmax(5%, 30px) auto;
   margin: 0;
 }
 
