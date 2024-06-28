@@ -89,7 +89,7 @@ const SignalQualityInfo = () => {
 				<>
 					<span class="d-flex align-items-center">
 						{((SignalIcon) => (
-							<SignalIcon strokeWidth={2} />
+							<SignalIcon strokeWidth={2} class="me-2" />
 						))(EnergyEstimateIcons.get(eest) ?? Slash)}
 						<span>{EnergyEstimateLabel.get(eest)}</span>
 					</span>
