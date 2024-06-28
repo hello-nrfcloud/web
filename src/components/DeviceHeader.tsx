@@ -75,7 +75,7 @@ const SignalQualityInfo = () => {
 			.map(toConnectionInformation)[0] ?? {}
 
 	return (
-		<span class="d-flex flex-column">
+		<span class="d-flex flex-column" style={{ minWidth: '100px' }}>
 			<small class="text-muted">
 				<strong>Signal Quality</strong>
 			</small>
