@@ -79,7 +79,7 @@ export const Configuration = ({ device }: { device: Device }) => {
 	const [showConfiguration, setShowConfiguration] = useState<boolean>(false)
 
 	return (
-		<div id="device-configuration">
+		<div id="device-configuration" class="scroll-margin">
 			<h2 class="d-flex align-items-center justify-content-between">
 				<span>Device configuration</span>
 				{showConfiguration && (

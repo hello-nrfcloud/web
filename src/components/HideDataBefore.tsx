@@ -8,7 +8,7 @@ export const HideDataBefore = () => {
 	const { hideDataBefore, device } = useDevice()
 	const [inProgress, setInProgress] = useState<boolean>(false)
 	return (
-		<div id="device-configuration">
+		<div>
 			<h2 class="d-flex align-items-center justify-content-between">
 				<span>Hide data</span>
 			</h2>

@@ -250,6 +250,10 @@ body {
   margin-top: 56px;
 }
 
+.scroll-margin {
+  scroll-margin-top: calc(56px + 1rem);
+}
+
 body.desktop {
   margin-top: 0;
 }

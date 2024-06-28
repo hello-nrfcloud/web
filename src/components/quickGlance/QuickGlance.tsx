@@ -60,7 +60,10 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 						</small>
 					)}
 					<br />
-					<small>Please make sure to follow the troubleshooting tips.</small>
+					<small>
+						Please make sure to follow{' '}
+						<a href="#troubleshooting">the troubleshooting tips</a>.
+					</small>
 				</QuickGlanceEntry>
 			)}
 			{hasLiveData && (

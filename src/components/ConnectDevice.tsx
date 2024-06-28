@@ -44,7 +44,7 @@ export const ConnectDevice = () => {
 					</small>
 				</p>
 			)}
-			<h2>
+			<h2 id="troubleshooting" class="scroll-margin">
 				Please follow these steps to start retrieving real-time data from your
 				kit:
 			</h2>
