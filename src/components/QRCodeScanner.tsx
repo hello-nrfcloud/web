@@ -64,7 +64,6 @@ export const QRCodeScanner = () => {
 					},
 				},
 				(decodedText) => {
-					console.log(decodedText)
 					let url: URL | undefined = undefined
 					try {
 						url = new URL(decodedText)

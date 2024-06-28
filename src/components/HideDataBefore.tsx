@@ -7,7 +7,6 @@ import { useState } from 'preact/hooks'
 export const HideDataBefore = () => {
 	const { hideDataBefore, device } = useDevice()
 	const [inProgress, setInProgress] = useState<boolean>(false)
-	console.log(device?.hideDataBefore)
 	return (
 		<div id="device-configuration">
 			<h2 class="d-flex align-items-center justify-content-between">
