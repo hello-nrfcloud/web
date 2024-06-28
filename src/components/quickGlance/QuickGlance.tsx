@@ -13,7 +13,7 @@ import './QuickGlance.css'
 
 export const QuickGlance = ({ class: className }: { class?: string }) => {
 	const { needsFwUpdate, needsMfwUpdate, fwTypes } = useFOTA()
-	const { hasLiveData } = useDevice()
+	const { hasLiveData, lastSeen } = useDevice()
 	const fotaSupported = fwTypes.length > 0
 	const ok = !needsFwUpdate && !needsMfwUpdate && hasLiveData && fotaSupported
 	return (
@@ -50,11 +50,17 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 				>
 					Waiting for data from your device
 					<br />
-					<small>
-						The device has not yet connected to the cloud.
-						<br />
-						Please make sure to follow the troubleshooting tips.
-					</small>
+					{lastSeen === undefined && (
+						<small>The device has not yet connected to the cloud.</small>
+					)}
+					{lastSeen !== undefined && (
+						<small>
+							The device has not published data within the configured update
+							interval.
+						</small>
+					)}
+					<br />
+					<small>Please make sure to follow the troubleshooting tips.</small>
 				</QuickGlanceEntry>
 			)}
 			{hasLiveData && (
