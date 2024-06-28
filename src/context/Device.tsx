@@ -88,6 +88,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [device, setDevice] = useState<Device | undefined>(undefined)
 	const [debug, setDebug] = useState<boolean>(false)
 	const [lastSeen, setLastSeen] = useState<Date | undefined>(undefined)
+	const [hasLiveData, setHasLiveData] = useState<boolean>(false)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const { fingerprint } = useFingerprint()
 	const { onParameters } = useParameters()
@@ -211,7 +212,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							const ts = maybeValid.Resources[99] as number
 							if (ts === undefined) return l
 							if (l === undefined) return new Date(ts * 1000)
-							return ts > l.getTime() ? new Date(ts * 1000) : l
+							return ts * 1000 > l.getTime() ? new Date(ts * 1000) : l
 						})
 					}
 				}
@@ -236,18 +237,22 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		}
 	}, [fingerprint])
 
-	let hasLiveData =
-		lastSeen !== undefined &&
-		(device?.hideDataBefore === undefined ||
-			lastSeen.getTime() > device.hideDataBefore.getTime())
-	if (
-		lastSeen !== undefined &&
-		reportedConfig?.updateIntervalSeconds !== undefined
-	) {
-		hasLiveData =
-			Date.now() - lastSeen.getTime() <
-			reportedConfig?.updateIntervalSeconds * 1000
-	}
+	// Update `hasLiveData` based on lastSeen and reportedConfig
+	useEffect(() => {
+		let hasLiveData =
+			lastSeen !== undefined &&
+			(device?.hideDataBefore === undefined ||
+				lastSeen.getTime() > device.hideDataBefore.getTime())
+		if (
+			lastSeen !== undefined &&
+			reportedConfig?.updateIntervalSeconds !== undefined
+		) {
+			hasLiveData =
+				Date.now() - lastSeen.getTime() <
+				reportedConfig?.updateIntervalSeconds * 1000
+		}
+		setHasLiveData(hasLiveData)
+	}, [device, lastSeen, reportedConfig])
 
 	const update = async (instance: LwM2MObjectInstance): UpdateResult => {
 		if (device === undefined) throw new Error(`Device not yet loaded!`)
