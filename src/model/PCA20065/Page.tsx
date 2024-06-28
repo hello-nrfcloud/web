@@ -14,6 +14,7 @@ import { DeviceBehaviourInfo } from '#model/PCA20065/DeviceBehaviourInfo.js'
 import { Provider } from '#model/PCA20065/HistoryContext.js'
 import { DeviceFOTAInfo } from '#components/fota/DeviceFOTAInfo.js'
 import { HideDataBefore } from '#components/HideDataBefore.js'
+import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
 
 import './Page.css'
 
@@ -26,6 +27,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 				<div class="container my-md-4">
 					<div class="row">
 						<div class="col-md-8">
+							<QuickGlance class="mt-2 mt-md-0" />
 							<DeviceHeader device={device} />
 							{!hasLiveData && <ConnectDevice />}
 							{hasLiveData && <ConnectionSuccess />}

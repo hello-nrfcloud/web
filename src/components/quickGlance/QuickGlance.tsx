@@ -2,19 +2,29 @@ import { useDevice } from '#context/Device.js'
 import { useFOTA } from '#context/FOTA.js'
 import {
 	BadgeCheckIcon,
+	ChevronsDownIcon,
 	CloudDownloadIcon,
 	CloudOffIcon,
-	TriangleAlertIcon,
 } from 'lucide-preact'
 import { QuickGlanceEntry } from './QuickGlanceEntry.js'
+import cx from 'classnames'
 
-export const QuickGlance = () => {
+import './QuickGlance.css'
+
+export const QuickGlance = ({ class: className }: { class?: string }) => {
 	const { needsFwUpdate, needsMfwUpdate, fwTypes } = useFOTA()
 	const { hasLiveData } = useDevice()
 	const fotaSupported = fwTypes.length > 0
 	const ok = !needsFwUpdate && !needsMfwUpdate && hasLiveData && fotaSupported
 	return (
-		<section id="quickGlance">
+		<section
+			id="quickGlance"
+			class={cx(`QuickGlance`, className, {
+				notOk: !ok,
+				'mb-2': ok,
+				'mb-4': !ok,
+			})}
+		>
 			{ok && (
 				<QuickGlanceEntry icon={BadgeCheckIcon} title="OK" type="ok">
 					Your device is working perfectly!
@@ -23,11 +33,11 @@ export const QuickGlance = () => {
 				</QuickGlanceEntry>
 			)}
 			{!ok && (
-				<QuickGlanceEntry icon={TriangleAlertIcon} title="Not OK" type="notOk">
+				<QuickGlanceEntry icon={ChevronsDownIcon} title="Not OK" type="notOk">
 					We have detected problems with your device!
 					<br />
 					<small>
-						There are some issues with your device that may impact your ability
+						Below are the issues with your device that may impact your ability
 						to explore all of it's features.
 					</small>
 				</QuickGlanceEntry>
@@ -40,7 +50,11 @@ export const QuickGlance = () => {
 				>
 					Waiting for data from your device
 					<br />
-					<small>The device has not yet connected to the cloud.</small>
+					<small>
+						The device has not yet connected to the cloud.
+						<br />
+						Please make sure to follow the troubleshooting tips.
+					</small>
 				</QuickGlanceEntry>
 			)}
 			{hasLiveData && (

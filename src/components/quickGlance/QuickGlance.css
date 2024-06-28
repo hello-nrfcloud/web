@@ -1,0 +1,24 @@
+.QuickGlance {
+    border-radius: var(--bs-border-radius);
+    overflow: hidden;
+}
+
+.QuickGlance .ok {
+    background-color: var(--color-status-ok);
+    color: var(--text-color-status-ok);
+}
+
+.QuickGlance .notOk {
+    background-color: var(--color-status-problem);
+    color: var(--text-color-status-problem);
+}
+
+.QuickGlance .warning {
+    background-color: var(--color-status-warning);
+    color: var(--text-color-status-warning);
+}
+
+.QuickGlance.notOk {
+    border: 1px solid var(--color-status-problem);
+    box-shadow: 0px 4px 6px #00000038;
+}

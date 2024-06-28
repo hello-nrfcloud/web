@@ -12,6 +12,7 @@ import { Battery } from '#model/PCA20035-solar/Battery.js'
 import { Chart } from '#model/PCA20035-solar/Chart.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
 import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
+import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
 
 import './Page.css'
 
@@ -23,8 +24,8 @@ export const Page = ({ device }: { device: TDevice }) => {
 				<div class="container my-md-4">
 					<div class="row">
 						<div class="col-md-8">
+							<QuickGlance class="mt-2 mt-md-0" />
 							<DeviceHeader device={device} />
-
 							{!hasLiveData && <ConnectDevice />}
 							{hasLiveData && <ConnectionSuccess />}
 						</div>
