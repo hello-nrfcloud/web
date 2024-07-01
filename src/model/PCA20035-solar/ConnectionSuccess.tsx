@@ -1,7 +1,7 @@
 import { CloudUpload } from 'lucide-preact'
 
 export const ConnectionSuccess = () => (
-	<section class="mt-4">
+	<section class="mt-4" id="connection-success">
 		<h2>
 			Success! <CloudUpload />
 		</h2>

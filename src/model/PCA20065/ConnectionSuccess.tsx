@@ -2,7 +2,7 @@ import { CloudUpload } from 'lucide-preact'
 import { DeviceBehaviourInfo } from './DeviceBehaviourInfo.js'
 
 export const ConnectionSuccess = () => (
-	<section class="mt-4">
+	<section class="mt-4" id="connection-success">
 		<h2>
 			Success! <CloudUpload />
 		</h2>
