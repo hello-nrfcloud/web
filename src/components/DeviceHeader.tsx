@@ -29,7 +29,11 @@ import './DeviceHeader.css'
 export const DeviceHeader = ({ device }: { device: Device }) => (
 	<header>
 		<h1>
-			<small class="text-muted" style={{ fontSize: '16px' }}>
+			<small
+				class="text-muted"
+				style={{ fontSize: '16px' }}
+				data-testid="device-id"
+			>
 				Your device: <DeviceID device={device} />
 			</small>
 		</h1>

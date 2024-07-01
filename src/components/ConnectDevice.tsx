@@ -44,37 +44,39 @@ export const ConnectDevice = () => {
 					</small>
 				</p>
 			)}
-			<h2 id="troubleshooting" class="scroll-margin">
-				Please follow these steps to start retrieving real-time data from your
-				kit:
-			</h2>
-			<p>
-				<BatteryFull class="me-2" />
-				Make sure the battery is charged.
-				<br />
-				<small>
-					To be safe, you can plug the device in using a micro USB cable.
-				</small>
-			</p>
-			<p>
-				<ToggleRight class="me-2" />
-				Turn the kit on
-			</p>
-			<p>
-				<SIMIcon class="me-2" /> Insert a SIM card
-			</p>
-			{(device?.model.includedSIMs?.length ?? 0) > 1 && (
+			<section id="troubleshooting" class="scroll-margin">
+				<h2>
+					Please follow these steps to start retrieving real-time data from your
+					kit:
+				</h2>
 				<p>
+					<BatteryFull class="me-2" />
+					Make sure the battery is charged.
+					<br />
 					<small>
-						This model comes with {device?.model.includedSIMs?.length}{' '}
-						<strong>pre-activated</strong> SIM cards. You can choose which one
-						to use.
+						To be safe, you can plug the device in using a micro USB cable.
 					</small>
 				</p>
-			)}
-			<p>
-				<RadioTower class="me-2" /> Sufficient data left on the SIM?
-			</p>
+				<p>
+					<ToggleRight class="me-2" />
+					Turn the kit on.
+				</p>
+				<p>
+					<SIMIcon class="me-2" /> Insert a SIM card.
+				</p>
+				{(device?.model.includedSIMs?.length ?? 0) > 1 && (
+					<p>
+						<small>
+							This model comes with {device?.model.includedSIMs?.length}{' '}
+							<strong>pre-activated</strong> SIM cards. You can choose which one
+							to use.
+						</small>
+					</p>
+				)}
+				<p>
+					<RadioTower class="me-2" /> Sufficient data left on the SIM?
+				</p>
+			</section>
 		</section>
 	)
 }
