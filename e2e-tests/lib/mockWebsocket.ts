@@ -1,8 +1,14 @@
 import { createServer } from 'http'
 import { server as WebSocketServer } from 'websocket'
 import type { Static } from '@sinclair/typebox'
-import { Context, type DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
+import {
+	Context,
+	type Shadow,
+	type DeviceIdentity,
+} from '@hello.nrfcloud.com/proto/hello'
 import type { createContext } from './mock-backend/context.js'
+import { shadowToObjects } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
+import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/api'
 
 export const mockWebsocket = (
 	port: number,
@@ -27,8 +33,26 @@ export const mockWebsocket = (
 				'@context': Context.deviceIdentity.toString(),
 				id: maybeDevice.id,
 				model: maybeDevice.model,
+				lastSeen: maybeDevice.lastSeen,
 			}
 			connection.send(JSON.stringify(identity))
+			// Return shadow
+			if (context.deviceState[maybeDevice.id] !== undefined) {
+				const { reported, desired } = context.deviceState[maybeDevice.id] ?? {
+					reported: {},
+					desired: {},
+				}
+				const shadow: Static<typeof Shadow> = {
+					'@context': Context.shadow.toString(),
+					reported: shadowToObjects(reported) as Array<
+						Static<typeof LwM2MObjectInstance>
+					>,
+					desired: shadowToObjects(desired) as Array<
+						Static<typeof LwM2MObjectInstance>
+					>,
+				}
+				connection.send(JSON.stringify(shadow))
+			}
 		} else {
 			console.debug(`[WS]`, `Device not found for fingerprint`, fingerprint)
 			request.reject(404, 'Not found')

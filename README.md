@@ -56,6 +56,10 @@ npx playwright codegen
 PWDEBUG=1 npx playwright test e2e-tests/
 ```
 
+### Interact with the e2e backend
+
+See [./e2e-tests/README.e2e-server.md](README.e2e-server.md)
+
 ## Deploy
 
 - register domain name, export as `DOMAIN_NAME`

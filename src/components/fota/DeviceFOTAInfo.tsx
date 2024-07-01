@@ -25,7 +25,7 @@ export const DeviceFOTAInfo = () => {
 				</div>
 			)}
 			{fwTypes.length > 0 && (
-				<div class="mb-4">
+				<div class="mb-4" id="supported-firmware-types">
 					<h3>Supported firmware types</h3>
 					<ul>
 						{fwTypes.map((type) => (

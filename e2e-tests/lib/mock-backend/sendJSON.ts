@@ -3,13 +3,14 @@ import { type IncomingMessage, type ServerResponse } from 'http'
 export const sendJSON = (
 	res: ServerResponse<IncomingMessage>,
 	payload: Record<string, unknown>,
+	statusCode?: number,
 ): void => {
 	const payloadJSON = JSON.stringify(payload)
 	console.debug(`>`, payloadJSON)
 	res.setHeader('Content-type', 'application/json; charset=utf-8')
 	res.setHeader('Content-length', payloadJSON.length.toString())
 	res.write(payloadJSON)
-	sendStatus(res, 200)
+	sendStatus(res, statusCode ?? 200)
 }
 
 export const sendText = (
