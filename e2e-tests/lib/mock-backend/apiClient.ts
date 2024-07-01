@@ -1,5 +1,3 @@
-import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
-
 const base = new URL('http://localhost:8080')
 
 export const apiClient = {
@@ -29,9 +27,12 @@ export const apiClient = {
 	},
 	updateState: async (
 		deviceId: string,
-		state: Array<LwM2MObjectInstance>,
+		state: {
+			reported?: Record<string, any>
+			desired?: Record<string, any>
+		},
 	): Promise<void> => {
-		await fetch(new URL(`/api/devices/${deviceId}/state`, base), {
+		await fetch(new URL(`/api/devices/state/${deviceId}`, base), {
 			method: 'PUT',
 			body: JSON.stringify(state),
 		})

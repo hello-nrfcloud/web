@@ -38,12 +38,18 @@ export const mockWebsocket = (
 			connection.send(JSON.stringify(identity))
 			// Return shadow
 			if (context.deviceState[maybeDevice.id] !== undefined) {
+				const { reported, desired } = context.deviceState[maybeDevice.id] ?? {
+					reported: {},
+					desired: {},
+				}
 				const shadow: Static<typeof Shadow> = {
 					'@context': Context.shadow.toString(),
-					reported: shadowToObjects(
-						context.deviceState[maybeDevice.id]!,
-					) as Array<Static<typeof LwM2MObjectInstance>>,
-					desired: [],
+					reported: shadowToObjects(reported) as Array<
+						Static<typeof LwM2MObjectInstance>
+					>,
+					desired: shadowToObjects(desired) as Array<
+						Static<typeof LwM2MObjectInstance>
+					>,
 				}
 				connection.send(JSON.stringify(shadow))
 			}

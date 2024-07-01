@@ -13,6 +13,7 @@ import type { Static } from '@sinclair/typebox'
 import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
 import { generateIMEI } from '../../src/utils/generateIMEI.js'
 import { generateFingerprint } from '../../src/utils/generateFingerprint.js'
+import { merge } from 'lodash-es'
 
 export const mockBackend = ({
 	registry,
@@ -25,6 +26,19 @@ export const mockBackend = ({
 		sendJSON(res, generateRegistryResponse(registry)),
 	'PUT /api/release': async (req, res) => {
 		context.release = await getBody(req)
+		sendStatus(res, 204)
+	},
+	'PUT /api/devices/state': async (req, res) => {
+		const deviceId = req.originalUrl?.split('/').pop()
+		if (deviceId === undefined) {
+			sendStatus(res, 400)
+			return
+		}
+		const state = await getJSON(req)
+		context.deviceState[deviceId] = merge(
+			context.deviceState[deviceId] ?? { reported: {}, desired: {} },
+			state,
+		)
 		sendStatus(res, 204)
 	},
 	'POST /api/devices': async (req, res) => {
