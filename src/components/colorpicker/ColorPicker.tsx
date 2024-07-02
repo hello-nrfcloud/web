@@ -1,63 +1,72 @@
-import { Primary, Transparent } from '#components/Buttons.js'
+import { Transparent } from '#components/Buttons.js'
+import { hexToRGB } from '#components/colorpicker/hexToRGB.js'
 import { noop } from 'lodash-es'
 import { X } from 'lucide-preact'
-import { useState } from 'preact/hooks'
-import { hexToRGB } from '#components/colorpicker/hexToRGB.js'
-import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
-import { isRGB } from './isRGB.js'
 
 export type RGB = { r: number; g: number; b: number }
 
+const colors = [
+	0x000000, 0xff0000, 0xffa500, 0xffff00, 0x00ff00, 0x00ffff, 0xff00ff,
+]
+
 export const ColorPicker = ({
-	color,
 	onColor,
 	onClose,
 }: {
-	color?: RGB
 	onColor: (color: RGB) => void
 	onClose: () => void
-}) => {
-	const [selectedColor, setSelectedColor] = useState<string>(
-		RGBtoHEX(isRGB(color) ? color : { r: 0, g: 0, b: 0 }),
-	)
+}) => (
+	<form onSubmit={noop}>
+		<header class="d-flex justify-content-between align-items-start">
+			<h3>Set LED color</h3>
+			<Transparent onClick={onClose}>
+				<X strokeWidth={1} />
+			</Transparent>
+		</header>
 
-	const handleColorChange = (event: Event) => {
-		const colorInput = event.target as HTMLInputElement
-		setSelectedColor(colorInput.value)
-	}
-
-	return (
-		<form onSubmit={noop}>
-			<header class="d-flex justify-content-between align-items-start">
-				<h3>Set LED color</h3>
-				<Transparent onClick={onClose}>
-					<X strokeWidth={1} />
-				</Transparent>
-			</header>
-
-			<div class="d-flex justify-content-between align-items-center">
-				<label for="colorPicker" class="form-label mb-0">
-					Pick your color:
-				</label>
-				<input
-					type="color"
-					id="colorPicker"
-					value={selectedColor}
-					onInput={handleColorChange}
-					style={{
-						border: '0',
-						height: '40px',
-						width: '40px',
+		<div
+			style={{
+				display: 'grid',
+				gridAutoRows: 'auto',
+				gridGap: '0.5rem',
+				gridTemplateColumns: 'repeat(auto-fit, minmax(36px, 1fr))',
+			}}
+		>
+			{colors.map((color) => (
+				<ColorButton
+					color={color}
+					onClick={() => {
+						console.log(hexToRGB(toHex(color)))
+						onColor(hexToRGB(toHex(color)))
+						onClose()
 					}}
 				/>
-				<Primary
-					onClick={() => {
-						onColor(hexToRGB(selectedColor))
-					}}
-				>
-					set
-				</Primary>
-			</div>
-		</form>
-	)
-}
+			))}
+		</div>
+	</form>
+)
+
+const ColorButton = ({
+	color,
+	onClick,
+}: {
+	color: number
+	onClick: () => void
+}) => (
+	<button
+		type="button"
+		onClick={onClick}
+		style={{
+			backgroundColor: `#${toHex(color)}`,
+			height: '100%',
+			width: '100%',
+			aspectRatio: '1/1',
+			borderRadius: '100%',
+			border: '1px solid #ccc',
+		}}
+	>
+		{color === 0 ? <span style={{ color: 'white' }}>Off</span> : ''}
+	</button>
+)
+
+const toHex = (c: number) => c.toString(16).padStart(6, '0')

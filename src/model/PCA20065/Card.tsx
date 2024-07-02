@@ -74,7 +74,6 @@ export const Card = ({ model }: { model: Model }) => {
 						onClose={() => {
 							showLEDColorPicker(false)
 						}}
-						color={desiredLEDColor}
 					/>
 				)}
 				{!ledColorPickerVisible && (
