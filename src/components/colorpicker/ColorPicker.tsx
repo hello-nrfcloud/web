@@ -29,7 +29,7 @@ export const ColorPicker = ({
 				display: 'grid',
 				gridAutoRows: 'auto',
 				gridGap: '0.5rem',
-				gridTemplateColumns: 'repeat(auto-fit, minmax(36px, 1fr))',
+				gridTemplateColumns: 'repeat(auto-fit, minmax(40px, 1fr))',
 			}}
 		>
 			{colors.map((color) => (
@@ -58,7 +58,7 @@ const ColorButton = ({
 		onClick={onClick}
 		style={{
 			backgroundColor: `#${toHex(color)}`,
-			height: '100%',
+			height: 'auto',
 			width: '100%',
 			aspectRatio: '1/1',
 			borderRadius: '100%',
