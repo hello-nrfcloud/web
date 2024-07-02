@@ -2,6 +2,7 @@ import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.j
 import type { Model } from '#content/models/types.js'
 import {
 	LwM2MObjectID,
+	type BatteryAndPower_14202,
 	type ConnectionInformation_14203,
 	type DeviceInformation_14204,
 	type LwM2MObjectInstance,
@@ -71,7 +72,17 @@ test.beforeAll(async ({ browser }) => {
 		},
 	}
 
-	await report(id, [serviceInfo, connectionInfo, deviceInfo])
+	// Battery
+	const batteryInfo: BatteryAndPower_14202 = {
+		ObjectID: LwM2MObjectID.BatteryAndPower_14202,
+		ObjectVersion: '1.0',
+		Resources: {
+			0: 89,
+			99: ts,
+		},
+	}
+
+	await report(id, [serviceInfo, connectionInfo, deviceInfo, batteryInfo])
 	page = await browser.newPage()
 	await page.goto(`http://localhost:8080/${fingerprint}`)
 	await page.waitForURL('http://localhost:8080/device')
@@ -141,6 +152,16 @@ test.describe('Header', () => {
 	test('Show the SIM information', async () => {
 		await expect(page.getByTestId('device-header-sim')).toContainText(
 			'Onomondo ApS',
+		)
+	})
+
+	test('Show the state of charge', async () => {
+		await expect(page.getByTestId('device-header-battery')).toContainText(
+			'89 %',
+		)
+		await expect(page.getByTestId('battery-indicator')).toHaveAttribute(
+			'title',
+			'Battery level above 80%',
 		)
 	})
 })
