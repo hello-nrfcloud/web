@@ -6,7 +6,7 @@ import {
 	EnergyEstimateLabel,
 } from '#components/SignalQuality.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
-import { LTEm } from '#components/icons/LTE-m.js'
+import { LTEM } from '#components/icons/LTE-M.js'
 import { NBIot } from '#components/icons/NBIot.js'
 import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { useDevice, type Device } from '#context/Device.js'
@@ -39,19 +39,22 @@ export const DeviceHeader = ({ device }: { device: Device }) => (
 		</h1>
 		<div class="mt-md-4">
 			<div class="d-flex flex-wrap">
-				<div class="me-4 mb-2 mb-lg-4">
+				<div class="me-4 mb-2 mb-lg-4" data-testid="device-header-networkmode">
 					<NetworkModeInfo />
 				</div>
-				<div class="me-4 mb-2 mb-lg-4">
+				<div
+					class="me-4 mb-2 mb-lg-4"
+					data-testid="device-header-signalquality"
+				>
 					<SignalQualityInfo />
 				</div>
-				<div class="me-4 mb-2 mb-lg-4">
+				<div class="me-4 mb-2 mb-lg-4" data-testid="device-header-sim">
 					<SIMInfo />
 				</div>
-				<div class="me-4 mb-2 mb-lg-4">
+				<div class="me-4 mb-2 mb-lg-4" data-testid="device-header-battery">
 					<BatteryInfo />
 				</div>
-				<div class="me-4 mb-2 mb-lg-4">
+				<div class="me-4 mb-2 mb-lg-4" data-testid="device-header-environment">
 					<EnvironmentInfo />
 				</div>
 			</div>
@@ -168,13 +171,18 @@ const NetworkModeInfo = () => {
 
 			{networkMode !== undefined && currentBand !== undefined && (
 				<span>
-					<abbr title={`Band ${currentBand}`} class="me-2">
+					<abbr
+						title={`${networkMode}, Band: ${currentBand}`}
+						class="me-2"
+						data-testid="network-band"
+					>
 						{networkMode?.includes('LTE-M') ?? false ? (
-							<LTEm
+							<LTEM
 								style={{
 									height: '25px',
 									width: 'auto',
 								}}
+								data-testid="network-mode-icon"
 							/>
 						) : (
 							<NBIot
@@ -185,7 +193,9 @@ const NetworkModeInfo = () => {
 							/>
 						)}
 					</abbr>
-					{mccmnc !== undefined && <CountryFlag mccmnc={mccmnc} />}
+					{mccmnc !== undefined && (
+						<CountryFlag data-testid="network-country-flag" mccmnc={mccmnc} />
+					)}
 				</span>
 			)}
 			{ts !== undefined && (

@@ -36,5 +36,23 @@ http PUT http://localhost:8080/api/devices/state/$DEVICE_ID <<< '{
     }}
   }
 }'
+# Connection Information
+http PUT http://localhost:8080/api/devices/state/$DEVICE_ID <<< '{
+  "reported": {
+    "14203:1.0": {
+      "0": {
+        "0": "LTE-M GPS",
+        "1": 20,
+        "2": -70,
+        "3": 33181,
+        "4": 52379652,
+        "5": 24201,
+        "6": "10.117.45.31",
+        "11": 9,
+        "99": '$NOW_TS'
+      }
+    }
+  }
+}'
 echo http://localhost:8080/$FINGERPRINT
 ```
