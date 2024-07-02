@@ -27,7 +27,6 @@ export const CellularLocation = () => {
 				<a
 					href="https://www.nordicsemi.com/Products/Cloud-services"
 					target="_blank"
-					class="text-light"
 				>
 					nRF Cloud Location services
 				</a>{' '}

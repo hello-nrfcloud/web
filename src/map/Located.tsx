@@ -9,7 +9,6 @@ export const Located = ({ location }: { location: GeoLocation }) => (
 		<a
 			href={`https://google.com/maps/search/${location.lat},${location.lng}`}
 			target="_blank"
-			class="text-light"
 		>
 			{formatFloat(location.lat, 5)}, {formatFloat(location.lng, 5)}
 		</a>{' '}
