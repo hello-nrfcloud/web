@@ -36,7 +36,13 @@ export const ConnectDevice = () => {
 			{lastSeen !== undefined && (
 				<p>
 					<span>
-						<Ago date={lastSeen} strokeWidth={2} size={24} /> ago
+						<Ago
+							date={lastSeen}
+							key={lastSeen.toISOString()}
+							strokeWidth={2}
+							size={24}
+						/>{' '}
+						ago
 					</span>
 					<br />
 					<small class="text-muted">

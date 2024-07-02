@@ -12,7 +12,7 @@ export const FOTAJobs = () => {
 			<div class="mb-2">
 				{jobs.map((job) => (
 					<p class="mb-1">
-						<Ago date={new Date(job.lastUpdatedAt)} />{' '}
+						<Ago date={new Date(job.lastUpdatedAt)} key={job.lastUpdatedAt} />{' '}
 						<abbr title={`Job ${job.id}`}>
 							(<code>{job.id.split('-')[0]}</code>)
 						</abbr>{' '}

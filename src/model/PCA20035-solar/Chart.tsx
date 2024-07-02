@@ -117,7 +117,10 @@ const FirmwareInfo = () => {
 							<>
 								<span>{formatFloat(currentGain.mA)} mA</span>
 								<small>
-									<Ago date={new Date(currentGain.ts)} />
+									<Ago
+										date={currentGain.ts}
+										key={currentGain.ts.toISOString()}
+									/>
 								</small>
 							</>
 						)}
@@ -136,7 +139,10 @@ const FirmwareInfo = () => {
 							<>
 								{currentBattery['%']} %{' '}
 								<small>
-									<Ago date={new Date(currentBattery.ts)} />
+									<Ago
+										date={currentBattery.ts}
+										key={currentBattery.ts.toISOString()}
+									/>
 								</small>
 							</>
 						)}

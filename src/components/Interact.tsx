@@ -28,7 +28,11 @@ export const ButtonPresses = () => {
 									</span>
 								</small>
 								<small class="text-muted ms-2">
-									<Ago date={new Date(buttonPress.ts)} withSeconds />
+									<Ago
+										date={buttonPress.ts}
+										key={buttonPress.ts.toISOString()}
+										withSeconds
+									/>
 								</small>
 							</span>
 						)}

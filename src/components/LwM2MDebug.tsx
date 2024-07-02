@@ -94,7 +94,7 @@ const ShowInstance = ({ instance }: { instance: LwM2MObjectInstance }) => {
 					<SquareStack strokeWidth={1} class="me-1" />
 					{instance.ObjectID}/{instance.ObjectInstanceID ?? '0'}
 				</span>
-				<Ago date={new Date(ts)} />
+				<Ago date={ts} key={ts.toISOString()} />
 			</h4>
 			<dl class="ms-2">
 				{Object.entries(instance.Resources).map(([ResourceID, value]) => {

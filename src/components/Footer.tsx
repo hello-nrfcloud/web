@@ -95,7 +95,7 @@ export const Footer = () => (
 						</small>
 						<small class="px-1">&middot;</small>
 						<small>
-							built <Ago date={new Date(BUILD_TIME)} /> ago
+							built <Ago date={new Date(BUILD_TIME)} key={BUILD_TIME} /> ago
 						</small>
 					</p>
 				</div>

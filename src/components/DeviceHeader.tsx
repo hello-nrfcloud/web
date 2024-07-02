@@ -99,7 +99,7 @@ const SignalQualityInfo = () => {
 					</span>
 					{ts !== undefined && (
 						<small class="text-muted">
-							<Ago date={new Date(ts)} />
+							<Ago date={ts} key={ts.toISOString()} />
 						</small>
 					)}
 				</>
@@ -137,7 +137,10 @@ const EnvironmentInfo = () => {
 			)}
 			{updateTime !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(updateTime)} />
+					<Ago
+						date={new Date(updateTime)}
+						key={new Date(updateTime).toISOString()}
+					/>
 				</small>
 			)}
 		</span>
@@ -187,7 +190,7 @@ const NetworkModeInfo = () => {
 			)}
 			{ts !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(ts)} />
+					<Ago date={ts} key={ts.toISOString()} />
 				</small>
 			)}
 		</span>
@@ -220,7 +223,7 @@ const BatteryInfo = () => {
 
 			{batteryReading !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(batteryReading.ts)} />
+					<Ago date={batteryReading.ts} key={batteryReading.ts.toISOString()} />
 				</small>
 			)}
 		</span>
@@ -255,7 +258,7 @@ const SIMInfo = () => {
 			)}
 			{ts !== undefined && (
 				<small class="text-muted">
-					<Ago date={new Date(ts)} />
+					<Ago date={ts} key={ts.toISOString()} />
 				</small>
 			)}
 		</span>
