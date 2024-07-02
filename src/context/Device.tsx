@@ -2,7 +2,7 @@ import type { ConfigurationType, Model } from '#content/models/types.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useModels } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
-import { isConfig } from '#proto/lwm2m.js'
+import { isConfig, toConfig } from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
 import {
 	validatingFetch,
@@ -195,6 +195,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							reportedListeners.current.forEach((listener) =>
 								reported.map(listener),
 							)
+							const maybeConfig = reported.filter(isConfig).map(toConfig)[0]
+							if (maybeConfig !== undefined) {
+								setReportedConfig(maybeConfig)
+							}
 						}
 						const desired = maybeValid.desired
 						if (desired.length > 0) {
@@ -202,6 +206,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							desiredListeners.current.forEach((listener) =>
 								desired.map(listener),
 							)
+							const maybeConfig = desired.filter(isConfig).map(toConfig)[0]
+							if (maybeConfig !== undefined) {
+								setDesiredConfig(maybeConfig)
+							}
 						}
 					} else if (isUpdate(maybeValid)) {
 						setReported(mergeInstances([maybeValid]))

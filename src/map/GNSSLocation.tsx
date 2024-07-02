@@ -6,8 +6,15 @@ import { useDeviceLocation } from '#context/DeviceLocation.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()
-	const { configuration } = useDevice()
+	const {
+		configuration: { desired, reported },
+	} = useDevice()
 	const gnssLocation = locations[LocationSource.GNSS]
+
+	const gnssEnabled =
+		desired?.gnssEnabled ??
+		reported?.gnssEnabled ??
+		device.model.defaultConfiguration.gnssEnabled
 
 	return (
 		<>
@@ -19,8 +26,7 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 				the device is indoors acquiring a GNSS fix might not be possible, and
 				block the modem unnecessary long.
 			</p>
-			{(configuration.reported?.gnssEnabled ??
-				device.model.defaultConfiguration.gnssEnabled) && (
+			{gnssEnabled && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
 					{gnssLocation === undefined && (
@@ -28,7 +34,19 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 							<LoadingIndicator light height={60} width={'100%'} />
 						</p>
 					)}
+					<p>
+						GNSS location has been enabled. You can disable it using the{' '}
+						<a href="#device-configuration">device configuration</a> section
+						below.
+					</p>
 				</>
+			)}
+			{!gnssEnabled && (
+				<p>
+					GNSS location has been disabled. You can enable it using the{' '}
+					<a href="#device-configuration">device configuration</a> section
+					below.
+				</p>
 			)}
 		</>
 	)

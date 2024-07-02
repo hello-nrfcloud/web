@@ -1,3 +1,4 @@
+import type { ConfigurationType } from '#content/models/types.js'
 import {
 	LwM2MObjectID,
 	type Geolocation_14201,
@@ -206,5 +207,13 @@ export type Reboot = WithTimestamp & {
 }
 export const toReboot = (instance: Reboot_14250): Reboot => ({
 	reason: instance['Resources'][0],
+	ts: timeToDate(instance['Resources'][99]),
+})
+
+export const toConfig = (
+	instance: ApplicationConfiguration_14301,
+): ConfigurationType & WithTimestamp => ({
+	updateIntervalSeconds: instance['Resources'][0],
+	gnssEnabled: instance['Resources'][1],
 	ts: timeToDate(instance['Resources'][99]),
 })

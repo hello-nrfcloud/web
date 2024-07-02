@@ -1,7 +1,6 @@
 import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
 import { useDevice, type Device } from '#context/Device.js'
-import type { ConfigurationType as DeviceConfiguration } from '#content/models/types.js'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ConfigureDevice } from './ConfigureDevice.js'
@@ -20,7 +19,8 @@ export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 				</th>
 				<td class="ps-2">
 					{formatDistance(
-						reported?.updateIntervalSeconds ??
+						desired?.updateIntervalSeconds ??
+							reported?.updateIntervalSeconds ??
 							device.model.defaultConfiguration.updateIntervalSeconds,
 					)}
 				</td>
@@ -41,7 +41,13 @@ export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 					<Satellite strokeWidth={1} class="me-1" /> GNSS
 				</th>
 				<td class="ps-2">
-					<GNSSState device={device} reported={reported} />
+					{desired?.gnssEnabled ??
+					reported?.gnssEnabled ??
+					device.model.defaultConfiguration.gnssEnabled ? (
+						<span>enabled</span>
+					) : (
+						<span>disabled</span>
+					)}
 				</td>
 				<td class="ps-2">
 					{desired?.gnssEnabled !== undefined && (
@@ -56,22 +62,6 @@ export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 				</td>
 			</tr>
 		</table>
-	)
-}
-
-const GNSSState = ({
-	device,
-	reported,
-}: {
-	device: Device
-	reported?: DeviceConfiguration
-}) => {
-	if (reported?.gnssEnabled === true) return <span>enabled</span>
-	if (reported?.gnssEnabled === false) return <span>disabled</span>
-	return device.model.defaultConfiguration.gnssEnabled ? (
-		<span>enabled</span>
-	) : (
-		<span>disabled</span>
 	)
 }
 
