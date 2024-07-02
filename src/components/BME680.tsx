@@ -17,7 +17,7 @@ import {
 } from 'lucide-preact'
 
 export const BME680 = () => (
-	<>
+	<section data-testid="environment-info">
 		<h2>Environment</h2>
 		<EnvironmentReadings />
 		<p>
@@ -41,7 +41,7 @@ export const BME680 = () => (
 				.
 			</small>
 		</p>
-	</>
+	</section>
 )
 
 export const EnvironmentReadings = () => {
@@ -110,7 +110,7 @@ export const IAQ = ({ iaq }: { iaq: number }) => {
 	}
 
 	return (
-		<abbr title={iaqLabel} class="text-nowrap">
+		<abbr title={iaqLabel} class="text-nowrap air-quality">
 			<Icon strokeWidth={2} /> <span>{iaqLabel} air quality</span>
 		</abbr>
 	)

@@ -5,6 +5,7 @@ import {
 	type BatteryAndPower_14202,
 	type ConnectionInformation_14203,
 	type DeviceInformation_14204,
+	type Environment_14205,
 	type LwM2MObjectInstance,
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
@@ -82,7 +83,26 @@ test.beforeAll(async ({ browser }) => {
 		},
 	}
 
-	await report(id, [serviceInfo, connectionInfo, deviceInfo, batteryInfo])
+	// Environment
+	const environmentInfo: Environment_14205 = {
+		ObjectID: LwM2MObjectID.Environment_14205,
+		ObjectVersion: '1.0',
+		Resources: {
+			0: 26.1, // °C Temperature
+			1: 26.8, // % Humidity
+			2: 992.6, //hPa Atmospheric pressure
+			10: 47, // Air Quality Index
+			99: ts,
+		},
+	}
+
+	await report(id, [
+		serviceInfo,
+		connectionInfo,
+		deviceInfo,
+		batteryInfo,
+		environmentInfo,
+	])
 	page = await browser.newPage()
 	await page.goto(`http://localhost:8080/${fingerprint}`)
 	await page.waitForURL('http://localhost:8080/device')
@@ -164,6 +184,18 @@ test.describe('Header', () => {
 			'Battery level above 80%',
 		)
 	})
+
+	test('Show the environment info', async () => {
+		await expect(page.getByTestId('device-header-environment')).toContainText(
+			'26.1 °C',
+		)
+		await expect(page.getByTestId('device-header-environment')).toContainText(
+			'Excellent air quality',
+		)
+		await expect(
+			page.getByTestId('device-header-environment').locator('abbr.air-quality'),
+		).toHaveAttribute('title', 'Excellent')
+	})
 })
 
 test.describe('Additional device information', () => {
@@ -184,5 +216,27 @@ test.describe('Additional device information', () => {
 		const networkInfo = page.getByTestId('network-info')
 		await expect(networkInfo).toContainText('89457300000066612345')
 		await expect(networkInfo).toContainText('Onomondo ApS')
+	})
+})
+
+test.describe('Additional environment information', () => {
+	test('Show the temperature', async () => {
+		await expect(page.getByTestId('environment-info')).toContainText('26.1 °C')
+	})
+
+	test('Show the humidity', async () => {
+		await expect(page.getByTestId('environment-info')).toContainText('26.8 %')
+	})
+
+	test('Show the air quality', async () => {
+		await expect(page.getByTestId('environment-info')).toContainText(
+			'Excellent air quality',
+		)
+	})
+
+	test('Show the atmospheric pressure', async () => {
+		await expect(page.getByTestId('environment-info')).toContainText(
+			`${Math.round(992.6)} mbar`,
+		)
 	})
 })
