@@ -28,14 +28,15 @@ export const LwM2MDebug = () => {
 				</button>
 			</header>
 			<p class="mt-2">
-				Device information is encoded as LwM2M objects, which are defined in{' '}
+				The digital twin of this device is represented using the LwM2M objects
+				below. They are defined in{' '}
 				<a
 					href={`https://github.com/hello-nrfcloud/proto-map/blob/v${PROTO_MAP_VERSION}/`}
 					target={'_blank'}
 				>
 					this repository
 				</a>
-				. Below are the objects for this device.
+				.
 			</p>
 			<h2 class="mt-2">Reported</h2>
 			{Object.values(reported).length === 0 && <p>No reported state</p>}

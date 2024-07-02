@@ -14,7 +14,7 @@ export const NetworkInfo = () => {
 			.map(toDeviceInformation)[0] ?? {}
 
 	return (
-		<>
+		<section data-testid="network-info">
 			<h2>IMEI</h2>
 			<p class="mb-0 d-flex align-items-center">
 				{imei === undefined && <LoadingIndicator />}
@@ -55,6 +55,6 @@ export const NetworkInfo = () => {
 					.
 				</small>
 			</p>
-		</>
+		</section>
 	)
 }

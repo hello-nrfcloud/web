@@ -1,13 +1,16 @@
-import { expect, test, type Page } from '@playwright/test'
-import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
-import { apiClient } from '../lib/mock-backend/apiClient.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
+import type { Model } from '#content/models/types.js'
 import {
 	LwM2MObjectID,
 	type ConnectionInformation_14203,
+	type DeviceInformation_14204,
 	type LwM2MObjectInstance,
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { objectsToShadow } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
+import { expect, test, type Page } from '@playwright/test'
+import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
+import { apiClient } from '../lib/mock-backend/apiClient.js'
 
 let page: Page
 
@@ -53,7 +56,22 @@ test.beforeAll(async ({ browser }) => {
 		},
 	}
 
-	await report(id, [serviceInfo, connectionInfo])
+	// Device information
+	const PCA20065 = (await loadModelsFromMarkdown)['PCA20065'] as Model
+	const deviceInfo: DeviceInformation_14204 = {
+		ObjectID: LwM2MObjectID.DeviceInformation_14204,
+		ObjectVersion: '1.0',
+		Resources: {
+			0: '355025930003866', //IMEI
+			1: '89457300000066612345', // SIM ICCID, Onomondo example
+			2: `mfw_nrf91x1_${PCA20065.mfw.version}`, // Modem firmware version
+			3: PCA20065.firmware.version, // Application firmware version
+			4: 'thingy91x', // Board version
+			99: ts,
+		},
+	}
+
+	await report(id, [serviceInfo, connectionInfo, deviceInfo])
 	page = await browser.newPage()
 	await page.goto(`http://localhost:8080/${fingerprint}`)
 	await page.waitForURL('http://localhost:8080/device')
@@ -75,15 +93,9 @@ test.describe('Show all OK', () => {
 			'Your device connected and is sending data to the cloud!',
 		)
 	})
+})
 
-	test('Show the supported firmware types', async () => {
-		const fotaInfo = page.locator('#supported-firmware-types')
-		await expect(fotaInfo).toContainText('BOOT')
-		await expect(fotaInfo).toContainText('MODEM')
-		await expect(fotaInfo).toContainText('APP')
-		await expect(fotaInfo).toContainText('MDM_FULL')
-	})
-
+test.describe('Header', () => {
 	test('Show the connection information', async () => {
 		// Network Mode
 		await expect(page.getByTestId('network-mode-icon')).toBeVisible()
@@ -109,16 +121,47 @@ test.describe('Show all OK', () => {
 			'alt',
 			'Norway',
 		)
+
+		// Not shown
+		// 3: 33181,
+		// 4: 52379652,
+		// 6: '10.117.45.31',
+		// 99: ts,
+	})
+
+	test('Show the signal quality', async () => {
 		// Signal quality
 		// 2: -70 (RSRP is not shown)
 		// 11: 9 (Energy estimate)
 		await expect(page.getByTestId('device-header-signalquality')).toContainText(
 			'Excellent',
 		)
-		// Not shown
-		// 3: 33181,
-		// 4: 52379652,
-		// 6: '10.117.45.31',
-		// 99: ts,
+	})
+
+	test('Show the SIM information', async () => {
+		await expect(page.getByTestId('device-header-sim')).toContainText(
+			'Onomondo ApS',
+		)
+	})
+})
+
+test.describe('Additional device information', () => {
+	test('Show the supported firmware types', async () => {
+		const fotaInfo = page.locator('#supported-firmware-types')
+		await expect(fotaInfo).toContainText('BOOT')
+		await expect(fotaInfo).toContainText('MODEM')
+		await expect(fotaInfo).toContainText('APP')
+		await expect(fotaInfo).toContainText('MDM_FULL')
+	})
+
+	test('Show the IMEI and the ICCID', async () => {
+		const networkInfo = page.getByTestId('network-info')
+		await expect(networkInfo).toContainText('355025930003866')
+	})
+
+	test('Show the ICCID with the vendor', async () => {
+		const networkInfo = page.getByTestId('network-info')
+		await expect(networkInfo).toContainText('89457300000066612345')
+		await expect(networkInfo).toContainText('Onomondo ApS')
 	})
 })
