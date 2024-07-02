@@ -10,6 +10,7 @@ import {
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { formatFloat } from '#utils/format.js'
 import { Ago } from './Ago.js'
+import cx from 'classnames'
 
 import './LwM2MDebug.css'
 
@@ -129,22 +130,30 @@ const ShowResource = ({
 				value.map((v, k) => (
 					<>
 						<small>{k}:</small>
-						<span class="ms-1 me-1 value">
-							{info?.Type === 'Float' && typeof v === 'number'
-								? formatFloat(v)
-								: v}
-						</span>
+						<ShowValue class="ms-1 me-1" value={v} info={info} />
 					</>
 				))}
-			{info?.Multiple !== true && (
-				<span class="value">
-					{info?.Type === 'Float' && typeof value === 'number'
-						? formatFloat(value)
-						: value}
-				</span>
+			{info?.Multiple !== true && <ShowValue value={value} info={info} />}
+			{info?.Units !== undefined && (
+				<span class="units ms-1">{info.Units}</span>
 			)}
-			{info?.Units ?? ''}
-			<small class="unit ms-1">{info?.Name ?? '??'}</small>
+			<small class="name ms-1">{info?.Name ?? '??'}</small>
 		</>
 	)
 }
+
+const ShowValue = ({
+	value,
+	info,
+	class: className,
+}: {
+	value: LwM2MResourceValue
+	info?: LwM2MResourceInfo
+	class?: string
+}) => (
+	<span class={cx('value', info?.Type, className)}>
+		{info?.Type === 'Float' && typeof value === 'number'
+			? formatFloat(value)
+			: value}
+	</span>
+)

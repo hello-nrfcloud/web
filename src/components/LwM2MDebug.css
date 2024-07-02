@@ -56,3 +56,19 @@ aside.lwm2m-debug h3 {
   justify-content: space-between;
   align-items: center;
 }
+
+aside.lwm2m-debug .value.String {
+  color: rgb(255, 126, 126);
+}
+
+aside.lwm2m-debug .value.Integer {
+  color: rgb(102, 157, 230);
+}
+
+aside.lwm2m-debug .value.Time {
+  color: rgb(102, 230, 224);
+}
+
+aside.lwm2m-debug .value.Boolean {
+  color: rgb(170, 230, 102);
+}
