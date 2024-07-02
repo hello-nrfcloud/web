@@ -19,7 +19,7 @@ export const mockBackend = ({
 	'GET /e2e/registry.json': (_, res) =>
 		sendJSON(res, generateRegistryResponse(registry)),
 	'PUT /api/release': async (req, res) => {
-		context.release = await getBody(req)
+		context.release.set(await getBody(req))
 		sendStatus(res, 204)
 	},
 	'PUT /api/devices/state': async (req, res) => {
@@ -29,10 +29,11 @@ export const mockBackend = ({
 			return
 		}
 		const state = await getJSON(req)
-		context.deviceState[deviceId] = merge(
-			context.deviceState[deviceId] ?? { reported: {}, desired: {} },
-			state,
-		)
+		const oldState = context.deviceState.get(deviceId) ?? {
+			reported: {},
+			desired: {},
+		}
+		context.deviceState.set(deviceId, merge(oldState, state))
 		sendStatus(res, 204)
 	},
 	'POST /api/devices': async (req, res) => {
@@ -42,7 +43,7 @@ export const mockBackend = ({
 			Static<typeof DeviceIdentity>,
 			'model' | 'lastSeen'
 		>
-		context.devices.push({
+		context.devices.set(fingerprint, {
 			'@context': 'https://hello.nrfcloud.com/contexts/DeviceIdentity',
 			model,
 			lastSeen,
@@ -51,5 +52,5 @@ export const mockBackend = ({
 		})
 		sendJSON(res, { id, fingerprint }, 201)
 	},
-	'GET /.well-known/release': (_, res) => sendText(res, context.release),
+	'GET /.well-known/release': (_, res) => sendText(res, context.release.get()),
 })

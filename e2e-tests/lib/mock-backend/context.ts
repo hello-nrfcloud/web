@@ -1,32 +1,26 @@
 import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
+import {
+	type Collection,
+	type Accessor,
+	JSONCollection,
+	StringAccessor,
+} from './db.js'
 
-export const createContext = (): {
-	devices: Array<Static<typeof DeviceIdentity> & { fingerprint: string }>
-	release: string
-	deviceState: Record<
-		string,
-		{
-			reported: Record<string, any>
-			desired: Record<string, any>
-		}
-	>
-} => {
-	const devices: Array<
-		Static<typeof DeviceIdentity> & { fingerprint: string }
-	> = []
-	const deviceState: Record<
-		string,
-		{
-			reported: Record<string, any>
-			desired: Record<string, any>
-		}
-	> = {}
-	// eslint-disable-next-line prefer-const
-	let release = '0.0.0-development'
-	return {
-		devices,
-		release,
-		deviceState,
-	}
+type Device = Static<typeof DeviceIdentity> & { fingerprint: string }
+type State = {
+	reported: Record<string, any>
+	desired: Record<string, any>
 }
+
+export const createContext = (
+	baseDir: string,
+): {
+	devices: Collection<Device>
+	release: Accessor<string>
+	deviceState: Collection<State>
+} => ({
+	devices: JSONCollection<Device>(baseDir, 'devices'),
+	release: StringAccessor(baseDir, 'release', '0.0.0-development'),
+	deviceState: JSONCollection<State>(baseDir, 'deviceState'),
+})

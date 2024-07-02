@@ -3,3 +3,4 @@ build/
 cdk.out/
 static/flags/
 test-results/
+db/

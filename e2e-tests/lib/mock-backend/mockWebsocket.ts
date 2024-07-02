@@ -23,9 +23,7 @@ export const mockWebsocket = (
 	})
 	wsServer.on('request', (request) => {
 		const fingerprint = request.resourceURL.query['fingerprint']
-		const maybeDevice = context.devices.find(
-			(device) => device.fingerprint === fingerprint,
-		)
+		const maybeDevice = context.devices.get(fingerprint as string)
 		if (maybeDevice !== undefined) {
 			console.debug(`[WS]`, fingerprint, 'connected')
 			const connection = request.accept(undefined, request.origin)
@@ -37,11 +35,9 @@ export const mockWebsocket = (
 			}
 			connection.send(JSON.stringify(identity))
 			// Return shadow
-			if (context.deviceState[maybeDevice.id] !== undefined) {
-				const { reported, desired } = context.deviceState[maybeDevice.id] ?? {
-					reported: {},
-					desired: {},
-				}
+			const state = context.deviceState.get(maybeDevice.id)
+			if (state !== undefined) {
+				const { reported, desired } = state
 				const shadow: Static<typeof Shadow> = {
 					'@context': Context.shadow.toString(),
 					reported: shadowToObjects(reported) as Array<

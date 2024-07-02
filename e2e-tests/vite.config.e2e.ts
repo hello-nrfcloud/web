@@ -3,6 +3,7 @@ import { createConfig } from '../vite/config.js'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.js'
 import { mockWebsocket } from './lib/mock-backend/mockWebsocket.js'
 import { createContext } from './lib/mock-backend/context.js'
+import { join } from 'node:path'
 
 const { mapRegion, mapName, mapApiKey } = fromEnv({
 	mapRegion: 'MAP_REGION',
@@ -10,7 +11,7 @@ const { mapRegion, mapName, mapApiKey } = fromEnv({
 	mapApiKey: 'MAP_API_KEY',
 })(process.env)
 
-const context = createContext()
+const context = createContext(join(process.cwd(), 'db'))
 
 const base = 'http://localhost:8080'
 

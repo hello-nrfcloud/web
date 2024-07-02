@@ -26,6 +26,7 @@ export NOW_TS=$(date +%s)
 http POST http://localhost:8080/api/devices <<< '{"model":"PCA20065","lastSeen":"'$LAST_SEEN'"}' > working-device.json
 export DEVICE_ID=`cat working-device.json | jq '.id' -r | tr -d '\n'`
 export FINGERPRINT=`cat working-device.json | jq '.fingerprint' -r | tr -d '\n'`
+# Report FOTA eligibility
 http PUT http://localhost:8080/api/devices/state/$DEVICE_ID <<< '{
   "reported": {
     "14401:1.0": {
