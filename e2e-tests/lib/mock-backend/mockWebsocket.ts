@@ -6,7 +6,7 @@ import {
 	type Shadow,
 	type DeviceIdentity,
 } from '@hello.nrfcloud.com/proto/hello'
-import type { createContext } from './mock-backend/context.js'
+import type { createContext } from './context.js'
 import { shadowToObjects } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
 import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/api'
 

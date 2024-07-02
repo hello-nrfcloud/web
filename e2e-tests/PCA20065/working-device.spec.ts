@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { checkForConsoleErrors } from '../checkForConsoleErrors.js'
+import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
 import { apiClient } from '../lib/mock-backend/apiClient.js'
 import {
 	LwM2MObjectID,

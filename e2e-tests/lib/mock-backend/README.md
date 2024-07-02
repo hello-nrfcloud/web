@@ -1,7 +1,7 @@
 # Local backend for e2e-test
 
-[./lib/mock-backend.ts](mock-backend.ts) implements a simple backend that allows
-the end-to-end tests to be run without needing a real backend.
+[./mock-backend.ts](mock-backend.ts) implements a simple backend that allows the
+end-to-end tests to be run without needing a real backend.
 
 You can also use this for local development.
 

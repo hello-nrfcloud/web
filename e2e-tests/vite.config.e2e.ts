@@ -1,7 +1,7 @@
 import { fromEnv } from '@nordicsemiconductor/from-env'
 import { createConfig } from '../vite/config.js'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.js'
-import { mockWebsocket } from './lib/mockWebsocket.js'
+import { mockWebsocket } from './lib/mock-backend/mockWebsocket.js'
 import { createContext } from './lib/mock-backend/context.js'
 
 const { mapRegion, mapName, mapApiKey } = fromEnv({

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { Parameters } from '../../src/context/Parameters.js'
-import { mockBackend } from './mock-backend.js'
+import { mockBackend } from './mock-backend/mock-backend.js'
 import type { createContext } from './mock-backend/context.js'
 import type { Connect } from 'vite'
 import type { IncomingMessage, ServerResponse } from 'http'

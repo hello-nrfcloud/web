@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import * as path from 'path'
 import { chromium } from 'playwright'
-import { checkForConsoleErrors } from './checkForConsoleErrors.js'
+import { checkForConsoleErrors } from './lib/checkForConsoleErrors.js'
 
 test.afterEach(checkForConsoleErrors)
 
@@ -16,6 +16,7 @@ test('I can scan a QR code', async () => {
 			`--use-file-for-fake-video-capture=${path.join(
 				process.cwd(),
 				'e2e-tests',
+				'qr-code',
 				'qr-code.y4m',
 			)}`,
 		],
