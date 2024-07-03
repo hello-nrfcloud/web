@@ -251,13 +251,13 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			lastSeen !== undefined &&
 			(device?.hideDataBefore === undefined ||
 				lastSeen.getTime() > device.hideDataBefore.getTime())
-		if (
-			lastSeen !== undefined &&
-			reportedConfig?.updateIntervalSeconds !== undefined
-		) {
+
+		const updateIntervalSeconds =
+			reportedConfig?.updateIntervalSeconds ??
+			device?.model.defaultConfiguration.updateIntervalSeconds
+		if (lastSeen !== undefined && updateIntervalSeconds !== undefined) {
 			hasLiveData =
-				Date.now() - lastSeen.getTime() <
-				reportedConfig?.updateIntervalSeconds * 1000
+				Date.now() - lastSeen.getTime() < updateIntervalSeconds * 1000
 		}
 		setHasLiveData(hasLiveData)
 	}, [device, lastSeen, reportedConfig])
