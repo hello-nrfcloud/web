@@ -34,7 +34,7 @@ test.beforeAll(async ({ browser }) => {
 
 	// SIM details
 	await apiClient.setSIMDetails('89457300000066612345', {
-		timestamp: '2024-07-01T10:53:16.790Z',
+		timestamp: new Date().toISOString(),
 		usedBytes: 2500000,
 		totalBytes: 10000000,
 	})

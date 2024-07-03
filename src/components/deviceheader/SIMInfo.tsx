@@ -20,38 +20,48 @@ export const SIMInfo = () => {
 				<strong>SIM</strong>
 			</small>
 			{iccid === undefined && <LoadingIndicator />}
-			{iccid !== undefined && (
-				<SIMDetails iccid={iccid}>
-					{({ issuer, usage }) => (
-						<>
-							<span>
-								<SIMIcon class="me-2" />
-								<abbr title={iccid}>{issuer?.companyName ?? '?'}</abbr>
-							</span>
-							{usage !== undefined && (
-								<span>
-									<ArrowUpDownIcon size={20} class="me-2" />
-									<abbr
-										data-testid="sim-usage"
-										title={`Used ${formatFloat(usage.used / 1000 / 1000)} of ${formatFloat(usage.total / 1000 / 1000)} MB`}
-									>
-										{`${usage.availablePercent * 100}`}&nbsp;%{' '}
-										<small>data available</small>
-									</abbr>
-								</span>
-							)}
-						</>
-					)}
-				</SIMDetails>
-			)}
 			{ts === undefined && (
 				<LoadingIndicator height={16} width={100} class="mt-1" />
 			)}
-			{ts !== undefined && (
-				<small class="text-muted">
-					<Ago date={ts} key={ts.toISOString()} />
-				</small>
+			{iccid !== undefined && (
+				<SIMDetails iccid={iccid}>
+					{({ issuer, usage }) => {
+						const lastUpdated = [usage?.ts, ts]
+							.filter(isNotUndefined)
+							.sort(byDate)[0]
+						return (
+							<>
+								<span>
+									<SIMIcon class="me-2" />
+									<abbr title={iccid}>{issuer?.companyName ?? '?'}</abbr>
+								</span>
+								{usage !== undefined && (
+									<>
+										<span>
+											<ArrowUpDownIcon size={20} class="me-2" />
+											<abbr
+												data-testid="sim-usage"
+												title={`Used ${formatFloat(usage.used / 1000 / 1000)} of ${formatFloat(usage.total / 1000 / 1000)} MB`}
+											>
+												{`${usage.availablePercent * 100}`}&nbsp;%{' '}
+												<small>data available</small>
+											</abbr>
+										</span>
+									</>
+								)}
+								{lastUpdated !== undefined && (
+									<small class="text-muted">
+										<Ago date={lastUpdated} key={lastUpdated.toISOString()} />
+									</small>
+								)}
+							</>
+						)
+					}}
+				</SIMDetails>
 			)}
 		</span>
 	)
 }
+
+const isNotUndefined = <T,>(x: T | undefined): x is T => x !== undefined
+const byDate = (a: Date, b: Date) => b.getTime() - a.getTime()
