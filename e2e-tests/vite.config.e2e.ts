@@ -33,6 +33,7 @@ export default createConfig({
 				sharingStatusAPIURL: new URL('/e2e/map-api/', base),
 				// WebSocket
 				webSocketURI: new URL(`ws://localhost:${wsPort}`),
+				simDetailsAPIURL: new URL('/e2e/sim-details-api/', base),
 			},
 			context,
 		}),

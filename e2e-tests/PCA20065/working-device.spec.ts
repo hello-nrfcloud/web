@@ -6,24 +6,13 @@ import {
 	type ConnectionInformation_14203,
 	type DeviceInformation_14204,
 	type Environment_14205,
-	type LwM2MObjectInstance,
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { objectsToShadow } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
 import { expect, test, type Page } from '@playwright/test'
 import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
 import { apiClient } from '../lib/mock-backend/apiClient.js'
 
 let page: Page
-
-const report = async (
-	deviceId: string,
-	objects: Array<LwM2MObjectInstance>,
-): Promise<void> => {
-	await apiClient.updateState(deviceId, {
-		reported: objectsToShadow(objects),
-	})
-}
 
 test.beforeAll(async ({ browser }) => {
 	const { fingerprint, id } = await apiClient.registerDevice(
@@ -96,7 +85,7 @@ test.beforeAll(async ({ browser }) => {
 		},
 	}
 
-	await report(id, [
+	await apiClient.report(id, [
 		serviceInfo,
 		connectionInfo,
 		deviceInfo,

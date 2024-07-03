@@ -10,6 +10,8 @@ export type Parameters = {
 	mapRegion: string
 	// Map sharing
 	sharingStatusAPIURL: URL
+	// https://github.com/bifravst/sim-details
+	simDetailsAPIURL: URL
 }
 export const ParametersContext = createContext<{
 	onParameters: (listener: (parameters: Parameters) => void) => void
@@ -37,6 +39,7 @@ const parametersPromise:
 					mapRegion,
 					helloApiURL,
 					sharingStatusAPIURL,
+					simDetailsAPIURL,
 				} = parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
@@ -45,6 +48,10 @@ const parametersPromise:
 					mapRegion,
 					sharingStatusAPIURL: new URL(sharingStatusAPIURL),
 					helloApiURL: new URL(helloApiURL),
+					simDetailsAPIURL:
+						simDetailsAPIURL !== undefined
+							? new URL(simDetailsAPIURL)
+							: new URL(`https://api.sim-details.nordicsemi.cloud/2024-07-01/`),
 				}
 				Object.entries(parsed).forEach(([k, v]) =>
 					console.debug('[Parameters]', k, v.toString()),
