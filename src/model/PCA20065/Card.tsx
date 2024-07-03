@@ -11,7 +11,7 @@ import {
 import { Lightbulb } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ColorPicker } from '../../components/colorpicker/ColorPicker.js'
-import { ButtonPresses } from '#components/Interact.js'
+import { ButtonPresses } from '#components/ButtonPresses.js'
 
 export const Card = ({ model }: { model: Model }) => {
 	const [ledColorPickerVisible, showLEDColorPicker] = useState<boolean>(false)

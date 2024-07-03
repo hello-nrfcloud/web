@@ -3,6 +3,8 @@ import { useDevice } from '#context/Device.js'
 import { isButtonPress, toButtonPress } from '#proto/lwm2m.js'
 import { ChevronDownSquareIcon, CircleStop } from 'lucide-preact'
 
+import './ButtonPresses.css'
+
 export const ButtonPresses = () => {
 	const { reported } = useDevice()
 	const buttonPress = Object.values(reported)

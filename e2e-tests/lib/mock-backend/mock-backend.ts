@@ -2,7 +2,7 @@ import type { Connect } from 'vite'
 import type { Parameters } from '../../../src/context/Parameters.js'
 import { generateRegistryResponse } from './generateRegistryResponse.js'
 import { getBody, getJSON, sendJSON, sendStatus, sendText } from './sendJSON.js'
-import type { createContext } from './context.js'
+import type { SIMUsage, createContext } from './context.js'
 import type { Static } from '@sinclair/typebox'
 import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
 import { generateIMEI } from '../../../src/utils/generateIMEI.js'
@@ -51,6 +51,26 @@ export const mockBackend = ({
 			fingerprint,
 		})
 		sendJSON(res, { id, fingerprint }, 201)
+	},
+	'GET /e2e/sim-details-api/sim': (req, res) => {
+		const details = context.simDetails.get(
+			req.originalUrl?.split('/').pop() ?? '',
+		)
+		if (details === undefined) {
+			sendStatus(res, 404)
+			return
+		}
+		return sendJSON(res, details)
+	},
+	'PUT /api/simDetails': async (req, res) => {
+		const iccid = req.originalUrl?.split('/').pop()
+		if (iccid === undefined) {
+			sendStatus(res, 400)
+			return
+		}
+		const details = await getJSON(req)
+		context.simDetails.set(iccid, details as SIMUsage)
+		sendStatus(res, 204)
 	},
 	'GET /.well-known/release': (_, res) => sendText(res, context.release.get()),
 })
