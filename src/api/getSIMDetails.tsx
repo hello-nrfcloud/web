@@ -1,7 +1,7 @@
 import { validatingFetch } from '#utils/validatingFetch.js'
 import { Type } from '@sinclair/typebox'
 
-const SIMDetails = Type.Object(
+export const SIMDetails = Type.Object(
 	{
 		totalBytes: Type.Integer({
 			minimum: 0,

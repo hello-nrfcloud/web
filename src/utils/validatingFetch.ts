@@ -6,7 +6,18 @@ import type { ProblemDetail } from '@hello.nrfcloud.com/proto/hello'
 import { Context } from '@hello.nrfcloud.com/proto/hello'
 import { type Static, type TSchema } from '@sinclair/typebox'
 
-type OkFN<T extends TSchema> = (value: Static<T>) => void
+export type ResponseWithDetails = {
+	response: Response
+	cacheControl: {
+		public: boolean
+		maxAge?: number
+	}
+}
+
+export type OkFN<T extends TSchema> = (
+	value: Static<T>,
+	response: ResponseWithDetails,
+) => void
 export type FetchProblem = {
 	problem: Static<typeof ProblemDetail>
 	url: URL
@@ -14,9 +25,10 @@ export type FetchProblem = {
 	awsReqId?: string
 	awsApiGwReqId?: string
 }
-type ProblemFN = (details: FetchProblem) => void
+type ProblemFN = (details: FetchProblem, response?: ResponseWithDetails) => void
 type DoneFN<T extends TSchema> = (
 	args: { problem: Static<typeof ProblemDetail> } | { value: Static<T> },
+	response?: ResponseWithDetails,
 ) => void
 type StartFN = (url: URL, body?: Record<string, any>) => void
 
@@ -62,19 +74,23 @@ export const validatingFetch = <T extends TSchema>(
 			.then(async (res) => {
 				const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
 				const awsApiGwReqId = res.headers.get('Apigw-Requestid') ?? undefined
+				const details = extractDetails(res)
 				if (!res.ok) {
 					if (res.headers.get('content-type') === 'application/problem+json') {
 						const problem = await res.json()
 						problemFns.forEach((fn) =>
-							fn({
-								problem,
-								url,
-								body,
-								awsReqId,
-								awsApiGwReqId,
-							}),
+							fn(
+								{
+									problem,
+									url,
+									body,
+									awsReqId,
+									awsApiGwReqId,
+								},
+								details,
+							),
 						)
-						doneFns.forEach((fn) => fn({ problem }))
+						doneFns.forEach((fn) => fn({ problem }, details))
 						console.error(`[validatingFetch]`, problem)
 						return
 					}
@@ -88,9 +104,9 @@ export const validatingFetch = <T extends TSchema>(
 						title: response,
 					}
 					problemFns.forEach((fn) =>
-						fn({ problem, url, body, awsReqId, awsApiGwReqId }),
+						fn({ problem, url, body, awsReqId, awsApiGwReqId }, details),
 					)
-					doneFns.forEach((fn) => fn({ problem }))
+					doneFns.forEach((fn) => fn({ problem }, details))
 					return
 				}
 				const response =
@@ -112,14 +128,16 @@ export const validatingFetch = <T extends TSchema>(
 						detail: formatTypeBoxErrors(maybeValidResponse.errors),
 					}
 					problemFns.forEach((fn) =>
-						fn({ problem, url, body, awsReqId, awsApiGwReqId }),
+						fn({ problem, url, body, awsReqId, awsApiGwReqId }, details),
 					)
-					doneFns.forEach((fn) => fn({ problem }))
+					doneFns.forEach((fn) => fn({ problem }, details))
 					return
 				}
 
-				okFns.forEach((fn) => fn(maybeValidResponse.value))
-				doneFns.forEach((fn) => fn({ value: maybeValidResponse.value }))
+				okFns.forEach((fn) => fn(maybeValidResponse.value, details))
+				doneFns.forEach((fn) =>
+					fn({ value: maybeValidResponse.value }, details),
+				)
 			})
 			.catch((err) => {
 				const problem: Static<typeof ProblemDetail> = {
@@ -151,5 +169,26 @@ export const validatingFetch = <T extends TSchema>(
 			},
 		}
 		return handlers
+	}
+}
+
+const extractDetails = (response: Response): ResponseWithDetails => {
+	const directives = new Map<string, string>(
+		(response.headers.get('cache-control') ?? '')
+			.split(',')
+			.map((s) => s.trim())
+			.map((s) => s.split('=', 2) as [string, string]),
+	)
+
+	const cacheControl: ResponseWithDetails['cacheControl'] = {
+		public: directives.has('public'),
+		maxAge:
+			directives.get('max-age') !== undefined
+				? parseInt(directives.get('max-age') ?? '0', 10)
+				: undefined,
+	}
+	return {
+		response,
+		cacheControl,
 	}
 }
