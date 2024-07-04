@@ -72,24 +72,12 @@ export const validatingFetch = <T extends TSchema>(
 					},
 		)
 			.then(async (res) => {
-				const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
-				const awsApiGwReqId = res.headers.get('Apigw-Requestid') ?? undefined
 				const details = extractDetails(res)
 				if (!res.ok) {
 					if (res.headers.get('content-type') === 'application/problem+json') {
 						const problem = await res.json()
-						problemFns.forEach((fn) =>
-							fn(
-								{
-									problem,
-									url,
-									body,
-									awsReqId,
-									awsApiGwReqId,
-								},
-								details,
-							),
-						)
+						const fetchProblem = toFetchProblem(problem, url, res, body)
+						problemFns.forEach((fn) => fn(fetchProblem, details))
 						doneFns.forEach((fn) => fn({ problem }, details))
 						console.error(`[validatingFetch]`, problem)
 						return
@@ -98,15 +86,20 @@ export const validatingFetch = <T extends TSchema>(
 						`Unhandled error response! All errors should be return as ProblemDetail!`,
 					)
 					const response = await res.text()
-					const problem = {
-						'@context': Context.problemDetail.toString(),
-						status: res.status,
-						title: response,
-					}
-					problemFns.forEach((fn) =>
-						fn({ problem, url, body, awsReqId, awsApiGwReqId }, details),
+					const fetchProblem = toFetchProblem(
+						{
+							'@context': Context.problemDetail.toString(),
+							status: res.status,
+							title: response,
+						},
+						url,
+						res,
+						body,
 					)
-					doneFns.forEach((fn) => fn({ problem }, details))
+					problemFns.forEach((fn) => fn(fetchProblem, details))
+					doneFns.forEach((fn) =>
+						fn({ problem: fetchProblem.problem }, details),
+					)
 					return
 				}
 				const response =
@@ -121,16 +114,21 @@ export const validatingFetch = <T extends TSchema>(
 						response,
 						maybeValidResponse.errors,
 					)
-					const problem: Static<typeof ProblemDetail> = {
-						'@context': Context.problemDetail.toString(),
-						status: 400,
-						title: 'Validation failed',
-						detail: formatTypeBoxErrors(maybeValidResponse.errors),
-					}
-					problemFns.forEach((fn) =>
-						fn({ problem, url, body, awsReqId, awsApiGwReqId }, details),
+					const fetchProblem = toFetchProblem(
+						{
+							'@context': Context.problemDetail.toString(),
+							status: 400,
+							title: 'Validation failed',
+							detail: formatTypeBoxErrors(maybeValidResponse.errors),
+						},
+						url,
+						res,
+						body,
 					)
-					doneFns.forEach((fn) => fn({ problem }, details))
+					problemFns.forEach((fn) => fn(fetchProblem, details))
+					doneFns.forEach((fn) =>
+						fn({ problem: fetchProblem.problem }, details),
+					)
 					return
 				}
 
@@ -191,4 +189,19 @@ const extractDetails = (response: Response): ResponseWithDetails => {
 		response,
 		cacheControl,
 	}
+}
+
+const toFetchProblem = (
+	problem: Static<typeof ProblemDetail>,
+	url: URL,
+	res: Response,
+	body?: Record<string, any>,
+): FetchProblem => {
+	const awsReqId = res.headers.get('x-amzn-requestid') ?? undefined
+	const awsApiGwReqId = res.headers.get('Apigw-Requestid') ?? undefined
+	const p: FetchProblem = { problem, url }
+	if (body !== undefined) p.body = body
+	if (awsReqId !== undefined) p.awsReqId = awsReqId
+	if (awsApiGwReqId !== undefined) p.awsApiGwReqId = awsApiGwReqId
+	return p
 }
