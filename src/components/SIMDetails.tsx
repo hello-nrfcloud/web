@@ -2,7 +2,7 @@ import { getSIMDetails } from '#api/getSIMDetails.js'
 import { useParameters } from '#context/Parameters.js'
 import { type Issuer, identifyIssuer } from 'e118-iin-list'
 import type { VNode } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useState, useCallback } from 'preact/hooks'
 
 export type SIMUsage = {
 	used: number
@@ -14,6 +14,11 @@ export type SIMUsage = {
 	ts: Date
 	availableBytes: number
 }
+
+export const knownIssuers = new Map([
+	[894573, 'Onomondo'],
+	[894446, 'Wireless Logic'],
+])
 
 export const SIMDetails = ({
 	iccid,
@@ -28,6 +33,33 @@ export const SIMDetails = ({
 	const { onParameters } = useParameters()
 	const [issuer, setIssuer] = useState<Issuer | undefined>(undefined)
 	const [usage, setUsage] = useState<SIMUsage | undefined>(undefined)
+	const [nextFetch, setNextFetch] = useState<number | undefined>(undefined)
+
+	const update = useCallback(() => {
+		if (issuer === undefined) return
+		if (iccid === undefined) return
+		if (!knownIssuers.has(issuer.iin)) return
+		if (knownIssuers.get(issuer.iin) === 'Onomondo') {
+			onParameters(({ simDetailsAPIURL }) => {
+				getSIMDetails(new URL(simDetailsAPIURL))(iccid).ok(
+					({ totalBytes, usedBytes, timestamp }, { cacheControl }) => {
+						setUsage({
+							used: usedBytes,
+							total: totalBytes,
+							availablePercent: 1 - usedBytes / totalBytes,
+							availableBytes: totalBytes - usedBytes,
+							ts: new Date(timestamp),
+						})
+						if (cacheControl.public && cacheControl.maxAge !== undefined) {
+							setNextFetch(Date.now() + cacheControl.maxAge * 1000)
+						} else {
+							setNextFetch(Date.now() + 300 * 1000)
+						}
+					},
+				)
+			})
+		}
+	}, [issuer, iccid])
 
 	useEffect(() => {
 		if (iccid === undefined) return
@@ -37,23 +69,22 @@ export const SIMDetails = ({
 	useEffect(() => {
 		if (issuer === undefined) return
 		if (iccid === undefined) return
-		if (issuer.iin === 894573) {
-			// Onomondo SIM
-			onParameters(({ simDetailsAPIURL }) => {
-				getSIMDetails(new URL(simDetailsAPIURL))(iccid).ok(
-					({ totalBytes, usedBytes, timestamp }) => {
-						setUsage({
-							used: usedBytes,
-							total: totalBytes,
-							availablePercent: 1 - usedBytes / totalBytes,
-							availableBytes: totalBytes - usedBytes,
-							ts: new Date(timestamp),
-						})
-					},
-				)
-			})
-		}
+		update()
 	}, [issuer, iccid])
+
+	useEffect(() => {
+		if (nextFetch === undefined) return
+		console.debug(
+			`[SIMDetails]`,
+			`next fetch in`,
+			Math.floor((nextFetch - Date.now()) / 1000),
+			'seconds',
+		)
+		const t = setTimeout(update, nextFetch - Date.now())
+		return () => {
+			clearTimeout(t)
+		}
+	}, [iccid, issuer, nextFetch])
 
 	return children({ issuer, usage })
 }
