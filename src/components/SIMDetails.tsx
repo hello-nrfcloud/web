@@ -41,8 +41,8 @@ export const SIMDetails = ({
 		if (!knownIssuers.has(issuer.iin)) return
 		if (knownIssuers.get(issuer.iin) === 'Onomondo') {
 			onParameters(({ simDetailsAPIURL }) => {
-				getSIMDetails(new URL(simDetailsAPIURL))(iccid).ok(
-					({ totalBytes, usedBytes, timestamp }, { cacheControl }) => {
+				getSIMDetails(new URL(simDetailsAPIURL))(iccid)
+					.ok(({ totalBytes, usedBytes, timestamp }, { cacheControl }) => {
 						setUsage({
 							used: usedBytes,
 							total: totalBytes,
@@ -55,8 +55,16 @@ export const SIMDetails = ({
 						} else {
 							setNextFetch(Date.now() + 300 * 1000)
 						}
-					},
-				)
+					})
+					.problem((problem, response) => {
+						console.error(`[SIMDetails]`, problem, response)
+						if (
+							response?.response.status === 409 &&
+							response.cacheControl?.maxAge !== undefined
+						) {
+							setNextFetch(Date.now() + response.cacheControl.maxAge * 1000)
+						}
+					})
 			})
 		}
 	}, [issuer, iccid])
