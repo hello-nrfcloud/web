@@ -5,7 +5,7 @@ import { useDevice } from '#context/Device.js'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 import { ArrowUpDownIcon } from 'lucide-preact'
 import { SIMDetails } from '#components/SIMDetails.js'
-import { formatFloat } from '#utils/format.js'
+import { formatFloat, formatInt } from '#utils/format.js'
 
 export const SIMInfo = () => {
 	const { reported } = useDevice()
@@ -43,7 +43,7 @@ export const SIMInfo = () => {
 												data-testid="sim-usage"
 												title={`Used ${formatFloat(usage.used / 1000 / 1000)} of ${formatFloat(usage.total / 1000 / 1000)} MB`}
 											>
-												{`${usage.availablePercent * 100}`}&nbsp;%{' '}
+												{`${formatInt(usage.availablePercent * 100)}`}&nbsp;%{' '}
 												<small>data available</small>
 											</abbr>
 										</span>
