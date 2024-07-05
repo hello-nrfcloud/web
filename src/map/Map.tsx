@@ -224,7 +224,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 				if (clustering === true && point.acc !== undefined) {
 					const hexagon = addHexagon(
 						map,
-						{ ...point, acc: point.acc },
+						{ ...point, acc: point.acc, src: point.id },
 						trailColor,
 					)
 					sourceIds.push(...hexagon.sourceIds)
