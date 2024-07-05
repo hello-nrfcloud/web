@@ -184,7 +184,7 @@ export const HistoryChart = ({
 							<>
 								<line
 									stroke={color}
-									stroke-width={2}
+									stroke-width={1}
 									x1={x}
 									x2={x}
 									y1={m.paddingY * 2}
