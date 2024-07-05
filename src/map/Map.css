@@ -1,6 +1,7 @@
 #map {
   width: 100%;
   min-height: 50vh;
+  overflow: clip;
 }
 
 section.map {

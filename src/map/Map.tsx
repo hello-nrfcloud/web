@@ -291,7 +291,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 
 	return (
 		<section class="map bg-dark">
-			<div id="map" ref={containerRef} />
+			<div id="map" ref={containerRef} class="scroll-margin-flush" />
 
 			{!hasLocation && locked && (
 				<div class="noLocationInfo">

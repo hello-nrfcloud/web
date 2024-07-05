@@ -1,4 +1,6 @@
-import type maplibregl from 'maplibre-gl'
+import { getPolygonCoordinatesForCircle } from '#map/geoJSONPolygonFromCircle.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
+import maplibregl from 'maplibre-gl'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 
@@ -10,6 +12,14 @@ export const MapContext = createContext<{
 	map?: maplibregl.Map
 	setMap: (map: maplibregl.Map) => void
 	clearMap: () => void
+	/**
+	 * Center the map on the given location
+	 */
+	center: (location: GeoLocation) => void
+	/**
+	 * Scroll the map container into view
+	 */
+	scrollTo: () => void
 }>({
 	locked: true,
 	unlock: () => undefined,
@@ -17,6 +27,8 @@ export const MapContext = createContext<{
 	toggleLock: () => undefined,
 	setMap: () => undefined,
 	clearMap: () => undefined,
+	center: () => undefined,
+	scrollTo: () => undefined,
 })
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
@@ -36,6 +48,34 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					map?.remove()
 					setMap(undefined)
 				},
+				center: (center) => {
+					if (map === undefined) return
+					const { lat, lng, acc } = center
+					if (acc === undefined) {
+						// Just center
+						map.flyTo({
+							center,
+							zoom: map.getZoom(),
+						})
+						return
+					}
+					const coordinates = getPolygonCoordinatesForCircle(
+						[lng, lat],
+						acc,
+						6,
+						Math.PI / 2,
+					)
+					const bounds = coordinates.reduce(
+						(bounds, coord) => {
+							return bounds.extend(coord)
+						},
+						new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+					)
+					map.fitBounds(bounds, {
+						padding: 20,
+					})
+				},
+				scrollTo: () => map?.getContainer().scrollIntoView(),
 			}}
 		>
 			{children}

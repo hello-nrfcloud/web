@@ -1,6 +1,5 @@
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { useDevice } from '#context/Device.js'
-import { Provider as MapProvider } from '#context/Map.js'
 import { Map } from '#map/Map.js'
 import { ShrinkIcon } from 'lucide-preact'
 
@@ -22,21 +21,19 @@ export const DeviceMap = () => {
 
 	return (
 		<main id="deviceMap">
-			<MapProvider>
-				<Map
-					mapControls={
-						<>
-							<a
-								href="/device"
-								class="button control"
-								title={'Close fullscreen map'}
-							>
-								<ShrinkIcon />
-							</a>
-						</>
-					}
-				/>
-			</MapProvider>
+			<Map
+				mapControls={
+					<>
+						<a
+							href="/device"
+							class="button control"
+							title={'Close fullscreen map'}
+						>
+							<ShrinkIcon />
+						</a>
+					</>
+				}
+			/>
 		</main>
 	)
 }

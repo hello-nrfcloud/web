@@ -72,7 +72,8 @@
   color: #ffffffcc;
 }
 
-.bg-dark a {
+.bg-dark a,
+.bg-dark button {
   color: #00ceff;
 }
 
@@ -252,6 +253,10 @@ body {
 
 .scroll-margin {
   scroll-margin-top: calc(56px + 1rem);
+}
+
+.scroll-margin-flush {
+  scroll-margin-top: 56px;
 }
 
 body.desktop {
