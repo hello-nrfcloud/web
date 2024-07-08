@@ -1,5 +1,5 @@
 import { SecondaryLink } from '#components/Buttons.js'
-import { type LucideIcon } from 'lucide-preact'
+import type { ComponentChild } from 'preact'
 import type { PropsWithChildren } from 'preact/compat'
 
 export const QuickGlanceEntry = ({
@@ -10,7 +10,12 @@ export const QuickGlanceEntry = ({
 	type,
 }: PropsWithChildren<{
 	type: 'ok' | 'notOk' | 'warning'
-	icon: LucideIcon
+	icon: (args: {
+		size: number
+		strokeWidth: number
+		class: string
+		title: string
+	}) => ComponentChild
 	title: string
 	action?: {
 		label: string

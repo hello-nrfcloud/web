@@ -4,10 +4,12 @@
 export const SIMIcon = ({
 	size,
 	class: c,
+	title,
 	...props
 }: {
 	size?: number
 	class?: string
+	title?: string
 }) => (
 	<svg
 		version="1.1"
@@ -20,6 +22,7 @@ export const SIMIcon = ({
 		class={c}
 		{...props}
 	>
+		{title !== undefined && <title>{title}</title>}
 		<path
 			d="M 428.15,130.27 H 145.98 c -10.37,0 -18.78,8.41 -18.78,18.78 v 442.06 c 0,10.37 8.41,18.78 18.78,18.78 h 282.17 c 10.37,0 18.78,-8.41 18.78,-18.78 V 149.05 c 0.01,-10.37 -8.4,-18.78 -18.78,-18.78 z M 268.29,167.83 V 426.81 H 164.77 V 167.83 Z M 164.77,464.38 H 268.29 V 572.33 H 164.77 Z M 305.85,572.33 V 327.2 H 409.37 V 572.33 Z M 409.37,289.64 H 305.85 V 167.83 h 103.52 z"
 			fill={'currentColor'}

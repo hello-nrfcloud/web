@@ -10,12 +10,21 @@ import { QuickGlanceEntry } from './QuickGlanceEntry.js'
 import cx from 'classnames'
 
 import './QuickGlance.css'
+import { useSIMDetails } from '#context/SIMDetails.js'
+import { SIMIcon } from '#components/icons/SIMIcon.js'
 
 export const QuickGlance = ({ class: className }: { class?: string }) => {
 	const { needsFwUpdate, needsMfwUpdate, fwTypes } = useFOTA()
 	const { hasLiveData, lastSeen } = useDevice()
+	const { usage } = useSIMDetails()
 	const fotaSupported = fwTypes.length > 0
-	const ok = !needsFwUpdate && !needsMfwUpdate && hasLiveData && fotaSupported
+	const noSIMData = usage !== undefined && usage.availablePercent < 0.01
+	const ok =
+		!needsFwUpdate &&
+		!needsMfwUpdate &&
+		hasLiveData &&
+		fotaSupported &&
+		!noSIMData
 	return (
 		<section
 			id="quickGlance"
@@ -101,6 +110,22 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 						</QuickGlanceEntry>
 					)}
 				</>
+			)}
+			{noSIMData === true && (
+				<QuickGlanceEntry
+					icon={({ size, class: className, title }) => (
+						<SIMIcon class={className} size={size} title={title} />
+					)}
+					title="SIM"
+					type="warning"
+				>
+					No data left on SIM
+					<br />
+					<small>
+						The SIM in the device has little or not data left. You may need to
+						top up the SIM. Contact your SIM provider for more information.
+					</small>
+				</QuickGlanceEntry>
 			)}
 		</section>
 	)
