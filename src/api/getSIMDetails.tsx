@@ -1,5 +1,5 @@
 import { validatingFetch } from '#utils/validatingFetch.js'
-import { Type } from '@sinclair/typebox'
+import { Type, type Static } from '@sinclair/typebox'
 
 export const SIMDetails = Type.Object(
 	{
@@ -28,6 +28,8 @@ export const SIMDetails = Type.Object(
 			'Describes the data usage details of a SIM. See https://github.com/bifravst/sim-details?tab=readme-ov-file#usage',
 	},
 )
+
+export type SIMDetailsType = Static<typeof SIMDetails>
 
 export const getSIMDetails = (simDetailsAPIURL: URL) => (iccid: string) =>
 	validatingFetch(SIMDetails)(new URL(`./sim/${iccid}`, simDetailsAPIURL))

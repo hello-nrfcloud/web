@@ -28,7 +28,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 					<div class="row">
 						<div class="col-md-8">
 							<QuickGlance class="mt-2 mt-md-0" />
-							<DeviceHeader device={device} />
+							<DeviceHeader />
 							{!hasLiveData && <ConnectDevice />}
 							{hasLiveData && <ConnectionSuccess />}
 						</div>

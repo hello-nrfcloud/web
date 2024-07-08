@@ -2,7 +2,12 @@ import type { ConfigurationType, Model } from '#content/models/types.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useModels } from '#context/Models.js'
 import { useParameters } from '#context/Parameters.js'
-import { isConfig, toConfig } from '#proto/lwm2m.js'
+import {
+	isConfig,
+	isDeviceInformation,
+	toConfig,
+	toDeviceInformation,
+} from '#proto/lwm2m.js'
 import { validPassthrough } from '#proto/validPassthrough.js'
 import {
 	validatingFetch,
@@ -37,6 +42,7 @@ const EmptyResponse = Type.Undefined()
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
+	imei?: string
 	lastSeen?: Date
 	connected: boolean
 	connectionFailed: boolean
@@ -373,6 +379,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						})
 					})
 				},
+				imei: Object.values(reported)
+					.filter(isDeviceInformation)
+					.map(toDeviceInformation)[0]?.imei,
 			}}
 		>
 			{children}

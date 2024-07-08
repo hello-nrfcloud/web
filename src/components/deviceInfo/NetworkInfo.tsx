@@ -1,17 +1,13 @@
+import { SIMIcon } from '#components/icons/SIMIcon.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
+import { useDevice } from '#context/Device.js'
+import { useSIMDetails } from '#context/SIMDetails.js'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
-import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
-import { useDevice } from '#context/Device.js'
 
 export const NetworkInfo = () => {
-	const { reported } = useDevice()
-
-	const { iccid, imei } =
-		Object.values(reported)
-			.filter(isDeviceInformation)
-			.map(toDeviceInformation)[0] ?? {}
+	const { imei } = useDevice()
+	const { iccid } = useSIMDetails()
 
 	return (
 		<section data-testid="network-info">

@@ -1,24 +1,18 @@
 import { Ago } from '#components/Ago.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
+import { useSIMDetails } from '#context/SIMDetails.js'
+import { formatDistance, formatFloat, formatInt } from '#utils/format.js'
 import { BatteryFull, CloudOff, RadioTower, ToggleRight } from 'lucide-preact'
 import { SIMIcon } from './icons/SIMIcon.js'
-import { formatDistance, formatFloat, formatInt } from '#utils/format.js'
-import { SIMDetails } from './SIMDetails.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
 
 export const ConnectDevice = () => {
 	const {
 		lastSeen,
 		device,
-		reported,
 		configuration: { reported: reportedConfig },
 	} = useDevice()
-
-	const { iccid } =
-		Object.values(reported)
-			.filter(isDeviceInformation)
-			.map(toDeviceInformation)[0] ?? {}
+	const { iccid, usage, issuer } = useSIMDetails()
 
 	return (
 		<section class="mt-4">
@@ -93,34 +87,28 @@ export const ConnectDevice = () => {
 							<p>
 								<RadioTower class="me-2" /> Sufficient data left on the SIM?
 							</p>
-							<SIMDetails iccid={iccid}>
-								{({ usage, issuer }) => {
-									if (usage === undefined)
-										return (
-											<>
-												<p>
-													We could not automatically determine the amount of
-													data available for your SIM.
-												</p>
-												{issuer !== undefined && (
-													<p>
-														Please contact <strong>{issuer.companyName}</strong>{' '}
-														for details about your SIM.
-													</p>
-												)}
-											</>
-										)
-
-									return (
+							{usage === undefined && (
+								<>
+									<p>
+										We could not automatically determine the amount of data
+										available for your SIM.
+									</p>
+									{issuer !== undefined && (
 										<p>
-											You have {formatInt(usage.availablePercent * 100)}&nbsp;%
-											data left on your SIM card (
-											{formatFloat(usage.availableBytes / 1000 / 1000)}
-											&nbsp;MB).
+											Please contact <strong>{issuer.companyName}</strong> for
+											details about your SIM.
 										</p>
-									)
-								}}
-							</SIMDetails>
+									)}
+								</>
+							)}
+							{usage !== undefined && (
+								<p>
+									You have {formatInt(usage.availablePercent * 100)}&nbsp;% data
+									left on your SIM card (
+									{formatFloat(usage.availableBytes / 1000 / 1000)}
+									&nbsp;MB).
+								</p>
+							)}
 						</section>
 					</>
 				)}

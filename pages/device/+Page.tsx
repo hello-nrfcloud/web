@@ -6,6 +6,7 @@ import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
 import { Provider as ParametersProvider } from '#context/Parameters.js'
 import { Provider as MapProvider } from '#context/Map.js'
+import { Provider as SIMDetailsProvider } from '#context/SIMDetails.js'
 import { Device } from '#page/Device.js'
 import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNotifier.js'
 import { Provider as MapShareProvider } from '#context/MapShare.js'
@@ -16,16 +17,18 @@ export const Page = ({ models }: IndexPageProps) => (
 		<FingerprintProvider>
 			<ModelsProvider models={models}>
 				<DeviceProvider>
-					<DeviceLocationProvider>
-						<MapShareProvider>
-							<MapProvider>
-								<Navbar />
-								<WebsocketDisconnectNotifier />
-								<Device />
-								<Footer />
-							</MapProvider>
-						</MapShareProvider>
-					</DeviceLocationProvider>
+					<SIMDetailsProvider>
+						<DeviceLocationProvider>
+							<MapShareProvider>
+								<MapProvider>
+									<Navbar />
+									<WebsocketDisconnectNotifier />
+									<Device />
+									<Footer />
+								</MapProvider>
+							</MapShareProvider>
+						</DeviceLocationProvider>
+					</SIMDetailsProvider>
 				</DeviceProvider>
 			</ModelsProvider>
 		</FingerprintProvider>
