@@ -8,6 +8,13 @@
         "@sinclair/typebox"
       ],
       "groupName": "proto"
+    },
+    {
+      "matchPackagePatterns": [
+        "mcr.microsoft.com/playwright",
+        "@playwright/test"
+      ],
+      "groupName": "playwright"
     }
   ]
 }
