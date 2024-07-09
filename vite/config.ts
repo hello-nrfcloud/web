@@ -16,8 +16,23 @@ export const createConfig = ({
 	baseURL: string
 	domainName: string
 	plugins?: PluginOption[]
-}): ReturnType<typeof defineConfig> =>
-	defineConfig({
+}): ReturnType<typeof defineConfig> => {
+	const define = {
+		HOMEPAGE: JSON.stringify(homepage),
+		VERSION: JSON.stringify(version),
+		BUILD_TIME: JSON.stringify(new Date().toISOString()),
+		REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
+		DOMAIN_NAME: JSON.stringify(domainName),
+		SENTRY_DSN: JSON.stringify(sentryDSN),
+		PROTO_MAP_VERSION: JSON.stringify(
+			dependencies['@hello.nrfcloud.com/proto-map'],
+		),
+	}
+	for (const [k, v] of Object.entries(define)) {
+		console.debug(`[vite define] ${k}:`, v)
+	}
+
+	return defineConfig({
 		plugins: [
 			preact({
 				babel: {
@@ -62,15 +77,6 @@ export const createConfig = ({
 			logOverride: { 'this-is-undefined-in-esm': 'silent' },
 		},
 		// string values will be used as raw expressions, so if defining a string constant, it needs to be explicitly quoted
-		define: {
-			HOMEPAGE: JSON.stringify(homepage),
-			VERSION: JSON.stringify(version),
-			BUILD_TIME: JSON.stringify(new Date().toISOString()),
-			REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
-			DOMAIN_NAME: JSON.stringify(domainName),
-			SENTRY_DSN: JSON.stringify(sentryDSN),
-			PROTO_MAP_VERSION: JSON.stringify(
-				dependencies['@hello.nrfcloud.com/proto-map'],
-			),
-		},
+		define,
 	})
+}
