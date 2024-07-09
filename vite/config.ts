@@ -3,6 +3,7 @@ import { preact } from '@preact/preset-vite'
 import ssr from 'vike/plugin'
 import { homepage, version } from './siteInfo.js'
 import { dependencies } from '../package.json'
+import { encloseWithSlash } from './encloseWithSlash.js'
 
 export const createConfig = ({
 	registryEndpoint,
@@ -45,7 +46,7 @@ export const createConfig = ({
 			}),
 			...(plugins ?? []),
 		],
-		base: `${baseURL.replace(/\/+$/, '')}/`,
+		base: encloseWithSlash(baseURL),
 		preview: {
 			host: 'localhost',
 			port: 8080,
