@@ -8,16 +8,20 @@ import {
 	type LwM2MObjectInstance,
 	type RGBLED_14240,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { Lightbulb } from 'lucide-preact'
+import { Lightbulb, LightbulbOff } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { ColorPicker } from '../../components/colorpicker/ColorPicker.js'
+import { ColorPicker } from '#components/colorpicker/ColorPicker.js'
 import { ButtonPresses } from '#components/ButtonPresses.js'
+import { LEDPattern } from '#components/LEDPattern.js'
+import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
+import { isOff } from '../../utils/isOff.js'
 
 export const Card = ({ model }: { model: Model }) => {
 	const [ledColorPickerVisible, showLEDColorPicker] = useState<boolean>(false)
 	const { reported, desired, update } = useDevice()
 	const reportedLEDColor = Object.values(reported).filter(isLED).map(toLED)[0]
 	const desiredLEDColor = Object.values(desired).filter(isLED).map(toLED)[0]
+	const userColor = desiredLEDColor !== undefined && !isOff(desiredLEDColor)
 
 	return (
 		<div class="card">
@@ -80,7 +84,14 @@ export const Card = ({ model }: { model: Model }) => {
 					<>
 						<h3>Interact with your device</h3>
 						<p class="d-flex">
-							<Lightbulb strokeWidth={1} class="me-2" />
+							{desiredLEDColor !== undefined && !isOff(desiredLEDColor) && (
+								<Lightbulb
+									strokeWidth={2}
+									class="me-2"
+									color={RGBtoHEX(desiredLEDColor)}
+								/>
+							)}
+							{!userColor && <LightbulbOff strokeWidth={1} class="me-2" />}
 							<span>
 								Click the LED above to change the color on your device.
 								{desiredLEDColor !== undefined && (
@@ -95,6 +106,16 @@ export const Card = ({ model }: { model: Model }) => {
 							</span>
 						</p>
 						<ButtonPresses />
+						{!userColor && model.ledPattern !== undefined && (
+							<>
+								<h3>LED Pattern</h3>
+								<p>
+									When no color is set by you, the device will display this
+									pattern to signal its current state:
+								</p>
+								<LEDPattern ledPattern={model.ledPattern} />
+							</>
+						)}
 					</>
 				)}
 			</div>

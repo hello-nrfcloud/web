@@ -1,0 +1,11 @@
+.LEDPattern {
+  display: grid;
+  grid-template-columns: minmax(5%, 30px) auto;
+}
+
+.LEDPattern .led {
+  border-radius: 100%;
+  border: 1px solid #ccc;
+  width: 18px;
+  height: 18px;
+}

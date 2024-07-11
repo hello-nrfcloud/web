@@ -48,6 +48,15 @@ const slug = Type.String({
 	examples: ['PCA20065'],
 })
 
+export const LEDPatternType = Type.Object(
+	{
+		color: Type.Number({ minimum: 0, maximum: 0xffffff }),
+		intervalMs: Type.Number({ minimum: 1 }),
+		description: Type.String({ minLength: 1 }),
+	},
+	{ title: 'LED Pattern', description: 'Defines an LED pattern' },
+)
+
 export const ModelMarkdown = Type.Object(
 	{
 		slug,
@@ -87,6 +96,7 @@ export const ModelMarkdown = Type.Object(
 				gnssEnabled: Type.Optional(gnssEnabled),
 			}),
 		),
+		ledPattern: Type.Optional(Type.Array(LEDPatternType)),
 	},
 	{ title: 'Model', description: 'Defines a model.' },
 )
