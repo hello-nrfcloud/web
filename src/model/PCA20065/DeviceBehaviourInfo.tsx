@@ -14,7 +14,7 @@ export const DeviceBehaviourInfo = () => (
 			</li>
 			<li>
 				After boot, the device enters a temporary real-time mode for 10 minutes.
-				In this mode, the update interval is 10 seconds.
+				In this mode, the update interval is 20 seconds.
 			</li>
 			<li>
 				After this time has passed, the device enters the default low-power mode
