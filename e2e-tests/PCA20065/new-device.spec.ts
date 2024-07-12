@@ -50,4 +50,15 @@ test('Show troubleshooting info', async () => {
 	)
 	await expect(troubleshooting).toContainText('Turn the kit on.')
 	await expect(troubleshooting).toContainText('Insert a SIM card.')
+	await expect(troubleshooting).toContainText(
+		'observe the LED pattern Cloud communication.',
+	)
+})
+
+test('show the success LED color and pattern preview', async () => {
+	await expect(page.getByTestId('success-led-color')).toHaveCSS(
+		'color',
+		'rgb(0, 203, 255)',
+	)
+	await expect(page.getByTestId('success-led-pattern-preview')).toBeVisible()
 })

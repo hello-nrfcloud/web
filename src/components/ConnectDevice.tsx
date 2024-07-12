@@ -3,8 +3,15 @@ import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
 import { useSIMDetails } from '#context/SIMDetails.js'
 import { formatDistance, formatFloat, formatInt } from '#utils/format.js'
-import { BatteryFull, CloudOff, RadioTower, ToggleRight } from 'lucide-preact'
+import {
+	BatteryFull,
+	CloudOff,
+	LightbulbIcon,
+	RadioTower,
+	ToggleRight,
+} from 'lucide-preact'
 import { SIMIcon } from './icons/SIMIcon.js'
+import { LED, hexToRGB } from './LEDPattern.js'
 
 export const ConnectDevice = () => {
 	const {
@@ -13,6 +20,9 @@ export const ConnectDevice = () => {
 		configuration: { reported: reportedConfig },
 	} = useDevice()
 	const { iccid, usage, issuer } = useSIMDetails()
+	const successPattern = device?.model.ledPattern?.find(
+		({ success }) => success === true,
+	)
 
 	return (
 		<section class="mt-4">
@@ -111,6 +121,30 @@ export const ConnectDevice = () => {
 							)}
 						</section>
 					</>
+				)}
+				{successPattern !== undefined && (
+					<section data-testid="success-led-pattern">
+						<p>
+							<LightbulbIcon
+								class="me-2"
+								data-testid="success-led-color"
+								style={{ color: hexToRGB(successPattern.color) }}
+							/>
+							observe the LED pattern <em>{successPattern.description}</em>.
+							<br />
+							<span class="d-flex">
+								<small>
+									If this LED pattern is shown, it means that the device is
+									connected to the cloud and sending data:
+								</small>
+								<LED
+									pattern={successPattern}
+									class="ms-2"
+									data-testid="success-led-pattern-preview"
+								/>
+							</span>
+						</p>
+					</section>
 				)}
 			</section>
 		</section>

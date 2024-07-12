@@ -1,16 +1,20 @@
 import type { LEDPatternType } from '#content/models/types.js'
+import type { WithTestId } from '#utils/WithTestId.js'
 import type { Static } from '@sinclair/typebox'
 import { nanoid } from 'nanoid'
 import { useRef } from 'preact/hooks'
-
-import './LEDPattern.css'
 
 export const LEDPattern = ({
 	ledPattern,
 }: {
 	ledPattern: Array<Static<typeof LEDPatternType>>
 }) => (
-	<dl class="LEDPattern">
+	<dl
+		style={{
+			display: 'grid',
+			gridTemplateColumns: 'minmax(5%, 30px) auto',
+		}}
+	>
 		{ledPattern.map((pattern) => (
 			<>
 				<dt>
@@ -22,7 +26,14 @@ export const LEDPattern = ({
 	</dl>
 )
 
-const LED = ({ pattern }: { pattern: Static<typeof LEDPatternType> }) => {
+export const LED = ({
+	pattern,
+	class: className,
+	...rest
+}: {
+	class?: string
+	pattern: Static<typeof LEDPatternType>
+} & WithTestId) => {
 	const id = useRef(nanoid())
 	return (
 		<>
@@ -30,11 +41,11 @@ const LED = ({ pattern }: { pattern: Static<typeof LEDPatternType> }) => {
 				{`
 					@keyframes colorChange-${id.current} {
 						0% {
-							background-color: #${pattern.color.toString(16).padStart(6, '0')};
+							background-color: #${hexToRGB(pattern.color)};
 						}
 
 						50% {
-							background-color: #${pattern.color.toString(16).padStart(6, '0')};
+							background-color: #${hexToRGB(pattern.color)};
 						}
 
 						51% {
@@ -47,13 +58,26 @@ const LED = ({ pattern }: { pattern: Static<typeof LEDPatternType> }) => {
 					}
 				`}
 			</style>
-			<div
-				class="led"
+			<abbr
+				class={`led ${className ?? ''}`}
+				{...rest}
 				style={{
-					backgroundColor: `#${pattern.color.toString(16).padStart(6, '0')}`,
+					backgroundColor: `#${hexToRGB(pattern.color)}`,
 					animation: `colorChange-${id.current} ${pattern.intervalMs * 2}ms infinite alternate`,
+					borderRadius: '100%',
+					border: '1px solid #ccc',
+					width: '18px',
+					height: '18px',
+					display: 'inline-block',
 				}}
+				title={pattern.description}
 			/>
 		</>
 	)
 }
+
+/**
+ * Example: 0xffffff
+ */
+export const hexToRGB = (color: number): string =>
+	color.toString(16).padStart(6, '0')

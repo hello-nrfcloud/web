@@ -53,6 +53,12 @@ export const LEDPatternType = Type.Object(
 		color: Type.Number({ minimum: 0, maximum: 0xffffff }),
 		intervalMs: Type.Number({ minimum: 1 }),
 		description: Type.String({ minLength: 1 }),
+		success: Type.Optional(
+			Type.Boolean({
+				description:
+					'If true, this is a success pattern and should be shown when the device is connected to the cloud.',
+			}),
+		),
 	},
 	{ title: 'LED Pattern', description: 'Defines an LED pattern' },
 )
