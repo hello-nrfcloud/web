@@ -1,4 +1,4 @@
-import { fromEnv } from '@nordicsemiconductor/from-env'
+import { fromEnv } from '@bifravst/from-env'
 import chalk from 'chalk'
 import { createConfig } from './vite/config.js'
 
