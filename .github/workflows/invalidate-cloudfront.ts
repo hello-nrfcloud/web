@@ -3,7 +3,7 @@ import {
 	CloudFrontClient,
 	CreateInvalidationCommand,
 } from '@aws-sdk/client-cloudfront'
-import { stackOutput } from '@nordicsemiconductor/cloudformation-helpers'
+import { stackOutput } from '@bifravst/cloudformation-helpers'
 import chalk from 'chalk'
 import { glob } from 'glob'
 import { randomUUID } from 'node:crypto'

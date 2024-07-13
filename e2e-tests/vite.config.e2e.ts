@@ -1,4 +1,4 @@
-import { fromEnv } from '@nordicsemiconductor/from-env'
+import { fromEnv } from '@bifravst/from-env'
 import { createConfig } from '../vite/config.js'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.js'
 import { mockWebsocket } from './lib/mock-backend/mockWebsocket.js'
