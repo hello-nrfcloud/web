@@ -1,5 +1,6 @@
 import { Type, type Static } from '@sinclair/typebox'
 import type { IncludedSIMType } from '#content/sims/types.js'
+import { ModelID } from '@hello.nrfcloud.com/proto-map/models'
 
 const Link = Type.String({ pattern: 'https://.*' })
 const SemVer = Type.RegExp(
@@ -103,6 +104,21 @@ export const ModelMarkdown = Type.Object(
 			}),
 		),
 		ledPattern: Type.Optional(Type.Array(LEDPatternType)),
+		map: Type.Optional(
+			Type.Object(
+				{
+					model: Type.Enum(ModelID, {
+						title: 'Model',
+						description: 'The model for this device used by the map',
+					}),
+				},
+				{
+					title: 'map',
+					description:
+						'Information about how this device type can be shared on the map',
+				},
+			),
+		),
 	},
 	{ title: 'Model', description: 'Defines a model.' },
 )
