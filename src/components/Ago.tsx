@@ -48,7 +48,7 @@ export const Ago = ({
 }
 
 export const distance = (to: Date, withSeconds?: true) =>
-	withSeconds ?? false
+	(withSeconds ?? false)
 		? formatDistanceToNowStrict(to)
 		: Date.now() - to.getTime() < 60 * 1000
 			? '<1 minute'

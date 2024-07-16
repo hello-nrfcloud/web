@@ -41,9 +41,9 @@ export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 					<Satellite strokeWidth={1} class="me-1" /> GNSS
 				</th>
 				<td class="ps-2">
-					{desired?.gnssEnabled ??
+					{(desired?.gnssEnabled ??
 					reported?.gnssEnabled ??
-					device.model.defaultConfiguration.gnssEnabled ? (
+					device.model.defaultConfiguration.gnssEnabled) ? (
 						<span>enabled</span>
 					) : (
 						<span>disabled</span>

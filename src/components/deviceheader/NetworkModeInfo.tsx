@@ -35,7 +35,7 @@ export const NetworkModeInfo = () => {
 						class="me-2"
 						data-testid="network-band"
 					>
-						{networkMode?.includes('LTE-M') ?? false ? (
+						{(networkMode?.includes('LTE-M') ?? false) ? (
 							<LTEM
 								style={{
 									height: '25px',
