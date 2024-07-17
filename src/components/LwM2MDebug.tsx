@@ -153,8 +153,19 @@ const ShowValue = ({
 	class?: string
 }) => (
 	<span class={cx('value', info?.Type, className)}>
-		{info?.Type === 'Float' && typeof value === 'number'
-			? formatFloat(value)
-			: value}
+		<FormatValue value={value} info={info} />
 	</span>
 )
+
+const FormatValue = ({
+	value,
+	info,
+}: {
+	value: LwM2MResourceValue
+	info?: LwM2MResourceInfo
+}) => {
+	if (info?.Type === 'Float' && typeof value === 'number')
+		return <>{formatFloat(value)}</>
+	if (info?.Type === 'Boolean') return <>{value === true ? 'true' : 'false'}</>
+	return <>{value}</>
+}
