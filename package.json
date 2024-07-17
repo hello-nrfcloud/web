@@ -73,7 +73,7 @@
     "chalk": "5.3.0",
     "eslint-plugin-jsx-a11y": "6.9.0",
     "glob": "11.0.0",
-    "husky": "9.0.11",
+    "husky": "9.1.0",
     "lint-staged": "15.2.7",
     "nock": "14.0.0-beta.8",
     "playwright": "1.45.2",
