@@ -34,6 +34,9 @@ configurationPresets:
   - name: Low-power mode
     updateIntervalSeconds: 600
     dataUsagePerDayMB: 0.05
+  - name: Ultra-Low-power mode
+    updateIntervalSeconds: 3600
+    dataUsagePerDayMB: 0.01
 ---
 
 The Nordic Thingy:91 Solar Shield is a plug-and-play prototyping platform.

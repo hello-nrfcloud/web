@@ -13,6 +13,8 @@ import { Chart } from '#model/PCA20035-solar/Chart.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
 import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
 import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
+import { Configuration } from '#components/Configuration.js'
+import { HideDataBefore } from '#components/HideDataBefore.js'
 
 import './Page.css'
 
@@ -60,13 +62,27 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<div class="container my-4">
 					<div class="row mb-4">
-						<section class="col-12 col-md-6">
-							<NetworkInfo />
+						<section class="col-12 col-md-6 col-lg-4">
+							<div class="my-4">
+								<NetworkInfo />
+							</div>
+							<div class="my-4">
+								<DeviceFOTAInfo />
+							</div>
+							<div class="my-4">
+								<Battery />
+							</div>
+							<div class="my-4">
+								<BME680 />
+							</div>
 						</section>
-						<section class="col-12 col-md-6">
-							<DeviceFOTAInfo />
-							<Battery />
-							<BME680 />
+						<section class="col-12 col-md-6 col-lg-6 offset-lg-2">
+							<div class="my-4">
+								<Configuration device={device} />
+							</div>
+							<div class="my-4">
+								<HideDataBefore />
+							</div>
 						</section>
 					</div>
 				</div>
