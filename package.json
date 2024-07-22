@@ -28,8 +28,8 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "14.2.0",
-    "@hello.nrfcloud.com/proto-map": "13.2.3",
+    "@hello.nrfcloud.com/proto": "14.2.2",
+    "@hello.nrfcloud.com/proto-map": "14.1.0",
     "@sentry/browser": "8.19.0",
     "@sinclair/typebox": "0.32.34",
     "classnames": "2.5.1",
@@ -44,7 +44,7 @@
     "nanoid": "5.0.7",
     "preact": "10.22.1",
     "qrcode": "1.5.3",
-    "semver": "7.6.2",
+    "semver": "7.6.3",
     "svg-country-flags": "1.2.10",
     "yaml": "2.4.5"
   },
@@ -77,7 +77,7 @@
     "lint-staged": "15.2.7",
     "nock": "14.0.0-beta.8",
     "playwright": "1.45.2",
-    "preact-render-to-string": "6.5.5",
+    "preact-render-to-string": "6.5.6",
     "prettier-plugin-organize-imports": "4.0.0",
     "rehype-format": "5.0.0",
     "rehype-stringify": "10.0.0",
@@ -87,7 +87,7 @@
     "remark-rehype": "11.1.0",
     "tsmatchers": "5.0.2",
     "tsx": "4.16.2",
-    "vike": "0.4.180",
+    "vike": "0.4.181",
     "websocket": "1.0.35"
   },
   "engines": {
