@@ -87,7 +87,7 @@ export const Provider = (props: PropsWithChildren) => {
 						setNextFetch(Date.now() + 300 * 1000)
 					}
 				})
-				.problem((problem, response) => {
+				.problem(({ problem }, response) => {
 					console.error(`[SIMDetails]`, problem, response)
 					if (
 						response?.response.status === 409 &&
