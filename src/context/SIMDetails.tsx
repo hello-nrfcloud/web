@@ -88,12 +88,13 @@ export const Provider = (props: PropsWithChildren) => {
 					}
 				})
 				.problem(({ problem }, response) => {
-					console.error(`[SIMDetails]`, problem, response)
 					if (
 						response?.response.status === 409 &&
 						response.cacheControl?.maxAge !== undefined
 					) {
 						setNextFetch(Date.now() + response.cacheControl.maxAge * 1000)
+					} else {
+						console.error(`[SIMDetails]`, problem, response)
 					}
 				})
 		})
