@@ -46,7 +46,7 @@
     "qrcode": "1.5.3",
     "semver": "7.6.3",
     "svg-country-flags": "1.2.10",
-    "yaml": "2.4.5"
+    "yaml": "2.5.0"
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.616.0",
