@@ -18,6 +18,15 @@ export const Footer = () => (
 			<div class="row">
 				<div class="col-12">
 					<h2 class="text-body-secondary mt-3">About</h2>
+
+					<p class="mb-2">
+						<a
+							href="/feedback"
+							class="text-body-secondary text-decoration-none"
+						>
+							We'd love to hear your feedback!
+						</a>
+					</p>
 					<p class="mb-2">
 						<a
 							href="https://nrfcloud.com/"

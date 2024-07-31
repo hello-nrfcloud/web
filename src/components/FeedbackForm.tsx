@@ -21,11 +21,12 @@ export const FeedbackForm = () => {
 	const params = useParameters()
 
 	const submit = () => {
-		setUserSubmitted(true)
 		if (!validate()) return
 
+		setUserSubmitted(true)
 		setFailed(false)
 		setSubmitting(true)
+
 		params.onParameters(async ({ helloApiURL }) => {
 			try {
 				const res = await fetch(new URL('./feedback', helloApiURL), {
@@ -45,9 +46,11 @@ export const FeedbackForm = () => {
 					setFailed(true)
 				}
 				setSubmitting(false)
+				setUserSubmitted(false)
 			} catch {
 				setFailed(true)
 				setSubmitting(false)
+				setUserSubmitted(false)
 			}
 		})
 	}
