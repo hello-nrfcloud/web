@@ -127,7 +127,6 @@ export const Map = ({
 	useEffect(() => {
 		if (map === undefined) return
 		const persistMapState = () => {
-			console.log(`[Map]`, `persisting`, style)
 			document.location.hash = `#${encodeMapState(map, style)}`
 		}
 		map.on('moveend', persistMapState)
