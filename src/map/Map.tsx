@@ -1,4 +1,8 @@
-import { useDeviceLocation, type Locations } from '#context/DeviceLocation.js'
+import {
+	useDeviceLocation,
+	type Locations,
+	type TrailPoint,
+} from '#context/DeviceLocation.js'
 import { useMap } from '#context/Map.js'
 import { useParameters } from '#context/Parameters.js'
 import {
@@ -23,7 +27,6 @@ import { byTs } from '#utils/byTs.js'
 
 import '#map/Map.css'
 
-const trailColor = '#e169a5'
 const defaultColor = '#C7C7C7'
 
 // See https://docs.aws.amazon.com/location/latest/developerguide/esri.html for available fonts
@@ -42,6 +45,18 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 	const hasLocation = Object.values(locations).length > 0
 	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
 	const { locked, setMap, clearMap, map } = useMap()
+
+	const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
+		(acc, location) => {
+			if (acc[location.src] === undefined) {
+				acc[location.src] = [location]
+			} else {
+				acc[location.src]!.push(location)
+			}
+			return acc
+		},
+		{},
+	)
 
 	useEffect(() => {
 		if (containerRef.current === null) return
@@ -83,7 +98,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		if (map === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
-		console.log(`[Map]`, 'center', centerLocation)
+		console.debug(`[Map]`, 'center', centerLocation)
 		map.flyTo({
 			center: centerLocation,
 			zoom: map.getZoom(),
@@ -95,7 +110,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		if (!locked) return // Don't override user set center
 		if (map === undefined) return
 		if (hasLocation) return
-		console.log(`[Map]`, 'center', trail[trail.length - 1])
+		console.debug(`[Map]`, 'center', trail[trail.length - 1])
 		map.flyTo({
 			center: trail[trail.length - 1],
 			zoom: map.getZoom(),
@@ -120,7 +135,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 
 			// Add layer (if not already on map)
 			if (centerSource === undefined) {
-				console.log(`[Map]`, `adding`, location)
+				console.debug(`[Map]`, `adding`, location)
 
 				// Data for Center point
 				map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
@@ -188,81 +203,83 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
-		for (const point of trail) {
-			const { lng, lat, ts } = point
-			const locationCenterSourceId = `${point.id}-source-center`
-			const locationSourceLabel = `${point.id}-location-source-label`
-			const centerSource = map.getSource(locationCenterSourceId)
+		for (const [src, trail] of Object.entries(trailBySource)) {
+			for (const point of trail) {
+				const { lng, lat, ts } = point
+				const locationCenterSourceId = `${point.id}-source-center`
+				const locationSourceLabel = `${point.id}-location-source-label`
+				const centerSource = map.getSource(locationCenterSourceId)
 
-			// Add layer (if not already on map)
-			if (centerSource === undefined) {
-				console.log(`[Map]`, `adding`, point)
+				// Add layer (if not already on map)
+				if (centerSource === undefined) {
+					console.debug(`[Map]`, `adding`, point)
 
-				// Data for Center point
-				map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
-				sourceIds.push(locationCenterSourceId)
-				// Render location info
-				map.addLayer({
-					id: locationSourceLabel,
-					type: 'symbol',
-					source: locationCenterSourceId,
-					layout: {
-						'symbol-placement': 'point',
-						'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
-						'text-font': [glyphFonts.regular],
-						'text-offset': [0, 0],
-					},
-					paint: {
-						'text-color': trailColor,
-						'text-halo-color': '#222222',
-						'text-halo-width': 1,
-						'text-halo-blur': 1,
-					},
-				})
-				layerIds.push(locationSourceLabel)
+					// Data for Center point
+					map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
+					sourceIds.push(locationCenterSourceId)
+					// Render location info
+					map.addLayer({
+						id: locationSourceLabel,
+						type: 'symbol',
+						source: locationCenterSourceId,
+						layout: {
+							'symbol-placement': 'point',
+							'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
+							'text-font': [glyphFonts.regular],
+							'text-offset': [0, 0],
+						},
+						paint: {
+							'text-color': locationSourceColors.get(src) ?? defaultColor,
+							'text-halo-color': '#222222',
+							'text-halo-width': 1,
+							'text-halo-blur': 1,
+						},
+					})
+					layerIds.push(locationSourceLabel)
 
-				if (clustering === true && point.acc !== undefined) {
-					const hexagon = addHexagon(
-						map,
-						{ ...point, acc: point.acc, src: point.id },
-						trailColor,
-					)
-					sourceIds.push(...hexagon.sourceIds)
-					layerIds.push(...hexagon.layerIds)
+					if (clustering === true && point.acc !== undefined) {
+						const hexagon = addHexagon(
+							map,
+							{ ...point, acc: point.acc, src: point.id },
+							locationSourceColors.get(src) ?? defaultColor,
+						)
+						sourceIds.push(...hexagon.sourceIds)
+						layerIds.push(...hexagon.layerIds)
+					}
 				}
 			}
-		}
 
-		// Line for trail
-		const trailSourceId = `source-trail`
-		map.addSource(trailSourceId, {
-			type: 'geojson',
-			data: {
-				type: 'Feature',
-				properties: {},
-				geometry: {
-					type: 'LineString',
-					coordinates: trail.map(({ lat, lng }) => [lng, lat]),
+			// Line for trail
+			const trailSourceId = `${src}-source-trail`
+			map.addSource(trailSourceId, {
+				type: 'geojson',
+				data: {
+					type: 'Feature',
+					properties: {},
+					geometry: {
+						type: 'LineString',
+						coordinates: trail.map(({ lat, lng }) => [lng, lat]),
+					},
 				},
-			},
-		})
-		sourceIds.push(trailSourceId)
+			})
+			sourceIds.push(trailSourceId)
 
-		// Render trail
-		const trailLayerId = `layer-trail`
-		map.addLayer({
-			id: trailLayerId,
-			type: 'line',
-			source: trailSourceId,
-			layout: {},
-			paint: {
-				'line-color': trailColor,
-				'line-opacity': 0.5,
-				'line-width': 2,
-				'line-dasharray': [2, 2],
-			},
-		})
-		layerIds.push(trailLayerId)
+			// Render trail
+			const trailLayerId = `${src}-layer-trail`
+			map.addLayer({
+				id: trailLayerId,
+				type: 'line',
+				source: trailSourceId,
+				layout: {},
+				paint: {
+					'line-color': locationSourceColors.get(src) ?? defaultColor,
+					'line-opacity': 0.5,
+					'line-width': 2,
+					'line-dasharray': [2, 2],
+				},
+			})
+			layerIds.push(trailLayerId)
+		}
 
 		return () => {
 			layerIds.map((id) => map.removeLayer(id))

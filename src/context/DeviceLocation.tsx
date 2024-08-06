@@ -79,11 +79,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (device === undefined) return
 		if (fingerprint === null) return
 		if (timeSpan === undefined) {
-			console.log(`[MapHistory]`, 'off')
 			setTrail([])
 			return
 		}
-		console.log(`[MapHistory]`, timeSpan)
 
 		onParameters(({ helloApiURL }) => {
 			const g = getObjectHistory(helloApiURL, device, fingerprint)
@@ -92,7 +90,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				timeSpan,
 				clustering ? new URLSearchParams({ trail: '1' }) : undefined,
 			).ok(({ partialInstances }) => {
-				console.log(`[MapHistory]`, partialInstances)
 				setTrail(
 					partialInstances.map((instance) => {
 						const {
