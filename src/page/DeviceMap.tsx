@@ -9,7 +9,7 @@ import './DeviceMap.css'
 
 export const DeviceMap = () => {
 	const { device } = useDevice()
-	const { map } = useMap()
+	const { map, style } = useMap()
 
 	if (device === undefined)
 		return (
@@ -28,10 +28,10 @@ export const DeviceMap = () => {
 				mapControls={
 					<button
 						onClick={() =>
-							(window.location.href =
+							(document.location.href =
 								map === undefined
 									? `/device`
-									: `/device#${encodeMapState(map)}`)
+									: `/device#${encodeMapState(map, style)}`)
 						}
 						class="button control"
 						title={'Close fullscreen map'}
@@ -40,6 +40,7 @@ export const DeviceMap = () => {
 					</button>
 				}
 				canBeLocked={false}
+				key={style}
 			/>
 		</main>
 	)

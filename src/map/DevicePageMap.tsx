@@ -4,17 +4,17 @@ import { encodeMapState } from './encodeMapState.js'
 import { useMap } from '#context/Map.js'
 
 export const DevicePageMap = () => {
-	const { map } = useMap()
+	const { map, style } = useMap()
 
 	return (
 		<Map
 			mapControls={
 				<button
 					onClick={() =>
-						(window.location.href =
+						(document.location.href =
 							map === undefined
 								? `/device/map`
-								: `/device/map#${encodeMapState(map)}`)
+								: `/device/map#${encodeMapState(map, style)}`)
 					}
 					class="button control"
 					title={'Show fullscreen map'}
@@ -22,6 +22,7 @@ export const DevicePageMap = () => {
 					<ExpandIcon />
 				</button>
 			}
+			key={style}
 		/>
 	)
 }

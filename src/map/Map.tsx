@@ -3,28 +3,30 @@ import {
 	type Locations,
 	type TrailPoint,
 } from '#context/DeviceLocation.js'
-import { useMap } from '#context/Map.js'
+import { MapStyle, useMap } from '#context/Map.js'
 import { useParameters } from '#context/Parameters.js'
+import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
+import { HistoryControls } from '#map/HistoryControls.js'
 import {
 	LocationSource,
 	LocationSourceLabels,
 	locationSourceColors,
+	locationSourceColorsDark,
 } from '#map/LocationSourceLabels.js'
+import { LockInfo } from '#map/LockInfo.js'
+import { MapZoomControls } from '#map/MapZoomControls.js'
 import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
-import { mapStyle } from '#map/style.js'
+import { mapStyle as mapStyleLight } from '#map/style-light.js'
+import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
 import { type GeoLocation } from '#proto/lwm2m.js'
+import { byTs } from '#utils/byTs.js'
 import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
 import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
-import { useEffect, useRef, useState } from 'preact/hooks'
-import { LockInfo } from '#map/LockInfo.js'
-import { MapZoomControls } from '#map/MapZoomControls.js'
-import { HistoryControls } from '#map/HistoryControls.js'
 import type React from 'preact/compat'
-import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
-import { byTs } from '#utils/byTs.js'
-import { decodeMapState, encodeMapState } from './encodeMapState.js'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import { encodeMapState } from './encodeMapState.js'
 
 import '#map/Map.css'
 
@@ -54,7 +56,7 @@ export const Map = ({
 	const { locations, trail, clustering } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
-	const { locked, setMap, clearMap, map } = useMap()
+	const { locked, setMap, clearMap, map, style: currentStyle, state } = useMap()
 	const isLocked = (canBeLocked ?? true) ? locked : false
 
 	const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
@@ -69,23 +71,25 @@ export const Map = ({
 		{},
 	)
 
-	const maybeMapState = decodeMapState(window.location.hash.slice(1))
+	const { lat, lng, zoom, style } = state ?? {
+		// Trondheim
+		lat: 63.42148461054351,
+		lng: 10.437581513483195,
+		zoom: 10,
+		style: currentStyle,
+	}
+
+	const sourceColors =
+		style === MapStyle.DARK ? locationSourceColors : locationSourceColorsDark
 
 	useEffect(() => {
 		if (containerRef.current === null) return
+
 		onParameters(({ mapRegion, mapName, mapApiKey }) => {
-			const { lat, lng, zoom } = maybeMapState ?? {
-				// Trondheim
-				lat: 63.42148461054351,
-				lng: 10.437581513483195,
-				zoom: 10,
-			}
-
 			console.log(`[Map]`, `initializing`, { lat, lng, zoom })
-
 			const map = new maplibregl.Map({
 				container: 'map',
-				style: mapStyle({
+				style: (style === MapStyle.LIGHT ? mapStyleLight : mapStyleDark)({
 					region: mapRegion,
 					mapName,
 				}),
@@ -111,10 +115,6 @@ export const Map = ({
 				setMapLoaded(true)
 			})
 
-			map.on('moveend', () => {
-				document.location.hash = `#${encodeMapState(map)}`
-			})
-
 			setMap(map)
 		})
 
@@ -123,10 +123,24 @@ export const Map = ({
 		}
 	}, [containerRef.current])
 
+	// Persist map state
+	useEffect(() => {
+		if (map === undefined) return
+		const persistMapState = () => {
+			console.log(`[Map]`, `persisting`, style)
+			document.location.hash = `#${encodeMapState(map, style)}`
+		}
+		map.on('moveend', persistMapState)
+
+		return () => {
+			map?.off('moveend', persistMapState)
+		}
+	}, [map, state])
+
 	// Center the map on current location
 	useEffect(() => {
 		if (!isLocked) return // Don't override user set center
-		if (maybeMapState !== undefined) return
+		if (state !== undefined) return
 		if (map === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
@@ -135,12 +149,12 @@ export const Map = ({
 			center: centerLocation,
 			zoom: map.getZoom(),
 		})
-	}, [locations, map, isLocked, maybeMapState])
+	}, [locations, map, isLocked, state])
 
 	// Center map on last known location
 	useEffect(() => {
 		if (!isLocked) return // Don't override user set center
-		if (maybeMapState !== undefined) return
+		if (state !== undefined) return
 		if (map === undefined) return
 		if (hasLocation) return
 		console.debug(`[Map]`, 'center', trail[trail.length - 1])
@@ -148,7 +162,7 @@ export const Map = ({
 			center: trail[trail.length - 1],
 			zoom: map.getZoom(),
 		})
-	}, [trail, locations, map, isLocked, maybeMapState])
+	}, [trail, locations, map, isLocked, state])
 
 	// Locations
 	useEffect(() => {
@@ -185,10 +199,7 @@ export const Map = ({
 						'text-offset': [0, 0],
 					},
 					paint: {
-						'text-color': locationSourceColors.get(src) ?? defaultColor,
-						'text-halo-color': '#222222',
-						'text-halo-width': 1,
-						'text-halo-blur': 1,
+						'text-color': sourceColors.get(src) ?? defaultColor,
 					},
 				})
 				layerIds.push(locationSourceLabel)
@@ -204,10 +215,7 @@ export const Map = ({
 						'text-offset': [0, 2],
 					},
 					paint: {
-						'text-color': locationSourceColors.get(src) ?? defaultColor,
-						'text-halo-color': '#222222',
-						'text-halo-width': 1,
-						'text-halo-blur': 1,
+						'text-color': sourceColors.get(src) ?? defaultColor,
 					},
 				})
 				layerIds.push(locationAgeLabel)
@@ -215,7 +223,7 @@ export const Map = ({
 					const hexagon = addHexagon(
 						map,
 						{ ...location, acc },
-						locationSourceColors.get(src) ?? defaultColor,
+						sourceColors.get(src) ?? defaultColor,
 					)
 					sourceIds.push(...hexagon.sourceIds)
 					layerIds.push(...hexagon.layerIds)
@@ -262,10 +270,7 @@ export const Map = ({
 							'text-offset': [0, 0],
 						},
 						paint: {
-							'text-color': locationSourceColors.get(src) ?? defaultColor,
-							'text-halo-color': '#222222',
-							'text-halo-width': 1,
-							'text-halo-blur': 1,
+							'text-color': sourceColors.get(src) ?? defaultColor,
 						},
 					})
 					layerIds.push(locationSourceLabel)
@@ -274,7 +279,7 @@ export const Map = ({
 						const hexagon = addHexagon(
 							map,
 							{ ...point, acc: point.acc, src: point.id },
-							locationSourceColors.get(src) ?? defaultColor,
+							sourceColors.get(src) ?? defaultColor,
 						)
 						sourceIds.push(...hexagon.sourceIds)
 						layerIds.push(...hexagon.layerIds)
@@ -305,7 +310,7 @@ export const Map = ({
 				source: trailSourceId,
 				layout: {},
 				paint: {
-					'line-color': locationSourceColors.get(src) ?? defaultColor,
+					'line-color': sourceColors.get(src) ?? defaultColor,
 					'line-opacity': 0.5,
 					'line-width': 2,
 					'line-dasharray': [2, 2],
@@ -421,9 +426,6 @@ const addHexagon = (
 		},
 		paint: {
 			'text-color': color,
-			'text-halo-color': '#222222',
-			'text-halo-width': 1,
-			'text-halo-blur': 1,
 		},
 	})
 	layerIds.push(locationAreaLabelId)

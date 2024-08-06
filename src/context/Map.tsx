@@ -1,8 +1,22 @@
+import { decodeMapState, encodeMapState } from '#map/encodeMapState.js'
 import { getPolygonCoordinatesForCircle } from '#map/geoJSONPolygonFromCircle.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
+import { isSSR } from '#utils/isSSR.js'
 import maplibregl from 'maplibre-gl'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useState } from 'preact/hooks'
+
+export enum MapStyle {
+	DARK = 'dark',
+	LIGHT = 'light',
+}
+
+export type MapState = {
+	lat: number
+	lng: number
+	zoom: number
+	style: MapStyle
+}
 
 export const MapContext = createContext<{
 	locked: boolean
@@ -20,6 +34,9 @@ export const MapContext = createContext<{
 	 * Scroll the map container into view
 	 */
 	scrollTo: () => void
+	style: MapStyle
+	setStyle: (style: MapStyle) => void
+	state: MapState | undefined
 }>({
 	locked: true,
 	unlock: () => undefined,
@@ -29,11 +46,18 @@ export const MapContext = createContext<{
 	clearMap: () => undefined,
 	center: () => undefined,
 	scrollTo: () => undefined,
+	style: MapStyle.DARK,
+	setStyle: () => undefined,
+	state: undefined,
 })
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [locked, setLocked] = useState<boolean>(true)
 	const [map, setMap] = useState<maplibregl.Map | undefined>(undefined)
+	const state = isSSR
+		? undefined
+		: decodeMapState(document.location.hash.slice(1))
+	const [style, setStyle] = useState<MapStyle>(state?.style ?? MapStyle.DARK)
 
 	return (
 		<MapContext.Provider
@@ -43,7 +67,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				lock: () => setLocked(true),
 				toggleLock: () => setLocked((l) => !l),
 				map,
-				setMap,
+				setMap: (map) => {
+					setMap(map)
+				},
 				clearMap: () => {
 					map?.remove()
 					setMap(undefined)
@@ -76,6 +102,15 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					})
 				},
 				scrollTo: () => map?.getContainer().scrollIntoView(),
+				style,
+				setStyle: (style) => {
+					style === MapStyle.LIGHT
+						? setStyle(MapStyle.LIGHT)
+						: setStyle(MapStyle.DARK)
+					if (map !== undefined)
+						document.location.hash = `#${encodeMapState(map, style)}`
+				},
+				state,
 			}}
 		>
 			{children}

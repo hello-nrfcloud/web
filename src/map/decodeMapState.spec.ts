@@ -1,17 +1,19 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { decodeMapState } from './encodeMapState.js'
+import { MapStyle } from '#context/Map.js'
 
 void describe('decodeMapState()', () => {
 	void it('should decode a map state', () =>
 		assert.deepEqual(
 			decodeMapState(
-				'map:63.45845568614055,10.915287434991058,10.776208705876128',
+				'map:63.45845568614055,10.915287434991058,10.776208705876128,dark',
 			),
 			{
 				lat: 63.45845568614055,
 				lng: 10.915287434991058,
 				zoom: 10.776208705876128,
+				style: MapStyle.DARK,
 			},
 		))
 	void it('should return undefined if no map state is encoded', () =>

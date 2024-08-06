@@ -28,7 +28,7 @@ export const mapStyle = ({
 	layers: [
 		{
 			id: 'background',
-			paint: { 'background-color': 'rgba(12, 36, 56, 1)' },
+			paint: { 'background-color': '#cfd3d4' },
 			type: 'background',
 		},
 		{
@@ -40,9 +40,8 @@ export const mapStyle = ({
 					DataDrivenPropertyValueSpecification<ColorSpecification>
 				>{
 					stops: [
-						[0, '#3b3c3c'],
-						[12, '#353636'],
-						[15, '#323333'],
+						[0, '#f4f4f4'],
+						[7, '#efefef'],
 					],
 				},
 			},
@@ -60,8 +59,8 @@ export const mapStyle = ({
 					DataDrivenPropertyValueSpecification<ColorSpecification>
 				>{
 					stops: [
-						[5, '#2F3030'],
-						[10, '#323333'],
+						[5, '#e5e8e7'],
+						[10, '#ECEDEC'],
 					],
 				},
 			},
@@ -78,11 +77,11 @@ export const mapStyle = ({
 					DataDrivenPropertyValueSpecification<ColorSpecification>
 				>{
 					stops: [
-						[7, '#373837'],
-						[9, '#373938'],
+						[6, '#ECEEEA'],
+						[11, '#e4e8e4'],
 					],
 				},
-				'fill-outline-color': '#373938',
+				'fill-outline-color': '#E7EAE6',
 			},
 			source: 'esri',
 			'source-layer': 'Openspace or forest',
@@ -97,11 +96,11 @@ export const mapStyle = ({
 					DataDrivenPropertyValueSpecification<ColorSpecification>
 				>{
 					stops: [
-						[7, '#373837'],
-						[9, '#373938'],
+						[6, '#ECEEEA'],
+						[11, '#e4e8e4'],
 					],
 				},
-				'fill-outline-color': '#373938',
+				'fill-outline-color': '#E7EAE6',
 			},
 			source: 'esri',
 			'source-layer': 'Admin0 forest or park',
@@ -116,11 +115,11 @@ export const mapStyle = ({
 					DataDrivenPropertyValueSpecification<ColorSpecification>
 				>{
 					stops: [
-						[7, '#373837'],
-						[9, '#373938'],
+						[6, '#ECEEEA'],
+						[11, '#e4e8e4'],
 					],
 				},
-				'fill-outline-color': '#373938',
+				'fill-outline-color': '#E7EAE6',
 			},
 			source: 'esri',
 			'source-layer': 'Admin1 forest or park',
@@ -130,7 +129,11 @@ export const mapStyle = ({
 			id: 'Zoo',
 			layout: {},
 			minzoom: 12,
-			paint: { 'fill-color': '#373938' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e4e8e4',
+			},
 			source: 'esri',
 			'source-layer': 'Zoo',
 			type: 'fill',
@@ -140,7 +143,16 @@ export const mapStyle = ({
 			id: 'Airport/Airport property',
 			layout: {},
 			minzoom: 9,
-			paint: { 'fill-color': '#373838' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>{
+					stops: [
+						[11, '#edede9'],
+						[15, '#efefef'],
+					],
+				},
+			},
 			source: 'esri',
 			'source-layer': 'Airport',
 			type: 'fill',
@@ -150,7 +162,11 @@ export const mapStyle = ({
 			id: 'Airport/Airport runway',
 			layout: {},
 			minzoom: 11,
-			paint: { 'fill-color': '#2d2e2e' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e1e2dd',
+			},
 			source: 'esri',
 			'source-layer': 'Airport',
 			type: 'fill',
@@ -159,7 +175,11 @@ export const mapStyle = ({
 			id: 'Pedestrian',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f2f2f1',
+			},
 			source: 'esri',
 			'source-layer': 'Pedestrian',
 			type: 'fill',
@@ -168,7 +188,11 @@ export const mapStyle = ({
 			id: 'Park or farming',
 			layout: {},
 			minzoom: 12,
-			paint: { 'fill-color': '#373938' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e4e8e4',
+			},
 			source: 'esri',
 			'source-layer': 'Park or farming',
 			type: 'fill',
@@ -187,7 +211,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Garden path',
 			layout: { visibility: 'none' },
 			minzoom: 14,
-			paint: { 'fill-color': '#353636', 'fill-outline-color': '#EBE8E8' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f7f7f7',
+				'fill-outline-color': '#EBE8E8',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -197,7 +226,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Parking',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f2f2f1',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -207,7 +240,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Green openspace',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#343635' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e5eae5',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -217,7 +254,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Grass',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#3c3e3d' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e6eae6',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -227,7 +268,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Baseball field or other grounds',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#3a3b3a' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#E2E5E2',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -250,7 +295,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Field or court exterior',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#404140' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#ECEEEC',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -260,7 +309,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Football field or court',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#3a3b3a', 'fill-outline-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#E2E5E2',
+				'fill-outline-color': '#efefef',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -270,7 +324,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Hardcourt',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#2a2c2b', 'fill-outline-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#d3d3d3',
+				'fill-outline-color': '#efefef',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -280,7 +339,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Mulch or dirt',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#4c4d49' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#eaeaea',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -290,7 +353,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Athletic track',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#3b3b3b', 'fill-outline-color': '#333232' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#e2e2e2',
+				'fill-outline-color': '#f2f2f2',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -320,7 +388,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Water',
 			layout: {},
 			minzoom: 15,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -330,7 +402,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round', visibility: 'none' },
 			maxzoom: 5,
 			minzoom: 1,
-			paint: { 'line-color': '#2B2E2F', 'line-width': 0.5 },
+			paint: { 'line-color': '#d6dadb', 'line-width': 0.5 },
 			source: 'esri',
 			'source-layer': 'Water line small scale',
 			type: 'line',
@@ -341,7 +413,7 @@ export const mapStyle = ({
 			maxzoom: 7,
 			minzoom: 6,
 			paint: {
-				'line-color': '#2B2E2F',
+				'line-color': '#d6dadb',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[5, 0.5],
@@ -359,14 +431,7 @@ export const mapStyle = ({
 			maxzoom: 11,
 			minzoom: 7,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
-					stops: [
-						[7, '#2B2E2F'],
-						[10, '#272A2B'],
-					],
-				},
+				'line-color': '#cfd3d4',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[7, 0.7],
@@ -384,7 +449,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#222628',
+				'line-color': '#cfd3d4',
 				'line-dasharray': [5, 5],
 				'line-width': 0.8,
 			},
@@ -398,7 +463,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#262525',
+				'line-color': '#c3c3c3',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.7],
@@ -417,7 +482,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#222628',
+				'line-color': '#cfd3d4',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.7],
@@ -454,7 +519,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#222628',
+				'line-color': '#cfd3d4',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.8],
@@ -473,7 +538,7 @@ export const mapStyle = ({
 			layout: {},
 			minzoom: 11,
 			paint: {
-				'line-color': '#222628',
+				'line-color': '#cfd3d4',
 				'line-dasharray': [7, 3],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -493,7 +558,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#222628',
+				'line-color': '#cfd3d4',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.8],
@@ -510,7 +575,11 @@ export const mapStyle = ({
 			id: 'Marine area',
 			layout: {},
 			minzoom: 4,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Marine area',
 			type: 'fill',
@@ -520,7 +589,11 @@ export const mapStyle = ({
 			layout: {},
 			maxzoom: 5,
 			minzoom: 1,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Water area small scale',
 			type: 'fill',
@@ -542,7 +615,11 @@ export const mapStyle = ({
 			layout: {},
 			maxzoom: 7,
 			minzoom: 5,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Water area medium scale',
 			type: 'fill',
@@ -564,7 +641,11 @@ export const mapStyle = ({
 			layout: {},
 			maxzoom: 11,
 			minzoom: 7,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Water area large scale',
 			type: 'fill',
@@ -574,7 +655,11 @@ export const mapStyle = ({
 			id: 'Water area/Lake, river or bay',
 			layout: {},
 			minzoom: 11,
-			paint: { 'fill-color': 'rgba(12, 36, 56, 1)' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#cfd3d4',
+			},
 			source: 'esri',
 			'source-layer': 'Water area',
 			type: 'fill',
@@ -624,7 +709,12 @@ export const mapStyle = ({
 			id: 'Water area/Dam or weir',
 			layout: {},
 			minzoom: 11,
-			paint: { 'fill-color': '#383939', 'fill-outline-color': '#2e2f2f' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#DFE1E2',
+				'fill-outline-color': '#efefef',
+			},
 			source: 'esri',
 			'source-layer': 'Water area',
 			type: 'fill',
@@ -634,7 +724,11 @@ export const mapStyle = ({
 			id: 'Special area of interest/Bike, walk or pedestrian',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f2f2f1',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -644,7 +738,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#3a3b3b',
+				'line-color': '#EFEFEF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[12, 1.5],
@@ -662,12 +756,12 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#292828',
+				'line-color': '#dcddda',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[12, 0.5],
 						[14, 1],
-						[17, 1.75],
+						[17, 1.5],
 					],
 				},
 			},
@@ -681,7 +775,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#3a3b3b',
+				'line-color': '#EFEFEF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[12, 1.5],
@@ -700,12 +794,12 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#292828',
+				'line-color': '#dcddda',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[12, 0.5],
 						[14, 1],
-						[17, 1.75],
+						[17, 1.5],
 					],
 				},
 			},
@@ -719,7 +813,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#353636',
+				'line-color': '#efefef',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[15, 0.7],
@@ -737,7 +831,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#353636',
+				'line-color': '#efefef',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[15, 0.7],
@@ -754,7 +848,9 @@ export const mapStyle = ({
 			layout: {},
 			minzoom: 16,
 			paint: {
-				'fill-color': '#2e2f2f',
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#dcddde',
 				'fill-translate': <PropertyValueSpecification<[number, number]>>{
 					stops: [
 						[15, [0, 0]],
@@ -771,7 +867,12 @@ export const mapStyle = ({
 			id: 'Building',
 			layout: {},
 			minzoom: 15,
-			paint: { 'fill-color': '#383939', 'fill-outline-color': '#2e2f2f' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#DFE1E2',
+				'fill-outline-color': '#efefef',
+			},
 			source: 'esri',
 			'source-layer': 'Building',
 			type: 'fill',
@@ -782,7 +883,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[15, 0.7],
@@ -799,7 +900,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#303131',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[14, 1.5],
@@ -818,7 +919,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-dasharray': [2, 1],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -838,7 +939,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 1.5],
@@ -857,7 +958,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 1.5],
@@ -877,7 +978,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#303131',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[14, 1.5],
@@ -896,7 +997,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 1],
@@ -916,7 +1017,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 2.6],
@@ -936,7 +1037,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 1.5],
@@ -956,7 +1057,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 1.5],
@@ -976,7 +1077,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 0.3],
@@ -996,7 +1097,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 8,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[8, 0.3],
@@ -1016,7 +1117,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[5, 0.3],
@@ -1035,7 +1136,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-dasharray': [3, 1.5],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1055,7 +1156,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-dasharray': [3, 1.5],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1075,7 +1176,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.75],
@@ -1094,7 +1195,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.75],
@@ -1113,12 +1214,10 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[12, '#414242'],
-						[13, '#434444'],
+						[12, '#FAFAFA'],
+						[13, '#ffffff'],
 					],
 				},
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
@@ -1140,7 +1239,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 0.75],
@@ -1160,7 +1259,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[11, 1.3],
@@ -1180,7 +1279,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 0.75],
@@ -1200,7 +1299,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 0.75],
@@ -1220,7 +1319,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[9, 0.3],
@@ -1240,7 +1339,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 8,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[8, 0.3],
@@ -1260,12 +1359,10 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 6,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[6, '#414242'],
-						[7, '#434444'],
+						[6, '#FAFAFA'],
+						[7, '#ffffff'],
 					],
 				},
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
@@ -1287,7 +1384,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-dasharray': [2, 1],
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
@@ -1308,7 +1405,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1328,7 +1425,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1349,7 +1446,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1369,7 +1466,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1390,7 +1487,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1411,7 +1508,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1432,7 +1529,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1453,7 +1550,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1474,7 +1571,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 8,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1495,7 +1592,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#2A2B2B',
+				'line-color': '#E3E5E2',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1516,7 +1613,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 15,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-dasharray': [3, 1.5],
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
@@ -1537,7 +1634,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1557,7 +1654,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 13,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1577,12 +1674,10 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 12,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[12, '#414242'],
-						[13, '#434444'],
+						[12, '#FAFAFA'],
+						[13, '#ffffff'],
 					],
 				},
 				'line-opacity': 0.5,
@@ -1605,7 +1700,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1626,7 +1721,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 11,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#FFFFFF',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1647,7 +1742,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1668,7 +1763,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1689,7 +1784,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1710,7 +1805,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 8,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#ffffff',
 				'line-opacity': 0.5,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1731,12 +1826,10 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 6,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[6, '#414242'],
-						[7, '#434444'],
+						[6, '#FAFAFA'],
+						[7, '#ffffff'],
 					],
 				},
 				'line-opacity': 0.5,
@@ -1758,7 +1851,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Gutter',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#353636' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f2f2f1',
+				'fill-outline-color': '#efefef',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -1768,7 +1866,12 @@ export const mapStyle = ({
 			id: 'Special area of interest/Curb',
 			layout: {},
 			minzoom: 14,
-			paint: { 'fill-color': '#353636', 'fill-outline-color': '#2d2e2e' },
+			paint: {
+				'fill-color': <
+					DataDrivenPropertyValueSpecification<ColorSpecification>
+				>'#f2f2f1',
+				'fill-outline-color': '#ebebeb',
+			},
 			source: 'esri',
 			'source-layer': 'Special area of interest',
 			type: 'fill',
@@ -1779,7 +1882,7 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#414242',
+				'line-color': '#dddedb',
 				'line-opacity': 0.95,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1799,7 +1902,12 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#2D2E2E',
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
+					stops: [
+						[1, '#FAFAFA'],
+						[3, '#ffffff'],
+					],
+				},
 				'line-dasharray': [7, 5],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1819,7 +1927,8 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 4,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#dddedb',
+				'line-opacity': 0.95,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.65],
@@ -1842,7 +1951,8 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 1,
 			paint: {
-				'line-color': '#434444',
+				'line-color': '#dddedb',
+				'line-opacity': 0.95,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[1, 0.65],
@@ -1860,8 +1970,13 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 4,
 			paint: {
-				'line-color': '#2D2E2E',
-				'line-dasharray': [6, 5],
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
+					stops: [
+						[1, '#FAFAFA'],
+						[3, '#ffffff'],
+					],
+				},
+				'line-dasharray': [7, 5],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[1, 0.65],
@@ -1885,7 +2000,12 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 1,
 			paint: {
-				'line-color': '#2D2E2E',
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
+					stops: [
+						[1, '#FAFAFA'],
+						[3, '#ffffff'],
+					],
+				},
 				'line-dasharray': [7, 5],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -1903,14 +2023,14 @@ export const mapStyle = ({
 			filter: ['all', ['==', '_symbol', 2], ['!in', 'Viz', 3]],
 			id: 'Boundary line/Admin2/1',
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
-			minzoom: 9,
+			minzoom: 10,
 			paint: {
-				'line-color': '#2D2E2E',
+				'line-color': '#dfe0dd',
 				'line-opacity': 0.6,
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
-						[8, 3],
-						[14, 4.5],
+						[8, 1.3],
+						[14, 2.65],
 					],
 				},
 			},
@@ -1924,18 +2044,11 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 4,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
-					stops: [
-						[1, '#323333'],
-						[12, '#2D2E2E'],
-					],
-				},
+				'line-color': '#dfe0dd',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
-						[4, 0.73],
-						[14, 8],
+						[4, 0.65],
+						[14, 7],
 					],
 				},
 			},
@@ -1949,18 +2062,11 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 1,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
-					stops: [
-						[1, '#323333'],
-						[12, '#2D2E2E'],
-					],
-				},
+				'line-color': '#dddedb',
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[1, 0.65],
-						[14, 10.5],
+						[14, 9.3],
 					],
 				},
 			},
@@ -1974,7 +2080,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 16,
 			paint: {
-				'line-color': '#515252',
+				'line-color': '#b9b9b9',
 				'line-dasharray': [5, 3],
 				'line-width': 1,
 			},
@@ -1988,7 +2094,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 16,
 			paint: {
-				'line-color': '#515252',
+				'line-color': '#b9b9b9',
 				'line-dasharray': [5, 3],
 				'line-width': 1,
 			},
@@ -2002,7 +2108,7 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 16,
 			paint: {
-				'line-color': '#515252',
+				'line-color': '#b9b9b9',
 				'line-dasharray': [5, 3],
 				'line-width': 1,
 			},
@@ -2016,12 +2122,12 @@ export const mapStyle = ({
 			layout: { 'line-join': 'round' },
 			minzoom: 9,
 			paint: {
-				'line-color': '#515252',
+				'line-color': '#b9b9b9',
 				'line-dasharray': [6, 4],
 				'line-width': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
-						[8, 0.6],
-						[14, 1.3],
+						[8, 0.5],
+						[14, 1],
 					],
 				},
 			},
@@ -2035,12 +2141,10 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 7,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[7, '#3F4040'],
-						[12, '#444545'],
+						[7, '#c8c8c8'],
+						[12, '#b9b9b9'],
 					],
 				},
 				'line-dasharray': [7, 5.3],
@@ -2061,12 +2165,10 @@ export const mapStyle = ({
 			layout: { 'line-cap': 'round', 'line-join': 'round' },
 			minzoom: 5,
 			paint: {
-				'line-color': <
-					DataDrivenPropertyValueSpecification<ColorSpecification>
-				>{
+				'line-color': <DataDrivenPropertyValueSpecification<string>>{
 					stops: [
-						[5, '#383939'],
-						[7, '#4A4C4C'],
+						[5, '#cccccc'],
+						[7, '#9C9C9C'],
 					],
 				},
 				'line-dasharray': [7, 5.3],
@@ -2089,7 +2191,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.3,
 				'text-line-height': 1.6,
 				'text-max-width': 4,
@@ -2103,9 +2205,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2120,7 +2222,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2135,7 +2237,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2150,7 +2252,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2165,7 +2267,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.7,
 			},
 			source: 'esri',
@@ -2180,7 +2282,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2195,7 +2297,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.7,
 			},
 			source: 'esri',
@@ -2210,7 +2312,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2223,9 +2325,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2240,7 +2342,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2253,9 +2355,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2270,7 +2372,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2283,9 +2385,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2300,7 +2402,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2313,9 +2415,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2339,9 +2441,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#A0A6A8',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2354,14 +2456,14 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
 				'text-size': 9.5,
 			},
 			minzoom: 16,
-			paint: { 'text-color': '#707374' },
+			paint: { 'text-color': '#888f91' },
 			source: 'esri',
 			'source-layer': 'Marine park/label',
 			type: 'symbol',
@@ -2373,7 +2475,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2383,7 +2485,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2397,7 +2499,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2407,7 +2509,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2423,7 +2525,7 @@ export const mapStyle = ({
 				'symbol-spacing': 1000,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 5,
 				'text-padding': 15,
@@ -2431,9 +2533,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2449,7 +2551,7 @@ export const mapStyle = ({
 				'symbol-spacing': 1000,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 8,
 				'text-padding': 15,
@@ -2457,9 +2559,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2475,7 +2577,7 @@ export const mapStyle = ({
 				'symbol-spacing': 1000,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 8,
 				'text-padding': 15,
@@ -2483,9 +2585,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2499,7 +2601,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2507,9 +2609,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2523,7 +2625,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-line-height': 1.15,
 				'text-max-width': 4,
@@ -2532,9 +2634,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2548,7 +2650,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-line-height': 1.15,
 				'text-max-width': 4,
@@ -2557,9 +2659,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2583,7 +2685,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2607,7 +2709,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2623,7 +2725,7 @@ export const mapStyle = ({
 				'symbol-spacing': 1000,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2632,9 +2734,9 @@ export const mapStyle = ({
 			maxzoom: 11,
 			minzoom: 7,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2648,7 +2750,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2657,9 +2759,9 @@ export const mapStyle = ({
 			maxzoom: 11,
 			minzoom: 7,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2672,7 +2774,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2681,9 +2783,9 @@ export const mapStyle = ({
 			maxzoom: 7,
 			minzoom: 5,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2696,7 +2798,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2705,9 +2807,9 @@ export const mapStyle = ({
 			maxzoom: 5,
 			minzoom: 1,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2720,7 +2822,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.13,
 				'text-max-width': 4,
 				'text-padding': 15,
@@ -2728,9 +2830,9 @@ export const mapStyle = ({
 			},
 			minzoom: 11,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2744,7 +2846,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.12,
 				'text-line-height': 1.2,
 				'text-max-width': 4,
@@ -2759,9 +2861,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 4,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#e0e4e5',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2775,7 +2877,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.15,
 				'text-line-height': 1.2,
 				'text-max-width': 4,
@@ -2790,9 +2892,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 4,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#e0e4e5',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2806,7 +2908,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.18,
 				'text-line-height': 1.5,
 				'text-max-width': 4,
@@ -2821,9 +2923,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 4,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#e0e4e5',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2837,7 +2939,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.2,
 				'text-line-height': 1.5,
 				'text-max-width': 4,
@@ -2852,9 +2954,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 3,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#e0e4e5',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2868,7 +2970,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.3,
 				'text-line-height': 1.6,
 				'text-max-width': 4,
@@ -2883,9 +2985,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#e0e4e5',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -2900,7 +3002,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 1000,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-offset': [0, -0.6],
@@ -2910,7 +3012,7 @@ export const mapStyle = ({
 			minzoom: 16,
 			paint: {
 				'text-color': '#808080',
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2924,7 +3026,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 1000,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-offset': [0, -0.6],
@@ -2934,7 +3036,7 @@ export const mapStyle = ({
 			minzoom: 16,
 			paint: {
 				'text-color': '#808080',
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2949,7 +3051,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -2957,9 +3059,9 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2974,7 +3076,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -2982,9 +3084,9 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -2999,7 +3101,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3007,9 +3109,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3024,7 +3126,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3032,9 +3134,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3049,7 +3151,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3057,9 +3159,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3074,7 +3176,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3082,9 +3184,9 @@ export const mapStyle = ({
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3099,7 +3201,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3107,9 +3209,9 @@ export const mapStyle = ({
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3124,7 +3226,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3132,9 +3234,9 @@ export const mapStyle = ({
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
+				'text-color': '#666666',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3147,7 +3249,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3157,7 +3259,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.7,
 			},
 			source: 'esri',
@@ -3171,7 +3273,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3179,8 +3281,8 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3195,7 +3297,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3203,8 +3305,8 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3219,7 +3321,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 5,
@@ -3227,8 +3329,8 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3243,7 +3345,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 2,
@@ -3251,8 +3353,8 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3267,7 +3369,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 2,
@@ -3275,8 +3377,8 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3291,7 +3393,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 2,
@@ -3299,8 +3401,8 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3315,16 +3417,16 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
-				'text-padding': 2,
+				'text-padding': 10,
 				'text-size': 10.5,
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3339,7 +3441,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 2,
@@ -3347,8 +3449,8 @@ export const mapStyle = ({
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3363,7 +3465,7 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 400,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 2,
@@ -3371,8 +3473,8 @@ export const mapStyle = ({
 			},
 			minzoom: 13,
 			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#212121',
+				'text-color': '#666666',
+				'text-halo-color': '#ffffff',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3430,20 +3532,16 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 800,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-max-angle': 25,
 				'text-max-width': 6,
 				'text-offset': [0, 0.2],
 				'text-padding': 30,
 				'text-rotation-alignment': 'viewport',
-				'text-size': 10,
+				'text-size': 8.5,
 			},
 			minzoom: 14,
-			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#404040',
-				'text-halo-width': 1,
-			},
+			paint: { 'text-color': '#666666' },
 			source: 'esri',
 			'source-layer': 'Road/label',
 			type: 'symbol',
@@ -3499,20 +3597,16 @@ export const mapStyle = ({
 				'symbol-placement': 'line',
 				'symbol-spacing': 800,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-max-angle': 25,
 				'text-max-width': 6,
 				'text-offset': [0, 0.2],
 				'text-padding': 30,
 				'text-rotation-alignment': 'viewport',
-				'text-size': 10,
+				'text-size': 8.5,
 			},
 			minzoom: 14,
-			paint: {
-				'text-color': '#a3a3a1',
-				'text-halo-color': '#404040',
-				'text-halo-width': 1,
-			},
+			paint: { 'text-color': '#666666' },
 			source: 'esri',
 			'source-layer': 'Road/label',
 			type: 'symbol',
@@ -3523,7 +3617,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3531,9 +3625,9 @@ export const mapStyle = ({
 			},
 			minzoom: 16,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3546,7 +3640,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3556,7 +3650,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3569,7 +3663,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3579,7 +3673,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3592,7 +3686,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3602,7 +3696,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3615,7 +3709,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3625,7 +3719,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3638,7 +3732,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': false,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3648,7 +3742,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3661,7 +3755,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3671,7 +3765,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3684,7 +3778,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3694,7 +3788,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3707,7 +3801,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3717,7 +3811,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3730,7 +3824,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 25,
@@ -3740,7 +3834,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3753,7 +3847,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3763,7 +3857,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3776,7 +3870,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': false,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3786,7 +3880,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3799,7 +3893,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3809,7 +3903,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3822,7 +3916,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3830,9 +3924,9 @@ export const mapStyle = ({
 			},
 			minzoom: 17,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3845,7 +3939,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3853,9 +3947,9 @@ export const mapStyle = ({
 			},
 			minzoom: 15,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3868,7 +3962,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3878,7 +3972,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3891,7 +3985,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3901,7 +3995,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3914,7 +4008,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': false,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 25,
@@ -3922,9 +4016,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3937,7 +4031,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': false,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 25,
@@ -3945,9 +4039,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3962,7 +4056,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3970,9 +4064,9 @@ export const mapStyle = ({
 			},
 			minzoom: 14,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -3985,7 +4079,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -3995,7 +4089,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4008,7 +4102,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -4018,7 +4112,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4031,7 +4125,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': false,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 25,
@@ -4044,9 +4138,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4059,7 +4153,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 25,
@@ -4072,9 +4166,9 @@ export const mapStyle = ({
 			},
 			minzoom: 9,
 			paint: {
-				'text-color': '#8c8e8d',
+				'text-color': '#939d8c',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#EBEDEB',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4087,7 +4181,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -4102,7 +4196,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4116,7 +4210,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.2,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4126,9 +4220,9 @@ export const mapStyle = ({
 			maxzoom: 11,
 			minzoom: 9,
 			paint: {
-				'text-color': '#656564',
+				'text-color': '#b1b2ad',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4142,7 +4236,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.2,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4152,9 +4246,9 @@ export const mapStyle = ({
 			maxzoom: 11,
 			minzoom: 9,
 			paint: {
-				'text-color': '#656564',
+				'text-color': '#b1b2ad',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4168,7 +4262,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.1],
@@ -4190,9 +4284,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4206,7 +4300,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.1],
@@ -4228,9 +4322,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4244,7 +4338,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.1],
@@ -4266,9 +4360,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4282,7 +4376,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.1],
@@ -4304,9 +4398,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4320,7 +4414,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.13],
@@ -4342,9 +4436,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4358,7 +4452,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
 						[4, 0.13],
@@ -4380,9 +4474,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#727271',
+				'text-color': '#b4b4b4',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4397,7 +4491,7 @@ export const mapStyle = ({
 				'text-allow-overlap': false,
 				'text-anchor': 'center',
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -4407,7 +4501,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4421,7 +4515,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.04,
 				'text-max-width': 6,
 				'text-offset': [0, -0.9],
@@ -4432,7 +4526,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4446,7 +4540,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.04,
 				'text-max-width': 6,
 				'text-offset': [0, -0.9],
@@ -4457,7 +4551,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#212121',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4470,8 +4564,9 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.08,
+				'text-max-width': 6,
 				'text-padding': 1,
 				'text-size': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -4483,9 +4578,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 15,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4499,7 +4594,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.08,
 				'text-max-width': 6,
 				'text-padding': 15,
@@ -4513,9 +4608,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4529,7 +4624,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.09,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4543,9 +4638,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4559,7 +4654,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4573,9 +4668,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4589,7 +4684,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4603,9 +4698,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4619,7 +4714,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4633,9 +4728,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4649,7 +4744,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name_global}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.1,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -4663,9 +4758,9 @@ export const mapStyle = ({
 			maxzoom: 17,
 			minzoom: 10,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4679,18 +4774,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4704,18 +4799,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4729,18 +4824,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4754,18 +4849,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4779,18 +4874,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4804,18 +4899,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4829,18 +4924,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4854,18 +4949,18 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Regular'],
+				'text-font': ['Ubuntu Light'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
-				'text-size': 9.5,
+				'text-size': 10,
 			},
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#d6d8d4',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4899,9 +4994,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 5,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4935,9 +5030,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 4,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -4972,9 +5067,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5009,9 +5104,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5047,9 +5142,9 @@ export const mapStyle = ({
 			maxzoom: 8,
 			minzoom: 2,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5063,7 +5158,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5078,9 +5173,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5094,7 +5189,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5109,9 +5204,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5125,7 +5220,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5140,9 +5235,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5156,7 +5251,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5171,9 +5266,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5187,7 +5282,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5202,9 +5297,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5218,7 +5313,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5233,9 +5328,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5249,7 +5344,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5264,9 +5359,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5280,7 +5375,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5295,9 +5390,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5311,7 +5406,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5326,9 +5421,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5342,7 +5437,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5357,9 +5452,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5373,7 +5468,7 @@ export const mapStyle = ({
 				'symbol-avoid-edges': true,
 				'text-allow-overlap': false,
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium'],
+				'text-font': ['Ubuntu Regular'],
 				'text-letter-spacing': 0.05,
 				'text-max-width': 6,
 				'text-padding': 1,
@@ -5388,9 +5483,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#e1e3de',
+				'text-color': '#353635',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5426,9 +5521,9 @@ export const mapStyle = ({
 			maxzoom: 6,
 			minzoom: 2,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5458,7 +5553,7 @@ export const mapStyle = ({
 			paint: {
 				'text-color': '#808080',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
@@ -5473,9 +5568,9 @@ export const mapStyle = ({
 				'icon-image': 'Disputed label point',
 				'text-anchor': 'center',
 				'text-field': '{_name}',
-				'text-font': ['Ubuntu Medium Italic'],
+				'text-font': ['Ubuntu Italic'],
 				'text-letter-spacing': 0.1,
-				'text-max-width': 6,
+				'text-max-width': 4,
 				'text-optional': true,
 				'text-size': <DataDrivenPropertyValueSpecification<number>>{
 					stops: [
@@ -5487,9 +5582,9 @@ export const mapStyle = ({
 			maxzoom: 10,
 			minzoom: 2,
 			paint: {
-				'text-color': '#707374',
+				'text-color': '#888f91',
 				'text-halo-blur': 1,
-				'text-halo-color': 'rgba(12, 36, 56, 1)',
+				'text-halo-color': '#efefef',
 				'text-halo-width': 0.5,
 			},
 			source: 'esri',
@@ -5524,9 +5619,9 @@ export const mapStyle = ({
 			},
 			minzoom: 2,
 			paint: {
-				'text-color': '#838381',
+				'text-color': '#aaafac',
 				'text-halo-blur': 1,
-				'text-halo-color': '#323333',
+				'text-halo-color': '#F7F7F7',
 				'text-halo-width': 1,
 			},
 			source: 'esri',
