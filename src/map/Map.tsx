@@ -24,6 +24,7 @@ import { HistoryControls } from '#map/HistoryControls.js'
 import type React from 'preact/compat'
 import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
 import { byTs } from '#utils/byTs.js'
+import { decodeMapState, encodeMapState } from './encodeMapState.js'
 
 import '#map/Map.css'
 
@@ -68,17 +69,31 @@ export const Map = ({
 		{},
 	)
 
+	const maybeMapState = decodeMapState(window.location.hash.slice(1))
+
 	useEffect(() => {
 		if (containerRef.current === null) return
 		onParameters(({ mapRegion, mapName, mapApiKey }) => {
+			const { lat, lng, zoom } = maybeMapState ?? {
+				// Trondheim
+				lat: 63.42148461054351,
+				lng: 10.437581513483195,
+				zoom: 10,
+			}
+
+			console.log(`[Map]`, `initializing`, { lat, lng, zoom })
+
 			const map = new maplibregl.Map({
 				container: 'map',
 				style: mapStyle({
 					region: mapRegion,
 					mapName,
 				}),
-				center: [10.437581513483195, 63.42148461054351], // Trondheim
-				zoom: 10,
+				center: {
+					lng,
+					lat,
+				},
+				zoom,
 				transformRequest: transformRequest(mapApiKey, mapRegion),
 				refreshExpiredTiles: false,
 				trackResize: true,
@@ -91,9 +106,13 @@ export const Map = ({
 				map.scrollZoom.disable()
 				map.dragPan.disable()
 			}
-			
+
 			map.on('load', () => {
 				setMapLoaded(true)
+			})
+
+			map.on('moveend', () => {
+				document.location.hash = `#${encodeMapState(map)}`
 			})
 
 			setMap(map)
@@ -107,6 +126,7 @@ export const Map = ({
 	// Center the map on current location
 	useEffect(() => {
 		if (!isLocked) return // Don't override user set center
+		if (maybeMapState !== undefined) return
 		if (map === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
@@ -115,11 +135,12 @@ export const Map = ({
 			center: centerLocation,
 			zoom: map.getZoom(),
 		})
-	}, [locations, map, isLocked])
+	}, [locations, map, isLocked, maybeMapState])
 
 	// Center map on last known location
 	useEffect(() => {
 		if (!isLocked) return // Don't override user set center
+		if (maybeMapState !== undefined) return
 		if (map === undefined) return
 		if (hasLocation) return
 		console.debug(`[Map]`, 'center', trail[trail.length - 1])
@@ -127,7 +148,7 @@ export const Map = ({
 			center: trail[trail.length - 1],
 			zoom: map.getZoom(),
 		})
-	}, [trail, locations, map, isLocked])
+	}, [trail, locations, map, isLocked, maybeMapState])
 
 	// Locations
 	useEffect(() => {
