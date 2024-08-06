@@ -1,7 +1,7 @@
 import { LockIcon, MinusIcon, PlusIcon, UnlockIcon } from 'lucide-preact'
 import { useMap } from '#context/Map.js'
 
-export const MapZoomControls = () => {
+export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
 	const { map, locked, toggleLock } = useMap()
 	return (
 		<>
@@ -25,16 +25,18 @@ export const MapZoomControls = () => {
 			>
 				<MinusIcon />
 			</button>
-			<button
-				type="button"
-				class="control"
-				title="Lock map"
-				onClick={() => {
-					toggleLock()
-				}}
-			>
-				{locked ? <LockIcon /> : <UnlockIcon />}
-			</button>
+			{(canBeLocked ?? true) && (
+				<button
+					type="button"
+					class="control"
+					title="Lock map"
+					onClick={() => {
+						toggleLock()
+					}}
+				>
+					{locked ? <LockIcon /> : <UnlockIcon />}
+				</button>
+			)}
 		</>
 	)
 }

@@ -33,6 +33,7 @@ export const DeviceMap = () => {
 						</a>
 					</>
 				}
+				canBeLocked={false}
 			/>
 		</main>
 	)

@@ -38,13 +38,23 @@ const glyphFonts = {
 const getCenter = (locations: Locations): GeoLocation | undefined =>
 	Object.values(locations).sort(byTs)[0]
 
-export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
+export const Map = ({
+	mapControls,
+	canBeLocked,
+}: {
+	mapControls?: React.ReactElement
+	/**
+	 * Whether to enable the lock button
+	 */
+	canBeLocked?: boolean
+}) => {
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { locations, trail, clustering } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
 	const { locked, setMap, clearMap, map } = useMap()
+	const isLocked = (canBeLocked ?? true) ? locked : false
 
 	const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
 		(acc, location) => {
@@ -76,10 +86,12 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 				renderWorldCopies: false,
 			})
 
-			map.dragRotate.disable()
-			map.scrollZoom.disable()
-			map.dragPan.disable()
-
+			if (canBeLocked ?? true) {
+				map.dragRotate.disable()
+				map.scrollZoom.disable()
+				map.dragPan.disable()
+			}
+			
 			map.on('load', () => {
 				setMapLoaded(true)
 			})
@@ -94,7 +106,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 
 	// Center the map on current location
 	useEffect(() => {
-		if (!locked) return // Don't override user set center
+		if (!isLocked) return // Don't override user set center
 		if (map === undefined) return
 		const centerLocation = getCenter(locations)
 		if (centerLocation === undefined) return
@@ -103,11 +115,11 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 			center: centerLocation,
 			zoom: map.getZoom(),
 		})
-	}, [locations, map, locked])
+	}, [locations, map, isLocked])
 
 	// Center map on last known location
 	useEffect(() => {
-		if (!locked) return // Don't override user set center
+		if (!isLocked) return // Don't override user set center
 		if (map === undefined) return
 		if (hasLocation) return
 		console.debug(`[Map]`, 'center', trail[trail.length - 1])
@@ -115,7 +127,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 			center: trail[trail.length - 1],
 			zoom: map.getZoom(),
 		})
-	}, [trail, locations, map, locked])
+	}, [trail, locations, map, isLocked])
 
 	// Locations
 	useEffect(() => {
@@ -289,7 +301,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 
 	// Enable zoom
 	useEffect(() => {
-		if (locked) {
+		if (isLocked) {
 			map?.dragRotate.disable()
 			map?.scrollZoom.disable()
 			map?.dragPan.disable()
@@ -298,7 +310,7 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 			map?.scrollZoom.enable()
 			map?.dragPan.enable()
 		}
-	}, [locked])
+	}, [isLocked])
 
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
@@ -310,21 +322,21 @@ export const Map = ({ mapControls }: { mapControls?: React.ReactElement }) => {
 		<section class="map bg-dark">
 			<div id="map" ref={containerRef} class="scroll-margin-flush" />
 
-			{!hasLocation && locked && (
+			{!hasLocation && isLocked && (
 				<div class="noLocationInfo">
 					<span>
 						<MapPinOff /> waiting for location
 					</span>
 				</div>
 			)}
-			<LockInfo />
+			{(canBeLocked ?? true) && <LockInfo />}
 			<div class="locationControls">
 				<CenterOnMapLocations />
 				<HistoryControls />
 			</div>
 			<div class="mapControls controls vertical">
 				{mapControls}
-				<MapZoomControls />
+				<MapZoomControls canBeLocked={canBeLocked} />
 			</div>
 		</section>
 	)
