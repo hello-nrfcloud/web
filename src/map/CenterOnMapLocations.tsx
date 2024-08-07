@@ -1,15 +1,16 @@
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useMap } from '#context/Map.js'
-import { RadioTowerIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
+import { useMapInstance } from '#context/MapInstance.js'
 import {
 	LocationSource,
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
+import { RadioTowerIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
+import { centerMapOnLocation } from './centerMapOnLocation.js'
 
 import './CenterOnMapLocations.css'
 
 export const CenterOnMapLocations = () => {
-	const { center } = useMap()
+	const { map } = useMapInstance()
 	const { locations } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	if (!hasLocation) return null
@@ -21,7 +22,8 @@ export const CenterOnMapLocations = () => {
 					<button
 						type="button"
 						onClick={() => {
-							center(location)
+							if (map === undefined) return
+							centerMapOnLocation(map, location)
 						}}
 						class="d-flex flex-row align-items-center control"
 					>

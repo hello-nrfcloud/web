@@ -21,6 +21,9 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 import { useParameters } from './Parameters.js'
 import { useFingerprint } from './Fingerprint.js'
 import { getObjectHistory } from '#api/getObjectHistory.js'
+import { isSSR } from '#utils/isSSR.js'
+import { defaultMapState } from './MapState.js'
+import { decodeMapState } from '#map/encodeMapState.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -45,8 +48,18 @@ export const DeviceLocationContext = createContext<{
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
-	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>()
-	const [clustering, setClustering] = useState<boolean>(false)
+	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>(
+		isSSR
+			? defaultMapState.history
+			: (decodeMapState(document.location.hash.slice(1))?.history ??
+					defaultMapState.history),
+	)
+	const [clustering, setClustering] = useState<boolean>(
+		isSSR
+			? defaultMapState.cluster
+			: (decodeMapState(document.location.hash.slice(1))?.cluster ??
+					defaultMapState.cluster),
+	)
 	const [locations, setLocations] = useState<Locations>({})
 	const [trail, setTrail] = useState<TrailPoint[]>([])
 	const { onParameters } = useParameters()
@@ -85,6 +98,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 
 		onParameters(({ helloApiURL }) => {
 			const g = getObjectHistory(helloApiURL, device, fingerprint)
+			console.debug(
+				`[DeviceLocation] Fetching history for ${device.id}`,
+				timeSpan,
+				clustering ? 'with clustering' : 'without clustering',
+			)
 			g(
 				LwM2MObjectID.Geolocation_14201,
 				timeSpan,
@@ -111,7 +129,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				)
 			})
 		})
-	}, [timeSpan, clustering])
+	}, [device, timeSpan, clustering])
 
 	return (
 		<DeviceLocationContext.Provider

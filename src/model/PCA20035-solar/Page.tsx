@@ -11,7 +11,7 @@ import { ModelCard } from '#model/ModelCard.js'
 import { Battery } from '#model/PCA20035-solar/Battery.js'
 import { Chart } from '#model/PCA20035-solar/Chart.js'
 import { ConnectionSuccess } from '#model/PCA20035-solar/ConnectionSuccess.js'
-import { Provider } from '#model/PCA20035-solar/HistoryContext.js'
+import { Provider as HistoryContextProvider } from '#model/PCA20035-solar/HistoryContext.js'
 import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
 import { Configuration } from '#components/Configuration.js'
 import { HideDataBefore } from '#components/HideDataBefore.js'
@@ -21,7 +21,7 @@ import './Page.css'
 export const Page = ({ device }: { device: TDevice }) => {
 	const { hasLiveData } = useDevice()
 	return (
-		<Provider>
+		<HistoryContextProvider>
 			<main>
 				<div class="container my-md-4">
 					<div class="row">
@@ -87,6 +87,6 @@ export const Page = ({ device }: { device: TDevice }) => {
 					</div>
 				</div>
 			</main>
-		</Provider>
+		</HistoryContextProvider>
 	)
 }

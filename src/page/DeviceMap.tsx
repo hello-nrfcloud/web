@@ -1,15 +1,16 @@
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { useDevice } from '#context/Device.js'
+import { useMapState } from '#context/MapState.js'
+import { encodeMapState } from '#map/encodeMapState.js'
 import { Map } from '#map/Map.js'
 import { ShrinkIcon } from 'lucide-preact'
-import { encodeMapState } from '#map/encodeMapState.js'
-import { useMap } from '#context/Map.js'
+import { Provider as MapInstanceProvider } from '#context/MapInstance.js'
 
 import './DeviceMap.css'
 
 export const DeviceMap = () => {
 	const { device } = useDevice()
-	const { map, style } = useMap()
+	const mapState = useMapState()
 
 	if (device === undefined)
 		return (
@@ -24,24 +25,21 @@ export const DeviceMap = () => {
 
 	return (
 		<main id="deviceMap">
-			<Map
-				mapControls={
-					<button
-						onClick={() =>
-							(document.location.href =
-								map === undefined
-									? `/device`
-									: `/device#${encodeMapState(map, style)}`)
-						}
-						class="button control"
-						title={'Close fullscreen map'}
-					>
-						<ShrinkIcon />
-					</button>
-				}
-				canBeLocked={false}
-				key={style}
-			/>
+			<MapInstanceProvider>
+				<Map
+					mapControls={
+						<a
+							href={`/device#${encodeMapState(mapState.state)}`}
+							class="button control"
+							title={'Close fullscreen map'}
+						>
+							<ShrinkIcon />
+						</a>
+					}
+					canBeLocked={false}
+					key={mapState.state.style}
+				/>
+			</MapInstanceProvider>
 		</main>
 	)
 }

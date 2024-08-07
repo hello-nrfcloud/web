@@ -9,6 +9,7 @@ import cx from 'classnames'
 import { Provider as FOTAProvider } from '#context/FOTA.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WithParameters } from '#context/Parameters.js'
+import { Provider as MapInstanceProvider } from '#context/MapInstance.js'
 
 export const Device = () => {
 	const { device, debug } = useDevice()
@@ -65,15 +66,17 @@ export const Device = () => {
 						fingerprint={fingerprint!}
 						helloApiURL={helloApiURL}
 					>
-						<div class={cx({ hasSidebar: debug })}>
-							{device.model.slug === 'PCA20035+solar' && (
-								<SolarThingy91 device={device} />
-							)}
-							{device.model.slug === 'PCA20065' && (
-								<Thingy91X device={device} />
-							)}
-							{debug && <LwM2MDebug />}
-						</div>
+						<MapInstanceProvider>
+							<div class={cx({ hasSidebar: debug })}>
+								{device.model.slug === 'PCA20035+solar' && (
+									<SolarThingy91 device={device} />
+								)}
+								{device.model.slug === 'PCA20065' && (
+									<Thingy91X device={device} />
+								)}
+								{debug && <LwM2MDebug />}
+							</div>
+						</MapInstanceProvider>
 					</FOTAProvider>
 				)}
 			</WithParameters>

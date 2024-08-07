@@ -6,10 +6,13 @@ import {
 	SunIcon,
 	UnlockIcon,
 } from 'lucide-preact'
-import { MapStyle, useMap } from '#context/Map.js'
+import { MapStyle } from '#map/encodeMapState.js'
+import { useMapState } from '#context/MapState.js'
+import { useMapInstance } from '#context/MapInstance.js'
 
 export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
-	const { map, locked, toggleLock, style, setStyle } = useMap()
+	const { toggleLock, setStyle, state, locked } = useMapState()
+	const { map } = useMapInstance()
 	return (
 		<>
 			<button
@@ -17,7 +20,7 @@ export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
 				class="control"
 				title="Zoom in"
 				onClick={() => {
-					map?.setZoom(map.getZoom() + 1)
+					map?.setZoom(map?.getZoom() + 1)
 				}}
 			>
 				<PlusIcon />
@@ -27,12 +30,12 @@ export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
 				class="control"
 				title="Zoom out"
 				onClick={() => {
-					map?.setZoom(map.getZoom() - 1)
+					map?.setZoom(map?.getZoom() - 1)
 				}}
 			>
 				<MinusIcon />
 			</button>
-			{style == MapStyle.DARK ? (
+			{state.style == MapStyle.DARK ? (
 				<button
 					type="button"
 					class="control"

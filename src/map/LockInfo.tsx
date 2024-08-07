@@ -1,9 +1,9 @@
 import { LockIcon } from 'lucide-preact'
-import { useMap } from '#context/Map.js'
+import { useMapState } from '#context/MapState.js'
 
 export const LockInfo = () => {
-	const { locked, unlock } = useMap()
-	if (!locked) return null
+	const mapState = useMapState()
+	if (!mapState.locked) return null
 	return (
 		<div class="lockInfo">
 			<span>
@@ -11,7 +11,7 @@ export const LockInfo = () => {
 				<button
 					type="button"
 					onClick={() => {
-						unlock()
+						mapState.unlock()
 					}}
 				>
 					<LockIcon />

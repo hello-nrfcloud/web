@@ -1,33 +1,60 @@
-import { MapStyle } from '#context/Map.js'
-import type maplibregl from 'maplibre-gl'
+import { TimeSpan } from '#api/api.js'
+import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
+import { Type, type Static } from '@sinclair/typebox'
 
-export const encodeMapState = (
-	map: Pick<maplibregl.Map, 'getCenter' | 'getZoom'>,
-	style: MapStyle,
-): string => {
-	const { lat, lng } = map.getCenter()
-	return `map:${lat},${lng},${map.getZoom()},${style}`
+export enum MapStyle {
+	DARK = 'dark',
+	LIGHT = 'light',
 }
 
-export const decodeMapState = (
-	hash: string,
-): { lat: number; lng: number; zoom: number; style: MapStyle } | undefined => {
-	const [lat, lng, zoom, style] = hash.slice(4).split(',')
-	if (
-		lat === undefined ||
-		lng === undefined ||
-		zoom === undefined ||
-		style === undefined ||
-		!isMapStyle(style)
-	)
-		return undefined
-	return {
-		lat: Number(lat),
-		lng: Number(lng),
+export const MapState = Type.Object({
+	center: Type.Object({
+		lat: Type.Number({
+			minimum: -90,
+			maximum: 90,
+			title: 'Latitude',
+			description:
+				'The decimal notation of latitude in degrees, e.g. -43.5723 [World Geodetic System 1984].',
+		}),
+		lng: Type.Number({
+			minimum: -180,
+			maximum: 180,
+			title: 'Longitude',
+			description:
+				'The decimal notation of longitude in degrees, e.g. 153.21760 [World Geodetic System 1984].',
+		}),
+	}),
+	zoom: Type.Number({}),
+	style: Type.Enum(MapStyle),
+	cluster: Type.Boolean(),
+	history: Type.Optional(Type.Enum(TimeSpan)),
+})
+export type MapStateType = Static<typeof MapState>
+
+export const encodeMapState = ({
+	center: { lat, lng },
+	zoom,
+	style,
+	cluster,
+	history,
+}: MapStateType): string => {
+	const parts = [lat, lng, zoom, style, cluster ? 'cluster' : 'trail']
+	if (history !== undefined) parts.push(history)
+	return `map:${parts.join(';')}`
+}
+
+const validate = validateWithTypeBox(MapState)
+
+export const decodeMapState = (hash: string): MapStateType | undefined => {
+	const [lat, lng, zoom, style, cluster, history] = hash.slice(4).split(';')
+	const s: Record<string, any> = {
+		center: { lat: Number(lat), lng: Number(lng) },
 		zoom: Number(zoom),
 		style,
+		cluster: cluster === 'cluster',
 	}
+	if (history !== undefined) s.history = history as TimeSpan
+	const maybeValidState = validate(s)
+	if ('errors' in maybeValidState) return undefined
+	return maybeValidState.value
 }
-
-const isMapStyle = (style: string): style is MapStyle =>
-	[MapStyle.DARK, MapStyle.LIGHT].includes(style as MapStyle)

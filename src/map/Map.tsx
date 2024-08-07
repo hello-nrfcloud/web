@@ -1,9 +1,5 @@
-import {
-	useDeviceLocation,
-	type Locations,
-	type TrailPoint,
-} from '#context/DeviceLocation.js'
-import { MapStyle, useMap } from '#context/Map.js'
+import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.js'
+import { useMapState } from '#context/MapState.js'
 import { useParameters } from '#context/Parameters.js'
 import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
 import { HistoryControls } from '#map/HistoryControls.js'
@@ -15,18 +11,18 @@ import {
 } from '#map/LocationSourceLabels.js'
 import { LockInfo } from '#map/LockInfo.js'
 import { MapZoomControls } from '#map/MapZoomControls.js'
+import { MapStyle } from '#map/encodeMapState.js'
 import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
 import { mapStyle as mapStyleLight } from '#map/style-light.js'
 import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
 import { type GeoLocation } from '#proto/lwm2m.js'
-import { byTs } from '#utils/byTs.js'
 import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
 import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
 import type React from 'preact/compat'
-import { useEffect, useRef, useState } from 'preact/hooks'
-import { encodeMapState } from './encodeMapState.js'
+import { useEffect, useRef } from 'preact/hooks'
+import { useMapInstance } from '#context/MapInstance.js'
 
 import '#map/Map.css'
 
@@ -38,9 +34,6 @@ const glyphFonts = {
 	bold: 'Ubuntu Medium',
 } as const
 
-const getCenter = (locations: Locations): GeoLocation | undefined =>
-	Object.values(locations).sort(byTs)[0]
-
 export const Map = ({
 	mapControls,
 	canBeLocked,
@@ -51,13 +44,13 @@ export const Map = ({
 	 */
 	canBeLocked?: boolean
 }) => {
+	const { setMap, map } = useMapInstance()
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { locations, trail, clustering } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
-	const [mapLoaded, setMapLoaded] = useState<boolean>(false)
-	const { locked, setMap, clearMap, map, style: currentStyle, state } = useMap()
-	const isLocked = (canBeLocked ?? true) ? locked : false
+	const mapState = useMapState()
+	const isLocked = (canBeLocked ?? true) ? mapState.locked : false
 
 	const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
 		(acc, location) => {
@@ -71,13 +64,11 @@ export const Map = ({
 		{},
 	)
 
-	const { lat, lng, zoom, style } = state ?? {
-		// Trondheim
-		lat: 63.42148461054351,
-		lng: 10.437581513483195,
-		zoom: 10,
-		style: currentStyle,
-	}
+	const {
+		center: { lat, lng },
+		zoom,
+		style,
+	} = mapState.state
 
 	const sourceColors =
 		style === MapStyle.DARK ? locationSourceColors : locationSourceColorsDark
@@ -85,9 +76,13 @@ export const Map = ({
 	useEffect(() => {
 		if (containerRef.current === null) return
 
+		let map: maplibregl.Map
+		let syncZoom = () => undefined
+		let syncPosition = () => undefined
+
 		onParameters(({ mapRegion, mapName, mapApiKey }) => {
 			console.log(`[Map]`, `initializing`, { lat, lng, zoom })
-			const map = new maplibregl.Map({
+			map = new maplibregl.Map({
 				container: 'map',
 				style: (style === MapStyle.LIGHT ? mapStyleLight : mapStyleDark)({
 					region: mapRegion,
@@ -105,69 +100,43 @@ export const Map = ({
 				renderWorldCopies: false,
 			})
 
-			if (canBeLocked ?? true) {
+			if ((canBeLocked ?? true) && mapState.locked) {
 				map.dragRotate.disable()
 				map.scrollZoom.disable()
 				map.dragPan.disable()
 			}
 
 			map.on('load', () => {
-				setMapLoaded(true)
+				setMap(map)
 			})
 
-			setMap(map)
+			syncZoom = () => {
+				mapState.setZoom(map.getZoom())
+			}
+
+			syncPosition = () => {
+				const center = map.getCenter()
+				mapState.setCenter({
+					lat: center.lat,
+					lng: center.lng,
+				})
+			}
+			map.on('zoomend', syncZoom)
+			map.on('moveend', syncPosition)
 		})
 
 		return () => {
-			clearMap()
+			map?.off('zoomend', syncZoom)
+			map?.off('moveend', syncPosition)
+			map?.remove()
+			setMap(undefined)
 		}
 	}, [containerRef.current])
-
-	// Persist map state
-	useEffect(() => {
-		if (map === undefined) return
-		const persistMapState = () => {
-			document.location.hash = `#${encodeMapState(map, style)}`
-		}
-		map.on('moveend', persistMapState)
-
-		return () => {
-			map?.off('moveend', persistMapState)
-		}
-	}, [map, state])
-
-	// Center the map on current location
-	useEffect(() => {
-		if (!isLocked) return // Don't override user set center
-		if (state !== undefined) return
-		if (map === undefined) return
-		const centerLocation = getCenter(locations)
-		if (centerLocation === undefined) return
-		console.debug(`[Map]`, 'center', centerLocation)
-		map.flyTo({
-			center: centerLocation,
-			zoom: map.getZoom(),
-		})
-	}, [locations, map, isLocked, state])
-
-	// Center map on last known location
-	useEffect(() => {
-		if (!isLocked) return // Don't override user set center
-		if (state !== undefined) return
-		if (map === undefined) return
-		if (hasLocation) return
-		console.debug(`[Map]`, 'center', trail[trail.length - 1])
-		map.flyTo({
-			center: trail[trail.length - 1],
-			zoom: map.getZoom(),
-		})
-	}, [trail, locations, map, isLocked, state])
 
 	// Locations
 	useEffect(() => {
 		if (!hasLocation) return
 		if (map === undefined) return
-		if (!mapLoaded) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
@@ -229,16 +198,11 @@ export const Map = ({
 				}
 			}
 		}
-		return () => {
-			layerIds.map((id) => map.removeLayer(id))
-			sourceIds.map((id) => map.removeSource(id))
-		}
-	}, [locations, map, mapLoaded])
+	}, [locations, map])
 
 	// Trail
 	useEffect(() => {
 		if (map === undefined) return
-		if (!mapLoaded) return
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
@@ -322,7 +286,7 @@ export const Map = ({
 			layerIds.map((id) => map.removeLayer(id))
 			sourceIds.map((id) => map.removeSource(id))
 		}
-	}, [trail, map, clustering, mapLoaded])
+	}, [trail, map, clustering])
 
 	// Enable zoom
 	useEffect(() => {
