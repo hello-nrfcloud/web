@@ -30,7 +30,12 @@ export const Page = ({ device }: { device: TDevice }) => {
 							<QuickGlance class="mt-2 mt-md-0" />
 							<DeviceHeader />
 							{!hasLiveData && <ConnectDevice />}
-							{hasLiveData && <ConnectionSuccess />}
+							{hasLiveData && (
+								<>
+									<ConnectionSuccess />
+									<DeviceBehaviourInfo />
+								</>
+							)}
 						</div>
 						<div class="col-md-4 mb-4">
 							<Card model={device.model} />
@@ -64,9 +69,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 							</div>
 						</section>
 						<section class="col-12 col-md-6 col-lg-6 offset-lg-2">
-							<div class="my-4">
-								<DeviceBehaviourInfo />
-							</div>
+							{!hasLiveData && <DeviceBehaviourInfo />}
 							<div class="my-4">
 								<Configuration device={device} />
 							</div>
