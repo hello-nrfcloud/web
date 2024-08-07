@@ -116,7 +116,6 @@ export const Provider = (props: PropsWithChildren) => {
 	// Schedule next fetch
 	useEffect(() => {
 		if (nextFetch === undefined) return
-		console.log('nextFetch', new Date(nextFetch))
 		console.debug(
 			`[SIMDetails]`,
 			`next fetch in ${Math.ceil((nextFetch - Date.now()) / 1000 / 60)} minutes`,
