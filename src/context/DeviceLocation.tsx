@@ -1,5 +1,5 @@
 import type { TimeSpan } from '#api/api.js'
-import { useDevice, type ListenerFn } from '#context/Device.js'
+import { useDevice, type Device, type ListenerFn } from '#context/Device.js'
 import {
 	toLocationSource,
 	type LocationSource,
@@ -68,11 +68,12 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	useEffect(() => {
 		if (device === undefined) return
 		const listener: ListenerFn = (instance) => {
-			if (isGeolocation(instance))
-				setLocations((l) => ({
-					...l,
-					[instance.Resources[6]]: toGeoLocation(instance),
-				}))
+			if (!isGeolocation(instance)) return
+			setLocations((l) => ({
+				...l,
+				[instance.Resources[6]]: toGeoLocation(instance),
+			}))
+			setTrail((t) => [instanceToTrail(device, instance.Resources), ...t])
 		}
 		const { remove } = onReported(listener)
 
@@ -109,23 +110,12 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				clustering ? new URLSearchParams({ trail: '1' }) : undefined,
 			).ok(({ partialInstances }) => {
 				setTrail(
-					partialInstances.map((instance) => {
-						const {
-							0: lat,
-							1: lng,
-							3: acc,
-							6: src,
-							99: ts,
-						} = instance as LwM2MObjectInstance<Geolocation_14201>['Resources']
-						return {
-							lat,
-							lng,
-							acc,
-							src,
-							ts: timeToDate(ts),
-							id: `${device.id}-${src}-${ts}`,
-						}
-					}),
+					partialInstances.map((instance) =>
+						instanceToTrail(
+							device,
+							instance as LwM2MObjectInstance<Geolocation_14201>['Resources'],
+						),
+					),
 				)
 			})
 		})
@@ -160,3 +150,21 @@ const locationsFromReported = (
 		}
 		return acc
 	}, {})
+
+const instanceToTrail = (
+	device: Device,
+	{
+		0: lat,
+		1: lng,
+		3: acc,
+		6: src,
+		99: ts,
+	}: LwM2MObjectInstance<Geolocation_14201>['Resources'],
+) => ({
+	lat,
+	lng,
+	acc,
+	src,
+	ts: timeToDate(ts),
+	id: `${device.id}-${src}-${ts}`,
+})
