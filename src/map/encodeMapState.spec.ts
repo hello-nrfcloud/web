@@ -12,10 +12,10 @@ void describe('encodeMapState()', () => {
 	void it('should encode a map state', () => {
 		const state: MapStateType = {
 			center: {
-				lat: 63.45845568614055,
-				lng: 10.915287434991058,
+				lat: 63.458455,
+				lng: 10.915287,
 			},
-			zoom: 10.776208705876128,
+			zoom: 10,
 			style: MapStyle.DARK,
 			cluster: false,
 			history: TimeSpan.lastDay,
@@ -26,10 +26,10 @@ void describe('encodeMapState()', () => {
 	void it('should encode a map state without history', () => {
 		const state: MapStateType = {
 			center: {
-				lat: 63.45845568614055,
-				lng: 10.915287434991058,
+				lat: 63.458455,
+				lng: 10.915287,
 			},
-			zoom: 10.776208705876128,
+			zoom: 10,
 			style: MapStyle.DARK,
 			cluster: false,
 		}

@@ -38,7 +38,13 @@ export const encodeMapState = ({
 	cluster,
 	history,
 }: MapStateType): string => {
-	const parts = [lat, lng, zoom, style, cluster ? 'cluster' : 'trail']
+	const parts = [
+		lat.toFixed(6),
+		lng.toFixed(6),
+		Math.round(zoom),
+		style,
+		cluster ? 'cluster' : 'trail',
+	]
 	if (history !== undefined) parts.push(history)
 	return `map:${parts.join(';')}`
 }

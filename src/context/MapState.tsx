@@ -12,9 +12,10 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDeviceLocation } from './DeviceLocation.js'
 
 export const defaultMapState: MapStateType = {
+	// Nordic Semiconductor HQ in Trondheim
 	center: {
-		lat: 63.45845568614055,
-		lng: 10.915287434991058,
+		lat: 63.42121995865395,
+		lng: 10.436532449270203,
 	},
 	zoom: 10.776208705876128,
 	style: MapStyle.DARK,
