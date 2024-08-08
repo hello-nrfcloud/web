@@ -1,16 +1,15 @@
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useMapInstance } from '#context/MapInstance.js'
 import {
 	LocationSource,
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
 import { RadioTowerIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
 import { centerMapOnLocation } from './centerMapOnLocation.js'
+import type maplibregl from 'maplibre-gl'
 
 import './CenterOnMapLocations.css'
 
-export const CenterOnMapLocations = () => {
-	const { map } = useMapInstance()
+export const CenterOnMapLocations = ({ map }: { map: maplibregl.Map }) => {
 	const { locations } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	if (!hasLocation) return null

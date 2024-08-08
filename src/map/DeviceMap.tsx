@@ -1,22 +1,26 @@
 import { useMapState } from '#context/MapState.js'
-import { Map } from '#map/Map.js'
+import { defaultMapState, Map } from '#map/Map.js'
 import { ExpandIcon } from 'lucide-preact'
 import { encodeMapState } from './encodeMapState.js'
 
-export const DevicePageMap = () => {
+export const DeviceMap = () => {
 	const mapState = useMapState()
 	return (
 		<Map
 			mapControls={
 				<a
-					href={`/device/map#${encodeMapState(mapState.state)}`}
+					href={
+						mapState.state !== undefined
+							? `/device/map#${encodeMapState(mapState.state)}`
+							: `/device/map`
+					}
 					class="button control"
 					title={'Show fullscreen map'}
 				>
 					<ExpandIcon />
 				</a>
 			}
-			key={mapState.state.style}
+			key={mapState.state?.style ?? defaultMapState.style}
 		/>
 	)
 }

@@ -1,5 +1,7 @@
 import type { TimeSpan } from '#api/api.js'
+import { getObjectHistory } from '#api/getObjectHistory.js'
 import { useDevice, type Device, type ListenerFn } from '#context/Device.js'
+import { decodeMapState } from '#map/encodeMapState.js'
 import {
 	toLocationSource,
 	type LocationSource,
@@ -10,6 +12,7 @@ import {
 	toGeoLocation,
 	type GeoLocation,
 } from '#proto/lwm2m.js'
+import { isSSR } from '#utils/isSSR.js'
 import {
 	LwM2MObjectID,
 	type Geolocation_14201,
@@ -18,12 +21,8 @@ import {
 import { isEqual } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useParameters } from './Parameters.js'
 import { useFingerprint } from './Fingerprint.js'
-import { getObjectHistory } from '#api/getObjectHistory.js'
-import { isSSR } from '#utils/isSSR.js'
-import { defaultMapState } from './MapState.js'
-import { decodeMapState } from '#map/encodeMapState.js'
+import { useParameters } from './Parameters.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -50,15 +49,13 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device, reported } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>(
 		isSSR
-			? defaultMapState.history
-			: (decodeMapState(document.location.hash.slice(1))?.history ??
-					defaultMapState.history),
+			? undefined
+			: (decodeMapState(document.location.hash.slice(1))?.history ?? undefined),
 	)
 	const [clustering, setClustering] = useState<boolean>(
 		isSSR
-			? defaultMapState.cluster
-			: (decodeMapState(document.location.hash.slice(1))?.cluster ??
-					defaultMapState.cluster),
+			? false
+			: (decodeMapState(document.location.hash.slice(1))?.cluster ?? false),
 	)
 	const [locations, setLocations] = useState<Locations>({})
 	const [trail, setTrail] = useState<TrailPoint[]>([])

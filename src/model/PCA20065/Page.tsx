@@ -5,7 +5,7 @@ import { DeviceHeader } from '#components/DeviceHeader.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
-import { DevicePageMap } from '#map/DevicePageMap.js'
+import { DeviceMap } from '#map/DeviceMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
 import { Card } from '#model/PCA20065/Card.js'
 import { Chart } from '#model/PCA20065/Chart.js'
@@ -52,7 +52,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<Chart />
 				<div class="bg-dark grid">
-					<DevicePageMap />
+					<DeviceMap />
 					<LocationHelp device={device} class="p-4 location-help" />
 				</div>
 				<div class="container my-4">

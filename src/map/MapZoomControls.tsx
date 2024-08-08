@@ -8,11 +8,17 @@ import {
 } from 'lucide-preact'
 import { MapStyle } from '#map/encodeMapState.js'
 import { useMapState } from '#context/MapState.js'
-import { useMapInstance } from '#context/MapInstance.js'
+import { defaultMapState } from './Map.js'
+import type maplibregl from 'maplibre-gl'
 
-export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
+export const MapZoomControls = ({
+	canBeLocked,
+	map,
+}: {
+	canBeLocked?: boolean
+	map: maplibregl.Map
+}) => {
 	const { toggleLock, setStyle, state, locked } = useMapState()
-	const { map } = useMapInstance()
 	return (
 		<>
 			<button
@@ -20,7 +26,7 @@ export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
 				class="control"
 				title="Zoom in"
 				onClick={() => {
-					map?.setZoom(map?.getZoom() + 1)
+					map.setZoom(map.getZoom() + 1)
 				}}
 			>
 				<PlusIcon />
@@ -30,12 +36,12 @@ export const MapZoomControls = ({ canBeLocked }: { canBeLocked?: boolean }) => {
 				class="control"
 				title="Zoom out"
 				onClick={() => {
-					map?.setZoom(map?.getZoom() - 1)
+					map.setZoom(map.getZoom() - 1)
 				}}
 			>
 				<MinusIcon />
 			</button>
-			{state.style == MapStyle.DARK ? (
+			{(state?.style ?? defaultMapState.style) == MapStyle.DARK ? (
 				<button
 					type="button"
 					class="control"

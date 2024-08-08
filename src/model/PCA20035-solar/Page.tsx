@@ -5,7 +5,7 @@ import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { DeviceFOTAInfo } from '#components/fota/DeviceFOTAInfo.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
-import { DevicePageMap } from '#map/DevicePageMap.js'
+import { DeviceMap } from '#map/DeviceMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
 import { ModelCard } from '#model/ModelCard.js'
 import { Battery } from '#model/PCA20035-solar/Battery.js'
@@ -46,7 +46,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 				</div>
 				<div class="gridSolar">
 					<Chart />
-					<DevicePageMap />
+					<DeviceMap />
 					<div
 						class={'bg-dark'}
 						style={{

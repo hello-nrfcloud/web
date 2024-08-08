@@ -8,7 +8,7 @@ const byTimeSpan = (timeSpan: TimeSpan | undefined) => (t: TimeSpanInfo) =>
 	t.id === timeSpan
 
 export const HistoryControls = () => {
-	const { timeSpan, setTimeSpan, enableClustering, clustering } =
+	const { timeSpan, clustering, enableClustering, setTimeSpan } =
 		useDeviceLocation()
 	const [expanded, setExpanded] = useState<boolean>(false)
 
@@ -44,7 +44,7 @@ export const HistoryControls = () => {
 				type="button"
 				class="control"
 				onClick={() => {
-					setTimeSpan()
+					setTimeSpan(undefined)
 					setExpanded(false)
 				}}
 			>

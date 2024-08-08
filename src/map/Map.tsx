@@ -1,37 +1,41 @@
 import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.js'
 import { useMapState } from '#context/MapState.js'
 import { useParameters } from '#context/Parameters.js'
+import { CenterOnLatest } from '#map/CenterOnLatest.js'
 import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
 import { HistoryControls } from '#map/HistoryControls.js'
-import {
-	LocationSource,
-	LocationSourceLabels,
-	locationSourceColors,
-	locationSourceColorsDark,
-} from '#map/LocationSourceLabels.js'
 import { LockInfo } from '#map/LockInfo.js'
 import { MapZoomControls } from '#map/MapZoomControls.js'
 import { MapStyle } from '#map/encodeMapState.js'
-import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
 import { mapStyle as mapStyleLight } from '#map/style-light.js'
 import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
-import { type GeoLocation } from '#proto/lwm2m.js'
 import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
-import maplibregl, { type GeoJSONSourceSpecification } from 'maplibre-gl'
+import maplibregl from 'maplibre-gl'
 import type React from 'preact/compat'
-import { useEffect, useRef } from 'preact/hooks'
-import { useMapInstance } from '#context/MapInstance.js'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import {
+	locationSourceColors,
+	locationSourceColorsDark,
+	LocationSourceLabels,
+} from './LocationSourceLabels.js'
+import { addHexagon } from './addHexagon.js'
+import { defaultColor } from './defaultColor.js'
+import { glyphFonts } from './glyphFonts.js'
+import { toGEOJsonPoint } from './toGEOJsonPoint.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
 
 import '#map/Map.css'
 
-const defaultColor = '#C7C7C7'
-
-// See https://docs.aws.amazon.com/location/latest/developerguide/esri.html for available fonts
-const glyphFonts = {
-	regular: 'Ubuntu Regular',
-	bold: 'Ubuntu Medium',
+export const defaultMapState = {
+	// Nordic Semiconductor HQ in Trondheim
+	center: {
+		lat: 63.421219,
+		lng: 10.436532,
+	},
+	zoom: 10,
+	style: MapStyle.DARK,
 } as const
 
 export const Map = ({
@@ -44,46 +48,38 @@ export const Map = ({
 	 */
 	canBeLocked?: boolean
 }) => {
-	const { setMap, map } = useMapInstance()
 	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
-	const { locations, trail, clustering } = useDeviceLocation()
+	const { locations, trail } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
 	const mapState = useMapState()
 	const isLocked = (canBeLocked ?? true) ? mapState.locked : false
+	const initialized = useRef<boolean>(false)
+	const [mapInstance, setMap] = useState<maplibregl.Map | undefined>(undefined)
 
-	const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
-		(acc, location) => {
-			if (acc[location.src] === undefined) {
-				acc[location.src] = [location]
-			} else {
-				acc[location.src]!.push(location)
-			}
-			return acc
-		},
-		{},
-	)
-
+	// Init map
 	const {
 		center: { lat, lng },
 		zoom,
 		style,
-	} = mapState.state
-
-	const sourceColors =
-		style === MapStyle.DARK ? locationSourceColors : locationSourceColorsDark
+	} = {
+		...defaultMapState,
+		...mapState.state,
+	}
 
 	useEffect(() => {
 		if (containerRef.current === null) return
+		if (initialized.current) return
+		initialized.current = true
 
-		let map: maplibregl.Map
 		let syncZoom = () => undefined
 		let syncPosition = () => undefined
+		let onCleanup = () => undefined
 
 		onParameters(({ mapRegion, mapName, mapApiKey }) => {
-			console.log(`[Map]`, `initializing`, { lat, lng, zoom })
-			map = new maplibregl.Map({
-				container: 'map',
+			console.debug(`[Map]`, `initializing`, { lat, lng, zoom })
+			const map = new maplibregl.Map({
+				container: containerRef.current!,
 				style: (style === MapStyle.LIGHT ? mapStyleLight : mapStyleDark)({
 					region: mapRegion,
 					mapName,
@@ -106,10 +102,6 @@ export const Map = ({
 				map.dragPan.disable()
 			}
 
-			map.on('load', () => {
-				setMap(map)
-			})
-
 			syncZoom = () => {
 				mapState.setZoom(map.getZoom())
 			}
@@ -121,42 +113,69 @@ export const Map = ({
 					lng: center.lng,
 				})
 			}
+
 			map.on('zoomend', syncZoom)
 			map.on('moveend', syncPosition)
+			map.on('load', () => {
+				console.debug(`[Map]`, `loaded`)
+				setMap(map)
+			})
+
+			onCleanup = () => {
+				console.debug(`[Map]`, `cleaning up`)
+				map.off('zoomend', syncZoom)
+				map.off('moveend', syncPosition)
+				map.remove()
+			}
 		})
 
 		return () => {
-			map?.off('zoomend', syncZoom)
-			map?.off('moveend', syncPosition)
-			map?.remove()
-			setMap(undefined)
+			console.debug(`[Map]`, `unmounted`)
+			onCleanup()
 		}
-	}, [containerRef.current])
+	}, [])
+
+	// Enable zoom
+	useEffect(() => {
+		if (isLocked) {
+			mapInstance?.dragRotate.disable()
+			mapInstance?.scrollZoom.disable()
+			mapInstance?.dragPan.disable()
+		} else {
+			mapInstance?.dragRotate.enable()
+			mapInstance?.scrollZoom.enable()
+			mapInstance?.dragPan.enable()
+		}
+	}, [isLocked])
+
+	const sourceColors =
+		style === MapStyle.DARK ? locationSourceColors : locationSourceColorsDark
 
 	// Locations
 	useEffect(() => {
-		if (!hasLocation) return
-		if (map === undefined) return
-
+		if (mapInstance === undefined) return
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
 		for (const location of Object.values(locations)) {
 			const { lng, lat, acc, src, ts } = location
-			const locationCenterSourceId = `${location.src}-source-center`
-			const locationSourceLabel = `${location.src}-location-source-label`
-			const locationAgeLabel = `${location.src}-location-age-label`
-			const centerSource = map.getSource(locationCenterSourceId)
+			const locationCenterSourceId = `${location.src} - source - center`
+			const locationSourceLabel = `${location.src} - location - source - label`
+			const locationAgeLabel = `${location.src} - location - age - label`
+			const centerSource = mapInstance.getSource(locationCenterSourceId)
 
 			// Add layer (if not already on map)
 			if (centerSource === undefined) {
-				console.debug(`[Map]`, `adding`, location)
+				console.debug(`[Map]`, `adding location`, location)
 
 				// Data for Center point
-				map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
+				mapInstance.addSource(
+					locationCenterSourceId,
+					toGEOJsonPoint([lat, lng]),
+				)
 				sourceIds.push(locationCenterSourceId)
 				// Render location source in center
-				map.addLayer({
+				mapInstance.addLayer({
 					id: locationSourceLabel,
 					type: 'symbol',
 					source: locationCenterSourceId,
@@ -172,7 +191,7 @@ export const Map = ({
 				})
 				layerIds.push(locationSourceLabel)
 				// Render location age in center
-				map.addLayer({
+				mapInstance.addLayer({
 					id: locationAgeLabel,
 					type: 'symbol',
 					source: locationCenterSourceId,
@@ -189,60 +208,103 @@ export const Map = ({
 				layerIds.push(locationAgeLabel)
 				if (acc !== undefined) {
 					const hexagon = addHexagon(
-						map,
+						mapInstance,
 						{ ...location, acc },
 						sourceColors.get(src) ?? defaultColor,
+						glyphFonts.regular,
 					)
 					sourceIds.push(...hexagon.sourceIds)
 					layerIds.push(...hexagon.layerIds)
 				}
 			}
 		}
-	}, [locations, map])
+
+		return () => {
+			for (const layerId of layerIds) {
+				try {
+					mapInstance.removeLayer(layerId)
+				} catch {
+					console.warn(`[Map]`, `failed to remove layer`, layerId)
+				}
+			}
+			for (const sourceId of sourceIds) {
+				try {
+					mapInstance.removeSource(sourceId)
+				} catch {
+					console.warn(`[Map]`, `failed to remove source`, sourceId)
+				}
+			}
+		}
+	}, [mapInstance, locations])
 
 	// Trail
+	const clustering = mapState.state?.cluster ?? false
+
 	useEffect(() => {
-		if (map === undefined) return
+		if (mapInstance === undefined) return
+
+		const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
+			(acc, location) => {
+				if (acc[location.src] === undefined) {
+					acc[location.src] = [location]
+				} else {
+					acc[location.src]!.push(location)
+				}
+				return acc
+			},
+			{},
+		)
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
+		const locationPointIds = Object.values(locations).map((location) =>
+			hashLocation(location),
+		)
+
 		for (const [src, trail] of Object.entries(trailBySource)) {
 			for (const point of trail) {
 				const { lng, lat, ts } = point
-				const locationCenterSourceId = `${point.id}-source-center`
-				const locationSourceLabel = `${point.id}-location-source-label`
-				const centerSource = map.getSource(locationCenterSourceId)
+				const locationCenterSourceId = `${point.id} - source - center`
+				const locationSourceLabel = `${point.id} - location - source - label`
+				const centerSource = mapInstance.getSource(locationCenterSourceId)
+				const isInLocation = locationPointIds.includes(hashLocation(point))
 
 				// Add layer (if not already on map)
 				if (centerSource === undefined) {
-					console.debug(`[Map]`, `adding`, point)
+					console.debug(`[Map]`, `adding trail location`, point)
 
 					// Data for Center point
-					map.addSource(locationCenterSourceId, toGEOJsonPoint([lat, lng]))
+					mapInstance.addSource(
+						locationCenterSourceId,
+						toGEOJsonPoint([lat, lng]),
+					)
 					sourceIds.push(locationCenterSourceId)
-					// Render location info
-					map.addLayer({
-						id: locationSourceLabel,
-						type: 'symbol',
-						source: locationCenterSourceId,
-						layout: {
-							'symbol-placement': 'point',
-							'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
-							'text-font': [glyphFonts.regular],
-							'text-offset': [0, 0],
-						},
-						paint: {
-							'text-color': sourceColors.get(src) ?? defaultColor,
-						},
-					})
-					layerIds.push(locationSourceLabel)
+					// Render location info, if not already rendered in location
+					if (!isInLocation) {
+						mapInstance.addLayer({
+							id: locationSourceLabel,
+							type: 'symbol',
+							source: locationCenterSourceId,
+							layout: {
+								'symbol-placement': 'point',
+								'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
+								'text-font': [glyphFonts.regular],
+								'text-offset': [0, 0],
+							},
+							paint: {
+								'text-color': sourceColors.get(src) ?? defaultColor,
+							},
+						})
+						layerIds.push(locationSourceLabel)
+					}
 
 					if (clustering === true && point.acc !== undefined) {
 						const hexagon = addHexagon(
-							map,
+							mapInstance,
 							{ ...point, acc: point.acc, src: point.id },
 							sourceColors.get(src) ?? defaultColor,
+							glyphFonts.regular,
 						)
 						sourceIds.push(...hexagon.sourceIds)
 						layerIds.push(...hexagon.layerIds)
@@ -251,8 +313,8 @@ export const Map = ({
 			}
 
 			// Line for trail
-			const trailSourceId = `${src}-source-trail`
-			map.addSource(trailSourceId, {
+			const trailSourceId = `${src} - source - trail`
+			mapInstance.addSource(trailSourceId, {
 				type: 'geojson',
 				data: {
 					type: 'Feature',
@@ -266,8 +328,8 @@ export const Map = ({
 			sourceIds.push(trailSourceId)
 
 			// Render trail
-			const trailLayerId = `${src}-layer-trail`
-			map.addLayer({
+			const trailLayerId = `${src} - layer - trail`
+			mapInstance.addLayer({
 				id: trailLayerId,
 				type: 'line',
 				source: trailSourceId,
@@ -283,118 +345,56 @@ export const Map = ({
 		}
 
 		return () => {
-			layerIds.map((id) => map.removeLayer(id))
-			sourceIds.map((id) => map.removeSource(id))
+			for (const layerId of layerIds) {
+				try {
+					mapInstance.removeLayer(layerId)
+				} catch {
+					console.warn(`[Map]`, `failed to remove layer`, layerId)
+				}
+			}
+			for (const sourceId of sourceIds) {
+				try {
+					mapInstance.removeSource(sourceId)
+				} catch {
+					console.warn(`[Map]`, `failed to remove source`, sourceId)
+				}
+			}
 		}
-	}, [trail, map, clustering])
-
-	// Enable zoom
-	useEffect(() => {
-		if (isLocked) {
-			map?.dragRotate.disable()
-			map?.scrollZoom.disable()
-			map?.dragPan.disable()
-		} else {
-			map?.dragRotate.enable()
-			map?.scrollZoom.enable()
-			map?.dragPan.enable()
-		}
-	}, [isLocked])
-
-	const scellLocation = locations[LocationSource.SCELL]
-	const mcellLocation = locations[LocationSource.MCELL]
-	const cellularLocations: GeoLocation[] = []
-	if (scellLocation !== undefined) cellularLocations.push(scellLocation)
-	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
+	}, [mapInstance, trail])
 
 	return (
-		<section class="map bg-dark">
-			<div id="map" ref={containerRef} class="scroll-margin-flush" />
-
-			{!hasLocation && isLocked && (
-				<div class="noLocationInfo">
-					<span>
-						<MapPinOff /> waiting for location
-					</span>
-				</div>
+		<>
+			<section class="map bg-dark">
+				<div id="map" ref={containerRef} class="scroll-margin-flush" />
+				{!hasLocation && isLocked && (
+					<div class="noLocationInfo">
+						<span>
+							<MapPinOff /> waiting for location
+						</span>
+					</div>
+				)}
+				{(canBeLocked ?? true) && <LockInfo />}
+				{mapInstance !== undefined && (
+					<>
+						<div class="locationControls">
+							<CenterOnMapLocations map={mapInstance} />
+							<HistoryControls />
+						</div>
+						<div class="mapControls controls vertical">
+							{mapControls}
+							<MapZoomControls canBeLocked={canBeLocked} map={mapInstance} />
+						</div>
+					</>
+				)}
+			</section>
+			{mapInstance !== undefined && (
+				<>
+					<CenterOnLatest map={mapInstance} />
+				</>
 			)}
-			{(canBeLocked ?? true) && <LockInfo />}
-			<div class="locationControls">
-				<CenterOnMapLocations />
-				<HistoryControls />
-			</div>
-			<div class="mapControls controls vertical">
-				{mapControls}
-				<MapZoomControls canBeLocked={canBeLocked} />
-			</div>
-		</section>
+		</>
 	)
 }
 
-const toGEOJsonPoint = ([lat, lng]: [
-	lat: number,
-	lng: number,
-]): GeoJSONSourceSpecification => ({
-	type: 'geojson',
-	data: {
-		type: 'Feature',
-		geometry: {
-			type: 'Point',
-			coordinates: [lng, lat],
-		},
-		properties: {},
-	},
-})
-
-const addHexagon = (
-	map: maplibregl.Map,
-	{ lng, lat, src, acc }: GeoLocation & { acc: number },
-	color: string,
-) => {
-	const locationAreaSourceId = `${src}-location-area-source`
-	const locationAreaLayerId = `${src}-location-area-layer`
-	const locationAreaLabelId = `${src}-location-area-label`
-	const sourceIds = []
-	const layerIds = []
-	// Data for Hexagon
-	map.addSource(
-		locationAreaSourceId,
-		geoJSONPolygonFromCircle([lng, lat], acc, 6, Math.PI / 2),
-	)
-	sourceIds.push(locationAreaSourceId)
-	// Render Hexagon
-	map.addLayer({
-		id: locationAreaLayerId,
-		type: 'line',
-		source: locationAreaSourceId,
-		layout: {},
-		paint: {
-			'line-color': color,
-			'line-opacity': 1,
-			'line-width': 2,
-		},
-	})
-	layerIds.push(locationAreaLayerId)
-	// Render label on Hexagon
-	map.addLayer({
-		id: locationAreaLabelId,
-		type: 'symbol',
-		source: locationAreaSourceId,
-		layout: {
-			'symbol-placement': 'line',
-			'text-field': `${Math.round(acc)} m`,
-			'text-font': [glyphFonts.regular],
-			'text-offset': [0, -1],
-			'text-size': 14,
-		},
-		paint: {
-			'text-color': color,
-		},
-	})
-	layerIds.push(locationAreaLabelId)
-
-	return {
-		layerIds,
-		sourceIds,
-	}
-}
+const hashLocation = (location: GeoLocation): string =>
+	`${location.lat}, ${location.lng}, ${location.acc}, ${location.src}, ${location.ts.getTime()}`
