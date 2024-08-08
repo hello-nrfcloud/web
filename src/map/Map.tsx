@@ -24,6 +24,7 @@ import { defaultColor } from './defaultColor.js'
 import { glyphFonts } from './glyphFonts.js'
 import { toGEOJsonPoint } from './toGEOJsonPoint.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
+import { formatDistanceToNow } from 'date-fns'
 
 import '#map/Map.css'
 
@@ -34,7 +35,10 @@ const formatAsTime = new Intl.DateTimeFormat(undefined, {
 	day: 'numeric',
 })
 
-const formatDate = (d: Date) => formatAsTime.format(d)
+const formatDate = (d: Date) =>
+	Date.now() - d.getTime() < 12 * 60 * 60 * 1000
+		? formatDistanceToNow(d, { addSuffix: true })
+		: formatAsTime.format(d)
 
 export const defaultMapState = {
 	// Nordic Semiconductor HQ in Trondheim
