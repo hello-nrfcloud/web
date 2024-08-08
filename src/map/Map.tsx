@@ -10,7 +10,6 @@ import { MapStyle } from '#map/encodeMapState.js'
 import { mapStyle as mapStyleLight } from '#map/style-light.js'
 import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
-import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
 import maplibregl from 'maplibre-gl'
 import type React from 'preact/compat'
@@ -27,6 +26,15 @@ import { toGEOJsonPoint } from './toGEOJsonPoint.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
 
 import '#map/Map.css'
+
+const formatAsTime = new Intl.DateTimeFormat(undefined, {
+	hour: 'numeric',
+	minute: 'numeric',
+	month: 'short',
+	day: 'numeric',
+})
+
+const formatDate = (d: Date) => formatAsTime.format(d)
 
 export const defaultMapState = {
 	// Nordic Semiconductor HQ in Trondheim
@@ -197,9 +205,10 @@ export const Map = ({
 					source: locationCenterSourceId,
 					layout: {
 						'symbol-placement': 'point',
-						'text-field': formatDistanceToNow(ts, { addSuffix: true }),
+						'text-field': formatDate(ts),
 						'text-font': [glyphFonts.regular],
 						'text-offset': [0, 2],
+						'text-size': 12,
 					},
 					paint: {
 						'text-color': sourceColors.get(src) ?? defaultColor,
@@ -288,7 +297,7 @@ export const Map = ({
 							source: locationCenterSourceId,
 							layout: {
 								'symbol-placement': 'point',
-								'text-field': `${formatDistanceToNow(ts, { addSuffix: true })}`,
+								'text-field': formatDate(ts),
 								'text-font': [glyphFonts.regular],
 								'text-offset': [0, 0],
 							},
