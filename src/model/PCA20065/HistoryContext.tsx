@@ -2,7 +2,6 @@ import { TimeSpan } from '#api/api.js'
 import { useDevice, type ListenerFn } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { useParameters } from '#context/Parameters.js'
-import { byTs } from '#utils/byTs.js'
 import {
 	isBatteryAndPower,
 	isTime,
@@ -11,6 +10,7 @@ import {
 	type BatteryAndPower,
 	type Reboot,
 } from '#proto/lwm2m.js'
+import { byTs } from '#utils/byTs.js'
 import { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'

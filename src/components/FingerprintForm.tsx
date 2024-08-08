@@ -1,6 +1,6 @@
+import { Secondary } from '#components/buttons/Button.js'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { useState } from 'preact/hooks'
-import { Secondary } from '#components/buttons/Button.js'
 
 export const FingerprintForm = () => {
 	const [productionRun, setProductionRun] = useState<string>('92b')

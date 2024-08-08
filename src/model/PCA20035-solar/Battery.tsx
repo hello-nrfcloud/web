@@ -1,8 +1,8 @@
 import { Ago } from '#components/Ago.js'
+import { BatteryIndicator } from '#components/BatteryIndicator.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice } from '#context/Device.js'
 import { isBatteryAndPower, toBatteryAndPower } from '#proto/lwm2m.js'
-import { BatteryIndicator } from '#components/BatteryIndicator.js'
 
 export const Battery = () => (
 	<>

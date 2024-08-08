@@ -1,12 +1,12 @@
-import { describe, it } from 'node:test'
-import assert from 'node:assert/strict'
+import { TimeSpan } from '#api/api.js'
 import {
 	decodeMapState,
 	encodeMapState,
+	MapStyle,
 	type MapStateType,
 } from '#map/encodeMapState.js'
-import { TimeSpan } from '#api/api.js'
-import { MapStyle } from '#map/encodeMapState.js'
+import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
 
 void describe('encodeMapState()', () => {
 	void it('should encode a map state', () => {

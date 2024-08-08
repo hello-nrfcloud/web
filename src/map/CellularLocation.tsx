@@ -5,9 +5,9 @@ import {
 	LocationSource,
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
-import { Located } from './Located.js'
 import { compareLocations } from '#map/compareLocations.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
+import { Located } from './Located.js'
 
 export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()

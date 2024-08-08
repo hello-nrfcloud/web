@@ -1,13 +1,13 @@
+import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
+import type { Static } from '@sinclair/typebox'
+import { merge } from 'lodash-es'
 import type { Connect } from 'vite'
 import type { Parameters } from '../../../src/context/Parameters.js'
+import { generateFingerprint } from '../../../src/utils/generateFingerprint.js'
+import { generateIMEI } from '../../../src/utils/generateIMEI.js'
+import type { SIMUsage, createContext } from './context.js'
 import { generateRegistryResponse } from './generateRegistryResponse.js'
 import { getBody, getJSON, sendJSON, sendStatus, sendText } from './sendJSON.js'
-import type { SIMUsage, createContext } from './context.js'
-import type { Static } from '@sinclair/typebox'
-import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
-import { generateIMEI } from '../../../src/utils/generateIMEI.js'
-import { generateFingerprint } from '../../../src/utils/generateFingerprint.js'
-import { merge } from 'lodash-es'
 
 export const mockBackend = ({
 	registry,

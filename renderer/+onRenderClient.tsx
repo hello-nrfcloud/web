@@ -2,8 +2,8 @@ import { formatDistanceToNow } from 'date-fns'
 import type { VNode } from 'preact'
 import { hydrate } from 'preact'
 import type { PageContextClient } from 'vike/types'
-import '../src/utils/sentry.js'
 import '../src/base.css'
+import '../src/utils/sentry.js'
 
 export type Page = (pageProps: Record<string, any>) => VNode<any>
 

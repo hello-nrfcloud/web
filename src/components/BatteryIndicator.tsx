@@ -1,6 +1,6 @@
 import {
-	Battery as BatteryIcon,
 	BatteryFull,
+	Battery as BatteryIcon,
 	BatteryLow,
 	BatteryMedium,
 	BatteryWarning,

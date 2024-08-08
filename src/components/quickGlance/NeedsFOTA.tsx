@@ -1,5 +1,5 @@
-import { CloudDownloadIcon } from 'lucide-preact'
 import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { CloudDownloadIcon } from 'lucide-preact'
 
 export const NeedsFOTA = () => (
 	<QuickGlanceEntry

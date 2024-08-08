@@ -1,3 +1,5 @@
+import { useMapState } from '#context/MapState.js'
+import { MapStyle } from '#map/encodeMapState.js'
 import {
 	LockIcon,
 	MinusIcon,
@@ -6,10 +8,8 @@ import {
 	SunIcon,
 	UnlockIcon,
 } from 'lucide-preact'
-import { MapStyle } from '#map/encodeMapState.js'
-import { useMapState } from '#context/MapState.js'
-import { defaultMapState } from './Map.js'
 import type maplibregl from 'maplibre-gl'
+import { defaultMapState } from './Map.js'
 
 export const MapZoomControls = ({
 	canBeLocked,

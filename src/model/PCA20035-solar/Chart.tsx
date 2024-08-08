@@ -1,13 +1,13 @@
 import { DateRangeButton } from '#chart/DateRangeButton.js'
 import { HistoryChart } from '#chart/HistoryChart.js'
 import { timeSpans } from '#chart/timeSpans.js'
-import { toChartData } from '#model/PCA20035-solar/toChartData.js'
 import { Ago } from '#components/Ago.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
 import { useHistory } from '#model/PCA20035-solar/HistoryContext.js'
+import { toChartData } from '#model/PCA20035-solar/toChartData.js'
 import {
 	byTimestamp,
 	isBatteryAndPower,

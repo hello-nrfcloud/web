@@ -2,8 +2,8 @@ import type { TimeSpan } from '#api/api.js'
 import {
 	decodeMapState,
 	encodeMapState,
-	type MapStyle,
 	type MapStateType,
+	type MapStyle,
 } from '#map/encodeMapState.js'
 import { isSSR } from '#utils/isSSR.js'
 import { createContext, type ComponentChildren } from 'preact'

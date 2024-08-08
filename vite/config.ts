@@ -1,9 +1,9 @@
-import { defineConfig, type PluginOption } from 'vite'
 import { preact } from '@preact/preset-vite'
 import ssr from 'vike/plugin'
-import { homepage, version } from './siteInfo.js'
+import { defineConfig, type PluginOption } from 'vite'
 import { dependencies } from '../package.json'
 import { encloseWithSlash } from './encloseWithSlash.js'
+import { homepage, version } from './siteInfo.js'
 
 export const createConfig = ({
 	registryEndpoint,

@@ -1,10 +1,10 @@
-import { describe, it } from 'node:test'
-import assert from 'node:assert/strict'
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
-import { IncludedSIM } from './types.js'
-import path from 'node:path'
-import { loadMarkdownContentFromFile } from '../../pages/loadMarkdownContent.js'
+import assert from 'node:assert/strict'
 import { readdirSync } from 'node:fs'
+import path from 'node:path'
+import { describe, it } from 'node:test'
+import { loadMarkdownContentFromFile } from '../../pages/loadMarkdownContent.js'
+import { IncludedSIM } from './types.js'
 
 void describe('IncludedSIM definitions', () => {
 	for (const file of readdirSync(import.meta.dirname).filter((f) =>

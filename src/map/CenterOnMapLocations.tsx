@@ -4,8 +4,8 @@ import {
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
 import { RadioTowerIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
-import { centerMapOnLocation } from './centerMapOnLocation.js'
 import type maplibregl from 'maplibre-gl'
+import { centerMapOnLocation } from './centerMapOnLocation.js'
 
 import './CenterOnMapLocations.css'
 

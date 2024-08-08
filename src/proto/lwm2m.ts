@@ -1,19 +1,19 @@
 import type { ConfigurationType } from '#content/models/types.js'
 import {
+	instanceTs,
 	LwM2MObjectID,
-	type Geolocation_14201,
-	type LwM2MObjectInstance,
+	type ApplicationConfiguration_14301,
 	type BatteryAndPower_14202,
+	type ButtonPress_14220,
 	type ConnectionInformation_14203,
 	type DeviceInformation_14204,
 	type Environment_14205,
-	type SolarCharge_14210,
-	type ButtonPress_14220,
-	type ApplicationConfiguration_14301,
-	type RGBLED_14240,
+	type Geolocation_14201,
+	type LwM2MObjectInstance,
 	type NRFCloudServiceInfo_14401,
-	instanceTs,
 	type Reboot_14250,
+	type RGBLED_14240,
+	type SolarCharge_14210,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 

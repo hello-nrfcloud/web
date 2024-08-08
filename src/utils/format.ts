@@ -54,4 +54,4 @@ export const format = (
 
 const { formatFloat, formatInt, formatDistance } = format()
 
-export { formatFloat, formatInt, formatDistance }
+export { formatDistance, formatFloat, formatInt }

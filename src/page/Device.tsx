@@ -1,14 +1,14 @@
 import { Feedback } from '#components/Feedback.js'
+import { LwM2MDebug } from '#components/LwM2MDebug.js'
 import { ModelResources } from '#components/ModelResources.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
-import { Page as SolarThingy91 } from '#model/PCA20035-solar/Page.js'
-import { Page as Thingy91X } from '#model/PCA20065/Page.js'
 import { useDevice } from '#context/Device.js'
-import { LwM2MDebug } from '#components/LwM2MDebug.js'
-import cx from 'classnames'
 import { Provider as FOTAProvider } from '#context/FOTA.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { WithParameters } from '#context/Parameters.js'
+import { Page as SolarThingy91 } from '#model/PCA20035-solar/Page.js'
+import { Page as Thingy91X } from '#model/PCA20065/Page.js'
+import cx from 'classnames'
 
 export const Device = () => {
 	const { device, debug } = useDevice()

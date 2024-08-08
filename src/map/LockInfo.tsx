@@ -1,5 +1,5 @@
-import { LockIcon } from 'lucide-preact'
 import { useMapState } from '#context/MapState.js'
+import { LockIcon } from 'lucide-preact'
 
 export const LockInfo = () => {
 	const mapState = useMapState()

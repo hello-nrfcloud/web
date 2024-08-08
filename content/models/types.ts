@@ -1,6 +1,6 @@
-import { Type, type Static } from '@sinclair/typebox'
 import type { IncludedSIMType } from '#content/sims/types.js'
 import { ModelID } from '@hello.nrfcloud.com/proto-map/models'
+import { Type, type Static } from '@sinclair/typebox'
 
 const Link = Type.String({ pattern: 'https://.*' })
 const SemVer = Type.RegExp(

@@ -1,5 +1,5 @@
-import { CheckCircle, ZapOff } from 'lucide-preact'
 import { isEqual } from 'lodash-es'
+import { CheckCircle, ZapOff } from 'lucide-preact'
 
 export const Applied = ({
 	reported,

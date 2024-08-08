@@ -1,6 +1,6 @@
-import { RGBtoHEX } from './RGBtoHEX.js'
-import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
+import { RGBtoHEX } from './RGBtoHEX.js'
 
 void describe('RGBtoHEX', () => {
 	void it('should convert a hex color to RGB', () => {

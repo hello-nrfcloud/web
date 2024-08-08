@@ -1,8 +1,8 @@
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice, type Device } from '#context/Device.js'
-import { Located } from './Located.js'
-import { LocationSource } from '#map/LocationSourceLabels.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { LocationSource } from '#map/LocationSourceLabels.js'
+import { Located } from './Located.js'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()

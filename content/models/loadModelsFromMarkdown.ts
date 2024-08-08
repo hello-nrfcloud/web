@@ -1,6 +1,7 @@
 import { loadSIMsfromMarkdown } from '#content/sims/loadSIMsfromMarkdown.js'
 import type { IncludedSIMType } from '#content/sims/types.js'
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
+import { Type } from '@sinclair/typebox'
 import { loadMarkdownContent } from '../../pages/loadMarkdownContent.js'
 import {
 	ModelDefinitions,
@@ -9,7 +10,6 @@ import {
 	type Model,
 	type UnsupportedModelType,
 } from './types.js'
-import { Type } from '@sinclair/typebox'
 
 export const getSIM = async (vendor: string): Promise<IncludedSIMType> => {
 	const sim = (await loadSIMsfromMarkdown)[vendor]

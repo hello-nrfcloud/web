@@ -1,13 +1,13 @@
 import type { TimeSpan } from '#api/api.js'
 import type { ChartData } from '#chart/chartMath.js'
-import { subHours, subMilliseconds } from 'date-fns'
+import { xAxisForType } from '#chart/xAxisForType.js'
 import {
 	type BatteryReading,
 	type BatteryReadings,
 	type GainReadings,
 } from '#model/PCA20035-solar/HistoryContext.js'
-import { xAxisForType } from '#chart/xAxisForType.js'
 import { formatFloat } from '#utils/format.js'
+import { subHours, subMilliseconds } from 'date-fns'
 
 export const toChartData = ({
 	battery,

@@ -1,6 +1,6 @@
-import { CloudOffIcon } from 'lucide-preact'
 import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
 import { useDevice } from '#context/Device.js'
+import { CloudOffIcon } from 'lucide-preact'
 
 export const WaitingForData = () => {
 	const { lastSeen } = useDevice()

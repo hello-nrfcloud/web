@@ -1,6 +1,6 @@
 import { getPolygonCoordinatesForCircle } from '#map/geoJSONPolygonFromCircle.js'
-import maplibregl from 'maplibre-gl'
 import type { GeoLocation } from '#proto/lwm2m.js'
+import maplibregl from 'maplibre-gl'
 
 export const centerMapOnLocation = (
 	map: maplibregl.Map,

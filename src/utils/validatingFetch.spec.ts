@@ -1,5 +1,6 @@
 import { SIMDetails } from '#api/getSIMDetails.js'
 import type { Static } from '@sinclair/typebox'
+import { addSeconds } from 'date-fns'
 import nock from 'nock'
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
@@ -8,7 +9,6 @@ import {
 	type FetchProblem,
 	type ResponseWithDetails,
 } from './validatingFetch.js'
-import { addSeconds } from 'date-fns'
 
 void describe('validatingFetch', async () => {
 	void it('should return the cache headers', async () => {

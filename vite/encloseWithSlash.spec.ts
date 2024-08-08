@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { it, describe } from 'node:test'
+import { describe, it } from 'node:test'
 import { encloseWithSlash } from './encloseWithSlash.js'
 
 void describe('encloseWithSlash() should enclose a string with a slash', () => {

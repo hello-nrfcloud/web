@@ -1,8 +1,8 @@
+import type { TimeSpan } from '#api/api.js'
 import { timeSpans, type TimeSpanInfo } from '#chart/timeSpans.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { HistoryIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import type { TimeSpan } from '#api/api.js'
 
 const byTimeSpan = (timeSpan: TimeSpan | undefined) => (t: TimeSpanInfo) =>
 	t.id === timeSpan

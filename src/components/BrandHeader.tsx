@@ -1,5 +1,5 @@
-import './BrandHeader.css'
 import { Logo } from '#components/icons/Logo.js'
+import './BrandHeader.css'
 
 export const BrandHeader = () => (
 	<header class="brand">

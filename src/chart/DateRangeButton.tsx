@@ -1,5 +1,5 @@
-import './DateRangeButton.css'
 import cx from 'classnames'
+import './DateRangeButton.css'
 
 export const DateRangeButton = ({
 	onClick,

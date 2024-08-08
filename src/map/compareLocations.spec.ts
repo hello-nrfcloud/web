@@ -1,8 +1,8 @@
-import { describe, test as it } from 'node:test'
+import type { GeoLocation } from '#proto/lwm2m.js'
 import assert from 'node:assert'
+import { describe, test as it } from 'node:test'
 import { compareLocations } from './compareLocations.js'
 import { LocationSource } from './LocationSourceLabels.js'
-import type { GeoLocation } from '#proto/lwm2m.js'
 
 const testLocation: GeoLocation = {
 	lat: 63.41999531,

@@ -1,9 +1,9 @@
 import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useEffect } from 'preact/hooks'
-import { byTs } from '#utils/byTs.js'
-import { centerMapOnLocation } from '#map/centerMapOnLocation.js'
 import { useMapState } from '#context/MapState.js'
+import { centerMapOnLocation } from '#map/centerMapOnLocation.js'
+import { byTs } from '#utils/byTs.js'
 import type maplibregl from 'maplibre-gl'
+import { useEffect } from 'preact/hooks'
 
 /**
  * Center the map on the latest location on startup

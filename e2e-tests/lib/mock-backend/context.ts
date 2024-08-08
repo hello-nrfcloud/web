@@ -1,8 +1,8 @@
 import type { DeviceIdentity } from '@hello.nrfcloud.com/proto/hello'
 import type { Static } from '@sinclair/typebox'
 import {
-	type Collection,
 	type Accessor,
+	type Collection,
 	JSONCollection,
 	StringAccessor,
 } from './db.js'

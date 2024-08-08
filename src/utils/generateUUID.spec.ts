@@ -1,6 +1,6 @@
-import { generateUUID } from './generateUUID.js'
-import { describe, test as it } from 'node:test'
 import assert from 'node:assert'
+import { describe, test as it } from 'node:test'
+import { generateUUID } from './generateUUID.js'
 
 void describe('generateUUID', () => {
 	void it('should generate a random UUID', () => {

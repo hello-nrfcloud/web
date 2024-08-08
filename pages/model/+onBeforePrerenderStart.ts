@@ -1,6 +1,6 @@
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
 
 export const onBeforePrerenderStart = async (): Promise<string[]> => {
 	const slugs = (await readdir(path.join(process.cwd(), 'content', 'models')))

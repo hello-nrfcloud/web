@@ -1,8 +1,8 @@
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import {
 	DeviceIdentity,
-	Shadow,
 	LwM2MObjectUpdate,
+	Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'
 import type { ValueError } from '@sinclair/typebox/errors'

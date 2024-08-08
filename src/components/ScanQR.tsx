@@ -1,8 +1,8 @@
-import { type Model } from '#content/models/types.js'
 import { FingerprintForm } from '#components/FingerprintForm.js'
 import { QRCodeScanner } from '#components/QRCodeScanner.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
+import { type Model } from '#content/models/types.js'
 
 export const ScanQR = ({ model }: { model?: Model }) => (
 	<div class="bg-light">

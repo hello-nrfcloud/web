@@ -1,6 +1,10 @@
 import { Applied } from '#components/Applied.js'
-import { useDevice } from '#context/Device.js'
+import { ButtonPresses } from '#components/ButtonPresses.js'
+import { LEDPattern } from '#components/LEDPattern.js'
+import { ColorPicker } from '#components/colorpicker/ColorPicker.js'
+import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
 import { type Model } from '#content/models/types.js'
+import { useDevice } from '#context/Device.js'
 import { Thingy91XVisual } from '#model/PCA20065/Thingy91XVisual.js'
 import { isLED, toLED } from '#proto/lwm2m.js'
 import {
@@ -10,10 +14,6 @@ import {
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { Lightbulb, LightbulbOff } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { ColorPicker } from '#components/colorpicker/ColorPicker.js'
-import { ButtonPresses } from '#components/ButtonPresses.js'
-import { LEDPattern } from '#components/LEDPattern.js'
-import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
 import { isOff } from '../../utils/isOff.js'
 
 export const Card = ({ model }: { model: Model }) => {

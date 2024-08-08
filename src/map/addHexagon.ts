@@ -1,5 +1,5 @@
-import type { GeoLocation } from '#proto/lwm2m.js'
 import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
+import type { GeoLocation } from '#proto/lwm2m.js'
 import type maplibregl from 'maplibre-gl'
 
 export const addHexagon = (

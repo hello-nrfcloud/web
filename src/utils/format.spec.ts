@@ -1,5 +1,5 @@
-import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
 import { format } from './format.js'
 
 const { formatFloat, formatInt, formatDistance } = format('en-US')

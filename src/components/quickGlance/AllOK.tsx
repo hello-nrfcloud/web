@@ -1,5 +1,5 @@
-import { BadgeCheckIcon } from 'lucide-preact'
 import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { BadgeCheckIcon } from 'lucide-preact'
 
 export const AllOK = () => (
 	<QuickGlanceEntry icon={BadgeCheckIcon} title="OK" type="ok">

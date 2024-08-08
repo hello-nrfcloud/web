@@ -1,10 +1,10 @@
-import { AlertCircleIcon, CircleHelp, X } from 'lucide-preact'
-import { FOTAJobs } from './FOTAJobs.js'
-import { SoftwareInfo } from '../deviceInfo/SoftwareInfo.js'
-import { useFOTA } from '#context/FOTA.js'
-import { useDevice } from '#context/Device.js'
-import { useState } from 'preact/hooks'
 import { Transparent } from '#components/Buttons.js'
+import { useDevice } from '#context/Device.js'
+import { useFOTA } from '#context/FOTA.js'
+import { AlertCircleIcon, CircleHelp, X } from 'lucide-preact'
+import { useState } from 'preact/hooks'
+import { SoftwareInfo } from '../deviceInfo/SoftwareInfo.js'
+import { FOTAJobs } from './FOTAJobs.js'
 
 export const DeviceFOTAInfo = () => {
 	const { fwTypes } = useFOTA()

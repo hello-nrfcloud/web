@@ -1,10 +1,10 @@
 import { Applied } from '#components/Applied.js'
 import { Secondary, Transparent } from '#components/Buttons.js'
 import { useDevice, type Device } from '#context/Device.js'
+import { formatDistance } from '#utils/format.js'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { ConfigureDevice } from './ConfigureDevice.js'
-import { formatDistance } from '#utils/format.js'
 
 export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 	const {

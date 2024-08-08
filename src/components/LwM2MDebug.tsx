@@ -1,16 +1,16 @@
-import { ListTree, SquareStack, X } from 'lucide-preact'
 import { useDevice } from '#context/Device.js'
+import { formatFloat } from '#utils/format.js'
 import {
-	type LwM2MObjectInstance,
 	definitions,
 	instanceTsAsDate,
 	type LwM2MObjectID,
+	type LwM2MObjectInstance,
 	type LwM2MResourceInfo,
 	type LwM2MResourceValue,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { formatFloat } from '#utils/format.js'
-import { Ago } from './Ago.js'
 import cx from 'classnames'
+import { ListTree, SquareStack, X } from 'lucide-preact'
+import { Ago } from './Ago.js'
 
 import './LwM2MDebug.css'
 

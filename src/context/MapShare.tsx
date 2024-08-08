@@ -1,10 +1,10 @@
-import { createContext, type ComponentChildren } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import { useFingerprint } from '#context/Fingerprint.js'
 import { useParameters } from '#context/Parameters.js'
 import { validatingFetch } from '#utils/validatingFetch.js'
 import { PublicDevice } from '@hello.nrfcloud.com/proto-map/api'
 import type { Static } from '@sinclair/typebox'
-import { useFingerprint } from '#context/Fingerprint.js'
+import { createContext, type ComponentChildren } from 'preact'
+import { useContext, useEffect, useState } from 'preact/hooks'
 
 export const MapShareContext = createContext<{
 	shared?: Static<typeof PublicDevice>

@@ -1,7 +1,7 @@
-import { describe, test as it } from 'node:test'
-import { xAxisForType } from './xAxisForType.js'
-import { check, objectMatching } from 'tsmatchers'
 import { TimeSpan } from '#api/api.js'
+import { describe, test as it } from 'node:test'
+import { check, objectMatching } from 'tsmatchers'
+import { xAxisForType } from './xAxisForType.js'
 
 void describe('xAxisForType()', () => {
 	void it('should create the chart data for the hourly chart', () => {

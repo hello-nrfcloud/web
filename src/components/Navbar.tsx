@@ -1,3 +1,9 @@
+import { AppUpdateNotifier } from '#components/AppUpdateNotifier.js'
+import { BrandHeader } from '#components/BrandHeader.js'
+import { Transparent } from '#components/Buttons.js'
+import { Logo } from '#components/icons/Logo.js'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
+import { PublicDeviceWarning } from '#components/PublicDeviceWarning.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
 import { isSSR } from '#utils/isSSR.js'
@@ -13,12 +19,6 @@ import {
 } from 'lucide-preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
-import { AppUpdateNotifier } from '#components/AppUpdateNotifier.js'
-import { BrandHeader } from '#components/BrandHeader.js'
-import { Transparent } from '#components/Buttons.js'
-import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
-import { Logo } from '#components/icons/Logo.js'
-import { PublicDeviceWarning } from '#components/PublicDeviceWarning.js'
 
 const Link = ({
 	href,

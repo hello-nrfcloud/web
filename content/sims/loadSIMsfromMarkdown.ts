@@ -1,6 +1,6 @@
+import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { Type } from '@sinclair/typebox'
 import { loadMarkdownContent } from '../../pages/loadMarkdownContent.js'
-import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { IncludedSIM, type IncludedSIMType } from './types.js'
 
 const v = validateWithTypeBox(Type.Array(IncludedSIM, { minItems: 1 }))

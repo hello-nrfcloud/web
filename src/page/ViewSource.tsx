@@ -1,6 +1,6 @@
-import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
 import { QRCodeGenerator } from '#components/QRCodeGenerator.js'
 import { WithResize } from '#components/ResizeObserver.js'
+import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
 
 export const ViewSource = () => (
 	<main class="view-source">

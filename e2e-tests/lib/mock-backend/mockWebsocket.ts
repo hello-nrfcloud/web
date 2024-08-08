@@ -1,14 +1,14 @@
-import { createServer } from 'http'
-import { server as WebSocketServer } from 'websocket'
-import type { Static } from '@sinclair/typebox'
+import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/api'
+import { shadowToObjects } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
 import {
 	Context,
-	type Shadow,
 	type DeviceIdentity,
+	type Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
+import type { Static } from '@sinclair/typebox'
+import { createServer } from 'http'
+import { server as WebSocketServer } from 'websocket'
 import type { createContext } from './context.js'
-import { shadowToObjects } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
-import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/api'
 
 export const mockWebsocket = (
 	port: number,

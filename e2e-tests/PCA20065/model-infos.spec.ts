@@ -1,4 +1,4 @@
-import { expect, test, test as it, type Page } from '@playwright/test'
+import { expect, test as it, test, type Page } from '@playwright/test'
 import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
 
 let page: Page

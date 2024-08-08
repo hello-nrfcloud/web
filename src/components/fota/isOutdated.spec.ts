@@ -1,6 +1,6 @@
-import { isOutdated } from './isOutdated.js'
-import { describe, test as it } from 'node:test'
 import assert from 'node:assert'
+import { describe, test as it } from 'node:test'
+import { isOutdated } from './isOutdated.js'
 
 void describe('isOutdated', () => {
 	void it('should not mark 1.1.2-sol-lp-mmflt as outdated for 1.1.1', () =>

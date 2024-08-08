@@ -1,5 +1,5 @@
-import { isUnsupported, type Model } from '#content/models/types.js'
 import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
+import { isUnsupported, type Model } from '#content/models/types.js'
 import type { PageContextClient } from 'vike/types'
 
 export type ModelPageProps = { model: Model; pageTitle: string }

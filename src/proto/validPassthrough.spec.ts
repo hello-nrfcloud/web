@@ -1,9 +1,9 @@
-import { validPassthrough } from './validPassthrough.js'
-import { describe, test as it, mock } from 'node:test'
-import assert from 'node:assert'
-import shadow from './shadow.json'
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { Shadow } from '@hello.nrfcloud.com/proto/hello'
+import assert from 'node:assert'
+import { describe, test as it, mock } from 'node:test'
+import shadow from './shadow.json'
+import { validPassthrough } from './validPassthrough.js'
 
 void describe('validPassthrough', () => {
 	void it('should let valid input pass', () => {

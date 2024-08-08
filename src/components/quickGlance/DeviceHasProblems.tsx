@@ -1,5 +1,5 @@
-import { ChevronsDownIcon } from 'lucide-preact'
 import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { ChevronsDownIcon } from 'lucide-preact'
 
 export const DeviceHasProblems = () => (
 	<QuickGlanceEntry icon={ChevronsDownIcon} title="Not OK" type="notOk">

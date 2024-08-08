@@ -1,7 +1,7 @@
+import { useParameters } from '#context/Parameters.js'
 import cx from 'classnames'
 import { Angry, Frown, Laugh, Meh, Smile, X } from 'lucide-preact'
-import { useState, useEffect } from 'preact/hooks'
-import { useParameters } from '#context/Parameters.js'
+import { useEffect, useState } from 'preact/hooks'
 
 import './FeedbackForm.css'
 

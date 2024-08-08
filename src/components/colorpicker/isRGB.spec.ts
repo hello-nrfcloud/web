@@ -1,6 +1,6 @@
 import { isRGB } from '#components/colorpicker/isRGB.js'
-import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
 
 void describe('isRGB', () => {
 	void it('should return true for valid RGB object', () => {
