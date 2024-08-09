@@ -1,0 +1,40 @@
+dl.ledPattern {
+  display: grid;
+  grid-template-columns: minmax(5%, 40px) auto;
+}
+
+dl.ledPattern dt,
+dl.ledPattern dd {
+  padding: 0.25rem;
+  opacity: 0.5;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+dl.ledPattern dt {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid transparent;
+  border-right: 0;
+}
+
+dl.ledPattern dd {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 1px solid transparent;
+  border-left: 0;
+}
+
+dl.ledPattern dt {
+  justify-content: center;
+}
+
+dl.ledPattern dd.highlight,
+dl.ledPattern dt.highlight {
+  border-color: #ddd;
+  opacity: 1;
+}

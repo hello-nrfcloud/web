@@ -141,6 +141,7 @@ export const ConnectDevice = () => {
 									pattern={successPattern}
 									class="ms-2"
 									data-testid="success-led-pattern-preview"
+									highlight
 								/>
 							</span>
 						</p>
