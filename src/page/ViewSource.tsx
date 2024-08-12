@@ -134,7 +134,7 @@ export const ViewSource = () => (
 								created using the{' '}
 								<em>
 									<a
-										href="https://hello.nrfcloud.com/map/#add-device"
+										href="https://hello.nrfcloud.com/map/dashboard/#add-device"
 										target="_blank"
 									>
 										custom device onboarding

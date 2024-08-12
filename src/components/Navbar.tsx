@@ -67,7 +67,7 @@ const Navigation = () => {
 					</Transparent>
 					{device.model.map?.model !== undefined && (
 						<Link
-							href={`https://hello.nrfcloud.com/map/#add-device?${new URLSearchParams({ fingerprint, model: device.model.map.model }).toString()}`}
+							href={`https://hello.nrfcloud.com/map/dashboard/#add-device?${new URLSearchParams({ fingerprint, model: device.model.map.model }).toString()}`}
 							title="Make your device available to the public"
 							target="_blank"
 						>
