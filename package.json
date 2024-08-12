@@ -28,8 +28,8 @@
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"
   },
   "dependencies": {
-    "@hello.nrfcloud.com/proto": "14.3.7",
-    "@hello.nrfcloud.com/proto-map": "16.0.5",
+    "@hello.nrfcloud.com/proto": "14.3.8",
+    "@hello.nrfcloud.com/proto-map": "16.1.0",
     "@sentry/browser": "8.25.0",
     "@sinclair/typebox": "0.33.4",
     "classnames": "2.5.1",
@@ -40,7 +40,7 @@
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.21",
     "lucide-preact": "0.427.0",
-    "maplibre-gl": "4.5.1",
+    "maplibre-gl": "4.5.2",
     "nanoid": "5.0.7",
     "preact": "10.23.1",
     "qrcode": "1.5.4",
@@ -86,7 +86,7 @@
     "remark-rehype": "11.1.0",
     "tsmatchers": "5.0.2",
     "tsx": "4.17.0",
-    "vike": "0.4.183",
+    "vike": "0.4.184",
     "websocket": "1.0.35"
   },
   "engines": {
