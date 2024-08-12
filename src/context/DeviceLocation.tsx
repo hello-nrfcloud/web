@@ -12,6 +12,7 @@ import {
 	toGeoLocation,
 	type GeoLocation,
 } from '#proto/lwm2m.js'
+import { byTs } from '#utils/byTs.js'
 import { isSSR } from '#utils/isSSR.js'
 import {
 	LwM2MObjectID,
@@ -23,7 +24,6 @@ import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
-import { byTs } from '#utils/byTs.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
