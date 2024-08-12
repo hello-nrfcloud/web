@@ -23,6 +23,7 @@ import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useFingerprint } from './Fingerprint.js'
 import { useParameters } from './Parameters.js'
+import { byTs } from '#utils/byTs.js'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -70,7 +71,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				...l,
 				[instance.Resources[6]]: toGeoLocation(instance),
 			}))
-			setTrail((t) => [instanceToTrail(device, instance.Resources), ...t])
+			setTrail((t) =>
+				[instanceToTrail(device, instance.Resources), ...t].sort(byTs),
+			)
 		}
 		const { remove } = onReported(listener)
 
@@ -107,12 +110,14 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				clustering ? new URLSearchParams({ trail: '1' }) : undefined,
 			).ok(({ partialInstances }) => {
 				setTrail(
-					partialInstances.map((instance) =>
-						instanceToTrail(
-							device,
-							instance as LwM2MObjectInstance<Geolocation_14201>['Resources'],
-						),
-					),
+					partialInstances
+						.map((instance) =>
+							instanceToTrail(
+								device,
+								instance as LwM2MObjectInstance<Geolocation_14201>['Resources'],
+							),
+						)
+						.sort(byTs),
 				)
 			})
 		})
