@@ -16,7 +16,7 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 	const { hasLiveData } = useDevice()
 	const { usage } = useSIMDetails()
 	const fotaSupported = fwTypes.length > 0
-	const noSIMData = usage !== undefined && usage.availablePercent < 0.01
+	const noSIMData = usage !== undefined && usage.availablePercent < 0.05
 	const ok =
 		!needsFwUpdate &&
 		!needsMfwUpdate &&
