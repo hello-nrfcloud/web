@@ -12,7 +12,7 @@ export const SIMNoData = () => (
 		No data left on SIM
 		<br />
 		<small>
-			The SIM in the device has little or not data left. You may need to top up
+			The SIM in the device has little or no data left. You may need to top up
 			the SIM. Contact your SIM provider for more information.
 		</small>
 	</QuickGlanceEntry>
