@@ -14,13 +14,13 @@ export const PublicDeviceWarning = () => {
 					<span>
 						This device is publicly shared on{' '}
 						<a href={publicDeviceURL(shared).toString()} target={'_blank'}>
-							{publicDeviceURL(shared).host}
+							{`${publicDeviceURL(shared).host}${publicDeviceURL(shared).pathname}`}
 						</a>
 						.
 					</span>
 				</span>
 				<a
-					href={`https://hello.nrfcloud.com/map/#manage-device?${new URLSearchParams({ id: shared.id }).toString()}`}
+					href={`https://hello.nrfcloud.com/map/dashboard/#device?${new URLSearchParams({ id: shared.id }).toString()}`}
 					class="btn btn-outline-secondary ms-2"
 				>
 					Review sharing settings
