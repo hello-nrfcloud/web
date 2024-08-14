@@ -132,17 +132,17 @@ export const ConnectDevice = () => {
 							/>
 							observe the LED pattern <em>{successPattern.description}</em>.
 							<br />
-							<span class="d-flex">
-								<small>
-									If this LED pattern is shown, it means that the device is
-									connected to the cloud and sending data:
-								</small>
+							<span class="d-flex mt-1">
 								<LED
 									pattern={successPattern}
-									class="ms-2"
+									class="ms-1 me-2 flex-shrink-0"
 									data-testid="success-led-pattern-preview"
 									highlight
 								/>
+								<small>
+									If this LED pattern is shown, it means that the device is
+									connected to the cloud and sending data.
+								</small>
 							</span>
 						</p>
 					</section>
