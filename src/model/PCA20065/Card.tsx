@@ -98,8 +98,16 @@ export const Card = ({ model }: { model: Model }) => {
 									<span>
 										<br />
 										<Applied
-											desired={desiredLEDColor}
-											reported={reportedLEDColor}
+											desired={{
+												r: desiredLEDColor.r,
+												g: desiredLEDColor.g,
+												b: desiredLEDColor.b,
+											}}
+											reported={{
+												r: reportedLEDColor!.r,
+												g: reportedLEDColor!.g,
+												b: reportedLEDColor!.b,
+											}}
 										/>
 									</span>
 								)}
