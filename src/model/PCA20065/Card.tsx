@@ -103,11 +103,15 @@ export const Card = ({ model }: { model: Model }) => {
 												g: desiredLEDColor.g,
 												b: desiredLEDColor.b,
 											}}
-											reported={{
-												r: reportedLEDColor!.r,
-												g: reportedLEDColor!.g,
-												b: reportedLEDColor!.b,
-											}}
+											reported={
+												reportedLEDColor !== undefined
+													? {
+															r: reportedLEDColor.r,
+															g: reportedLEDColor.g,
+															b: reportedLEDColor.b,
+														}
+													: undefined
+											}
 										/>
 									</span>
 								)}
