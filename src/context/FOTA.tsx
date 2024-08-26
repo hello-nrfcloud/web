@@ -32,7 +32,9 @@ export const FOTAContext = createContext<{
 	jobs: Array<Static<typeof FOTAJobExecution>>
 	scheduleJob: (bundleId: string) => ResultHandlers<typeof FOTAJobExecution>
 	needsFwUpdate: boolean
+	fwUpdateSeverity?: FirmwareUpdateSeverity
 	needsMfwUpdate: boolean
+	mfwUpdateSeverity?: FirmwareUpdateSeverity
 	appV?: string
 	modV?: string
 	/**
@@ -50,6 +52,11 @@ export const FOTAContext = createContext<{
 })
 
 export type ListenerFn = (instance: LwM2MObjectInstance) => unknown
+
+export enum FirmwareUpdateSeverity {
+	Important,
+	Normal,
+}
 
 export const Provider = ({
 	device,
@@ -112,7 +119,15 @@ export const Provider = ({
 						setJobs((jobs) => [job, ...jobs].sort(byTimestamp))
 					}),
 				needsFwUpdate,
+				fwUpdateSeverity:
+					needsFwUpdate && model.firmware.important
+						? FirmwareUpdateSeverity.Important
+						: FirmwareUpdateSeverity.Normal,
 				needsMfwUpdate,
+				mfwUpdateSeverity:
+					needsMfwUpdate && model.mfw.important
+						? FirmwareUpdateSeverity.Important
+						: FirmwareUpdateSeverity.Normal,
 				appV,
 				modV,
 				fwTypes,

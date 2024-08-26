@@ -4,7 +4,7 @@ import { NeedsFOTA } from '#components/quickGlance/NeedsFOTA.js'
 import { SIMNoData } from '#components/quickGlance/SIMNoData.js'
 import { WaitingForData } from '#components/quickGlance/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
-import { useFOTA } from '#context/FOTA.js'
+import { FirmwareUpdateSeverity, useFOTA } from '#context/FOTA.js'
 import { useSIMDetails } from '#context/SIMDetails.js'
 import cx from 'classnames'
 import { AllOK } from './AllOK.js'
@@ -12,17 +12,24 @@ import { AllOK } from './AllOK.js'
 import './QuickGlance.css'
 
 export const QuickGlance = ({ class: className }: { class?: string }) => {
-	const { needsFwUpdate, needsMfwUpdate, fwTypes } = useFOTA()
+	const {
+		needsFwUpdate,
+		needsMfwUpdate,
+		fwUpdateSeverity,
+		mfwUpdateSeverity,
+		fwTypes,
+	} = useFOTA()
 	const { hasLiveData } = useDevice()
 	const { usage } = useSIMDetails()
 	const fotaSupported = fwTypes.length > 0
 	const noSIMData = usage !== undefined && usage.availablePercent < 0.05
-	const ok =
-		!needsFwUpdate &&
-		!needsMfwUpdate &&
-		hasLiveData &&
-		fotaSupported &&
-		!noSIMData
+	const fwOk =
+		!needsFwUpdate ||
+		(needsFwUpdate && fwUpdateSeverity === FirmwareUpdateSeverity.Normal)
+	const mfwOk =
+		!needsMfwUpdate ||
+		(needsMfwUpdate && mfwUpdateSeverity === FirmwareUpdateSeverity.Normal)
+	const ok = fwOk && mfwOk && hasLiveData && fotaSupported && !noSIMData
 	return (
 		<section
 			id="quickGlance"
@@ -37,7 +44,7 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 			{!hasLiveData && <WaitingForData />}
 			{hasLiveData && (
 				<>
-					{(needsFwUpdate || needsMfwUpdate) && <NeedsFOTA />}
+					{(!fwOk || !mfwOk) && <NeedsFOTA />}
 					{!fotaSupported && <FOTANotSupported />}
 				</>
 			)}

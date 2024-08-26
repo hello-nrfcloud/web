@@ -25,6 +25,10 @@ export const Firmware = Type.Object({
 			},
 		),
 	),
+	important: Type.Boolean({
+		title: 'Important',
+		description: 'If true this will be shown as an important update.',
+	}),
 })
 
 export const updateIntervalSeconds = Type.Number({
