@@ -14,6 +14,7 @@ export const Thingy91XVisual = ({
 	showLEDHint?: boolean
 }) => {
 	const { r, g, b } = ledColor ?? { r: 0, g: 0, b: 0 }
+	const isOff = r + g + b
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +102,12 @@ export const Thingy91XVisual = ({
 				cursor="pointer"
 				onClick={() => onLEDClick?.()}
 			>
-				<circle cx={52.146} cy={30.46} r={3.443} fill={rgb(r, g, b)} />
+				<circle
+					cx={52.146}
+					cy={30.46}
+					r={3.443}
+					fill={isOff ? '#868686' : rgb(r, g, b)}
+				/>
 			</g>
 		</svg>
 	)

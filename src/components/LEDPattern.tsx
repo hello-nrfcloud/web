@@ -80,11 +80,11 @@ export const LED = ({
 						}
 
 						51% {
-							background-color: #AAA;
+							background-color: #868686;
 						}
 
 						100% {
-							background-color: #AAA;
+							background-color: #868686;
 						}
 					}
 				`}
@@ -93,7 +93,9 @@ export const LED = ({
 				class={cx(`led`, className, { highlight })}
 				{...rest}
 				style={{
-					backgroundColor: highlight ? `#${hexToRGB(pattern.color)}` : '#AAA',
+					backgroundColor: highlight
+						? `#${hexToRGB(pattern.color)}`
+						: '#868686',
 					animation: highlight
 						? `colorChange-${id.current} ${pattern.intervalMs * 2}ms infinite alternate`
 						: 'none',

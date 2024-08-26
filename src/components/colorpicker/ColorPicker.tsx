@@ -52,21 +52,24 @@ const ColorButton = ({
 }: {
 	color: number
 	onClick: () => void
-}) => (
-	<button
-		type="button"
-		onClick={onClick}
-		style={{
-			backgroundColor: `#${toHex(color)}`,
-			height: 'auto',
-			width: '100%',
-			aspectRatio: '1/1',
-			borderRadius: '100%',
-			border: '1px solid #ccc',
-		}}
-	>
-		{color === 0 ? <span style={{ color: 'white' }}>Off</span> : ''}
-	</button>
-)
+}) => {
+	const isOff = color === 0
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			style={{
+				backgroundColor: isOff ? '#868686' : `#${toHex(color)}`,
+				height: 'auto',
+				width: '100%',
+				aspectRatio: '1/1',
+				borderRadius: '100%',
+				border: '1px solid #ccc',
+			}}
+		>
+			{isOff ? <span style={{ color: 'white' }}>Auto</span> : ''}
+		</button>
+	)
+}
 
 const toHex = (c: number) => c.toString(16).padStart(6, '0')

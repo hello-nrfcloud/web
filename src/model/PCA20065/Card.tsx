@@ -62,6 +62,7 @@ export const Card = ({ model }: { model: Model }) => {
 					<ColorPicker
 						onColor={(color) => {
 							showLEDColorPicker(false)
+
 							const instance: LwM2MObjectInstance<RGBLED_14240> = {
 								ObjectID: LwM2MObjectID.RGBLED_14240,
 								ObjectInstanceID: 0,
