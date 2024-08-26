@@ -14,7 +14,7 @@ export const DeviceBehaviourInfo = () => (
 			</li>
 			<li>
 				After boot, the device enters a temporary real-time mode for 10 minutes.
-				In this mode, the device polls for configuration changes every 20
+				In this mode, the device polls for configuration changes every 30
 				seconds and sends sensor updates every minute.
 			</li>
 			<li>
