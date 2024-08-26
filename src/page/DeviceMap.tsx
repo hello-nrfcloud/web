@@ -5,11 +5,23 @@ import { encodeMapState } from '#map/encodeMapState.js'
 import { defaultMapState, Map } from '#map/Map.js'
 import { ShrinkIcon } from 'lucide-preact'
 
+import { UnsupportedDevice } from '#components/UnsupportedDevice.js'
 import './DeviceMap.css'
 
 export const DeviceMap = () => {
-	const { device } = useDevice()
+	const { device, unsupported } = useDevice()
 	const mapState = useMapState()
+
+	if (unsupported !== undefined)
+		return (
+			<div class="container">
+				<div class="row">
+					<div class="col my-4">
+						<UnsupportedDevice />
+					</div>
+				</div>
+			</div>
+		)
 
 	if (device === undefined)
 		return (

@@ -5,7 +5,6 @@ import path from 'node:path'
 export const onBeforePrerenderStart = async (): Promise<string[]> => {
 	const slugs = (await readdir(path.join(process.cwd(), 'content', 'models')))
 		.filter((s) => s.endsWith('.md'))
-		.filter((s) => s !== 'unsupported.md')
 		.map((s) => s.replace(/\.md$/, ''))
 
 	return (

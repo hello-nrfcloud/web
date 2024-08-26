@@ -137,29 +137,14 @@ export const ModelVariantOf = Type.Object(
 
 type ModelMarkdownType = Static<typeof ModelMarkdown>
 
-export const UnsupportedModel = Type.Object({
-	title: Type.String({ minLength: 1 }),
-	hidden: Type.Boolean({ const: true }),
-	slug: Type.Literal('unsupported'),
-})
-export type UnsupportedModelType = Static<typeof UnsupportedModel>
-
 export type Model = Omit<ModelMarkdownType, 'includedSIMs'> & {
 	includedSIMs: Array<IncludedSIMType>
 	variant?: string
 }
 
-export const ModelDefinitions = Type.Union([
-	ModelMarkdown,
-	ModelVariantOf,
-	UnsupportedModel,
-])
+export const ModelDefinitions = Type.Union([ModelMarkdown, ModelVariantOf])
 type ModelOrVariantType = Static<typeof ModelDefinitions>
 
 export const isVariant = (
 	model: ModelOrVariantType,
 ): model is { variantOf: string; slug: string } => 'variantOf' in model
-
-export const isUnsupported = (model: {
-	slug: string
-}): model is UnsupportedModelType => model.slug === 'unsupported'

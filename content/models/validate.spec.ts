@@ -4,24 +4,12 @@ import { readdirSync } from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { loadMarkdownContentFromFile } from '../../pages/loadMarkdownContent.js'
-import { ModelMarkdown, UnsupportedModel } from './types.js'
+import { ModelMarkdown } from './types.js'
 
 void describe('Model definitions', () => {
-	void describe('unsupported model', () => {
-		void it('should be valid', async () => {
-			const maybeValue = validateWithTypeBox(UnsupportedModel)(
-				await loadMarkdownContentFromFile(
-					path.join(import.meta.dirname, 'unsupported.md'),
-				),
-			)
-			if ('errors' in maybeValue) console.error(maybeValue.errors)
-			assert.equal('errors' in maybeValue, false)
-		})
-	})
-
-	for (const file of readdirSync(import.meta.dirname)
-		.filter((f) => f.endsWith('.md'))
-		.filter((f) => !f.includes('unsupported'))) {
+	for (const file of readdirSync(import.meta.dirname).filter((f) =>
+		f.endsWith('.md'),
+	)) {
 		void describe(file, () => {
 			void it('should be valid', async () => {
 				const maybeValue = validateWithTypeBox(ModelMarkdown)(

@@ -1,6 +1,7 @@
 import { Feedback } from '#components/Feedback.js'
 import { LwM2MDebug } from '#components/LwM2MDebug.js'
 import { ModelResources } from '#components/ModelResources.js'
+import { UnsupportedDevice } from '#components/UnsupportedDevice.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { useDevice } from '#context/Device.js'
 import { Provider as FOTAProvider } from '#context/FOTA.js'
@@ -11,8 +12,19 @@ import { Page as Thingy91X } from '#model/PCA20065/Page.js'
 import cx from 'classnames'
 
 export const Device = () => {
-	const { device, debug } = useDevice()
+	const { device, debug, unsupported } = useDevice()
 	const { fingerprint } = useFingerprint()
+
+	if (unsupported !== undefined)
+		return (
+			<div class="container">
+				<div class="row">
+					<div class="col my-4">
+						<UnsupportedDevice />
+					</div>
+				</div>
+			</div>
+		)
 
 	if (device === undefined)
 		return (
@@ -24,37 +36,6 @@ export const Device = () => {
 				</div>
 			</div>
 		)
-
-	if (device.model === undefined) {
-		return (
-			<div class="container">
-				<div class="row">
-					<div class="col my-4">
-						<h1>Unsupported model</h1>
-						<p>
-							The application does not support the model specified for this
-							device (<code>{device.id}</code>).
-						</p>
-					</div>
-				</div>
-			</div>
-		)
-	}
-
-	if (device.model.slug === 'unsupported') {
-		return (
-			<div class="container">
-				<div class="row">
-					<div
-						class="col my-4"
-						dangerouslySetInnerHTML={{
-							__html: device.model.html,
-						}}
-					></div>
-				</div>
-			</div>
-		)
-	}
 
 	return (
 		<>

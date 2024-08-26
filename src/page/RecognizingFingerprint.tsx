@@ -1,5 +1,6 @@
 import { Transparent } from '#components/Buttons.js'
 import { FingerprintForm } from '#components/FingerprintForm.js'
+import { UnsupportedDevice } from '#components/UnsupportedDevice.js'
 import { WaitingForDevice } from '#components/WaitingForDevice.js'
 import { useDevice } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
@@ -8,7 +9,7 @@ import { useEffect } from 'preact/hooks'
 
 export const RecognizingFingerprint = () => {
 	const { fingerprint, clear } = useFingerprint()
-	const { connectionFailed, device, connected } = useDevice()
+	const { connectionFailed, device, connected, unsupported } = useDevice()
 	useEffect(() => {
 		if (!device) return
 		const t = setTimeout(() => {
@@ -35,8 +36,13 @@ export const RecognizingFingerprint = () => {
 							<Trash size={25} strokeWidth={1} class="me-1" /> clear
 						</Transparent>
 					</h1>
-					{!connected && !connectionFailed && <WaitingForDevice />}
-					{connected && !device && <WaitingForDevice />}
+					{!connected && !connectionFailed && unsupported === undefined && (
+						<WaitingForDevice />
+					)}
+					{connected && unsupported !== undefined && <UnsupportedDevice />}
+					{connected && !device && unsupported === undefined && (
+						<WaitingForDevice />
+					)}
 					{connectionFailed && (
 						<>
 							<h3>Connection failed.</h3>

@@ -42,6 +42,9 @@ const EmptyResponse = Type.Undefined()
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
+	unsupported?: {
+		id: string
+	}
 	imei?: string
 	lastSeen?: Date
 	connected: boolean
@@ -116,6 +119,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
 	const [helloApiURL, setHelloApiURL] = useState<URL>()
+	const [unsupported, setUnsupported] = useState<{ id: string } | undefined>(
+		undefined,
+	)
 
 	const connected = ws !== undefined
 
@@ -182,17 +188,27 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				if (maybeValid !== null) {
 					console.debug(`[WS] <`, maybeValid)
 					if (isDeviceIdentity(maybeValid)) {
-						const type = models[maybeValid.model] as Model
-						setDevice({
-							id: maybeValid.id,
-							model: type ?? models['unsupported'],
-							hideDataBefore:
-								maybeValid.hideDataBefore !== undefined
-									? new Date(maybeValid.hideDataBefore)
-									: undefined,
-						})
-						if (maybeValid.lastSeen !== undefined) {
-							setLastSeen(new Date(maybeValid.lastSeen))
+						const type = models[maybeValid.model]
+						if (type !== undefined) {
+							setDevice({
+								id: maybeValid.id,
+								model: type,
+								hideDataBefore:
+									maybeValid.hideDataBefore !== undefined
+										? new Date(maybeValid.hideDataBefore)
+										: undefined,
+							})
+							if (maybeValid.lastSeen !== undefined) {
+								setLastSeen(new Date(maybeValid.lastSeen))
+							}
+						} else if (maybeValid.model === 'unsupported') {
+							setUnsupported({ id: maybeValid.id })
+						} else {
+							setUnsupported({ id: maybeValid.id })
+							console.error(
+								`[WS]`,
+								`Device model not found: ${maybeValid.model}`,
+							)
 						}
 					} else if (isShadow(maybeValid)) {
 						const reported = maybeValid.reported
@@ -382,6 +398,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				imei: Object.values(reported)
 					.filter(isDeviceInformation)
 					.map(toDeviceInformation)[0]?.imei,
+				unsupported,
 			}}
 		>
 			{children}

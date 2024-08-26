@@ -38,20 +38,22 @@ const Link = ({
 	</a>
 )
 const Navigation = () => {
-	const { device, debug, setDebug } = useDevice()
+	const { device, debug, setDebug, unsupported } = useDevice()
 	const { fingerprint, clear } = useFingerprint()
 	return (
 		<>
-			{fingerprint !== null && device === undefined && (
-				<Link
-					href="/recognizing-fingerprint"
-					title="Device fingerprint was provided."
-				>
-					<span style={{ color: 'var(--color-nordic-fall)' }}>
-						<Fingerprint class="me-1" size={22} /> Checking fingerprint...
-					</span>
-				</Link>
-			)}
+			{fingerprint !== null &&
+				device === undefined &&
+				unsupported === undefined && (
+					<Link
+						href="/recognizing-fingerprint"
+						title="Device fingerprint was provided."
+					>
+						<span style={{ color: 'var(--color-nordic-fall)' }}>
+							<Fingerprint class="me-1" size={22} /> Checking fingerprint...
+						</span>
+					</Link>
+				)}
 			{fingerprint !== null && device !== undefined && (
 				<>
 					<Link href={`/device`} title="Device fingerprint was provided">
