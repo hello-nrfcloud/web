@@ -38,6 +38,6 @@ export const Model = ({ model }: { model: TModel }) => (
 				</aside>
 			</div>
 		</div>
-		<ScanQR model={model} />
+		<ScanQR />
 	</main>
 )

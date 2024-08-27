@@ -38,10 +38,10 @@ export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 		<section style={{ position: 'relative' }}>
 			<div>
 				<img
-					src="/static/images/NordicThingy91.webp"
+					src="/static/images/PCA20065-QR.webp"
 					ref={ref}
 					class="img-fluid"
-					alt="Thingy:91"
+					alt="Thingy:91 X"
 				/>
 			</div>
 			<svg
@@ -51,41 +51,44 @@ export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 				viewBox={`0 0 ${p(100)} ${p(100)}`}
 				xmlns="http://www.w3.org/2000/svg"
 				style={{ position: 'absolute', top: '0', left: '0' }}
-				fontSize={p(1.8)}
+				fontSize={p(2.5)}
 				fontFamily={"'IBM Plex Mono', monospace"}
 			>
-				<rect
-					x={p(23.5)}
-					y={p(27.5)}
-					width={p(45)}
-					height={p(10)}
-					rx={p(1)}
-					fill={'#ffffff'}
-				/>
-				<text x={p(33)} y={p(34)}>
-					IMEI:{imei}
-				</text>
-				<text
-					x={p(33)}
-					y={p(32)}
-					fontFamily={"'Libre Barcode 128', 'cursive'"}
-					fontSize={p(6)}
-					dangerouslySetInnerHTML={{
-						__html: encoder.encode(imei),
-					}}
-				></text>
-				<text x={p(24.5)} y={p(30)} fontWeight={700}>
-					PCA2035
-				</text>
-				<text x={p(24.5)} y={p(32)}>
-					1.0.0
-				</text>
-				<text x={p(24.5)} y={p(34)}>
-					{format(new Date(), 'yyyy.w')}
-				</text>
-				<text x={p(24.5)} y={p(36)}>
-					{url.toString().slice(8)}
-				</text>
+				<g transform={`translate(${p(22)},${p(20)})`}>
+					<rect
+						x={p(0)}
+						y={p(0)}
+						width={p(63)}
+						height={p(18)}
+						rx={p(2.5)}
+						fill={'#ffffff'}
+					/>
+					<text x={p(13)} y={p(10.5)} fontWeight={700}>
+						IMEI:{imei}
+					</text>
+					<text
+						x={p(20)}
+						y={p(8)}
+						fontFamily={"'Libre Barcode 128', 'cursive'"}
+						fontSize={p(12)}
+						dangerouslySetInnerHTML={{
+							__html: encoder.encode(imei),
+						}}
+						transform="scale(0.65 1)"
+					></text>
+					<text x={p(1)} y={p(3)} fontWeight={700}>
+						PCA2065
+					</text>
+					<text x={p(1)} y={p(5.5)}>
+						1.0.0
+					</text>
+					<text x={p(1)} y={p(8)}>
+						{format(new Date(), 'yyyy.w')}
+					</text>
+					<text x={p(1)} y={p(15.5)}>
+						{url.toString().slice(8)}
+					</text>
+				</g>
 			</svg>
 			{qrcodeSVG !== undefined && (
 				<div
@@ -94,10 +97,10 @@ export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 					}}
 					style={{
 						position: 'absolute',
-						top: p(28),
-						left: p(59),
-						width: p(9),
-						height: p(9),
+						top: p(21),
+						left: p(68),
+						width: p(16),
+						height: p(16),
 					}}
 				></div>
 			)}

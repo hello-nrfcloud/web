@@ -8,6 +8,7 @@ export const ModelSelector = () => {
 			<div class="row">
 				{Object.entries(models)
 					.filter(([, { hidden }]) => hidden !== true)
+					.sort(([, a], [, b]) => b.slug.localeCompare(a.slug))
 					.map(([id, { title, abstract, tagline }]) => (
 						<div class="col-12 col-sm-6 col-lg-4">
 							<div class="card">

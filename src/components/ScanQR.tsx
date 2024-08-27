@@ -2,9 +2,8 @@ import { FingerprintForm } from '#components/FingerprintForm.js'
 import { QRCodeScanner } from '#components/QRCodeScanner.js'
 import { WithResize } from '#components/ResizeObserver.js'
 import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
-import { type Model } from '#content/models/types.js'
 
-export const ScanQR = ({ model }: { model?: Model }) => (
+export const ScanQR = () => (
 	<div class="bg-light">
 		<div class="container py-4">
 			<div class="row mt-4">
@@ -14,20 +13,7 @@ export const ScanQR = ({ model }: { model?: Model }) => (
 			</div>
 			<div class="row mt-4">
 				<div class="col-12 col-md-6 col-lg-4 mb-4">
-					{model !== undefined && (
-						<img
-							alt={`${model.title} (${model.slug}) with QR code`}
-							src={`/static/images/${encodeURIComponent(
-								model.slug,
-							)}-QR.webp?v=${VERSION}`}
-							class="img-fluid p-4"
-						/>
-					)}
-					{model === undefined && (
-						<WithResize>
-							{(size) => <ThingyWithQRCode size={size} />}
-						</WithResize>
-					)}
+					<WithResize>{(size) => <ThingyWithQRCode size={size} />}</WithResize>
 				</div>
 				<div class="col-12 col-md-6 col-lg-4 mb-3">
 					<QRCodeScanner />
