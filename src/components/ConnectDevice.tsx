@@ -72,7 +72,7 @@ export const ConnectDevice = () => {
 					Make sure the battery is charged.
 					<br />
 					<small>
-						To be safe, you can plug the device in using a micro USB cable.
+						To be safe, you can plug the device in using a USB-C cable.
 					</small>
 				</p>
 				<p>
