@@ -85,7 +85,7 @@
     "remark-frontmatter": "5.0.0",
     "remark-rehype": "11.1.0",
     "tsmatchers": "5.0.2",
-    "tsx": "4.19.0",
+    "tsx": "4.19.1",
     "vike": "0.4.195",
     "websocket": "1.0.35"
   },
