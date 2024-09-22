@@ -7,12 +7,15 @@ links:
 firmware:
   version: 1.1.3
   link: https://github.com/hello-nrfcloud/firmware/releases/tag/v1.1.3
-  bundleId: APP*962abcac*v1.1.3-sol-lp-mmflt
+  upgradePath:
+    ">=0.0.0": APP*962abcac*v1.1.3-sol-lp-mmflt
   important: false
 mfw:
   version: 1.3.6
-  link: https://www.nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91/Download?lang=en#infotabs
-  bundleId: MDM_FULL*551ba99b*mfw_nrf9160_full_1.3.6
+  link:
+    https://www.  nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91/Download?lang=en#infotabs
+  upgradePath:
+    ">=0.0.0": MDM_FULL*551ba99b*mfw_nrf9160_full_1.3.6
   important: false
 abstract: >-
   The Nordic Thingy:91 has been fitted with a light harvesting add-on, giving

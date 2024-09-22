@@ -10,8 +10,10 @@ import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
 import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
 import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import {
-	FOTAJobExecution,
-	FOTAJobExecutions,
+	FOTAJob,
+	FOTAJobs,
+	type FOTAJobTarget,
+	type UpgradePath,
 } from '@hello.nrfcloud.com/proto/hello'
 import { type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
@@ -29,8 +31,11 @@ export type Configuration = {
 }
 
 export const FOTAContext = createContext<{
-	jobs: Array<Static<typeof FOTAJobExecution>>
-	scheduleJob: (bundleId: string) => ResultHandlers<typeof FOTAJobExecution>
+	jobs: Array<Static<typeof FOTAJob>>
+	scheduleJob: (
+		upgradePath: Static<typeof UpgradePath>,
+		target: FOTAJobTarget,
+	) => ResultHandlers<typeof FOTAJob>
 	needsFwUpdate: boolean
 	fwUpdateSeverity?: FirmwareUpdateSeverity
 	needsMfwUpdate: boolean
@@ -69,7 +74,7 @@ export const Provider = ({
 	children: ComponentChildren
 	device: Device
 }) => {
-	const [jobs, setJobs] = useState<Array<Static<typeof FOTAJobExecution>>>([])
+	const [jobs, setJobs] = useState<Array<Static<typeof FOTAJob>>>([])
 
 	const { reported } = useDevice()
 	const model = device.model
@@ -92,7 +97,7 @@ export const Provider = ({
 	const fwTypes = serviceInfo?.fwTypes ?? []
 
 	useEffect(() => {
-		validatingFetch(FOTAJobExecutions)(
+		validatingFetch(FOTAJobs)(
 			new URL(
 				`./device/${device.id}/fota/jobs?${new URLSearchParams({ fingerprint }).toString()}`,
 				helloApiURL,
@@ -106,14 +111,14 @@ export const Provider = ({
 		<FOTAContext.Provider
 			value={{
 				jobs,
-				scheduleJob: (bundleId) =>
-					validatingFetch(FOTAJobExecution)(
+				scheduleJob: (upgradePath, target) =>
+					validatingFetch(FOTAJob)(
 						new URL(
-							`./device/${device.id}/fota?${new URLSearchParams({ fingerprint }).toString()}`,
+							`./device/${device.id}/fota/${target}?${new URLSearchParams({ fingerprint }).toString()}`,
 							helloApiURL,
 						),
 						{
-							bundleId,
+							upgradePath,
 						},
 					).ok((job) => {
 						setJobs((jobs) => [job, ...jobs].sort(byTimestamp))
@@ -143,6 +148,6 @@ export const Consumer = FOTAContext.Consumer
 export const useFOTA = () => useContext(FOTAContext)
 
 const byTimestamp = (
-	{ lastUpdatedAt: a }: Static<typeof FOTAJobExecution>,
-	{ lastUpdatedAt: b }: Static<typeof FOTAJobExecution>,
+	{ timestamp: a }: Static<typeof FOTAJob>,
+	{ timestamp: b }: Static<typeof FOTAJob>,
 ) => b.localeCompare(a)

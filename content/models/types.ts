@@ -1,5 +1,6 @@
 import type { IncludedSIMType } from '#content/sims/types.js'
 import { ModelID } from '@hello.nrfcloud.com/proto-map/models'
+import { UpgradePath } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'
 
 const Link = Type.String({ pattern: 'https://.*' })
@@ -16,15 +17,7 @@ const SemVer = Type.RegExp(
 export const Firmware = Type.Object({
 	version: SemVer,
 	link: Link,
-	bundleId: Type.Optional(
-		Type.RegExp(
-			/^(APP|MODEM|BOOT|SOFTDEVICE|BOOTLOADER|MDM_FULL)\*([0-9a-f]+)\*.+/,
-			{
-				title: 'Bundle ID',
-				examples: ['APP*1e29dfa3*v2.0.0'],
-			},
-		),
-	),
+	upgradePath: Type.Optional(UpgradePath),
 	important: Type.Boolean({
 		title: 'Important',
 		description: 'If true this will be shown as an important update.',

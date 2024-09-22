@@ -50,9 +50,9 @@ export const SoftwareInfo = () => {
 					</small>
 				</p>
 			)}
-			{needsFwUpdate && model.firmware.bundleId !== undefined && (
+			{needsFwUpdate && model.firmware.upgradePath !== undefined && (
 				<UpdateDevice
-					bundleId={model.firmware.bundleId}
+					upgradePath={model.firmware.upgradePath}
 					version={model.firmware.version}
 				/>
 			)}
@@ -111,9 +111,9 @@ export const SoftwareInfo = () => {
 					</small>
 				</p>
 			)}
-			{needsMfwUpdate && model.mfw.bundleId !== undefined && (
+			{needsMfwUpdate && model.mfw.upgradePath !== undefined && (
 				<UpdateDevice
-					bundleId={model.mfw.bundleId}
+					upgradePath={model.mfw.upgradePath}
 					version={model.mfw.version}
 				/>
 			)}

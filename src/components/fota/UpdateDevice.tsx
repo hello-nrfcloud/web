@@ -5,14 +5,19 @@ import { useDevice } from '#context/Device.js'
 import { useFOTA } from '#context/FOTA.js'
 import { isNRFCloudServiceInfo, toNRFCloudServiceInfo } from '#proto/lwm2m.js'
 import type { FetchProblem } from '#utils/validatingFetch.js'
+import {
+	bundleIdToType,
+	type UpgradePath,
+} from '@hello.nrfcloud.com/proto/hello'
+import type { Static } from '@sinclair/typebox'
 import { noop } from 'lodash-es'
 import { useState } from 'preact/hooks'
 
 export const UpdateDevice = ({
-	bundleId,
+	upgradePath,
 	version,
 }: {
-	bundleId: string
+	upgradePath: Static<typeof UpgradePath>
 	version: string
 }) => {
 	const { reported } = useDevice()
@@ -26,8 +31,11 @@ export const UpdateDevice = ({
 		.map(toNRFCloudServiceInfo)[0]
 
 	const fwTypes = serviceInfo?.fwTypes ?? []
+	const upgradeType = bundleIdToType(Object.keys(upgradePath)[0] ?? '')
+	const firstTypeInUpgradePath = Object.values(upgradePath)[0]?.split('*')[0]
 	const fotaSupported =
-		fwTypes.find((type) => bundleId.split('*')[0] === type) !== undefined
+		upgradeType !== null &&
+		fwTypes.find((type) => firstTypeInUpgradePath === type) !== undefined
 
 	if (!fotaSupported) {
 		return (
@@ -62,7 +70,7 @@ export const UpdateDevice = ({
 			</p>
 			<Primary
 				onClick={() => {
-					scheduleJob(bundleId)
+					scheduleJob(upgradePath, upgradeType)
 						.start(() => {
 							setInProgress(true)
 							setSuccess(false)
