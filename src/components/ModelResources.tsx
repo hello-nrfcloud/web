@@ -1,5 +1,5 @@
 import { type Model } from '#content/models/types.js'
-import { FileText, Laptop2 } from 'lucide-preact'
+import { FileText } from 'lucide-preact'
 
 export const ModelResources = ({ type }: { type: Model }) => (
 	<section class="pt-4 pb-4 bg-sun">
@@ -14,17 +14,23 @@ export const ModelResources = ({ type }: { type: Model }) => (
 			<div class="row mt-4">
 				<div class="col-6 text-center">
 					<p>
-						<Laptop2 strokeWidth={1} style={{ zoom: 4 }} />
+						<img
+							src={`/static/images/quickstart.svg`}
+							alt="Quick Start"
+							width={80}
+							style={{ margin: '10px' }}
+						/>
 					</p>
 					<p>
-						Launch the{' '}
+						Launch the <em>Quick Start</em> in{' '}
 						<a
 							href="https://www.nordicsemi.com/Products/Development-tools/nrf-connect-for-desktop"
 							title="nRF Connect for Desktop"
+							target="_blank"
 						>
-							Getting Started Guide
-						</a>{' '}
-						in nRF Connect for Desktop.
+							nRF Connect for Desktop
+						</a>
+						.
 					</p>
 				</div>
 				<div class="col-6 text-center">
@@ -36,6 +42,7 @@ export const ModelResources = ({ type }: { type: Model }) => (
 						<a
 							href={type.links.documentation.toString()}
 							title={`Documentation for ${type.title}`}
+							target="_blank"
 						>
 							<em>{type.title}</em> documentation
 						</a>
