@@ -4,11 +4,13 @@ import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNoti
 import { Provider as DeviceProvider } from '#context/Device.js'
 import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
 import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
+import { Provider as HistoryChartProvider } from '#context/HistoryChart.js'
 import { Provider as MapShareProvider } from '#context/MapShare.js'
 import { Provider as MapStateProvider } from '#context/MapState.js'
 import { Provider as ModelsProvider } from '#context/Models.js'
 import { Provider as ParametersProvider } from '#context/Parameters.js'
 import { Provider as SIMDetailsProvider } from '#context/SIMDetails.js'
+import { Provider as SIMUsageHistoryProvider } from '#context/SIMUsageHistory.js'
 import { Device } from '#page/Device.js'
 import type { IndexPageProps } from '../index/+data.js'
 
@@ -18,16 +20,20 @@ export const Page = ({ models }: IndexPageProps) => (
 			<ModelsProvider models={models}>
 				<DeviceProvider>
 					<SIMDetailsProvider>
-						<DeviceLocationProvider>
-							<MapShareProvider>
-								<MapStateProvider>
-									<Navbar />
-									<WebsocketDisconnectNotifier />
-									<Device />
-									<Footer />
-								</MapStateProvider>
-							</MapShareProvider>
-						</DeviceLocationProvider>
+						<HistoryChartProvider>
+							<SIMUsageHistoryProvider>
+								<DeviceLocationProvider>
+									<MapShareProvider>
+										<MapStateProvider>
+											<Navbar />
+											<WebsocketDisconnectNotifier />
+											<Device />
+											<Footer />
+										</MapStateProvider>
+									</MapShareProvider>
+								</DeviceLocationProvider>
+							</SIMUsageHistoryProvider>
+						</HistoryChartProvider>
 					</SIMDetailsProvider>
 				</DeviceProvider>
 			</ModelsProvider>

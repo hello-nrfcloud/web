@@ -6,6 +6,7 @@ import { WithResize } from '#components/ResizeObserver.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { WaitingForData } from '#components/WaitingForData.js'
 import { useDevice } from '#context/Device.js'
+import { useHistoryChart } from '#context/HistoryChart.js'
 import { useHistory } from '#model/PCA20035-solar/HistoryContext.js'
 import { toChartData } from '#model/PCA20035-solar/toChartData.js'
 import {
@@ -34,7 +35,8 @@ export const Chart = () => (
 )
 
 const SolarChart = () => {
-	const { battery, gain, timeSpan, setTimeSpan } = useHistory()
+	const { battery, gain } = useHistory()
+	const { timeSpan, setTimeSpan } = useHistoryChart()
 
 	const hasChartData = gain.length + battery.length > 0
 

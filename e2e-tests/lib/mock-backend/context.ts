@@ -14,7 +14,7 @@ type State = {
 }
 
 export type SIMUsage = {
-	timestamp: string // e.g. '2024-07-01T10:53:16.790Z'
+	ts: string // e.g. '2024-07-01T10:53:16.790Z'
 	usedBytes: number // e.g. 	0
 	totalBytes: number // e.g. 	10000000
 }

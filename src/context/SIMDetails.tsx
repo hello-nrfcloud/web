@@ -73,7 +73,7 @@ export const Provider = (props: PropsWithChildren) => {
 		if (!knownIssuers.has(issuer.iin)) return
 		onParameters(({ simDetailsAPIURL }) => {
 			getSIMDetails(new URL(simDetailsAPIURL))(iccid)
-				.ok(({ totalBytes, usedBytes, timestamp }, { cacheControl }) => {
+				.ok(({ totalBytes, usedBytes, ts: timestamp }, { cacheControl }) => {
 					setUsage({
 						used: usedBytes,
 						total: totalBytes,

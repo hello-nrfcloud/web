@@ -10,7 +10,7 @@ test.beforeAll(async ({ browser }) => {
 
 	// SIM details
 	await apiClient.setSIMDetails(iccid, {
-		timestamp: new Date().toISOString(),
+		ts: new Date().toISOString(),
 		usedBytes: 10000000,
 		totalBytes: 10000000,
 	})

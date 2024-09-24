@@ -1,6 +1,6 @@
-import { TimeSpan } from '#api/api.js'
 import { useDevice, type ListenerFn } from '#context/Device.js'
 import { useFingerprint } from '#context/Fingerprint.js'
+import { useHistoryChart } from '#context/HistoryChart.js'
 import { useParameters } from '#context/Parameters.js'
 import {
 	isBatteryAndPower,
@@ -23,13 +23,9 @@ type Reboots = Array<Reboot>
 export const HistoryContext = createContext<{
 	battery: BatteryReadings
 	reboots: Reboots
-	timeSpan: TimeSpan
-	setTimeSpan: (type: TimeSpan) => void
 }>({
 	battery: [],
 	reboots: [],
-	timeSpan: TimeSpan.lastHour,
-	setTimeSpan: () => undefined,
 })
 
 const isBattery = (o: unknown): o is { 0: number; 99: number } =>
@@ -46,8 +42,8 @@ const isReboot = (
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device } = useDevice()
 	const { fingerprint } = useFingerprint()
-	const [timeSpan, setTimeSpan] = useState<TimeSpan>(TimeSpan.lastHour)
 	const { onParameters } = useParameters()
+	const { timeSpan } = useHistoryChart()
 
 	const [battery, setBattery] = useState<BatteryReadings>([])
 	const [reboots, setReboots] = useState<Reboots>([])
@@ -103,8 +99,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			value={{
 				battery,
 				reboots,
-				timeSpan,
-				setTimeSpan,
 			}}
 		>
 			{children}

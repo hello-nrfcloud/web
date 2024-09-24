@@ -17,7 +17,7 @@ void describe('validatingFetch', async () => {
 		scope.get(`/2024-07-01/sim/89457300000022396157`).reply(
 			200,
 			{
-				timestamp: now.toISOString(),
+				ts: now.toISOString(),
 				usedBytes: 0,
 				totalBytes: 10000000,
 			},
@@ -51,7 +51,7 @@ void describe('validatingFetch', async () => {
 		)
 		assert.equal(response.status, 200, 'It should return the status code')
 		assert.deepEqual(sim, {
-			timestamp: now.toISOString(),
+			ts: now.toISOString(),
 			usedBytes: 0,
 			totalBytes: 10000000,
 		})
