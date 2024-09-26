@@ -1,12 +1,12 @@
 import { BME680 } from '#components/BME680.js'
 import { Configuration } from '#components/Configuration.js'
-import { ConnectDevice } from '#components/ConnectDevice.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
 import { NetworkInfo } from '#components/deviceInfo/NetworkInfo.js'
 import { DeviceFOTAInfo } from '#components/fota/DeviceFOTAInfo.js'
 import { HideDataBefore } from '#components/HideDataBefore.js'
 import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
 import { QuickGlance } from '#components/quickGlance/QuickGlance.js'
+import { Troubleshooting } from '#components/Troubleshooting.js'
 import { useDevice, type Device as TDevice } from '#context/Device.js'
 import { DeviceMap } from '#map/DeviceMap.js'
 import { LocationHelp } from '#map/LocationHelp.js'
@@ -29,7 +29,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 						<div class="col-md-8">
 							<QuickGlance class="mt-2 mt-md-0" />
 							<DeviceHeader />
-							{!hasLiveData && <ConnectDevice />}
+							{!hasLiveData && <Troubleshooting />}
 							{hasLiveData && (
 								<>
 									<ConnectionSuccess />
