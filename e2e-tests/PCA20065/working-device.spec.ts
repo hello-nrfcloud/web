@@ -3,9 +3,11 @@ import type { Model } from '#content/models/types.js'
 import {
 	LwM2MObjectID,
 	type BatteryAndPower_14202,
+	type ButtonPress_14220,
 	type ConnectionInformation_14203,
 	type DeviceInformation_14204,
 	type Environment_14205,
+	type LwM2MObjectInstance,
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { expect, test, type Page } from '@playwright/test'
@@ -85,12 +87,22 @@ test.beforeAll(async ({ browser }) => {
 		},
 	}
 
+	const buttonPress: LwM2MObjectInstance<ButtonPress_14220> = {
+		ObjectID: LwM2MObjectID.ButtonPress_14220,
+		ObjectVersion: '1.0',
+		ObjectInstanceID: 1,
+		Resources: {
+			99: ts,
+		},
+	}
+
 	await apiClient.report(id, [
 		serviceInfo,
 		connectionInfo,
 		deviceInfo,
 		batteryInfo,
 		environmentInfo,
+		buttonPress,
 	])
 	page = await browser.newPage()
 	await page.goto(`http://localhost:8080/${fingerprint}`)
@@ -226,6 +238,14 @@ test.describe('Additional environment information', () => {
 	test('Show the atmospheric pressure', async () => {
 		await expect(page.getByTestId('environment-info')).toContainText(
 			`${Math.round(992.6)} mbar`,
+		)
+	})
+})
+
+test.describe('Show button presses', () => {
+	test('Show the button presses', async () => {
+		await expect(page.getByTestId('button-press')).toContainText(
+			`Button #1 pressed`,
 		)
 	})
 })

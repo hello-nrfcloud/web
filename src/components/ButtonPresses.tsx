@@ -25,7 +25,7 @@ export const ButtonPresses = () => {
 									key={`button-${buttonPress.ts.getTime()}`}
 								>
 									<ChevronDownSquareIcon strokeWidth={1} class="me-1" />
-									<span>
+									<span data-testid="button-press">
 										Button <strong>#{buttonPress.id}</strong> pressed
 									</span>
 								</small>
