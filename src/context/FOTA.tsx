@@ -15,7 +15,7 @@ import {
 	type FOTAJobTarget,
 	type UpgradePath,
 } from '@hello.nrfcloud.com/proto/hello'
-import { type Static } from '@sinclair/typebox'
+import { Type, type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from './Device.js'
@@ -30,12 +30,15 @@ export type Configuration = {
 	gnssEnabled: boolean
 }
 
+export const Empty = Type.Undefined()
+
 export const FOTAContext = createContext<{
 	jobs: Array<Static<typeof FOTAJob>>
 	scheduleJob: (
 		upgradePath: Static<typeof UpgradePath>,
 		target: FOTAJobTarget,
 	) => ResultHandlers<typeof FOTAJob>
+	cancelJob: (job: Static<typeof FOTAJob>) => ResultHandlers<typeof Empty>
 	needsFwUpdate: boolean
 	fwUpdateSeverity?: FirmwareUpdateSeverity
 	needsMfwUpdate: boolean
@@ -49,6 +52,9 @@ export const FOTAContext = createContext<{
 }>({
 	jobs: [],
 	scheduleJob: () => {
+		throw new Error(`Not implemented!`)
+	},
+	cancelJob: () => {
 		throw new Error(`Not implemented!`)
 	},
 	needsFwUpdate: false,
@@ -96,7 +102,7 @@ export const Provider = ({
 		.map(toNRFCloudServiceInfo)[0]
 	const fwTypes = serviceInfo?.fwTypes ?? []
 
-	useEffect(() => {
+	const fetchJobs = () => {
 		validatingFetch(FOTAJobs)(
 			new URL(
 				`./device/${device.id}/fota/jobs?${new URLSearchParams({ fingerprint }).toString()}`,
@@ -105,6 +111,10 @@ export const Provider = ({
 		).ok(({ jobs }) => {
 			setJobs(jobs.sort(byTimestamp))
 		})
+	}
+
+	useEffect(() => {
+		fetchJobs()
 	}, [fingerprint])
 
 	return (
@@ -122,6 +132,17 @@ export const Provider = ({
 						},
 					).ok((job) => {
 						setJobs((jobs) => [job, ...jobs].sort(byTimestamp))
+					}),
+				cancelJob: (job) =>
+					validatingFetch(Empty)(
+						new URL(
+							`./device/${device.id}/fota/job/${job.id}?${new URLSearchParams({ fingerprint }).toString()}`,
+							helloApiURL,
+						),
+						undefined,
+						'DELETE',
+					).ok(() => {
+						fetchJobs()
 					}),
 				needsFwUpdate,
 				fwUpdateSeverity:
