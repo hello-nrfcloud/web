@@ -46,7 +46,7 @@ export const defaultMapState = {
 		lat: 63.421219,
 		lng: 10.436532,
 	},
-	zoom: 10,
+	zoom: 13,
 	style: MapStyle.DARK,
 } as const
 
