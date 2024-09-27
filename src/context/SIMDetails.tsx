@@ -93,6 +93,9 @@ export const Provider = (props: PropsWithChildren) => {
 						response.cacheControl?.maxAge !== undefined
 					) {
 						setNextFetch(Date.now() + response.cacheControl.maxAge * 1000)
+					} else if (response?.response.status === 404) {
+						setUsage(undefined) // In case the SIM was changed
+						setNextFetch(undefined)
 					} else {
 						console.error(`[SIMDetails]`, problem, response)
 					}

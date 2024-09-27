@@ -37,7 +37,13 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				.ok(({ measurements }) => {
 					setHistory(measurements.map(toHistory).sort(byTs))
 				})
-				.problem(console.error),
+				.problem(({ problem }, response) => {
+					if (response?.response.status === 404) {
+						setHistory([]) // In case the SIM was changed
+					} else {
+						console.error(`[SIMUsageHistory]`, problem, response)
+					}
+				}),
 		)
 	}, [timeSpan, iccid])
 
