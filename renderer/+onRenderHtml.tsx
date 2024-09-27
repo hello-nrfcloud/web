@@ -38,7 +38,7 @@ export const onRenderHtml = async (pageContext: PageContextClient) => {
         <meta name="version" content="${version}" />
         ${GTMScript()}
       </head>
-      <body class="${((pageContext as any)._pageId as string).replaceAll('/', ' ').trim().replaceAll(' ', '-')}">
+      <body class="${((pageContext as any).pageId as string).replaceAll('/', ' ').trim().replaceAll(' ', '-')}">
         ${GTMNoScript()}
         <div id="page-view">${dangerouslySkipEscape(viewHtml)}</div>
         <noscript>You need to enable JavaScript to run this app.</noscript>
