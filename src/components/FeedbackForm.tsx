@@ -1,9 +1,12 @@
 import { useParameters } from '#context/Parameters.js'
+import { isSSR } from '#utils/isSSR.js'
 import cx from 'classnames'
 import { Angry, Frown, Laugh, Meh, Smile, X } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 
 import './FeedbackForm.css'
+
+const browser = isSSR ? 'unknown' : (navigator?.userAgent ?? 'unknown')
 
 const noop = (ev: Event) => {
 	ev.preventDefault()
@@ -35,6 +38,7 @@ export const FeedbackForm = () => {
 						email,
 						stars,
 						suggestion,
+						browser,
 					}),
 					headers: {
 						'Content-Type': 'application/json; charset=utf-8',
@@ -156,6 +160,10 @@ export const FeedbackForm = () => {
 						setEmail((e.target as HTMLInputElement).value.trim())
 					}
 				/>
+			</div>
+			<div class="mb-3">
+				<p>Your browser:</p>
+				<p>{browser}</p>
 			</div>
 			<div class="d-flex justify-content-end align-items-center">
 				{failed && (
