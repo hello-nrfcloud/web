@@ -31,8 +31,12 @@ export const UpdateDevice = ({
 		.map(toNRFCloudServiceInfo)[0]
 
 	const fwTypes = serviceInfo?.fwTypes ?? []
-	const upgradeType = bundleIdToType(Object.keys(upgradePath)[0] ?? '')
-	const firstTypeInUpgradePath = Object.values(upgradePath)[0]?.split('*')[0]
+	const firstBundle = Object.values(upgradePath)[0]
+	const upgradeType = bundleIdToType(firstBundle ?? '')
+	const firstTypeInUpgradePath = firstBundle?.split('*')[0]
+
+	console.log(firstTypeInUpgradePath, upgradeType)
+
 	const fotaSupported =
 		upgradeType !== null &&
 		fwTypes.find((type) => firstTypeInUpgradePath === type) !== undefined
