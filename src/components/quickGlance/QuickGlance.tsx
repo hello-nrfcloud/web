@@ -9,6 +9,8 @@ import { useSIMDetails } from '#context/SIMDetails.js'
 import cx from 'classnames'
 import { AllOK } from './AllOK.js'
 
+import { isProduction } from '#utils/isProduction.js'
+import { useEffect, useState } from 'preact/hooks'
 import './QuickGlance.css'
 
 export const QuickGlance = ({ class: className }: { class?: string }) => {
@@ -30,6 +32,22 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 		!needsMfwUpdate ||
 		(needsMfwUpdate && mfwUpdateSeverity === FirmwareUpdateSeverity.Normal)
 	const ok = fwOk && mfwOk && hasLiveData && fotaSupported && !noSIMData
+	const [warmupTimePassed, setWarmupTimePassed] = useState(false)
+
+	// Allow the user to turn on the device before showing the error message that the device has not sent any data
+	useEffect(() => {
+		const t = setTimeout(
+			() => {
+				setWarmupTimePassed(true)
+			},
+			isProduction ? 2 * 60 * 1000 : 1000,
+		)
+		return () => clearTimeout(t)
+	})
+
+	// Only show the quick glance error if the device has been on for at least 2 minutes
+	if (!ok && !warmupTimePassed) return null
+
 	return (
 		<section
 			id="quickGlance"
