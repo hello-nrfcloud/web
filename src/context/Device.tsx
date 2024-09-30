@@ -21,6 +21,7 @@ import {
 import {
 	Context,
 	type DeviceIdentity,
+	type FOTAJob,
 	type LwM2MObjectUpdate,
 	type Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
@@ -39,6 +40,8 @@ export type Device = {
 type UpdateResult = Promise<{ success: true } | { problem: FetchProblem }>
 
 const EmptyResponse = Type.Undefined()
+
+type FOTAJobListener = (job: Static<typeof FOTAJob>) => void
 
 export const DeviceContext = createContext<{
 	device?: Device | undefined
@@ -68,6 +71,9 @@ export const DeviceContext = createContext<{
 	setDebug: (debug: boolean) => void
 	hasLiveData: boolean
 	hideDataBefore: () => ResultHandlers<typeof EmptyResponse>
+	onFOTAJob: (listener: FOTAJobListener) => {
+		remove: () => void
+	}
 }>({
 	connected: false,
 	disconnected: false,
@@ -76,6 +82,9 @@ export const DeviceContext = createContext<{
 	}),
 	reported: {},
 	onDesired: () => ({
+		remove: () => undefined,
+	}),
+	onFOTAJob: () => ({
 		remove: () => undefined,
 	}),
 	desired: {},
@@ -118,6 +127,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		{},
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
+	const fotaJobListeners = useRef<Array<FOTAJobListener>>([])
 	const [helloApiURL, setHelloApiURL] = useState<URL>()
 	const [unsupported, setUnsupported] = useState<{ id: string } | undefined>(
 		undefined,
@@ -244,6 +254,8 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 							if (l === undefined) return new Date(ts * 1000)
 							return ts * 1000 > l.getTime() ? new Date(ts * 1000) : l
 						})
+					} else if (isFOTAJob(maybeValid)) {
+						fotaJobListeners.current.forEach((listener) => listener(maybeValid))
 					}
 				}
 			}
@@ -350,6 +362,16 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						},
 					}
 				},
+				onFOTAJob: (fn) => {
+					fotaJobListeners.current.push(fn)
+					return {
+						remove: () => {
+							fotaJobListeners.current = fotaJobListeners.current.filter(
+								(f) => f !== fn,
+							)
+						},
+					}
+				},
 				desired,
 				connectionFailed,
 				disconnected,
@@ -428,3 +450,8 @@ const isUpdate = (
 	isObject(message) &&
 	'@context' in message &&
 	message['@context'] === Context.lwm2mObjectUpdate.toString()
+
+const isFOTAJob = (message: unknown): message is Static<typeof FOTAJob> =>
+	isObject(message) &&
+	'@context' in message &&
+	message['@context'] === Context.fotaJob.toString()

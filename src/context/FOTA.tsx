@@ -82,7 +82,7 @@ export const Provider = ({
 }) => {
 	const [jobs, setJobs] = useState<Array<Static<typeof FOTAJob>>>([])
 
-	const { reported } = useDevice()
+	const { reported, onFOTAJob } = useDevice()
 	const model = device.model
 
 	const deviceInfo = Object.values(reported)
@@ -116,6 +116,17 @@ export const Provider = ({
 	useEffect(() => {
 		fetchJobs()
 	}, [fingerprint])
+
+	useEffect(() => {
+		const { remove } = onFOTAJob((job) => {
+			setJobs((jobs) =>
+				[job, ...jobs.filter((j) => j.id !== job.id)].sort(byTimestamp),
+			)
+		})
+		return () => {
+			remove()
+		}
+	})
 
 	return (
 		<FOTAContext.Provider

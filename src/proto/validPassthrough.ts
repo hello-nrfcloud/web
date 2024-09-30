@@ -1,13 +1,19 @@
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import {
 	DeviceIdentity,
+	FOTAJob,
 	LwM2MObjectUpdate,
 	Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'
 import type { ValueError } from '@sinclair/typebox/errors'
 
-const IncomingMessage = Type.Union([DeviceIdentity, Shadow, LwM2MObjectUpdate])
+const IncomingMessage = Type.Union([
+	DeviceIdentity,
+	Shadow,
+	LwM2MObjectUpdate,
+	FOTAJob,
+])
 type IncomingMessageType = Static<typeof IncomingMessage>
 export const incomingMessageValidator = validateWithTypeBox(IncomingMessage)
 
