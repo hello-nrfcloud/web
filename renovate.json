@@ -12,7 +12,8 @@
     {
       "matchPackagePatterns": [
         "mcr.microsoft.com/playwright",
-        "@playwright/test"
+        "@playwright/test",
+        "playwright"
       ],
       "groupName": "playwright"
     }
