@@ -1,5 +1,6 @@
 import { Applied } from '#components/Applied.js'
 import { ButtonPresses } from '#components/ButtonPresses.js'
+import { Collapsible } from '#components/Collapsible.js'
 import { LEDPattern } from '#components/LEDPattern.js'
 import { ColorPicker } from '#components/colorpicker/ColorPicker.js'
 import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
@@ -12,7 +13,7 @@ import {
 	type LwM2MObjectInstance,
 	type RGBLED_14240,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { Lightbulb, LightbulbOff } from 'lucide-preact'
+import { Lightbulb, LightbulbOff, SendHorizonal } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { isOff } from '../../utils/isOff.js'
 
@@ -83,51 +84,55 @@ export const Card = ({ model }: { model: Model }) => {
 				)}
 				{!ledColorPickerVisible && (
 					<>
-						<h3>Interact with your device</h3>
-						<p class="d-flex">
-							{desiredLEDColor !== undefined && !isOff(desiredLEDColor) && (
-								<Lightbulb
-									strokeWidth={2}
-									class="me-2"
-									color={RGBtoHEX(desiredLEDColor)}
-								/>
-							)}
-							{!userColor && <LightbulbOff strokeWidth={1} class="me-2" />}
-							<span>
-								Click the LED above to change the color on your device.
-								{desiredLEDColor !== undefined && (
-									<span>
-										<br />
-										<Applied
-											desired={{
-												r: desiredLEDColor.r,
-												g: desiredLEDColor.g,
-												b: desiredLEDColor.b,
-											}}
-											reported={
-												reportedLEDColor !== undefined
-													? {
-															r: reportedLEDColor.r,
-															g: reportedLEDColor.g,
-															b: reportedLEDColor.b,
-														}
-													: undefined
-											}
-										/>
-									</span>
+						<Collapsible
+							icon={<SendHorizonal />}
+							title={<h3>Interact with your device</h3>}
+							class="mb-2"
+						>
+							<p class="d-flex">
+								{desiredLEDColor !== undefined && !isOff(desiredLEDColor) && (
+									<Lightbulb
+										strokeWidth={2}
+										class="me-2"
+										color={RGBtoHEX(desiredLEDColor)}
+									/>
 								)}
-							</span>
-						</p>
-						<ButtonPresses />
+								{!userColor && <LightbulbOff strokeWidth={1} class="me-2" />}
+								<span>
+									Click the LED above to change the color on your device.
+									{desiredLEDColor !== undefined && (
+										<span>
+											<br />
+											<Applied
+												desired={{
+													r: desiredLEDColor.r,
+													g: desiredLEDColor.g,
+													b: desiredLEDColor.b,
+												}}
+												reported={
+													reportedLEDColor !== undefined
+														? {
+																r: reportedLEDColor.r,
+																g: reportedLEDColor.g,
+																b: reportedLEDColor.b,
+															}
+														: undefined
+												}
+											/>
+										</span>
+									)}
+								</span>
+							</p>
+							<ButtonPresses />
+						</Collapsible>
 						{!userColor && model.ledPattern !== undefined && (
-							<>
-								<h3>LED Pattern</h3>
+							<Collapsible title={<h3>LED Pattern</h3>}>
 								<p>
 									When no color is set by you, the device will display this
 									pattern to signal its current state:
 								</p>
 								<LEDPattern ledPattern={model.ledPattern} />
-							</>
+							</Collapsible>
 						)}
 					</>
 				)}
