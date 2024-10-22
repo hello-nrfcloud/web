@@ -13,7 +13,12 @@ import {
 	type LwM2MObjectInstance,
 	type RGBLED_14240,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { Lightbulb, LightbulbOff, SendHorizonal } from 'lucide-preact'
+import {
+	CircleStop,
+	Lightbulb,
+	LightbulbOff,
+	SendHorizonal,
+} from 'lucide-preact'
 import { useState } from 'preact/hooks'
 import { isOff } from '../../utils/isOff.js'
 
@@ -84,6 +89,7 @@ export const Card = ({ model }: { model: Model }) => {
 				)}
 				{!ledColorPickerVisible && (
 					<>
+						<ButtonPresses />
 						<Collapsible
 							icon={<SendHorizonal />}
 							title={<h3>Interact with your device</h3>}
@@ -123,7 +129,12 @@ export const Card = ({ model }: { model: Model }) => {
 									)}
 								</span>
 							</p>
-							<ButtonPresses />
+							<p class="d-flex">
+								<CircleStop strokeWidth={1} class="me-2" />
+								<span>
+									Press the button on your device to receive them here.
+								</span>
+							</p>
 						</Collapsible>
 						{!userColor && model.ledPattern !== undefined && (
 							<Collapsible title={<h3>LED Pattern</h3>}>
