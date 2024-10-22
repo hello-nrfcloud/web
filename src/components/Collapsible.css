@@ -1,0 +1,21 @@
+section.collapsible > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+section.collapsible > header > * {
+  margin: 0;
+}
+
+section.collapsible > header {
+  margin-bottom: 0.5rem;
+}
+
+section.collapsible.collapsed > header {
+  margin-bottom: 0;
+}
+
+section.collapsible > header > button {
+  padding: 0;
+}
