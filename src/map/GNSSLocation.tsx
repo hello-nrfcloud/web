@@ -1,3 +1,4 @@
+import { Collapsible } from '#components/Collapsible.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice, type Device } from '#context/Device.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
@@ -19,13 +20,6 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 	return (
 		<>
 			<h2>GNSS location</h2>
-			<p>
-				The integrated GNSS received of the {device.model.title} can provide
-				precise geo location, however this comes at a cost. While the receiver
-				is listening for GNSS signals, the LTE modem has to be turned off. If
-				the device is indoors acquiring a GNSS fix might not be possible, and
-				block the modem unnecessary long.
-			</p>
 			{gnssEnabled && (
 				<>
 					{gnssLocation !== undefined && <Located location={gnssLocation} />}
@@ -48,6 +42,15 @@ export const GNSSLocation = ({ device }: { device: Device }) => {
 					below.
 				</p>
 			)}
+			<Collapsible title={<h3>Learn more about GNSS location</h3>}>
+				<p>
+					The integrated GNSS received of the {device.model.title} can provide
+					precise geo location, however this comes at a cost. While the receiver
+					is listening for GNSS signals, the LTE modem has to be turned off. If
+					the device is indoors acquiring a GNSS fix might not be possible, and
+					block the modem unnecessary long.
+				</p>
+			</Collapsible>
 		</>
 	)
 }

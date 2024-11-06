@@ -1,3 +1,4 @@
+import { Collapsible } from '#components/Collapsible.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
@@ -22,34 +23,6 @@ export const CellularLocation = () => {
 				<NRFCloudLogo style={{ height: '18px' }} />
 				<span class="ms-2">Device location</span>
 			</h2>
-			<p>
-				A more precise device location can be determined using{' '}
-				<a
-					href="https://www.nordicsemi.com/Products/Cloud-services"
-					target="_blank"
-				>
-					nRF Cloud Location services
-				</a>{' '}
-				based on the device scanning the network and reporting neighboring cell
-				information and Wi-Fi access points it can detect and reporting this
-				information to the cloud.
-			</p>
-			<p>
-				Single-cell (SCELL) provides a power efficient option to locate the
-				device and consumes little power from the device. This is highly
-				beneficial for indoor location, no-power scenarios or crude-location
-				without requiring GPS.
-			</p>
-			<p>
-				Multi-cell (MCELL) is using multiple cell towers to triangulate the
-				device location. Up to 17 cell towers can be used at once.
-			</p>
-			<p>
-				Wi-Fi is using the IDs of nearby Wi-Fi access points to triangulate the
-				device location. Like cellular-based location, this saves power by
-				eliminating the need for the GNSS receiver and works especially well in
-				urban areas and indoors.
-			</p>
 			{cellularLocations.length === 0 && (
 				<>
 					<p>If available, the map will show both locations for comparison.</p>
@@ -81,6 +54,36 @@ export const CellularLocation = () => {
 						</p>
 					</div>
 				)}
+			<Collapsible title={<h3>Learn more about Device Location</h3>}>
+				<p>
+					A more precise device location can be determined using{' '}
+					<a
+						href="https://www.nordicsemi.com/Products/Cloud-services"
+						target="_blank"
+					>
+						nRF Cloud Location services
+					</a>{' '}
+					based on the device scanning the network and reporting neighboring
+					cell information and Wi-Fi access points it can detect and reporting
+					this information to the cloud.
+				</p>
+				<p>
+					Single-cell (SCELL) provides a power efficient option to locate the
+					device and consumes little power from the device. This is highly
+					beneficial for indoor location, no-power scenarios or crude-location
+					without requiring GPS.
+				</p>
+				<p>
+					Multi-cell (MCELL) is using multiple cell towers to triangulate the
+					device location. Up to 17 cell towers can be used at once.
+				</p>
+				<p>
+					Wi-Fi is using the IDs of nearby Wi-Fi access points to triangulate
+					the device location. Like cellular-based location, this saves power by
+					eliminating the need for the GNSS receiver and works especially well
+					in urban areas and indoors.
+				</p>
+			</Collapsible>
 		</>
 	)
 }
