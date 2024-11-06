@@ -121,6 +121,7 @@ export const ViewSource = () => (
 								<a
 									href="https://github.com/hello-nrfcloud/firmware"
 									target="_blank"
+									title="Thingy:91 X: Hello nRF Cloud firmware"
 								>
 									out-of-tree repository on GitHub
 								</a>{' '}
@@ -193,7 +194,7 @@ export const ViewSource = () => (
 								</li>
 								<li>
 									If they want the original out-of-box behaviour, they only have
-									to flash the out-of-box firmware back.
+									to flash the Thingy:91 X: Hello nRF Cloud firmware back.
 								</li>
 							</ul>
 						</div>
