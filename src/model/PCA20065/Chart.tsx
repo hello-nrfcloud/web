@@ -67,8 +67,8 @@ export const Chart = () => {
 					)}
 				</WithResize>
 
-				<div class="row px-4 py-4">
-					<div class="col d-flex justify-content-start align-items-center">
+				<div class="row px-4 pb-4">
+					<div class="col d-flex justify-content-start align-items-center  mt-4">
 						<span class="me-2 opacity-75">Chart history:</span>
 						{timeSpans.map(({ id, title }) => (
 							<DateRangeButton
@@ -81,6 +81,24 @@ export const Chart = () => {
 								active={timeSpan === id}
 							/>
 						))}
+					</div>
+					<div class="col d-flex justify-content-end align-items-center mt-4">
+						<span class="opacity-75 me-1">
+							Recent reboots{' '}
+							<a
+								href="https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/debug/memfault_ncs.html"
+								target="_blank"
+								title="Memfault integration in nRF Connect SDK"
+							>
+								tracked with
+							</a>
+						</span>
+						<img
+							src="/static/images/memfault-logo.svg"
+							alt="Memfault"
+							height={32}
+							class="ms-1"
+						/>
 					</div>
 				</div>
 			</div>
