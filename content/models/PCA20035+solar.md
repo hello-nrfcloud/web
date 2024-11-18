@@ -12,8 +12,7 @@ firmware:
   important: false
 mfw:
   version: 1.3.6
-  link:
-    https://www.  nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91/Download?lang=en#infotabs
+  link: https://www.nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91/Download?lang=en#infotabs
   upgradePath:
     ">=0.0.0": MDM_FULL*551ba99b*mfw_nrf9160_full_1.3.6
   important: false
