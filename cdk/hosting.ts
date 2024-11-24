@@ -1,6 +1,6 @@
 import { IAMClient } from '@aws-sdk/client-iam'
 import chalk from 'chalk'
-import pJSON from '../package.json'
+import pJSON from '../package.json' assert { type: 'json' }
 import { HostingApp } from './HostingApp.js'
 import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.js'
 

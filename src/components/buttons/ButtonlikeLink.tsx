@@ -4,15 +4,14 @@ import {
 	buttonStyleClass,
 	type ButtonStyleArgs,
 } from '#components/buttons/Button.js'
-
 import { type ComponentChild } from 'preact'
-import { useRef, type HTMLAttributes } from 'preact/compat'
+import { useRef, type AnchorHTMLAttributes } from 'preact/compat'
 
 export const ButtonlikeLink = ({
 	children,
 	noAngleEffect,
 	...rest
-}: HTMLAttributes<HTMLAnchorElement> &
+}: AnchorHTMLAttributes<HTMLAnchorElement> &
 	ButtonStyleArgs & { children: ComponentChild }) => {
 	const ref = useRef<HTMLAnchorElement>(null)
 	const angleEffect = !(noAngleEffect ?? false) && !(rest.outline ?? false)

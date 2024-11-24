@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useRef,
 	useState,
+	type ButtonHTMLAttributes,
 	type HTMLAttributes,
 	type PropsWithChildren,
 	type RefObject,
@@ -90,7 +91,7 @@ export const Button = ({
 	children,
 	noAngleEffect,
 	...rest
-}: HTMLAttributes<HTMLButtonElement> &
+}: ButtonHTMLAttributes<HTMLButtonElement> &
 	ButtonStyleArgs & { children: ComponentChild }) => {
 	const angleEffect = !(noAngleEffect ?? false) && !(rest.outline ?? false)
 	const ref = useRef<HTMLButtonElement>(null)

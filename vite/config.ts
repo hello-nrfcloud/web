@@ -1,7 +1,7 @@
 import { preact } from '@preact/preset-vite'
 import ssr from 'vike/plugin'
 import { defineConfig, type PluginOption } from 'vite'
-import { dependencies } from '../package.json'
+import pJSON from '../package.json' assert { type: 'json' }
 import { encloseWithSlash } from './encloseWithSlash.js'
 import { homepage, version } from './siteInfo.js'
 
@@ -26,7 +26,7 @@ export const createConfig = ({
 		DOMAIN_NAME: JSON.stringify(domainName),
 		SENTRY_DSN: JSON.stringify(sentryDSN),
 		PROTO_MAP_VERSION: JSON.stringify(
-			dependencies['@hello.nrfcloud.com/proto-map'],
+			pJSON.dependencies['@hello.nrfcloud.com/proto-map'],
 		),
 	}
 	for (const [k, v] of Object.entries(define)) {

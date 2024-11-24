@@ -125,7 +125,6 @@ export const FeedbackForm = () => {
 					)}
 				</label>
 				<textarea
-					type="text"
 					class={cx('form-control', {
 						'is-invalid': errors.includes('suggestion'),
 					})}

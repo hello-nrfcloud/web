@@ -28,7 +28,7 @@ export const QRCodeGenerator = () => {
 							Year
 							<input
 								type="number"
-								min={2023}
+								min={'2023'}
 								class="form-control"
 								id="yearInput"
 								placeholder="e.g. '2023'"
@@ -45,8 +45,8 @@ export const QRCodeGenerator = () => {
 							Week
 							<input
 								type="number"
-								min={1}
-								max={53}
+								min={'1'}
+								max={'53'}
 								class="form-control"
 								id="weekInput"
 								placeholder="e.g. '17'"
