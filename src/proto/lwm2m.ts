@@ -13,7 +13,6 @@ import {
 	type NRFCloudServiceInfo_14401,
 	type Reboot_14250,
 	type RGBLED_14240,
-	type SolarCharge_14210,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 
@@ -39,9 +38,6 @@ export const isDeviceInformation = isLwM2MObject<DeviceInformation_14204>(
 )
 export const isEnvironment = isLwM2MObject<Environment_14205>(
 	LwM2MObjectID.Environment_14205,
-)
-export const isSolarCharge = isLwM2MObject<SolarCharge_14210>(
-	LwM2MObjectID.SolarCharge_14210,
 )
 export const isButtonPress = isLwM2MObject<ButtonPress_14220>(
 	LwM2MObjectID.ButtonPress_14220,
@@ -85,16 +81,6 @@ export const toBatteryAndPower = (
 ): BatteryAndPower => ({
 	mA: instance['Resources'][2],
 	'%': instance['Resources'][0],
-	ts: timeToDate(instance['Resources'][99]),
-})
-
-export type SolarCharge = WithTimestamp & {
-	mA: number
-	V?: number
-}
-export const toSolarCharge = (instance: SolarCharge_14210): SolarCharge => ({
-	mA: instance['Resources'][0],
-	V: instance['Resources'][1],
 	ts: timeToDate(instance['Resources'][99]),
 })
 

@@ -9,13 +9,13 @@ void describe('validPassthrough', () => {
 	void it('should let valid input pass', () => {
 		const isValid = validPassthrough({
 			'@context': 'https://github.com/hello-nrfcloud/proto/deviceIdentity',
-			model: 'PCA20035+solar',
+			model: 'PCA20065',
 			id: 'oob-352656108602296',
 			lastSeen: '2024-05-23T12:27:19.400Z',
 		})
 		assert.deepEqual(isValid, {
 			'@context': 'https://github.com/hello-nrfcloud/proto/deviceIdentity',
-			model: 'PCA20035+solar',
+			model: 'PCA20065',
 			id: 'oob-352656108602296',
 			lastSeen: '2024-05-23T12:27:19.400Z',
 		})
