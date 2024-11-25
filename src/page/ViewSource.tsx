@@ -244,7 +244,7 @@ export const ViewSource = () => (
 							as well as render static pages (for example for the development
 							kit pages){' '}
 							<a
-								href="https://github.com/hello-nrfcloud/web/blob/saga/content/models/PCA20035%2Bsolar.md"
+								href="https://github.com/hello-nrfcloud/web/blob/saga/content/models/PCA20065.md"
 								target="_blank"
 							>
 								using Markdown files
