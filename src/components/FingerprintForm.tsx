@@ -3,8 +3,8 @@ import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { useState } from 'preact/hooks'
 
 export const FingerprintForm = () => {
-	const [productionRun, setProductionRun] = useState<string>('92b')
-	const [token, setToken] = useState<string>('d3c4fb')
+	const [productionRun, setProductionRun] = useState<string>('')
+	const [token, setToken] = useState<string>('')
 	const fingerprint = `${productionRun}.${token}`
 	const isValid = isFingerprint(fingerprint)
 	return (
