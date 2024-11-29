@@ -5,11 +5,13 @@ import { useSIMDetails } from '#context/SIMDetails.js'
 import { formatFloat, formatInt } from '#utils/format.js'
 import { ArrowUpDownIcon } from 'lucide-preact'
 
+import './SIMInfo.css'
+
 export const SIMInfo = () => {
 	const { iccid, usage, issuer, lastUpdated } = useSIMDetails()
 
 	return (
-		<span class="d-flex flex-column">
+		<span class="d-flex flex-column sim-info-header">
 			<small class="text-muted">
 				<strong>SIM</strong>
 			</small>
@@ -19,20 +21,24 @@ export const SIMInfo = () => {
 			)}
 			{iccid !== undefined && (
 				<>
-					<span>
+					<span class={'d-flex flex-row align-items-center '}>
 						<SIMIcon class="me-2" />
-						<abbr title={iccid}>{issuer?.companyName ?? '?'}</abbr>
+						<abbr title={issuer?.companyName ?? '?'} class="sim-vendor">
+							<span>{issuer?.companyName ?? '?'}</span>
+						</abbr>
 					</span>
 					{usage !== undefined && (
 						<>
-							<span>
+							<span class={'d-flex flex-row'}>
 								<ArrowUpDownIcon size={20} class="me-2" />
 								<abbr
 									data-testid="sim-usage"
 									title={`Used ${formatFloat(usage.used / 1000 / 1000)} of ${formatFloat(usage.total / 1000 / 1000)} MB`}
 								>
-									{`${formatInt(usage.availablePercent * 100)}`}&nbsp;%{' '}
-									<small>data available</small>
+									<span>
+										{`${formatInt(usage.availablePercent * 100)}`}&nbsp;% <br />
+										<small>data available</small>
+									</span>
 								</abbr>
 							</span>
 						</>

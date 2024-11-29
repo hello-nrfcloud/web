@@ -1,0 +1,6 @@
+.sim-info-header .sim-vendor {
+  max-width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
