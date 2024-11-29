@@ -14,9 +14,11 @@ export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()
 	const scellLocation = locations[LocationSource.SCELL]
 	const mcellLocation = locations[LocationSource.MCELL]
+	const wifiLocation = locations[LocationSource.WIFI]
 	const cellularLocations: GeoLocation[] = []
 	if (scellLocation !== undefined) cellularLocations.push(scellLocation)
 	if (mcellLocation !== undefined) cellularLocations.push(mcellLocation)
+	if (wifiLocation !== undefined) cellularLocations.push(wifiLocation)
 	return (
 		<>
 			<h2 class="d-flex justify-content-start align-items-center">
@@ -25,7 +27,7 @@ export const CellularLocation = () => {
 			</h2>
 			{cellularLocations.length === 0 && (
 				<>
-					<p>If available, the map will show both locations for comparison.</p>
+					<p>If available, the map will show all locations for comparison.</p>
 					<p>
 						<LoadingIndicator light height={60} width={'100%'} />
 					</p>
