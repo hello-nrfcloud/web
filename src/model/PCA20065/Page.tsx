@@ -116,6 +116,12 @@ export const Page = ({ device }: { device: TDevice }) => {
 							<div class="my-4">
 								<HideDataBefore />
 							</div>
+							{device.model.includedSIMs.length > 0 && hasLiveData && (
+								<div class="my-4">
+									<h2>Included SIMs</h2>
+									<IncludedSIMs includedSIMs={device.model.includedSIMs} />
+								</div>
+							)}
 						</section>
 					</div>
 				</div>
