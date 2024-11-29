@@ -5,7 +5,11 @@ import { ChevronDownSquareIcon } from 'lucide-preact'
 
 import './ButtonPresses.css'
 
-export const ButtonPresses = () => {
+export const ButtonPresses = ({
+	buttonAliases,
+}: {
+	buttonAliases?: Record<string, string>
+}) => {
 	const { reported } = useDevice()
 	const buttonPress = Object.values(reported)
 		.filter(isButtonPress)
@@ -14,12 +18,15 @@ export const ButtonPresses = () => {
 	if (buttonPress === undefined) return null
 	if (Date.now() - buttonPress.ts.getTime() > 60 * 1000) return null
 
+	const buttonLabel =
+		buttonAliases?.[buttonPress.id.toString()] ?? `#${buttonPress.id}`
+
 	return (
 		<p class="d-flex justify-content-between">
 			<small class="d-flex hot" key={`button-${buttonPress.ts.getTime()}`}>
 				<ChevronDownSquareIcon strokeWidth={1} class="me-1" />
 				<span data-testid="button-press">
-					Button <strong>#{buttonPress.id}</strong> pressed
+					Button <strong>{buttonLabel}</strong> pressed
 				</span>
 			</small>
 			<small class="text-muted ms-2">

@@ -89,7 +89,7 @@ export const Card = ({ model }: { model: Model }) => {
 				)}
 				{!ledColorPickerVisible && (
 					<>
-						<ButtonPresses />
+						<ButtonPresses buttonAliases={{ '0': '1' }} />
 						<Collapsible
 							icon={<SendHorizonal />}
 							title={<h3>Interact with your device</h3>}
