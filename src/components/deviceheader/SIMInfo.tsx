@@ -23,8 +23,11 @@ export const SIMInfo = () => {
 				<>
 					<span class={'d-flex flex-row align-items-center '}>
 						<SIMIcon class="me-2" />
-						<abbr title={issuer?.companyName ?? '?'} class="sim-vendor">
-							<span>{issuer?.companyName ?? '?'}</span>
+						<abbr
+							title={issuer?.companyName ?? 'unknown vendor'}
+							class="sim-vendor"
+						>
+							<span>{issuer?.companyName ?? 'unknown vendor'}</span>
 						</abbr>
 					</span>
 					{usage !== undefined && (

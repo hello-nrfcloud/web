@@ -30,12 +30,15 @@ export const NetworkInfo = () => {
 			<p class="mb-0">
 				{iccid === undefined && <LoadingIndicator />}
 				{iccid !== undefined && (
-					<span class="d-flex align-items-center">
+					<span class="d-flex align-items-start">
 						<SIMIcon class="me-2" />
-						{iccid}
-						<small class="text-muted ms-2">
-							({identifyIssuer(iccid)?.companyName ?? '?'})
-						</small>
+						<span>
+							{iccid}
+							<br />
+							<small class="text-muted">
+								{identifyIssuer(iccid)?.companyName ?? 'unknown vendor'}
+							</small>
+						</span>
 					</span>
 				)}
 			</p>
