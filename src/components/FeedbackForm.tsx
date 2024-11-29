@@ -77,9 +77,16 @@ export const FeedbackForm = () => {
 
 	return (
 		<form onSubmit={noop} class="feedback mb-3">
-			<h2>
+			<h2>Got feedback? Get a t-shirt!</h2>
+			<p>
+				Every month, we'll select 5 new suggestions that we liked best and give
+				out a little present. It could be a T-Shirt; or something else and we
+				may at any time decide to not hand out gifts, just so you know.
+			</p>
+			<p>Regardless, we will read all your feedback!</p>
+			<h3>
 				How would you rate <code>hello.nrfcloud.com</code>?
-			</h2>
+			</h3>
 			<p class="star-rating">
 				<span class={cx('stars', { error: errors.includes('stars') })}>
 					{[1, 2, 3, 4, 5].map((rating) => (
