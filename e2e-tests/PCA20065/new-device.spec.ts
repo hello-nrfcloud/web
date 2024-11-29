@@ -48,8 +48,8 @@ test('Show troubleshooting info', async () => {
 	await expect(troubleshooting).toContainText(
 		'Make sure the battery is charged.',
 	)
-	await expect(troubleshooting).toContainText('Turn the kit on.')
 	await expect(troubleshooting).toContainText('Insert a SIM card.')
+	await expect(troubleshooting).toContainText('Turn the kit on.')
 	await expect(troubleshooting).toContainText(
 		'observe the LED pattern Cloud communication.',
 	)

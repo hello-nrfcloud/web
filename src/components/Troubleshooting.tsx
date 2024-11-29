@@ -32,11 +32,11 @@ export const Troubleshooting = ({ class: className }: { class?: string }) => {
 				</small>
 			</p>
 			<p>
-				<ToggleRight class="me-2" />
-				Turn the kit on.
+				<SIMIcon class="me-2" /> Insert a SIM card.
 			</p>
 			<p>
-				<SIMIcon class="me-2" /> Insert a SIM card.
+				<ToggleRight class="me-2" />
+				Turn the kit on.
 			</p>
 			{(device?.model.includedSIMs?.length ?? 0) > 1 && (
 				<p>
