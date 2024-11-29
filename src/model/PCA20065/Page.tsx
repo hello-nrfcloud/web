@@ -49,11 +49,11 @@ export const Page = ({ device }: { device: TDevice }) => {
 						</div>
 					)}
 				</div>
-				<Chart />
 				<div class="bg-dark grid">
 					<DeviceMap />
 					<LocationHelp device={device} class="p-4 location-help" />
 				</div>
+				<Chart />
 				<div class="container my-4">
 					<div class="row mb-4">
 						<section class="col-12 col-md-6 col-lg-4">
