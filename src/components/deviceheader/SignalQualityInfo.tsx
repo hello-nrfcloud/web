@@ -18,6 +18,11 @@ export const SignalQualityInfo = () => {
 			.filter(isConnectionInformation)
 			.map(toConnectionInformation)[0] ?? {}
 
+	// The current firmware does not report signal quality (https://github.com/hello-nrfcloud/firmware/issues/499)
+	// so we exit early and not show the loading animation.
+
+	if (eest === undefined) return null
+
 	return (
 		<span class="d-flex flex-column" style={{ minWidth: '100px' }}>
 			<small class="text-muted">
