@@ -161,7 +161,11 @@ export const FeedbackForm = () => {
 				/>
 			</div>
 			<div class="mb-3">
-				<p>Your browser:</p>
+				<p>
+					Your browser information:
+					<br />
+					<small>(will be included when you submit this form)</small>
+				</p>
 				<p>{browser}</p>
 			</div>
 			<div class="d-flex justify-content-end align-items-center">
