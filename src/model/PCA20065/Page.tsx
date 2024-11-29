@@ -25,28 +25,41 @@ export const Page = ({ device }: { device: TDevice }) => {
 		<HistoryContextProvider>
 			<main>
 				<div class="container my-md-4">
-					<div class="row">
-						<div class="col-md-8">
-							<QuickGlance class="mt-2 mt-md-0" />
-							<DeviceHeader />
-							{!hasLiveData && <Troubleshooting />}
-							{hasLiveData && (
-								<>
-									<ConnectionSuccess />
-								</>
-							)}
-						</div>
-						<div class="col-md-4 mb-4">
-							<Card model={device.model} />
-						</div>
-					</div>
-					{device.model.includedSIMs.length > 0 && !hasLiveData && (
-						<div class="row">
-							<div class="col-md-7">
-								<h2>Included SIMs</h2>
-								<IncludedSIMs includedSIMs={device.model.includedSIMs} />
+					{!hasLiveData && (
+						<>
+							<div class="row">
+								<div class="col-md-8">
+									<QuickGlance class="mt-2 mt-md-0" />
+									<DeviceHeader />
+								</div>
+								<div class="col-md-4 mb-4">
+									<Card model={device.model} />
+								</div>
 							</div>
-						</div>
+							<Troubleshooting />
+							{device.model.includedSIMs.length > 0 && (
+								<div class="row">
+									<div class="col-md-8">
+										<h2>Included SIMs</h2>
+										<IncludedSIMs includedSIMs={device.model.includedSIMs} />
+									</div>
+								</div>
+							)}
+						</>
+					)}
+					{hasLiveData && (
+						<>
+							<div class="row">
+								<div class="col-md-8">
+									<QuickGlance class="mt-2 mt-md-0" />
+									<DeviceHeader />
+									<ConnectionSuccess />
+								</div>
+								<div class="col-md-4 mb-4">
+									<Card model={device.model} />
+								</div>
+							</div>
+						</>
 					)}
 				</div>
 				<div class="bg-dark grid">

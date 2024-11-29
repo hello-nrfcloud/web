@@ -1,16 +1,29 @@
 .sim-info {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-gap: 1rem;
+  grid-template-columns: 1fr;
 }
 
 .sim-info .logo {
   display: flex;
   justify-content: center;
   align-items: start;
+  margin: 1rem;
 }
 
 .sim-info .logo img {
   max-width: 250px;
   max-height: 100px;
+}
+
+@media screen and (min-width: 500px) {
+  .sim-info {
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 1rem;
+  }
+
+  .sim-info .logo {
+    order: 2;
+    margin: 0;
+    max-width: 150px;
+  }
 }

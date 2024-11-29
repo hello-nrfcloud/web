@@ -5,12 +5,6 @@ import './IncludedSIMInfo.css'
 export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIMType }) => {
 	return (
 		<div class="sim-info">
-			<div
-				class="content"
-				dangerouslySetInnerHTML={{
-					__html: sim.html,
-				}}
-			></div>
 			<div class="logo">
 				<img
 					src={`/static/sim/${sim.slug}.svg`}
@@ -18,6 +12,12 @@ export const IncludedSIMInfo = ({ sim }: { sim: IncludedSIMType }) => {
 					class="logo"
 				/>
 			</div>
+			<div
+				class="content"
+				dangerouslySetInnerHTML={{
+					__html: sim.html,
+				}}
+			></div>
 		</div>
 	)
 }
