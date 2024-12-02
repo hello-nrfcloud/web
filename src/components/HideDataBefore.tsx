@@ -7,6 +7,7 @@ import { Secondary } from './Buttons.js'
 export const HideDataBefore = () => {
 	const { hideDataBefore, device } = useDevice()
 	const [inProgress, setInProgress] = useState<boolean>(false)
+	const [unlocked, setUnlocked] = useState<boolean>(false)
 	return (
 		<div>
 			<h2 class="d-flex align-items-center justify-content-between">
@@ -22,7 +23,8 @@ export const HideDataBefore = () => {
 								key={device.hideDataBefore.toISOString()}
 								date={device.hideDataBefore}
 							/>{' '}
-							is hidden.
+							is hidden. New data will show up once it is reported by the device
+							again.
 						</span>
 					</div>
 				</div>
@@ -33,13 +35,26 @@ export const HideDataBefore = () => {
 				delete historical data from our storage.
 			</p>
 			<p>
+				<label>
+					<input
+						type="checkbox"
+						checked={unlocked}
+						onChange={(e) => setUnlocked(e.currentTarget.checked)}
+					/>{' '}
+					I understand that this action is irreversible.
+				</label>
+			</p>
+			<p>
 				<Secondary
 					onClick={() => {
 						hideDataBefore()
 							.start(() => setInProgress(true))
-							.done(() => setInProgress(false))
+							.done(() => {
+								setInProgress(false)
+								setUnlocked(false)
+							})
 					}}
-					disabled={inProgress}
+					disabled={!unlocked || inProgress}
 				>
 					{inProgress ? 'sending ...' : 'hide historical data until now'}
 				</Secondary>
