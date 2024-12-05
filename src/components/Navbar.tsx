@@ -73,7 +73,7 @@ const Navigation = () => {
 							title="Make your device available to the public"
 							target="_blank"
 						>
-							<MapPinned class="me-1" /> Share device
+							<MapPinned class="me-1" /> Make device public
 						</Link>
 					)}
 				</>

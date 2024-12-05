@@ -23,7 +23,7 @@ export const PublicDeviceWarning = () => {
 					href={`https://hello.nrfcloud.com/map/dashboard/#device?${new URLSearchParams({ id: shared.id }).toString()}`}
 					class="btn btn-outline-secondary ms-2"
 				>
-					Review sharing settings
+					Review settings
 				</a>
 			</div>
 		</div>
