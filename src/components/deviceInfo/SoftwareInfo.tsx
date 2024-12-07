@@ -24,9 +24,7 @@ export const SoftwareInfo = () => {
 								style={{ color: 'var(--color-nordic-red)' }}
 							>
 								<AlertTriangle class="me-1" />
-								Update available ({
-									model.firmware.version
-								})
+								Update available ({model.firmware.version})
 							</abbr>
 						)}
 						{!needsFwUpdate && (
@@ -86,9 +84,7 @@ export const SoftwareInfo = () => {
 									style={{ color: 'var(--color-nordic-red)' }}
 								>
 									<AlertTriangle class="me-1" />
-									Update available ({
-										model.mfw.version
-									})
+									Update available ({model.mfw.version})
 								</a>
 							</abbr>
 						)}
