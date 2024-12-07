@@ -128,6 +128,16 @@ export const ViewSource = () => (
 								so we can provide pre-compiled builds with the configuration
 								that is optimal for the out-of-box experience.
 							</p>
+							<p>
+								The documentation for the firmware can be found{' '}
+								<a
+									href="https://hello-nrfcloud.github.io/firmware/html/index.html"
+									target="_blank"
+								>
+									here
+								</a>
+								.
+							</p>
 							<h3>Cloud connection</h3>
 							<p>
 								Devices need to connect nRF Cloud using a certificate that is
