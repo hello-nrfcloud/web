@@ -41,7 +41,7 @@ export const ThingyWithQRCode = ({ size }: { size?: Size }) => {
 					src="/static/images/PCA20065-QR.webp"
 					ref={ref}
 					class="img-fluid"
-					alt="Thingy:91 X"
+					alt="Nordic Thingy:91 X™"
 				/>
 			</div>
 			<svg
