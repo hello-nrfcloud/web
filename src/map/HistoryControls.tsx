@@ -1,6 +1,7 @@
 import type { TimeSpan } from '#api/api.js'
 import { timeSpans, type TimeSpanInfo } from '#chart/timeSpans.js'
 import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { formatInt } from '#utils/format.js'
 import { HistoryIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 
@@ -8,7 +9,7 @@ const byTimeSpan = (timeSpan: TimeSpan | undefined) => (t: TimeSpanInfo) =>
 	t.id === timeSpan
 
 export const HistoryControls = () => {
-	const { timeSpan, clustering, enableClustering, setTimeSpan } =
+	const { timeSpan, clustering, enableClustering, setTimeSpan, trail } =
 		useDeviceLocation()
 	const [expanded, setExpanded] = useState<boolean>(false)
 
@@ -26,9 +27,14 @@ export const HistoryControls = () => {
 						setExpanded(true)
 					}}
 				>
-					<span>
-						History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
-					</span>
+					{trail.length >= 500 && (
+						<span>last {formatInt(trail.length)} locations</span>
+					)}
+					{trail.length < 500 && (
+						<span>
+							History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
+						</span>
+					)}
 				</button>
 			</div>
 		)
