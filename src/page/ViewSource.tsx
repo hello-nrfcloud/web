@@ -53,7 +53,7 @@ export const ViewSource = () => (
 						<p>
 							We have set up a{' '}
 							<a
-								href="https://docs.nrfcloud.com/Devices/MessagesAndAlerts/SetupMessageBridge/"
+								href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/Devices/MessagesAndAlerts/SetupMessageBridge.html"
 								target="_blank"
 							>
 								Message Bridge
@@ -366,7 +366,7 @@ export const ViewSource = () => (
 									are received
 								</a>{' '}
 								by the hello.nrfcloud.com backend using the{' '}
-								<a href="https://docs.nrfcloud.com/Devices/MessagesAndAlerts/SetupMessageBridge.html">
+								<a href="https://docs.nordicsemi.com/bundle/nrf-cloud/page/Devices/MessagesAndAlerts/SetupMessageBridge.html">
 									a message bridge
 								</a>
 								.
