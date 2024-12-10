@@ -2,11 +2,12 @@ import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useMapState } from '#context/MapState.js'
 import { MapStyle } from '#map/encodeMapState.js'
 import {
+	BlendIcon,
+	HexagonIcon,
 	LockIcon,
 	MinusIcon,
 	MoonIcon,
 	PlusIcon,
-	RadioTowerIcon,
 	SatelliteIcon,
 	SunIcon,
 	UnlockIcon,
@@ -28,21 +29,30 @@ export const MapZoomControls = ({
 	const { locations } = useDeviceLocation()
 	return (
 		<>
-			{Object.values(locations).map((location) => {
-				const { src } = location
+			{[
+				LocationSource.GNSS,
+				LocationSource.WIFI,
+				LocationSource.MCELL,
+				LocationSource.SCELL,
+			].map((src) => {
+				const disabled =
+					locations[src] === undefined ||
+					state?.disabledLocations?.includes(src)
 				return (
 					<button
 						type="button"
 						onClick={() => {
 							if (map === undefined) return
+							const location = locations[src]
+							if (location === undefined) return
 							centerMapOnLocation(map, location)
 						}}
 						class="control"
 						title={`Center on ${LocationSourceLabels.get(src)} location`}
+						disabled={disabled}
 					>
-						{[LocationSource.MCELL, LocationSource.SCELL].includes(
-							src as LocationSource,
-						) && <RadioTowerIcon />}
+						{src === LocationSource.SCELL && <HexagonIcon />}
+						{src === LocationSource.MCELL && <BlendIcon />}
 						{src === LocationSource.WIFI && <WifiIcon />}
 						{src === LocationSource.GNSS && <SatelliteIcon />}
 					</button>

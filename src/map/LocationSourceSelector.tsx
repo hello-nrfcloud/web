@@ -6,8 +6,9 @@ import {
 } from '#map/LocationSourceLabels.js'
 import cx from 'classnames'
 import {
+	BlendIcon,
 	EyeOffIcon,
-	RadioTowerIcon,
+	HexagonIcon,
 	SatelliteIcon,
 	WifiIcon,
 } from 'lucide-preact'
@@ -16,23 +17,19 @@ import './LocationSourceSelector.css'
 
 export const LocationSourceSelector = () => {
 	const { enableLocation, disableLocation, state } = useMapState()
-	const { trail } = useDeviceLocation()
-
-	const trailBySource = trail.reduce<Record<string, boolean>>(
-		(acc, location) => {
-			if (acc[location.src] === undefined) {
-				acc[location.src] = true
-			}
-			return acc
-		},
-		{},
-	)
-
+	const { locations } = useDeviceLocation()
 	return (
 		<div class="location-source-selector controls horizontal me-3 mt-2 d-flex flex-row ">
-			{Object.keys(trailBySource).map((source) => {
-				const src = source as LocationSource
-				const enabled = !(state?.disabledLocations?.includes(src) ?? false)
+			{[
+				LocationSource.GNSS,
+				LocationSource.WIFI,
+				LocationSource.MCELL,
+				LocationSource.SCELL,
+			].map((src) => {
+				const disabled =
+					locations[src] === undefined ||
+					(state?.disabledLocations?.includes(src) ?? false)
+				const enabled = !disabled
 				return (
 					<button
 						type="button"
@@ -50,9 +47,8 @@ export const LocationSourceSelector = () => {
 					>
 						{enabled && (
 							<span>
-								{[LocationSource.MCELL, LocationSource.SCELL].includes(src) && (
-									<RadioTowerIcon />
-								)}
+								{src === LocationSource.SCELL && <HexagonIcon />}
+								{src === LocationSource.MCELL && <BlendIcon />}
 								{src === LocationSource.WIFI && <WifiIcon />}
 								{src === LocationSource.GNSS && <SatelliteIcon />}
 							</span>

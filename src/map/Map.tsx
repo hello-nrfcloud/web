@@ -11,6 +11,7 @@ import { mapStyle as mapStyleLight } from '#map/style-light.js'
 import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
 import type { GeoLocation } from '#proto/lwm2m.js'
+import { byTsReverse } from '#utils/byTs.js'
 import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
 import maplibregl from 'maplibre-gl'
@@ -170,9 +171,9 @@ export const Map = ({
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
-		for (const location of Object.values(locations).filter(
-			removeHidden(mapState.state),
-		)) {
+		for (const location of Object.values(locations)
+			.sort(byTsReverse)
+			.filter(removeHidden(mapState.state))) {
 			const { lng, lat, acc, src, ts } = location
 			const locationCenterSourceId = `${location.src} - source - center`
 			const locationSourceLabel = `${location.src} - location - source - label`
