@@ -2,10 +2,7 @@ import type { TimeSpan } from '#api/api.js'
 import { getObjectHistory } from '#api/getObjectHistory.js'
 import { useDevice, type Device, type ListenerFn } from '#context/Device.js'
 import { decodeMapState } from '#map/encodeMapState.js'
-import {
-	toLocationSource,
-	type LocationSource,
-} from '#map/LocationSourceLabels.js'
+import { type LocationSource } from '#map/LocationSourceLabels.js'
 import {
 	isGeolocation,
 	timeToDate,
@@ -19,7 +16,6 @@ import {
 	type Geolocation_14201,
 	type LwM2MObjectInstance,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { isEqual } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useFingerprint } from './Fingerprint.js'
@@ -47,7 +43,7 @@ export const DeviceLocationContext = createContext<{
 })
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { onReported, device, reported } = useDevice()
+	const { onReported, device } = useDevice()
 	const [timeSpan, setTimeSpan] = useState<TimeSpan | undefined>(
 		isSSR
 			? undefined
@@ -71,6 +67,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				...l,
 				[instance.Resources[6]]: toGeoLocation(instance),
 			}))
+			console.debug(
+				`[DeviceLocation] Received location for ${device.id}`,
+				instance,
+			)
 			setTrail((t) =>
 				[instanceToTrail(device, instance.Resources), ...t].sort(byTs),
 			)
@@ -81,13 +81,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			remove()
 		}
 	}, [device])
-
-	useEffect(() => {
-		if (reported === undefined) return
-		const newLocations = locationsFromReported(reported)
-		if (isEqual(newLocations, locations)) return
-		setLocations(newLocations)
-	}, [reported])
 
 	useEffect(() => {
 		if (device === undefined) return
@@ -119,6 +112,22 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						)
 						.sort(byTs),
 				)
+				// Integrate newer locations into locations
+				setLocations((l) => {
+					for (const instance of partialInstances as Array<
+						LwM2MObjectInstance<Geolocation_14201>['Resources']
+					>) {
+						const src = instance[6] as LocationSource
+						if (
+							l[src] === undefined ||
+							l[src].ts.getTime() < instance[99] * 1000
+						) {
+							const geo = instanceToTrail(device, instance)
+							l[src] = geo
+						}
+					}
+					return l
+				})
 			})
 		})
 	}, [device, timeSpan, clustering])
@@ -142,16 +151,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 export const Consumer = DeviceLocationContext.Consumer
 
 export const useDeviceLocation = () => useContext(DeviceLocationContext)
-
-const locationsFromReported = (
-	reported: Record<string, LwM2MObjectInstance>,
-): Locations =>
-	Object.values(reported).reduce<Locations>((acc, instance) => {
-		if (isGeolocation(instance)) {
-			acc[toLocationSource(instance.Resources[6])] = toGeoLocation(instance)
-		}
-		return acc
-	}, {})
 
 const instanceToTrail = (
 	device: Device,

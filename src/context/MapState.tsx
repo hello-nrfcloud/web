@@ -5,6 +5,7 @@ import {
 	type MapStateType,
 	type MapStyle,
 } from '#map/encodeMapState.js'
+import type { LocationSource } from '#map/LocationSourceLabels.js'
 import { isSSR } from '#utils/isSSR.js'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
@@ -24,6 +25,8 @@ export const MapStateContext = createContext<{
 	hideHistory: () => void
 	clusterTrail: (enabled: boolean) => void
 	setZoom: (zoom: MapStateType['zoom']) => void
+	enableLocation: (location: LocationSource) => void
+	disableLocation: (location: LocationSource) => void
 }>({
 	unlock: () => undefined,
 	lock: () => undefined,
@@ -35,6 +38,8 @@ export const MapStateContext = createContext<{
 	setCenter: () => undefined,
 	setZoom: () => undefined,
 	clusterTrail: () => undefined,
+	enableLocation: () => undefined,
+	disableLocation: () => undefined,
 })
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
@@ -56,7 +61,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	useEffect(() => {
 		if (state === undefined) return
 		const encodedState = encodeMapState(state)
-		if (document.location.hash.includes(encodedState)) return
+		if (document.location.hash?.slice(1) === encodedState) return
 		console.debug(`[MapContext] Syncing state`, encodedState)
 		document.location.hash = `#${encodedState}`
 	}, [state])
@@ -126,6 +131,26 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 						...state,
 						zoom,
 					}))
+				},
+				disableLocation: (location) => {
+					setState((state) => ({
+						...state,
+						disabledLocations: [
+							...new Set([...(state?.disabledLocations ?? []), location]),
+						],
+					}))
+				},
+				enableLocation: (location) => {
+					setState((state) => {
+						const { disabledLocations, ...rest } = state ?? {}
+						const disabled = disabledLocations?.filter((l) => l !== location)
+						if (disabled?.length === 0)
+							return { ...rest, disabledLocations: undefined }
+						return {
+							...rest,
+							disabledLocations: disabled,
+						}
+					})
 				},
 			}}
 		>

@@ -1,6 +1,7 @@
 import { TimeSpan } from '#api/api.js'
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { Type, type Static } from '@sinclair/typebox'
+import { LocationSource } from './LocationSourceLabels.js'
 
 export enum MapStyle {
 	DARK = 'dark',
@@ -30,6 +31,7 @@ export const MapState = Type.Object({
 	style: Type.Optional(Type.Enum(MapStyle)),
 	cluster: Type.Optional(Type.Boolean()),
 	history: Type.Optional(Type.Enum(TimeSpan)),
+	disabledLocations: Type.Optional(Type.Array(Type.Enum(LocationSource))),
 })
 export type MapStateType = Static<typeof MapState>
 
@@ -45,6 +47,7 @@ enum MapStateKey {
 	style = 's',
 	cluster = 'k',
 	history = 'h',
+	disabledLocations = 'l',
 }
 
 const encodeRecord = (key: string, ...values: (string | number)[]): string =>
@@ -56,6 +59,7 @@ export const encodeMapState = ({
 	style,
 	cluster,
 	history,
+	disabledLocations: locations,
 }: MapStateType): string => {
 	const records = []
 	if (center !== undefined) {
@@ -79,6 +83,9 @@ export const encodeMapState = ({
 	}
 	if (history !== undefined) {
 		records.push(encodeRecord(MapStateKey.history, history))
+	}
+	if (locations !== undefined) {
+		records.push(encodeRecord(MapStateKey.disabledLocations, ...locations))
 	}
 	return `${mapStatePrefix}${records.join(recordSep)}`
 }
@@ -113,6 +120,9 @@ export const decodeMapState = (hash: string): MapStateType | undefined => {
 			}
 			if (key === MapStateKey.history) {
 				acc.history = values[0] as TimeSpan
+			}
+			if (key === MapStateKey.disabledLocations) {
+				acc.disabledLocations = values as Array<LocationSource>
 			}
 			return acc
 		}, {})
