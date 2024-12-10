@@ -2,11 +2,11 @@ import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.js'
 import { useMapState } from '#context/MapState.js'
 import { useParameters } from '#context/Parameters.js'
 import { CenterOnLatest } from '#map/CenterOnLatest.js'
-import { CenterOnMapLocations } from '#map/CenterOnMapLocations.js'
 import { HistoryControls } from '#map/HistoryControls.js'
+import { LocationSourceSelector } from '#map/LocationSourceSelector.js'
 import { LockInfo } from '#map/LockInfo.js'
 import { MapZoomControls } from '#map/MapZoomControls.js'
-import { MapStyle } from '#map/encodeMapState.js'
+import { MapStyle, type MapStateType } from '#map/encodeMapState.js'
 import { mapStyle as mapStyleLight } from '#map/style-light.js'
 import { mapStyle as mapStyleDark } from '#map/style.js'
 import { transformRequest } from '#map/transformRequest.js'
@@ -20,6 +20,7 @@ import {
 	locationSourceColors,
 	locationSourceColorsDark,
 	LocationSourceLabels,
+	type LocationSource,
 } from './LocationSourceLabels.js'
 import { addHexagon } from './addHexagon.js'
 import { defaultColor } from './defaultColor.js'
@@ -169,7 +170,9 @@ export const Map = ({
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
-		for (const location of Object.values(locations)) {
+		for (const location of Object.values(locations).filter(
+			removeHidden(mapState.state),
+		)) {
 			const { lng, lat, acc, src, ts } = location
 			const locationCenterSourceId = `${location.src} - source - center`
 			const locationSourceLabel = `${location.src} - location - source - label`
@@ -248,7 +251,7 @@ export const Map = ({
 				}
 			}
 		}
-	}, [mapInstance, locations])
+	}, [mapInstance, locations, mapState.state])
 
 	// Trail
 	const clustering = mapState.state?.cluster ?? false
@@ -256,24 +259,23 @@ export const Map = ({
 	useEffect(() => {
 		if (mapInstance === undefined) return
 
-		const trailBySource = trail.reduce<Record<string, TrailPoint[]>>(
-			(acc, location) => {
+		const trailBySource = trail
+			.filter(removeHidden(mapState.state))
+			.reduce<Record<string, TrailPoint[]>>((acc, location) => {
 				if (acc[location.src] === undefined) {
 					acc[location.src] = [location]
 				} else {
 					acc[location.src]!.push(location)
 				}
 				return acc
-			},
-			{},
-		)
+			}, {})
 
 		const layerIds: string[] = []
 		const sourceIds: string[] = []
 
-		const locationPointIds = Object.values(locations).map((location) =>
-			hashLocation(location),
-		)
+		const locationPointIds = Object.values(locations)
+			.filter(removeHidden(mapState.state))
+			.map((location) => hashLocation(location))
 
 		for (const [src, trail] of Object.entries(trailBySource)) {
 			for (const point of trail) {
@@ -373,7 +375,7 @@ export const Map = ({
 				}
 			}
 		}
-	}, [mapInstance, trail])
+	}, [mapInstance, trail, mapState.state])
 
 	return (
 		<>
@@ -390,7 +392,7 @@ export const Map = ({
 				{mapInstance !== undefined && (
 					<>
 						<div class="locationControls">
-							<CenterOnMapLocations map={mapInstance} />
+							<LocationSourceSelector />
 							<HistoryControls />
 						</div>
 						<div class="mapControls controls vertical">
@@ -411,3 +413,6 @@ export const Map = ({
 
 const hashLocation = (location: GeoLocation): string =>
 	`${location.lat}, ${location.lng}, ${location.acc}, ${location.src}, ${location.ts.getTime()}`
+
+const removeHidden = (state?: MapStateType) => (point: { src: string }) =>
+	state?.disabledLocations?.includes?.(point.src as LocationSource) !== true

@@ -1,0 +1,4 @@
+.location-source-selector.controls button.control.disabled {
+  background-color: #959595;
+  color: #3d3a3a;
+}

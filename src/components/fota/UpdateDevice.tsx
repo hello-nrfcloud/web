@@ -35,8 +35,6 @@ export const UpdateDevice = ({
 	const upgradeType = bundleIdToType(firstBundle ?? '')
 	const firstTypeInUpgradePath = firstBundle?.split('*')[0]
 
-	console.log(firstTypeInUpgradePath, upgradeType)
-
 	const fotaSupported =
 		upgradeType !== null &&
 		fwTypes.find((type) => firstTypeInUpgradePath === type) !== undefined

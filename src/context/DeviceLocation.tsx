@@ -86,7 +86,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (reported === undefined) return
 		const newLocations = locationsFromReported(reported)
 		if (isEqual(newLocations, locations)) return
-		setLocations(newLocations)
 	}, [reported])
 
 	useEffect(() => {

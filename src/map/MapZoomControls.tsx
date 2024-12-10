@@ -1,3 +1,4 @@
+import { useDeviceLocation } from '#context/DeviceLocation.js'
 import { useMapState } from '#context/MapState.js'
 import { MapStyle } from '#map/encodeMapState.js'
 import {
@@ -5,10 +6,15 @@ import {
 	MinusIcon,
 	MoonIcon,
 	PlusIcon,
+	RadioTowerIcon,
+	SatelliteIcon,
 	SunIcon,
 	UnlockIcon,
+	WifiIcon,
 } from 'lucide-preact'
 import type maplibregl from 'maplibre-gl'
+import { centerMapOnLocation } from './centerMapOnLocation.js'
+import { LocationSource, LocationSourceLabels } from './LocationSourceLabels.js'
 import { defaultMapState } from './Map.js'
 
 export const MapZoomControls = ({
@@ -19,8 +25,29 @@ export const MapZoomControls = ({
 	map: maplibregl.Map
 }) => {
 	const { toggleLock, setStyle, state, locked } = useMapState()
+	const { locations } = useDeviceLocation()
 	return (
 		<>
+			{Object.values(locations).map((location) => {
+				const { src } = location
+				return (
+					<button
+						type="button"
+						onClick={() => {
+							if (map === undefined) return
+							centerMapOnLocation(map, location)
+						}}
+						class="control"
+						title={`Center on ${LocationSourceLabels.get(src)} location`}
+					>
+						{[LocationSource.MCELL, LocationSource.SCELL].includes(
+							src as LocationSource,
+						) && <RadioTowerIcon />}
+						{src === LocationSource.WIFI && <WifiIcon />}
+						{src === LocationSource.GNSS && <SatelliteIcon />}
+					</button>
+				)
+			})}
 			<button
 				type="button"
 				class="control"
