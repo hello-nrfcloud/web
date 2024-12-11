@@ -1,5 +1,5 @@
 import { useMapState } from '#context/MapState.js'
-import { LockIcon } from 'lucide-preact'
+import { UnlockIcon } from 'lucide-preact'
 
 export const LockInfo = () => {
 	const mapState = useMapState()
@@ -14,7 +14,7 @@ export const LockInfo = () => {
 						mapState.unlock()
 					}}
 				>
-					<LockIcon />
+					<UnlockIcon />
 				</button>{' '}
 				to enable the map.
 			</span>

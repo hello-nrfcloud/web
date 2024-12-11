@@ -87,7 +87,7 @@ export const MapZoomControls = ({
 						setStyle(MapStyle.LIGHT)
 					}}
 				>
-					<MoonIcon />
+					<SunIcon />
 				</button>
 			) : (
 				<button
@@ -98,7 +98,7 @@ export const MapZoomControls = ({
 						setStyle(MapStyle.DARK)
 					}}
 				>
-					<SunIcon />
+					<MoonIcon />
 				</button>
 			)}
 			{(canBeLocked ?? true) && (
@@ -110,7 +110,7 @@ export const MapZoomControls = ({
 						toggleLock()
 					}}
 				>
-					{locked ? <LockIcon /> : <UnlockIcon />}
+					{locked ? <UnlockIcon /> : <LockIcon />}
 				</button>
 			)}
 		</>

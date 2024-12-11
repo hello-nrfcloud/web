@@ -5,6 +5,8 @@ import { formatInt } from '#utils/format.js'
 import { HistoryIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 
+import './HistoryControls.css'
+
 const byTimeSpan = (timeSpan: TimeSpan | undefined) => (t: TimeSpanInfo) =>
 	t.id === timeSpan
 
@@ -15,71 +17,75 @@ export const HistoryControls = () => {
 
 	if (!expanded) {
 		return (
-			<div
-				class="mt-2 d-flex justify-content-start align-items-center controls"
-				style={{ color: 'var(--color-nordic-dark-grey)' }}
-			>
-				<HistoryIcon class="ms-2" />
-				<button
-					type="button"
-					class="control"
-					onClick={() => {
-						setExpanded(true)
-					}}
+			<div class="history-controls">
+				<div
+					class="mt-2 d-flex justify-content-start align-items-center controls"
+					style={{ color: 'var(--color-nordic-dark-grey)' }}
 				>
-					{trail.length >= 500 && (
-						<span>last {formatInt(trail.length)} locations</span>
-					)}
-					{trail.length < 500 && (
-						<span>
-							History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
-						</span>
-					)}
-				</button>
+					<HistoryIcon class="ms-2" />
+					<button
+						type="button"
+						class="control"
+						onClick={() => {
+							setExpanded(true)
+						}}
+					>
+						{trail.length >= 500 && (
+							<span>last {formatInt(trail.length)} locations</span>
+						)}
+						{trail.length < 500 && (
+							<span>
+								History: {timeSpans.find(byTimeSpan(timeSpan))?.title ?? 'off'}
+							</span>
+						)}
+					</button>
+				</div>
 			</div>
 		)
 	}
 
 	return (
-		<div
-			class="mt-2 d-flex justify-content-start align-items-center controls horizontal"
-			style={{ color: 'var(--color-nordic-dark-grey)' }}
-		>
-			<HistoryIcon class="ms-2" title={'History'} />
-			<button
-				type="button"
-				class="control"
-				onClick={() => {
-					setTimeSpan(undefined)
-					setExpanded(false)
-				}}
+		<div class="history-controls">
+			<div
+				class="history-controls mt-2 d-flex justify-content-start align-items-center controls horizontal"
+				style={{ color: 'var(--color-nordic-dark-grey)' }}
 			>
-				off
-			</button>
-			{timeSpans.map(({ id, title }) => (
+				<HistoryIcon class="ms-2" title={'History'} />
 				<button
 					type="button"
-					class="control ms-1"
+					class="control"
 					onClick={() => {
-						setTimeSpan(id)
+						setTimeSpan(undefined)
 						setExpanded(false)
 					}}
 				>
-					{title}
+					off
 				</button>
-			))}
-			<div class="button control">
-				<label htmlFor="clusterLocations" class="d-flex align-items-center">
-					<input
-						type="checkbox"
-						id="clusterLocations"
-						checked={clustering}
-						onChange={(ev) => {
-							enableClustering((ev.target as HTMLInputElement).checked)
+				{timeSpans.map(({ id, title }) => (
+					<button
+						type="button"
+						class="control ms-1"
+						onClick={() => {
+							setTimeSpan(id)
+							setExpanded(false)
 						}}
-					/>{' '}
-					<span class="ms-2">cluster nearby locations </span>
-				</label>
+					>
+						{title}
+					</button>
+				))}
+				<div class="button control">
+					<label htmlFor="clusterLocations" class="d-flex align-items-center">
+						<input
+							type="checkbox"
+							id="clusterLocations"
+							checked={clustering}
+							onChange={(ev) => {
+								enableClustering((ev.target as HTMLInputElement).checked)
+							}}
+						/>{' '}
+						<span class="ms-2">cluster nearby locations </span>
+					</label>
+				</div>
 			</div>
 		</div>
 	)

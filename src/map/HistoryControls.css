@@ -1,0 +1,9 @@
+.history-controls {
+  display: none;
+}
+
+@media screen and (min-width: 500px) {
+  .history-controls {
+    display: block;
+  }
+}

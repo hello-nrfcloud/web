@@ -5,13 +5,7 @@ import {
 	LocationSourceLabels,
 } from '#map/LocationSourceLabels.js'
 import cx from 'classnames'
-import {
-	BlendIcon,
-	EyeOffIcon,
-	HexagonIcon,
-	SatelliteIcon,
-	WifiIcon,
-} from 'lucide-preact'
+import { BlendIcon, HexagonIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
 
 import './LocationSourceSelector.css'
 
@@ -45,15 +39,10 @@ export const LocationSourceSelector = () => {
 							disabled: !enabled,
 						})}
 					>
-						{enabled && (
-							<span>
-								{src === LocationSource.SCELL && <HexagonIcon />}
-								{src === LocationSource.MCELL && <BlendIcon />}
-								{src === LocationSource.WIFI && <WifiIcon />}
-								{src === LocationSource.GNSS && <SatelliteIcon />}
-							</span>
-						)}
-						{!enabled && <EyeOffIcon />}
+						{src === LocationSource.SCELL && <HexagonIcon />}
+						{src === LocationSource.MCELL && <BlendIcon />}
+						{src === LocationSource.WIFI && <WifiIcon />}
+						{src === LocationSource.GNSS && <SatelliteIcon />}
 						{LocationSourceLabels.has(src) && (
 							<span class="ms-2 label">{LocationSourceLabels.get(src)}</span>
 						)}

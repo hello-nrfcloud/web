@@ -1,7 +1,13 @@
 #map {
   width: 100%;
-  min-height: 50vh;
   overflow: clip;
+  aspect-ratio: 3/4;
+}
+
+@media screen and (min-width: 500px) {
+  #map {
+    min-height: 50vh;
+  }
 }
 
 section.map {
