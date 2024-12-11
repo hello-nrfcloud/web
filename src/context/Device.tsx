@@ -16,8 +16,10 @@ import {
 } from '#utils/validatingFetch.js'
 import {
 	LwM2MObjectID,
+	timestampResources,
 	type LwM2MObjectInstance,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
+import { shadowToObjects } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
 import {
 	Context,
 	type DeviceIdentity,
@@ -26,7 +28,7 @@ import {
 	type Shadow,
 } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'
-import { isObject } from 'lodash-es'
+import { isNumber, isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import { instanceKey, mergeInstances } from '../proto/mergeInstances.js'
@@ -122,6 +124,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [reported, setReported] = useState<Record<string, LwM2MObjectInstance>>(
 		{},
 	)
+	const [reportedUpdate, setReportedUpdate] = useState<Date>()
 	const reportedListeners = useRef<Array<ListenerFn>>([])
 	const [desired, setDesired] = useState<Record<string, LwM2MObjectInstance>>(
 		{},
@@ -141,6 +144,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		})
 	}, [onParameters])
 
+	// Update reported config
 	useEffect(() => {
 		const config =
 			reported[instanceKey(LwM2MObjectID.ApplicationConfiguration_14301)]
@@ -149,6 +153,23 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			updateIntervalSeconds: config.Resources[0],
 			gnssEnabled: config.Resources[1],
 		})
+	}, [reported])
+
+	// Update timestamp when device last reported
+	useEffect(() => {
+		setReportedUpdate(
+			new Date(
+				Math.max(
+					...shadowToObjects(reported)
+						.map(
+							({ ObjectID, Resources }) =>
+								Resources[timestampResources.get(ObjectID) ?? -1],
+						)
+						.filter((n) => isNumber(n)),
+					0,
+				) * 1000,
+			),
+		)
 	}, [reported])
 
 	// Set up websocket connection
@@ -279,22 +300,22 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		}
 	}, [fingerprint])
 
-	// Update `hasLiveData` based on lastSeen and reportedConfig
+	// Update `hasLiveData` based on sensor data, and reportedConfig
 	useEffect(() => {
 		let hasLiveData =
-			lastSeen !== undefined &&
+			reportedUpdate !== undefined &&
 			(device?.hideDataBefore === undefined ||
-				lastSeen.getTime() > device.hideDataBefore.getTime())
+				reportedUpdate.getTime() > device.hideDataBefore.getTime())
 
 		const updateIntervalSeconds =
 			reportedConfig?.updateIntervalSeconds ??
 			device?.model.defaultConfiguration.updateIntervalSeconds
-		if (lastSeen !== undefined && updateIntervalSeconds !== undefined) {
+		if (reportedUpdate !== undefined && updateIntervalSeconds !== undefined) {
 			hasLiveData =
-				Date.now() - lastSeen.getTime() < updateIntervalSeconds * 1000
+				Date.now() - reportedUpdate.getTime() < updateIntervalSeconds * 1000
 		}
 		setHasLiveData(hasLiveData)
-	}, [device, lastSeen, reportedConfig])
+	}, [device, reportedConfig, reportedUpdate])
 
 	const update = async (instance: LwM2MObjectInstance): UpdateResult => {
 		if (device === undefined) throw new Error(`Device not yet loaded!`)
