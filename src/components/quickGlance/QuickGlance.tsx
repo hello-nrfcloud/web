@@ -40,7 +40,7 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 			() => {
 				setWarmupTimePassed(true)
 			},
-			isProduction ? 2 * 60 * 1000 : 1000,
+			isProduction ? 5 * 60 * 1000 : 1000,
 		)
 		return () => clearTimeout(t)
 	})

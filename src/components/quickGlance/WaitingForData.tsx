@@ -36,6 +36,11 @@ export const WaitingForData = () => {
 			)}
 			<br />
 			<small>
+				Please note that a SIM card that connects for the first time in a
+				network can take up to 10 minutes to become activated.
+			</small>
+			<br />
+			<small>
 				Please make sure to follow{' '}
 				<a href="#troubleshooting">the troubleshooting tips</a>.
 			</small>
