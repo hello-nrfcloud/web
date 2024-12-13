@@ -45,9 +45,6 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 		return () => clearTimeout(t)
 	})
 
-	// Only show the quick glance error if the device has been on for at least 2 minutes
-	if (!ok && !warmupTimePassed) return null
-
 	return (
 		<section
 			id="quickGlance"
@@ -58,8 +55,8 @@ export const QuickGlance = ({ class: className }: { class?: string }) => {
 			})}
 		>
 			{ok && <AllOK />}
-			{!ok && <DeviceHasProblems />}
-			{!hasLiveData && <WaitingForData />}
+			{!ok && !hasLiveData && warmupTimePassed && <DeviceHasProblems />}
+			{!ok && !hasLiveData && <WaitingForData />}
 			{hasLiveData && (
 				<>
 					{(!fwOk || !mfwOk) && <NeedsFOTA />}
