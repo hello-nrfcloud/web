@@ -200,7 +200,7 @@ export const ViewSource = () => (
 								<li>
 									If a user wants to use the device with their own nRF Cloud
 									account they can flash any firmware as long as it is not using
-									the <code>hello.nrfcloud.com</code> secTag <code>42</code>.
+									the <code>hello.nrfcloud.com</code> secTag <code>4242</code>.
 								</li>
 								<li>
 									If they want the original out-of-box behaviour, they only have
