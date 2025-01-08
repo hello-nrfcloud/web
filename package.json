@@ -86,7 +86,7 @@
     "remark-rehype": "11.1.1",
     "tsmatchers": "5.0.2",
     "tsx": "4.19.2",
-    "vike": "0.4.211",
+    "vike": "0.4.212",
     "websocket": "1.0.35"
   },
   "engines": {
