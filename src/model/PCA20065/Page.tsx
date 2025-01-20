@@ -1,4 +1,4 @@
-import { BME680 } from '#components/BME680.js'
+import { BME688 } from '#components/BME688.js'
 import { Collapsible } from '#components/Collapsible.js'
 import { Configuration } from '#components/Configuration.js'
 import { DeviceHeader } from '#components/DeviceHeader.js'
@@ -77,7 +77,7 @@ export const Page = ({ device }: { device: TDevice }) => {
 								<DeviceFOTAInfo />
 							</div>
 							<div class="my-4">
-								<BME680 />
+								<BME688 />
 							</div>
 						</section>
 						<section class="col-12 col-md-6 col-lg-6 offset-lg-2">

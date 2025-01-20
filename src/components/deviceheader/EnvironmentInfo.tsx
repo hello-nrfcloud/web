@@ -1,5 +1,5 @@
 import { Ago } from '#components/Ago.js'
-import { IAQ } from '#components/BME680.js'
+import { IAQ } from '#components/BME688.js'
 import { LoadingIndicator } from '#components/ValueLoading.js'
 import { useDevice } from '#context/Device.js'
 import { isEnvironment, toEnvironment } from '#proto/lwm2m.js'

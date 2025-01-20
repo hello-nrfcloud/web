@@ -16,7 +16,7 @@ import {
 	ThermometerIcon,
 } from 'lucide-preact'
 
-export const BME680 = () => (
+export const BME688 = () => (
 	<section data-testid="environment-info">
 		<h2>Environment</h2>
 		<EnvironmentReadings />
@@ -24,19 +24,19 @@ export const BME680 = () => (
 			<small class="text-muted">
 				These values are reported by the devices'{' '}
 				<a
-					href="https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/"
+					href="https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme688/"
 					target="_blank"
 				>
-					Bosch BME680 environment sensor
+					Bosch BME688 environment sensor
 				</a>
 				.<br />
 				The air quality rating is based on a proprietary algorithm. See
 				page&nbsp;8 in{' '}
 				<a
-					href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf"
+					href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme688-ds000.pdf"
 					target="_blank"
 				>
-					the BME680 datasheet
+					the BME688 datasheet
 				</a>
 				.
 			</small>
@@ -82,7 +82,7 @@ export const EnvironmentReadings = () => {
 	)
 }
 
-// See https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
+// See https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme688-ds001.pdf
 export const IAQ = ({ iaq }: { iaq: number }) => {
 	let iaqLabel = 'unknown'
 	let Icon = BanIcon
