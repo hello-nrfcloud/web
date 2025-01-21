@@ -92,6 +92,7 @@ jobs:
           MAP_REGION: ${{ vars.MAP_REGION }}
           MAP_NAME: ${{ vars.MAP_NAME }}
           MAP_API_KEY: ${{ vars.MAP_API_KEY }}
+          REGISTRY_ENDPOINT: http://localhost:8080/e2e/registry.json
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in
