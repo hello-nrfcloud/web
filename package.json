@@ -42,7 +42,7 @@
     "lucide-preact": "0.475.0",
     "maplibre-gl": "5.1.0",
     "nanoid": "5.1.0",
-    "preact": "10.25.4",
+    "preact": "10.26.0",
     "qrcode": "1.5.4",
     "semver": "7.7.0",
     "svg-country-flags": "1.2.10",
