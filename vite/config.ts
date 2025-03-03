@@ -1,7 +1,7 @@
 import { preact } from '@preact/preset-vite'
 import ssr from 'vike/plugin'
 import { defineConfig, type PluginOption } from 'vite'
-import pJSON from '../package.json' assert { type: 'json' }
+import pJSON from '../package.json' with { type: 'json' }
 import { encloseWithSlash } from './encloseWithSlash.js'
 import { homepage, version } from './siteInfo.js'
 

@@ -2,7 +2,7 @@ import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { Shadow } from '@hello.nrfcloud.com/proto/hello'
 import assert from 'node:assert'
 import { describe, test as it, mock } from 'node:test'
-import shadow from './shadow.json' assert { type: 'json' }
+import shadow from './shadow.json' with { type: 'json' }
 import { validPassthrough } from './validPassthrough.js'
 
 void describe('validPassthrough', () => {
