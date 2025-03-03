@@ -132,7 +132,8 @@ export const Card = ({ model }: { model: Model }) => {
 							<p class="d-flex">
 								<CircleStop strokeWidth={1} class="me-2" />
 								<span>
-									Press the button on your device to receive them here.
+									Press the button labelled <code>BUTTON 1</code> on your device
+									to receive them here.
 								</span>
 							</p>
 						</Collapsible>
