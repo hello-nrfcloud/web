@@ -74,7 +74,7 @@
     "commitlint": "19.8.0",
     "glob": "11.0.1",
     "husky": "9.1.7",
-    "lint-staged": "15.4.3",
+    "lint-staged": "15.5.0",
     "nock": "14.0.1",
     "playwright": "1.51.0",
     "preact-render-to-string": "6.5.13",
