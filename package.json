@@ -67,7 +67,7 @@
     "@types/semver": "7.7.0",
     "@types/websocket": "1.0.10",
     "aws-cdk": "2.1015.0",
-    "aws-cdk-lib": "2.195.0",
+    "aws-cdk-lib": "2.196.0",
     "bootstrap": "5.3.6",
     "cdk": "2.1015.0",
     "chalk": "5.4.1",
