@@ -68,7 +68,7 @@
     "@types/websocket": "1.0.10",
     "aws-cdk": "2.1018.1",
     "aws-cdk-lib": "2.201.0",
-    "bootstrap": "5.3.6",
+    "bootstrap": "5.3.7",
     "cdk": "2.1018.1",
     "chalk": "5.4.1",
     "commitlint": "19.8.1",
