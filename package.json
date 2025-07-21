@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.848.0",
-    "@aws-sdk/client-cloudfront": "3.848.0",
+    "@aws-sdk/client-cloudfront": "3.850.0",
     "@aws-sdk/client-iam": "3.848.0",
     "@babel/plugin-syntax-import-assertions": "7.27.1",
     "@bifravst/cloudformation-helpers": "9.1.1",
