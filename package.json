@@ -75,7 +75,7 @@
     "glob": "11.0.3",
     "husky": "9.1.7",
     "lint-staged": "15.5.2",
-    "nock": "14.0.6",
+    "nock": "14.0.8",
     "playwright": "1.54.1",
     "preact-render-to-string": "6.5.13",
     "rehype-format": "5.0.1",
