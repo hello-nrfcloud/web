@@ -77,7 +77,7 @@
     "lint-staged": "15.5.2",
     "nock": "14.0.10",
     "playwright": "1.55.0",
-    "preact-render-to-string": "6.6.0",
+    "preact-render-to-string": "6.6.1",
     "rehype-format": "5.0.1",
     "rehype-stringify": "10.0.1",
     "remark": "15.0.1",
