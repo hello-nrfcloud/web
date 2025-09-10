@@ -70,7 +70,7 @@
     "aws-cdk-lib": "2.214.0",
     "bootstrap": "5.3.8",
     "cdk": "2.1029.0",
-    "chalk": "5.6.0",
+    "chalk": "5.6.2",
     "commitlint": "19.8.1",
     "glob": "11.0.3",
     "husky": "9.1.7",
