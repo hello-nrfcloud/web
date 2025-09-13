@@ -66,7 +66,7 @@
     "@types/qrcode": "1.5.5",
     "@types/semver": "7.7.1",
     "@types/websocket": "1.0.10",
-    "aws-cdk": "2.1029.0",
+    "aws-cdk": "2.1029.1",
     "aws-cdk-lib": "2.214.0",
     "bootstrap": "5.3.8",
     "cdk": "2.1029.0",
