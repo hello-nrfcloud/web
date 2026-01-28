@@ -40,7 +40,7 @@
     "html5-qrcode": "2.3.8",
     "lodash-es": "4.17.23",
     "lucide-preact": "0.563.0",
-    "maplibre-gl": "5.14.0",
+    "maplibre-gl": "5.16.0",
     "nanoid": "5.1.6",
     "preact": "10.28.2",
     "qrcode": "1.5.4",
