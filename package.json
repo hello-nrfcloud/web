@@ -59,7 +59,7 @@
     "@bifravst/prettier-config": "1.1.17",
     "@commitlint/config-conventional": "19.8.1",
     "@playwright/test": "1.58.2",
-    "@preact/preset-vite": "2.10.4",
+    "@preact/preset-vite": "2.10.5",
     "@swc/core": "1.15.18",
     "@types/lodash-es": "4.17.12",
     "@types/node": "22.19.15",
