@@ -31,7 +31,7 @@
     "@hello.nrfcloud.com/proto": "15.4.93",
     "@hello.nrfcloud.com/proto-map": "16.6.72",
     "@sentry/browser": "9.47.1",
-    "@sinclair/typebox": "0.34.49",
+    "@sinclair/typebox": "0.34.52",
     "classnames": "2.5.1",
     "code-128-encoder": "3.1.1",
     "compare-versions": "6.1.1",
