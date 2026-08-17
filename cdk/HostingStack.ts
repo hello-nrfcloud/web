@@ -13,7 +13,7 @@ import {
 } from 'aws-cdk-lib'
 import { readFileSync } from 'fs'
 import path from 'path'
-import { GitHubRole } from './GitHubRole.js'
+import { GitHubRole } from './GitHubRole.ts'
 
 export class HostingStack extends Stack {
 	public constructor(
@@ -92,7 +92,7 @@ export class HostingStack extends Stack {
 				description: 'Redirects QR code URLs',
 				code: Lambda.Code.fromInline(
 					readFileSync(
-						path.join(process.cwd(), 'cdk', 'fingerprint.js'),
+						path.join(process.cwd(), 'cdk', 'fingerprint.ts'),
 						'utf-8',
 					),
 				),
@@ -160,7 +160,7 @@ export class HostingStack extends Stack {
 							`arn:aws:acm:us-east-1:${this.account}:certificate/${customDomain.certificateId}`,
 						),
 		})
-		distribution.addBehavior('*.js', s3Origin, staticFileBehaviour)
+		distribution.addBehavior('*.ts', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.map', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.css', s3Origin, staticFileBehaviour)
 		distribution.addBehavior('*.webp', s3Origin, staticFileBehaviour)

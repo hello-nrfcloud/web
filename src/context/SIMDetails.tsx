@@ -1,11 +1,11 @@
-import { getSIMDetails } from '#api/getSIMDetails.js'
-import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.js'
+import { getSIMDetails } from '#api/getSIMDetails.tsx'
+import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.ts'
 import { identifyIssuer, type Issuer } from 'e118-iin-list'
 import { createContext } from 'preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useCallback, useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice } from './Device.js'
-import { useParameters } from './Parameters.js'
+import { useDevice } from './Device.tsx'
+import { useParameters } from './Parameters.tsx'
 
 export type SIMUsage = {
 	used: number

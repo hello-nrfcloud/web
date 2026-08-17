@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, test as it } from 'node:test'
-import { mergeInstances } from './mergeInstances.js'
+import { mergeInstances } from './mergeInstances.ts'
 
 void describe('mergeInstances()', () => {
 	void it('should merge an update', () => {

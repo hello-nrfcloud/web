@@ -1,14 +1,14 @@
-import { Ago } from '#components/Ago.js'
+import { Ago } from '#components/Ago.tsx'
 import {
 	EnergyEstimateIcons,
 	EnergyEstimateLabel,
-} from '#components/SignalQuality.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDevice } from '#context/Device.js'
+} from '#components/SignalQuality.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { useDevice } from '#context/Device.tsx'
 import {
 	isConnectionInformation,
 	toConnectionInformation,
-} from '#proto/lwm2m.js'
+} from '#proto/lwm2m.ts'
 import { Slash } from 'lucide-preact'
 
 export const SignalQualityInfo = () => {
@@ -37,9 +37,9 @@ export const SignalQualityInfo = () => {
 			{eest !== undefined && (
 				<>
 					<span class="d-flex align-items-center">
-						{((SignalIcon) => (
-							<SignalIcon strokeWidth={2} class="me-2" />
-						))(EnergyEstimateIcons.get(eest) ?? Slash)}
+						{((SignalIcon) => <SignalIcon strokeWidth={2} class="me-2" />)(
+							EnergyEstimateIcons.get(eest) ?? Slash,
+						)}
 						<span>{EnergyEstimateLabel.get(eest)}</span>
 					</span>
 					{ts !== undefined && (

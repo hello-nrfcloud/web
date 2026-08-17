@@ -1,11 +1,11 @@
-import { CountryFlag } from '#components/CountryFlag.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { mccmnc2country } from '#components/mccmnc2country.js'
-import { useDevice } from '#context/Device.js'
+import { CountryFlag } from '#components/CountryFlag.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { mccmnc2country } from '#components/mccmnc2country.ts'
+import { useDevice } from '#context/Device.tsx'
 import {
 	isConnectionInformation,
 	toConnectionInformation,
-} from '#proto/lwm2m.js'
+} from '#proto/lwm2m.ts'
 
 export const NetworkLocation = () => {
 	const { reported } = useDevice()

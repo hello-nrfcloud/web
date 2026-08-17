@@ -1,4 +1,4 @@
-import { StyleGuide } from '#components/StyleGuide.js'
+import { StyleGuide } from '#components/StyleGuide.tsx'
 
 export const StyleGuidePage = () => (
 	<main>

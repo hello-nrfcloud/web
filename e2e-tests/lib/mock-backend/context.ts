@@ -5,7 +5,7 @@ import {
 	type Collection,
 	JSONCollection,
 	StringAccessor,
-} from './db.js'
+} from './db.ts'
 
 type Device = Static<typeof DeviceIdentity> & { fingerprint: string }
 type State = {

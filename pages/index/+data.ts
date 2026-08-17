@@ -1,5 +1,5 @@
-import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
-import { type Model } from '#content/models/types.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.ts'
+import { type Model } from '#content/models/types.ts'
 
 export type IndexPageProps = { models: Record<string, Model> }
 

@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'http'
 import type { Connect, Plugin } from 'vite'
-import type { Parameters } from '../../src/context/Parameters.js'
-import type { createContext } from './mock-backend/context.js'
-import { mockBackend } from './mock-backend/mock-backend.js'
+import type { Parameters } from '../../src/context/Parameters.tsx'
+import type { createContext } from './mock-backend/context.ts'
+import { mockBackend } from './mock-backend/mock-backend.ts'
 
 export const testdataServerPlugin = ({
 	registry,

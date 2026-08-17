@@ -1,4 +1,4 @@
-import { getItem, setItem } from '#utils/localStorage.js'
+import { getItem, setItem } from '#utils/localStorage.ts'
 import { RotateCwIcon } from 'lucide-preact'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import { compare, parse } from 'semver'

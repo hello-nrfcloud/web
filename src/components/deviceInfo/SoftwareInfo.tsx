@@ -1,8 +1,8 @@
-import { ValueLoading } from '#components/ValueLoading.js'
-import { UpdateDevice } from '#components/fota/UpdateDevice.js'
-import { useDevice } from '#context/Device.js'
-import { useFOTA } from '#context/FOTA.js'
-import { niceLink } from '#utils/niceLink.js'
+import { ValueLoading } from '#components/ValueLoading.tsx'
+import { UpdateDevice } from '#components/fota/UpdateDevice.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { useFOTA } from '#context/FOTA.tsx'
+import { niceLink } from '#utils/niceLink.ts'
 import { AlertTriangle, CheckCircle2, InfoIcon } from 'lucide-preact'
 
 export const SoftwareInfo = () => {

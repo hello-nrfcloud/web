@@ -1,13 +1,13 @@
-import { TimeSpan } from '#api/api.js'
+import { TimeSpan } from '#api/api.ts'
 import {
 	decodeMapState,
 	encodeMapState,
 	MapStyle,
 	type MapStateType,
-} from '#map/encodeMapState.js'
+} from '#map/encodeMapState.ts'
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { LocationSource } from './LocationSourceLabels.js'
+import { LocationSource } from './LocationSourceLabels.ts'
 
 void describe('encodeMapState()', () => {
 	void it('should encode a map state', () => {

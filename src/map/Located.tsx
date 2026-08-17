@@ -1,7 +1,7 @@
-import { Ago } from '#components/Ago.js'
-import { LocationSourceLabels } from '#map/LocationSourceLabels.js'
-import { type GeoLocation } from '#proto/lwm2m.js'
-import { formatInt } from '#utils/format.js'
+import { Ago } from '#components/Ago.tsx'
+import { LocationSourceLabels } from '#map/LocationSourceLabels.ts'
+import { type GeoLocation } from '#proto/lwm2m.ts'
+import { formatInt } from '#utils/format.ts'
 
 export const Located = ({ location }: { location: GeoLocation }) => (
 	<p>

@@ -1,4 +1,4 @@
-import { type Model } from '#content/models/types.js'
+import { type Model } from '#content/models/types.ts'
 
 export const ModelCard = ({ model }: { model: Model }) => (
 	<div class="card">

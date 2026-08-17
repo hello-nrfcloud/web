@@ -1,5 +1,5 @@
-import type { LEDPatternType } from '#content/models/types.js'
-import type { WithTestId } from '#utils/WithTestId.js'
+import type { LEDPatternType } from '#content/models/types.ts'
+import type { WithTestId } from '#utils/WithTestId.ts'
 import type { Static } from '@sinclair/typebox'
 import cx from 'classnames'
 import { nanoid } from 'nanoid'

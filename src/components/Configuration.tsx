@@ -1,10 +1,10 @@
-import { Applied } from '#components/Applied.js'
-import { Secondary, Transparent } from '#components/Buttons.js'
-import { useDevice, type Device } from '#context/Device.js'
-import { formatDistance } from '#utils/format.js'
+import { Applied } from '#components/Applied.tsx'
+import { Secondary, Transparent } from '#components/Buttons.tsx'
+import { useDevice, type Device } from '#context/Device.tsx'
+import { formatDistance } from '#utils/format.ts'
 import { Satellite, Settings2, UploadCloud, X } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { ConfigureDevice } from './ConfigureDevice.js'
+import { ConfigureDevice } from './ConfigureDevice.tsx'
 
 export const ShowDeviceConfiguration = ({ device }: { device: Device }) => {
 	const {

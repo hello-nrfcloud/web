@@ -1,4 +1,4 @@
-import { Logo } from '#components/icons/Logo.js'
+import { Logo } from '#components/icons/Logo.tsx'
 import './BrandHeader.css'
 
 export const BrandHeader = () => (

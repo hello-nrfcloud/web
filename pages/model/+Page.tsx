@@ -1,7 +1,7 @@
-import { Footer } from '#components/Footer.js'
-import { Navbar } from '#components/Navbar.js'
-import { Model } from '#page/Model.js'
-import type { ModelPageProps } from './+data.js'
+import { Footer } from '#components/Footer.tsx'
+import { Navbar } from '#components/Navbar.tsx'
+import { Model } from '#page/Model.tsx'
+import type { ModelPageProps } from './+data.ts'
 
 export const Page = ({ model }: ModelPageProps) => (
 	<>

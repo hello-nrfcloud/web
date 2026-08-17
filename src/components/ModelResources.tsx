@@ -1,4 +1,4 @@
-import { type Model } from '#content/models/types.js'
+import { type Model } from '#content/models/types.ts'
 import { FileText } from 'lucide-preact'
 
 export const ModelResources = ({ type }: { type: Model }) => (

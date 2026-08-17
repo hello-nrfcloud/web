@@ -1,5 +1,5 @@
-import { Transparent } from '#components/Buttons.js'
-import { hexToRGB } from '#components/colorpicker/hexToRGB.js'
+import { Transparent } from '#components/Buttons.tsx'
+import { hexToRGB } from '#components/colorpicker/hexToRGB.ts'
 import { noop } from 'lodash-es'
 import { X } from 'lucide-preact'
 

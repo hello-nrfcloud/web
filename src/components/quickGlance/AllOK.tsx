@@ -1,4 +1,4 @@
-import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.tsx'
 import { BadgeCheckIcon } from 'lucide-preact'
 
 export const AllOK = () => (

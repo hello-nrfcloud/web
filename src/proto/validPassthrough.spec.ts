@@ -3,7 +3,7 @@ import { Shadow } from '@hello.nrfcloud.com/proto/hello'
 import assert from 'node:assert'
 import { describe, test as it, mock } from 'node:test'
 import shadow from './shadow.json' with { type: 'json' }
-import { validPassthrough } from './validPassthrough.js'
+import { validPassthrough } from './validPassthrough.ts'
 
 void describe('validPassthrough', () => {
 	void it('should let valid input pass', () => {
@@ -23,7 +23,7 @@ void describe('validPassthrough', () => {
 
 	void it('should not let invalid input pass', () => {
 		const onDropped = mock.fn()
-		const isInvalid = validPassthrough({ temp: -42 } as any, onDropped)
+		const isInvalid = validPassthrough({ temp: -42 }, onDropped)
 		assert.equal(isInvalid, null)
 		const call = onDropped.mock.calls[0]
 		// input

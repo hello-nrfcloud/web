@@ -3,7 +3,7 @@ import {
 	ButtonVariant,
 	buttonStyleClass,
 	type ButtonStyleArgs,
-} from '#components/buttons/Button.js'
+} from '#components/buttons/Button.tsx'
 import { type ComponentChild } from 'preact'
 import { useRef, type AnchorHTMLAttributes } from 'preact/compat'
 

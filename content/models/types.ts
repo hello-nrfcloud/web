@@ -1,4 +1,4 @@
-import type { IncludedSIMType } from '#content/sims/types.js'
+import type { IncludedSIMType } from '#content/sims/types.ts'
 import { ModelID } from '@hello.nrfcloud.com/proto-map/models'
 import { UpgradePath } from '@hello.nrfcloud.com/proto/hello'
 import { Type, type Static } from '@sinclair/typebox'

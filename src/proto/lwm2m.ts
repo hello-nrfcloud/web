@@ -1,4 +1,4 @@
-import type { ConfigurationType } from '#content/models/types.js'
+import type { ConfigurationType } from '#content/models/types.ts'
 import {
 	instanceTs,
 	LwM2MObjectID,

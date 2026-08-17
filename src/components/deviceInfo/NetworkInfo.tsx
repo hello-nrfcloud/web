@@ -1,7 +1,7 @@
-import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDevice } from '#context/Device.js'
-import { useSIMDetails } from '#context/SIMDetails.js'
+import { SIMIcon } from '#components/icons/SIMIcon.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { useSIMDetails } from '#context/SIMDetails.tsx'
 import { identifyIssuer } from 'e118-iin-list'
 import { CpuIcon } from 'lucide-preact'
 

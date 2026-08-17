@@ -1,5 +1,5 @@
 import { isObject } from 'lodash-es'
-import type { RGB } from './ColorPicker.js'
+import type { RGB } from './ColorPicker.tsx'
 
 export const isRGB = (color: unknown): color is RGB =>
 	isObject(color) &&

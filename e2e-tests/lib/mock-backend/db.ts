@@ -26,7 +26,7 @@ export const StringAccessor = (
 		get: () => {
 			try {
 				return readFileSync(storage, 'utf8')
-			} catch (e) {
+			} catch {
 				return defaultValue ?? ''
 			}
 		},
@@ -44,7 +44,7 @@ export const JSONCollection = <T extends Record<string, any>>(
 		get: (id) => {
 			try {
 				return JSON.parse(readFileSync(join(storageDir, `${id}.json`), 'utf8'))
-			} catch (e) {
+			} catch {
 				return undefined
 			}
 		},

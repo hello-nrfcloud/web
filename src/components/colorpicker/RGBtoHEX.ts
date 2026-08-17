@@ -1,4 +1,4 @@
-import type { RGB } from '#components/colorpicker/ColorPicker.js'
+import type { RGB } from '#components/colorpicker/ColorPicker.tsx'
 
 export const RGBtoHEX = ({ r, g, b }: RGB): string => {
 	const hexR = r.toString(16).padStart(2, '0')

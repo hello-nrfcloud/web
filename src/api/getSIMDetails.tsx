@@ -1,4 +1,4 @@
-import { validatingFetch } from '#utils/validatingFetch.js'
+import { validatingFetch } from '#utils/validatingFetch.ts'
 import { Type, type Static } from '@sinclair/typebox'
 
 export const ts = Type.String({

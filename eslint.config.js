@@ -4,7 +4,6 @@ export default [
 	{
 		ignores: [
 			'.github/workflows/invalidate-cloudfront.ts',
-			'cdk/fingerprint.js',
 			'cdk.out/*',
 			'build/*',
 		],

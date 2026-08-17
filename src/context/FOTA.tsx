@@ -1,13 +1,13 @@
-import { isOutdated } from '#components/fota/isOutdated.js'
-import type { Model } from '#content/models/types.js'
+import { isOutdated } from '#components/fota/isOutdated.ts'
+import type { Model } from '#content/models/types.ts'
 import {
 	isDeviceInformation,
 	isNRFCloudServiceInfo,
 	toDeviceInformation,
 	toNRFCloudServiceInfo,
-} from '#proto/lwm2m.js'
-import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.js'
-import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.js'
+} from '#proto/lwm2m.ts'
+import { parseModemFirmwareVersion } from '#utils/parseModemFirmwareVersion.ts'
+import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.ts'
 import { type LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import {
 	FOTAJob,
@@ -18,7 +18,7 @@ import {
 import { Type, type Static } from '@sinclair/typebox'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDevice } from './Device.js'
+import { useDevice } from './Device.tsx'
 
 export type Device = {
 	id: string

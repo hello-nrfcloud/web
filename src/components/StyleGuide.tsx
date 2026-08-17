@@ -18,8 +18,8 @@ import {
 	Transparent,
 	Warning,
 	WarningLink,
-} from '#components/Buttons.js'
-import { ValueLoading } from '#components/ValueLoading.js'
+} from '#components/Buttons.tsx'
+import { ValueLoading } from '#components/ValueLoading.tsx'
 import { createElement } from 'preact'
 
 const buttonVariants = [

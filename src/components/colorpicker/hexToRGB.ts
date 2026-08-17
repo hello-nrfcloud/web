@@ -1,4 +1,4 @@
-import type { RGB } from '#components/colorpicker/ColorPicker.js'
+import type { RGB } from '#components/colorpicker/ColorPicker.tsx'
 
 export const hexToRGB = (hexColor: string): RGB => {
 	const hex = hexColor.replace('#', '')

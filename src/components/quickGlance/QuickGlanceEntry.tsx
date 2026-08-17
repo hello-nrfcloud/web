@@ -1,4 +1,4 @@
-import { SecondaryLink } from '#components/Buttons.js'
+import { SecondaryLink } from '#components/Buttons.tsx'
 import type { ComponentChild } from 'preact'
 import type { PropsWithChildren } from 'preact/compat'
 

@@ -1,6 +1,6 @@
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useMapState } from '#context/MapState.js'
-import { MapStyle } from '#map/encodeMapState.js'
+import { useDeviceLocation } from '#context/DeviceLocation.tsx'
+import { useMapState } from '#context/MapState.tsx'
+import { MapStyle } from '#map/encodeMapState.ts'
 import {
 	BlendIcon,
 	HexagonIcon,
@@ -13,17 +13,17 @@ import {
 	UnlockIcon,
 	WifiIcon,
 } from 'lucide-preact'
-import type maplibregl from 'maplibre-gl'
-import { centerMapOnLocation } from './centerMapOnLocation.js'
-import { LocationSource, LocationSourceLabels } from './LocationSourceLabels.js'
-import { defaultMapState } from './Map.js'
+import type { Map } from 'maplibre-gl'
+import { centerMapOnLocation } from './centerMapOnLocation.ts'
+import { LocationSource, LocationSourceLabels } from './LocationSourceLabels.ts'
+import { defaultMapState } from './Map.tsx'
 
 export const MapZoomControls = ({
 	canBeLocked,
 	map,
 }: {
 	canBeLocked?: boolean
-	map: maplibregl.Map
+	map: Map
 }) => {
 	const { toggleLock, setStyle, state, locked } = useMapState()
 	const { locations } = useDeviceLocation()

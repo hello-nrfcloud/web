@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, test as it } from 'node:test'
-import { getItem, removeItem, setItem } from './localStorage.js'
+import { getItem, removeItem, setItem } from './localStorage.ts'
 
 void describe('localStorage', () => {
 	void it('should swallow calls when run server side', () => {

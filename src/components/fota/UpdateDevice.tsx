@@ -1,10 +1,10 @@
-import { Primary } from '#components/Buttons.js'
-import { Problem } from '#components/Problem.js'
-import { Success } from '#components/Success.js'
-import { useDevice } from '#context/Device.js'
-import { useFOTA } from '#context/FOTA.js'
-import { isNRFCloudServiceInfo, toNRFCloudServiceInfo } from '#proto/lwm2m.js'
-import type { FetchProblem } from '#utils/validatingFetch.js'
+import { Primary } from '#components/Buttons.tsx'
+import { Problem } from '#components/Problem.tsx'
+import { Success } from '#components/Success.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { useFOTA } from '#context/FOTA.tsx'
+import { isNRFCloudServiceInfo, toNRFCloudServiceInfo } from '#proto/lwm2m.ts'
+import type { FetchProblem } from '#utils/validatingFetch.ts'
 import {
 	bundleIdToType,
 	type UpgradePath,

@@ -1,5 +1,5 @@
-import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { SIMIcon } from '#components/icons/SIMIcon.tsx'
+import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.tsx'
 
 export const SIMNoData = () => (
 	<QuickGlanceEntry

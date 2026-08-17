@@ -1,5 +1,5 @@
-import { TimeSpan } from '#api/api.js'
-import type { XAxis } from '#chart/chartMath.js'
+import { TimeSpan } from '#api/api.ts'
+import type { XAxis } from '#chart/chartMath.ts'
 import { format } from 'date-fns'
 
 export const xAxisForType = (type: TimeSpan): XAxis => {

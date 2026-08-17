@@ -20,21 +20,21 @@
     "noUnusedLocals": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "baseUrl": "src",
+    "allowImportingTsExtensions": true,
     "paths": {
       "react": ["../node_modules/preact/compat/"],
       "react-dom": ["../node_modules/preact/compat/"],
-      "#components/*": ["components/*"],
-      "#context/*": ["context/*"],
-      "#flows/*": ["flows/*"],
-      "#chart/*": ["chart/*"],
-      "#utils/*": ["utils/*"],
-      "#page/*": ["page/*"],
-      "#proto/*": ["proto/*"],
-      "#map/*": ["map/*"],
-      "#model/*": ["model/*"],
-      "#content/*": ["../content/*"],
-      "#api/*": ["api/*"]
+      "#components/*": ["./src/components/*"],
+      "#context/*": ["./src/context/*"],
+      "#flows/*": ["./src/flows/*"],
+      "#chart/*": ["./src/chart/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#page/*": ["./src/page/*"],
+      "#proto/*": ["./src/proto/*"],
+      "#map/*": ["./src/map/*"],
+      "#model/*": ["./src/model/*"],
+      "#content/*": ["./content/*"],
+      "#api/*": ["./src/api/*"]
     }
   }
 }

@@ -1,5 +1,5 @@
-import { encodeWeek } from './encodeWeek.js'
-import { generateCode } from './generateCode.js'
+import { encodeWeek } from './encodeWeek.ts'
+import { generateCode } from './generateCode.ts'
 
 export const generateFingerprint = (date?: Date): string =>
 	`${encodeWeek(date)}.${generateCode()}`

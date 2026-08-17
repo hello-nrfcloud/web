@@ -1,4 +1,4 @@
-import type { IncludedSIMType } from '#content/sims/types.js'
+import type { IncludedSIMType } from '#content/sims/types.ts'
 
 import './IncludedSIMInfo.css'
 

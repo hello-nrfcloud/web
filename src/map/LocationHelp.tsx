@@ -1,7 +1,7 @@
-import { type Device } from '#context/Device.js'
-import { CellularLocation } from '#map/CellularLocation.js'
-import { GNSSLocation } from '#map/GNSSLocation.js'
-import { NetworkLocation } from './NetworkLocation.js'
+import { type Device } from '#context/Device.tsx'
+import { CellularLocation } from '#map/CellularLocation.tsx'
+import { GNSSLocation } from '#map/GNSSLocation.tsx'
+import { NetworkLocation } from './NetworkLocation.tsx'
 
 export const LocationHelp = ({
 	device,

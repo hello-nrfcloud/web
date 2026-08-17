@@ -1,4 +1,4 @@
-import { Primary } from '#components/buttons/Button.js'
+import { Primary } from '#components/buttons/Button.tsx'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { QrCode } from 'lucide-preact'
@@ -64,7 +64,7 @@ export const QRCodeScanner = () => {
 					},
 				},
 				(decodedText) => {
-					let url: URL | undefined = undefined
+					let url: URL
 					try {
 						url = new URL(decodedText)
 					} catch {

@@ -1,9 +1,9 @@
 import { fromEnv } from '@bifravst/from-env'
 import { join } from 'node:path'
-import { createConfig } from '../vite/config.js'
-import { createContext } from './lib/mock-backend/context.js'
-import { mockWebsocket } from './lib/mock-backend/mockWebsocket.js'
-import { testdataServerPlugin } from './lib/testDataServerPlugin.js'
+import { createConfig } from '../vite/config.ts'
+import { createContext } from './lib/mock-backend/context.ts'
+import { mockWebsocket } from './lib/mock-backend/mockWebsocket.ts'
+import { testdataServerPlugin } from './lib/testDataServerPlugin.ts'
 
 const { mapRegion, mapName, mapApiKey, registryEndpoint } = fromEnv({
 	mapRegion: 'MAP_REGION',

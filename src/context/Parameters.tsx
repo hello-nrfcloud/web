@@ -22,8 +22,7 @@ export const ParametersContext = createContext<{
 const isSSR = typeof window === 'undefined'
 
 const parametersPromise:
-	| Promise<{ parameters: Parameters } | { error: Error }>
-	| undefined = isSSR
+	Promise<{ parameters: Parameters } | { error: Error }> | undefined = isSSR
 	? undefined
 	: (async (): Promise<{ parameters: Parameters } | { error: Error }> => {
 			try {

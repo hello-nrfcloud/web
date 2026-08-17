@@ -1,6 +1,6 @@
-import { Ago } from '#components/Ago.js'
-import { useDevice } from '#context/Device.js'
-import { isButtonPress, toButtonPress } from '#proto/lwm2m.js'
+import { Ago } from '#components/Ago.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { isButtonPress, toButtonPress } from '#proto/lwm2m.ts'
 import { ChevronDownSquareIcon } from 'lucide-preact'
 
 import './ButtonPresses.css'

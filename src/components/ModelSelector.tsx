@@ -1,5 +1,5 @@
-import { SecondaryLink } from '#components/Buttons.js'
-import { useModels } from '#context/Models.js'
+import { SecondaryLink } from '#components/Buttons.tsx'
+import { useModels } from '#context/Models.tsx'
 
 export const ModelSelector = () => {
 	const { models } = useModels()

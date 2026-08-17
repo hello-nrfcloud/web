@@ -1,13 +1,13 @@
 import {
 	getSIMHistory,
 	type SIMUsageHistoryType,
-} from '#api/getSIMUsageHistory.js'
-import { useParameters } from '#context/Parameters.js'
-import { useSIMDetails } from '#context/SIMDetails.js'
-import { byTs } from '#utils/byTs.js'
+} from '#api/getSIMUsageHistory.tsx'
+import { useParameters } from '#context/Parameters.tsx'
+import { useSIMDetails } from '#context/SIMDetails.tsx'
+import { byTs } from '#utils/byTs.ts'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useHistoryChart } from './HistoryChart.js'
+import { useHistoryChart } from './HistoryChart.tsx'
 
 export type SIMUsageHistory = {
 	ts: Date

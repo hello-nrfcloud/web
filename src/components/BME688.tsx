@@ -1,7 +1,7 @@
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDevice } from '#context/Device.js'
-import { isEnvironment, toEnvironment } from '#proto/lwm2m.js'
-import { formatFloat } from '#utils/format.js'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { isEnvironment, toEnvironment } from '#proto/lwm2m.ts'
+import { formatFloat } from '#utils/format.ts'
 import {
 	AngryIcon,
 	AnnoyedIcon,

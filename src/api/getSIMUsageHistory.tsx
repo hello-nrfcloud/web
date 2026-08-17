@@ -1,7 +1,7 @@
-import { validatingFetch } from '#utils/validatingFetch.js'
+import { validatingFetch } from '#utils/validatingFetch.ts'
 import { Type, type Static } from '@sinclair/typebox'
-import type { TimeSpan } from './api.js'
-import { ts, usedBytes } from './getSIMDetails.js'
+import type { TimeSpan } from './api.ts'
+import { ts, usedBytes } from './getSIMDetails.tsx'
 
 const UsageHistory = Type.Object({
 	ts,

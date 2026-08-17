@@ -1,13 +1,13 @@
-import { Ago } from '#components/Ago.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { LTEM } from '#components/icons/LTE-M.js'
-import { NBIot } from '#components/icons/NBIot.js'
-import { useDevice } from '#context/Device.js'
+import { Ago } from '#components/Ago.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { LTEM } from '#components/icons/LTE-M.tsx'
+import { NBIot } from '#components/icons/NBIot.tsx'
+import { useDevice } from '#context/Device.tsx'
 import {
 	isConnectionInformation,
 	toConnectionInformation,
-} from '#proto/lwm2m.js'
-import { CountryFlag } from '../CountryFlag.js'
+} from '#proto/lwm2m.ts'
+import { CountryFlag } from '../CountryFlag.tsx'
 
 export const NetworkModeInfo = () => {
 	const { reported } = useDevice()

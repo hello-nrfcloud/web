@@ -1,4 +1,4 @@
-import { TimeSpan } from '#api/api.js'
+import { TimeSpan } from '#api/api.ts'
 
 export type TimeSpanInfo = {
 	id: TimeSpan

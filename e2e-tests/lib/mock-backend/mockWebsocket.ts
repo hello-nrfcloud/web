@@ -8,7 +8,7 @@ import {
 import type { Static } from '@sinclair/typebox'
 import { createServer } from 'http'
 import { server as WebSocketServer } from 'websocket'
-import type { createContext } from './context.js'
+import type { createContext } from './context.ts'
 
 export const mockWebsocket = (
 	port: number,

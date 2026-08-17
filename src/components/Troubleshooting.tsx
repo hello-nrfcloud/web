@@ -1,15 +1,15 @@
-import { useDevice } from '#context/Device.js'
-import { useSIMDetails } from '#context/SIMDetails.js'
-import { formatFloat, formatInt } from '#utils/format.js'
+import { useDevice } from '#context/Device.tsx'
+import { useSIMDetails } from '#context/SIMDetails.tsx'
+import { formatFloat, formatInt } from '#utils/format.ts'
 import {
 	BatteryFull,
 	LightbulbIcon,
 	RadioTower,
 	ToggleRight,
 } from 'lucide-preact'
-import { Collapsible } from './Collapsible.js'
-import { SIMIcon } from './icons/SIMIcon.js'
-import { LED, LEDPattern, hexToRGB } from './LEDPattern.js'
+import { Collapsible } from './Collapsible.tsx'
+import { SIMIcon } from './icons/SIMIcon.tsx'
+import { LED, LEDPattern, hexToRGB } from './LEDPattern.tsx'
 
 export const Troubleshooting = ({ class: className }: { class?: string }) => {
 	const { device } = useDevice()

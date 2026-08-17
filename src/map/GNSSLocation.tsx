@@ -1,9 +1,9 @@
-import { Collapsible } from '#components/Collapsible.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { useDevice, type Device } from '#context/Device.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { LocationSource } from '#map/LocationSourceLabels.js'
-import { Located } from './Located.js'
+import { Collapsible } from '#components/Collapsible.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { useDevice, type Device } from '#context/Device.tsx'
+import { useDeviceLocation } from '#context/DeviceLocation.tsx'
+import { LocationSource } from '#map/LocationSourceLabels.ts'
+import { Located } from './Located.tsx'
 
 export const GNSSLocation = ({ device }: { device: Device }) => {
 	const { locations } = useDeviceLocation()

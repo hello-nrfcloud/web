@@ -1,20 +1,21 @@
-import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.js'
-import { useMapState } from '#context/MapState.js'
-import { useParameters } from '#context/Parameters.js'
-import { CenterOnLatest } from '#map/CenterOnLatest.js'
-import { HistoryControls } from '#map/HistoryControls.js'
-import { LocationSourceSelector } from '#map/LocationSourceSelector.js'
-import { LockInfo } from '#map/LockInfo.js'
-import { MapZoomControls } from '#map/MapZoomControls.js'
-import { MapStyle, type MapStateType } from '#map/encodeMapState.js'
-import { mapStyle as mapStyleLight } from '#map/style-light.js'
-import { mapStyle as mapStyleDark } from '#map/style.js'
-import { transformRequest } from '#map/transformRequest.js'
-import type { GeoLocation } from '#proto/lwm2m.js'
-import { byTsReverse } from '#utils/byTs.js'
+import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.tsx'
+import { useMapState } from '#context/MapState.tsx'
+import { useParameters } from '#context/Parameters.tsx'
+import { CenterOnLatest } from '#map/CenterOnLatest.tsx'
+import { HistoryControls } from '#map/HistoryControls.tsx'
+import { LocationSourceSelector } from '#map/LocationSourceSelector.tsx'
+import { LockInfo } from '#map/LockInfo.tsx'
+import { MapZoomControls } from '#map/MapZoomControls.tsx'
+import { MapStyle, type MapStateType } from '#map/encodeMapState.ts'
+import { mapStyle as mapStyleLight } from '#map/style-light.ts'
+import { mapStyle as mapStyleDark } from '#map/style.ts'
+import { transformRequest } from '#map/transformRequest.tsx'
+import type { GeoLocation } from '#proto/lwm2m.ts'
+import { byTsReverse } from '#utils/byTs.ts'
 import { formatDistanceToNow } from 'date-fns'
 import { MapPinOff } from 'lucide-preact'
-import maplibregl from 'maplibre-gl'
+import { Map as MaplibreMap, setWorkerUrl } from 'maplibre-gl'
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import type React from 'preact/compat'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import {
@@ -22,11 +23,11 @@ import {
 	locationSourceColorsDark,
 	LocationSourceLabels,
 	type LocationSource,
-} from './LocationSourceLabels.js'
-import { addHexagon } from './addHexagon.js'
-import { defaultColor } from './defaultColor.js'
-import { glyphFonts } from './glyphFonts.js'
-import { toGEOJsonPoint } from './toGEOJsonPoint.js'
+} from './LocationSourceLabels.ts'
+import { addHexagon } from './addHexagon.ts'
+import { defaultColor } from './defaultColor.tsx'
+import { glyphFonts } from './glyphFonts.ts'
+import { toGEOJsonPoint } from './toGEOJsonPoint.tsx'
 
 import '#map/Map.css'
 
@@ -69,7 +70,7 @@ export const Map = ({
 	const mapState = useMapState()
 	const isLocked = (canBeLocked ?? true) ? mapState.locked : false
 	const initialized = useRef<boolean>(false)
-	const [mapInstance, setMap] = useState<maplibregl.Map | undefined>(undefined)
+	const [mapInstance, setMap] = useState<MaplibreMap | undefined>(undefined)
 
 	// Init map
 	const {
@@ -92,7 +93,8 @@ export const Map = ({
 
 		onParameters(({ mapRegion, mapName, mapApiKey }) => {
 			console.debug(`[Map]`, `initializing`, { lat, lng, zoom })
-			const map = new maplibregl.Map({
+			setWorkerUrl(maplibreWorkerUrl)
+			const map = new MaplibreMap({
 				container: containerRef.current!,
 				style: (style === MapStyle.LIGHT ? mapStyleLight : mapStyleDark)({
 					region: mapRegion,
