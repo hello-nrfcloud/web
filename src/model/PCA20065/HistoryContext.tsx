@@ -15,7 +15,7 @@ import { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { getObjectHistory } from '../../api/getObjectHistory.tsx'
+import { getObjectHistory } from '../../api/getObjectHistory.ts'
 
 type BatteryReadings = Array<BatteryAndPower>
 type Reboots = Array<Reboot>

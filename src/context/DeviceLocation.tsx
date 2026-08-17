@@ -1,5 +1,5 @@
 import type { TimeSpan } from '#api/api.ts'
-import { getObjectHistory } from '#api/getObjectHistory.tsx'
+import { getObjectHistory } from '#api/getObjectHistory.ts'
 import { useDevice, type Device, type ListenerFn } from '#context/Device.tsx'
 import { decodeMapState } from '#map/encodeMapState.ts'
 import { type LocationSource } from '#map/LocationSourceLabels.ts'

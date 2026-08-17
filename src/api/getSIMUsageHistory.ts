@@ -1,7 +1,7 @@
-import { validatingFetch } from '#utils/validatingFetch.ts'
+import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.ts'
 import { Type, type Static } from '@sinclair/typebox'
 import type { TimeSpan } from './api.ts'
-import { ts, usedBytes } from './getSIMDetails.tsx'
+import { ts, usedBytes } from './getSIMDetails.ts'
 
 const UsageHistory = Type.Object({
 	ts,
@@ -15,7 +15,8 @@ export type SIMHistoryType = Static<typeof SIMHistory>
 export type SIMUsageHistoryType = Static<typeof UsageHistory>
 
 export const getSIMHistory =
-	(simDetailsAPIURL: URL) => (iccid: string, timespan: TimeSpan) =>
+	(simDetailsAPIURL: URL) =>
+	(iccid: string, timespan: TimeSpan): ResultHandlers<typeof SIMHistory> =>
 		validatingFetch(SIMHistory)(
 			new URL(
 				`./sim/${iccid}/history?${new URLSearchParams({ timespan }).toString()}`,

@@ -1,4 +1,4 @@
-import { getSIMDetails } from '#api/getSIMDetails.tsx'
+import { getSIMDetails } from '#api/getSIMDetails.ts'
 import { isDeviceInformation, toDeviceInformation } from '#proto/lwm2m.ts'
 import { identifyIssuer, type Issuer } from 'e118-iin-list'
 import { createContext } from 'preact'

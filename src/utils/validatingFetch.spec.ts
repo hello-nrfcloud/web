@@ -1,4 +1,4 @@
-import { SIMDetails } from '#api/getSIMDetails.tsx'
+import { SIMDetails } from '#api/getSIMDetails.ts'
 import type { Static } from '@sinclair/typebox'
 import { addSeconds } from 'date-fns'
 import nock from 'nock'

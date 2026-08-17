@@ -3,6 +3,19 @@
   "version": "0.0.0-development",
   "description": "Retrieve real-time data from your long-range Nordic Semiconductor Development Kit within seconds",
   "type": "module",
+  "imports": {
+    "#components/*": "./src/components/*",
+    "#context/*": "./src/context/*",
+    "#flows/*": "./src/flows/*",
+    "#chart/*": "./src/chart/*",
+    "#utils/*": "./src/utils/*",
+    "#page/*": "./src/page/*",
+    "#proto/*": "./src/proto/*",
+    "#map/*": "./src/map/*",
+    "#model/*": "./src/model/*",
+    "#content/*": "./content/*",
+    "#api/*": "./src/api/*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hello-nrfcloud/web.git"
@@ -22,7 +35,7 @@
     "start": "vike dev",
     "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && cp -v ./manifest.json ./build/client/",
     "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
-    "test": "find ./ -type f -name *.spec.ts -not -path './e2e-tests/*' -not -path './node_modules/*' | xargs npx tsx --test --test-reporter spec",
+    "test": "node --experimental-transform-types --test --test-reporter spec \"!(e2e-tests|node_modules)/**/*.spec.ts\"",
     "test:e2e": "npx playwright test e2e-tests/",
     "start:e2e": "vite -c e2e-tests/vite.config.e2e.ts",
     "postinstall": "cp -r node_modules/svg-country-flags/svg/ static/flags"

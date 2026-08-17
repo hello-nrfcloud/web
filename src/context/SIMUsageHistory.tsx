@@ -1,7 +1,7 @@
 import {
 	getSIMHistory,
 	type SIMUsageHistoryType,
-} from '#api/getSIMUsageHistory.tsx'
+} from '#api/getSIMUsageHistory.ts'
 import { useParameters } from '#context/Parameters.tsx'
 import { useSIMDetails } from '#context/SIMDetails.tsx'
 import { byTs } from '#utils/byTs.ts'
