@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import * as path from 'path'
 import { chromium } from 'playwright'
-import { checkForConsoleErrors } from './lib/checkForConsoleErrors.js'
+import { checkForConsoleErrors } from './lib/checkForConsoleErrors.ts'
 
 test.afterEach(checkForConsoleErrors)
 

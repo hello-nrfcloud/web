@@ -1,8 +1,8 @@
-import type { TimeSpan } from '#api/api.js'
-import type { ChartData } from '#chart/chartMath.js'
-import { xAxisForType } from '#chart/xAxisForType.js'
-import type { SIMUsageHistory } from '#context/SIMUsageHistory.js'
-import type { BatteryAndPower, Reboot } from '#proto/lwm2m.js'
+import type { TimeSpan } from '#api/api.ts'
+import type { ChartData } from '#chart/chartMath.ts'
+import { xAxisForType } from '#chart/xAxisForType.ts'
+import type { SIMUsageHistory } from '#context/SIMUsageHistory.tsx'
+import type { BatteryAndPower, Reboot } from '#proto/lwm2m.ts'
 import { subHours, subMilliseconds } from 'date-fns'
 
 export const toChartData = ({

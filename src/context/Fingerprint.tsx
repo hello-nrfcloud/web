@@ -1,4 +1,4 @@
-import { getItem, removeItem, setItem } from '#utils/localStorage.js'
+import { getItem, removeItem, setItem } from '#utils/localStorage.ts'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 

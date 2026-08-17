@@ -1,12 +1,12 @@
-import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNotifier.js'
-import { Provider as DeviceProvider } from '#context/Device.js'
-import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.js'
-import { Provider as FingerprintProvider } from '#context/Fingerprint.js'
-import { Provider as MapStateProvider } from '#context/MapState.js'
-import { Provider as ModelsProvider } from '#context/Models.js'
-import { Provider as ParametersProvider } from '#context/Parameters.js'
-import { DeviceMap } from '#page/DeviceMap.js'
-import type { IndexPageProps } from '../index/+data.js'
+import { WebsocketDisconnectNotifier } from '#components/WebsocketDisconnectNotifier.tsx'
+import { Provider as DeviceProvider } from '#context/Device.tsx'
+import { Provider as DeviceLocationProvider } from '#context/DeviceLocation.tsx'
+import { Provider as FingerprintProvider } from '#context/Fingerprint.tsx'
+import { Provider as MapStateProvider } from '#context/MapState.tsx'
+import { Provider as ModelsProvider } from '#context/Models.tsx'
+import { Provider as ParametersProvider } from '#context/Parameters.tsx'
+import { DeviceMap } from '#page/DeviceMap.tsx'
+import type { IndexPageProps } from '../index/+data.ts'
 
 export const Page = ({ models }: IndexPageProps) => (
 	<ParametersProvider>

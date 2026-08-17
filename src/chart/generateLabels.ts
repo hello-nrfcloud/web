@@ -1,4 +1,4 @@
-import type { chartMath, XAxis } from '#chart/chartMath.js'
+import type { chartMath, XAxis } from '#chart/chartMath.ts'
 import { subMinutes } from 'date-fns'
 
 export const generateLabels = (

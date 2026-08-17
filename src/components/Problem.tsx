@@ -1,5 +1,5 @@
-import { useDevice } from '#context/Device.js'
-import type { FetchProblem } from '#utils/validatingFetch.js'
+import { useDevice } from '#context/Device.tsx'
+import type { FetchProblem } from '#utils/validatingFetch.ts'
 
 export const Problem = ({
 	problem: { problem, awsApiGwReqId, awsReqId },

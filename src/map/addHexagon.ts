@@ -1,9 +1,9 @@
-import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.js'
-import type { GeoLocation } from '#proto/lwm2m.js'
-import type maplibregl from 'maplibre-gl'
+import { geoJSONPolygonFromCircle } from '#map/geoJSONPolygonFromCircle.ts'
+import type { GeoLocation } from '#proto/lwm2m.ts'
+import type { Map } from 'maplibre-gl'
 
 export const addHexagon = (
-	map: maplibregl.Map,
+	map: Map,
 	{ lng, lat, src, acc }: GeoLocation & { acc: number },
 	color: string,
 	font: string,

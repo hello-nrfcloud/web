@@ -1,6 +1,6 @@
 import { fromEnv } from '@bifravst/from-env'
 import chalk from 'chalk'
-import { createConfig } from './vite/config.js'
+import { createConfig } from './vite/config.ts'
 
 const { registryEndpoint } = fromEnv({
 	registryEndpoint: 'REGISTRY_ENDPOINT',

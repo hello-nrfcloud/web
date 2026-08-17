@@ -1,11 +1,11 @@
-import { WaitingForDevice } from '#components/WaitingForDevice.js'
-import { useDevice } from '#context/Device.js'
-import { useMapState } from '#context/MapState.js'
-import { encodeMapState } from '#map/encodeMapState.js'
-import { defaultMapState, Map } from '#map/Map.js'
+import { WaitingForDevice } from '#components/WaitingForDevice.tsx'
+import { useDevice } from '#context/Device.tsx'
+import { useMapState } from '#context/MapState.tsx'
+import { encodeMapState } from '#map/encodeMapState.ts'
+import { defaultMapState, Map } from '#map/Map.tsx'
 import { ShrinkIcon } from 'lucide-preact'
 
-import { UnsupportedDevice } from '#components/UnsupportedDevice.js'
+import { UnsupportedDevice } from '#components/UnsupportedDevice.tsx'
 import './DeviceMap.css'
 
 export const DeviceMap = () => {

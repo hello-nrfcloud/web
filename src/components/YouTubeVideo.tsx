@@ -1,5 +1,4 @@
-import { getItem, setItem } from '#utils/localStorage.js'
-import { YoutubeIcon } from 'lucide-preact'
+import { getItem, setItem } from '#utils/localStorage.ts'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import './YouTubeVideo.css'
 
@@ -74,7 +73,7 @@ export const YouTubeVideo = ({ id, title }: { id: string; title: string }) => {
 				)}
 			</div>
 			<p class="d-flex align-items-center">
-				<YoutubeIcon class="me-1" />{' '}
+				<img src={'/images/youtube-logo.svg'} alt={'YouTube'} class="me-1" />{' '}
 				<span>
 					Watch the video{' '}
 					<a href={`https://www.youtube.com/watch?v=${id}`}>on YouTube</a>.

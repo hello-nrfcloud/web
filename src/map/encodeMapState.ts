@@ -1,7 +1,7 @@
-import { TimeSpan } from '#api/api.js'
+import { TimeSpan } from '#api/api.ts'
 import { validateWithTypeBox } from '@hello.nrfcloud.com/proto'
 import { Type, type Static } from '@sinclair/typebox'
-import { LocationSource } from './LocationSourceLabels.js'
+import { LocationSource } from './LocationSourceLabels.ts'
 
 export enum MapStyle {
 	DARK = 'dark',

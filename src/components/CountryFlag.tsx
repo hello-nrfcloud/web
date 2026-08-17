@@ -1,5 +1,5 @@
-import { mccmnc2country } from '#components/mccmnc2country.js'
-import type { WithTestId } from '#utils/WithTestId.js'
+import { mccmnc2country } from '#components/mccmnc2country.ts'
+import type { WithTestId } from '#utils/WithTestId.ts'
 
 export const CountryFlag = ({
 	mccmnc,

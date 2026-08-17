@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
-import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
-import { apiClient } from '../lib/mock-backend/apiClient.js'
-import { newThingy91X } from './seeders/devices.js'
+import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.ts'
+import { apiClient } from '../lib/mock-backend/apiClient.ts'
+import { newThingy91X } from './seeders/devices.ts'
 
 let page: Page
 

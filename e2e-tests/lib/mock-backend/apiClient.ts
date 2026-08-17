@@ -1,6 +1,6 @@
 import type { LwM2MObjectInstance } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { objectsToShadow } from '@hello.nrfcloud.com/proto-map/lwm2m/aws'
-import type { SIMUsage } from './context.js'
+import type { SIMUsage } from './context.ts'
 
 const base = new URL('http://localhost:8080')
 

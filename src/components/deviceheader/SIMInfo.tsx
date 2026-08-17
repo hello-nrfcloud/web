@@ -1,8 +1,8 @@
-import { Ago } from '#components/Ago.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { SIMIcon } from '#components/icons/SIMIcon.js'
-import { useSIMDetails } from '#context/SIMDetails.js'
-import { formatFloat, formatInt } from '#utils/format.js'
+import { Ago } from '#components/Ago.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { SIMIcon } from '#components/icons/SIMIcon.tsx'
+import { useSIMDetails } from '#context/SIMDetails.tsx'
+import { formatFloat, formatInt } from '#utils/format.ts'
 import { ArrowUpDownIcon } from 'lucide-preact'
 
 import './SIMInfo.css'

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { hexToRGB } from './hexToRGB.js'
+import { hexToRGB } from './hexToRGB.ts'
 
 void describe('hexToRGB', () => {
 	void it('should convert a hex color to RGB', () => {

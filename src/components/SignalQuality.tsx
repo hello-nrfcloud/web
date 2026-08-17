@@ -1,4 +1,4 @@
-import type { LucideProps } from '#components/icons/lucide.js'
+import type { LucideProps } from '#components/icons/lucide.ts'
 import {
 	Signal,
 	SignalHigh,

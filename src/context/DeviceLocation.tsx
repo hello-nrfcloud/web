@@ -1,16 +1,16 @@
-import type { TimeSpan } from '#api/api.js'
-import { getObjectHistory } from '#api/getObjectHistory.js'
-import { useDevice, type Device, type ListenerFn } from '#context/Device.js'
-import { decodeMapState } from '#map/encodeMapState.js'
-import { type LocationSource } from '#map/LocationSourceLabels.js'
+import type { TimeSpan } from '#api/api.ts'
+import { getObjectHistory } from '#api/getObjectHistory.ts'
+import { useDevice, type Device, type ListenerFn } from '#context/Device.tsx'
+import { decodeMapState } from '#map/encodeMapState.ts'
+import { type LocationSource } from '#map/LocationSourceLabels.ts'
 import {
 	isGeolocation,
 	timeToDate,
 	toGeoLocation,
 	type GeoLocation,
-} from '#proto/lwm2m.js'
-import { byTs } from '#utils/byTs.js'
-import { isSSR } from '#utils/isSSR.js'
+} from '#proto/lwm2m.ts'
+import { byTs } from '#utils/byTs.ts'
+import { isSSR } from '#utils/isSSR.ts'
 import {
 	LwM2MObjectID,
 	type Geolocation_14201,
@@ -18,8 +18,8 @@ import {
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useFingerprint } from './Fingerprint.js'
-import { useParameters } from './Parameters.js'
+import { useFingerprint } from './Fingerprint.tsx'
+import { useParameters } from './Parameters.tsx'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>

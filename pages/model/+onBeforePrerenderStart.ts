@@ -1,4 +1,4 @@
-import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.ts'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 

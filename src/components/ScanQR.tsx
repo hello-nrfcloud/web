@@ -1,7 +1,7 @@
-import { FingerprintForm } from '#components/FingerprintForm.js'
-import { QRCodeScanner } from '#components/QRCodeScanner.js'
-import { WithResize } from '#components/ResizeObserver.js'
-import { ThingyWithQRCode } from '#components/ThingyWithQRCode.js'
+import { FingerprintForm } from '#components/FingerprintForm.tsx'
+import { QRCodeScanner } from '#components/QRCodeScanner.tsx'
+import { WithResize } from '#components/ResizeObserver.tsx'
+import { ThingyWithQRCode } from '#components/ThingyWithQRCode.tsx'
 
 export const ScanQR = () => (
 	<div class="bg-light">

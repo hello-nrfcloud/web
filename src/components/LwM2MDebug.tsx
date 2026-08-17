@@ -1,5 +1,5 @@
-import { useDevice } from '#context/Device.js'
-import { formatFloat } from '#utils/format.js'
+import { useDevice } from '#context/Device.tsx'
+import { formatFloat } from '#utils/format.ts'
 import {
 	definitions,
 	instanceTsAsDate,
@@ -10,7 +10,7 @@ import {
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import cx from 'classnames'
 import { ListTree, SquareStack, X } from 'lucide-preact'
-import { Ago } from './Ago.js'
+import { Ago } from './Ago.tsx'
 
 import './LwM2MDebug.css'
 

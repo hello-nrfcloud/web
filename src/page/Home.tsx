@@ -1,6 +1,6 @@
-import { ModelSelector } from '#components/ModelSelector.js'
-import { ScanQR } from '#components/ScanQR.js'
-import { useModels } from '#context/Models.js'
+import { ModelSelector } from '#components/ModelSelector.tsx'
+import { ScanQR } from '#components/ScanQR.tsx'
+import { useModels } from '#context/Models.tsx'
 
 export const Home = () => {
 	const { models } = useModels()

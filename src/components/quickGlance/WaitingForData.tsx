@@ -1,6 +1,6 @@
-import { Ago } from '#components/Ago.js'
-import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
-import { useDevice } from '#context/Device.js'
+import { Ago } from '#components/Ago.tsx'
+import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.tsx'
+import { useDevice } from '#context/Device.tsx'
 import { CloudOffIcon } from 'lucide-preact'
 
 export const WaitingForData = () => {

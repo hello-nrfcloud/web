@@ -1,9 +1,9 @@
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { useMapState } from '#context/MapState.js'
+import { useDeviceLocation } from '#context/DeviceLocation.tsx'
+import { useMapState } from '#context/MapState.tsx'
 import {
 	LocationSource,
 	LocationSourceLabels,
-} from '#map/LocationSourceLabels.js'
+} from '#map/LocationSourceLabels.ts'
 import cx from 'classnames'
 import { BlendIcon, HexagonIcon, SatelliteIcon, WifiIcon } from 'lucide-preact'
 

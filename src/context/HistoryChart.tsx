@@ -1,4 +1,4 @@
-import { TimeSpan } from '#api/api.js'
+import { TimeSpan } from '#api/api.ts'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 

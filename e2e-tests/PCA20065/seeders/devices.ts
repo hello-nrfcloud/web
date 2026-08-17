@@ -1,11 +1,11 @@
-import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
-import type { Model } from '#content/models/types.js'
-import { generateIMEI } from '#utils/generateIMEI.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.ts'
+import type { Model } from '#content/models/types.ts'
+import { generateIMEI } from '#utils/generateIMEI.ts'
 import {
 	LwM2MObjectID,
 	type DeviceInformation_14204,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
-import { apiClient } from '../../lib/mock-backend/apiClient.js'
+import { apiClient } from '../../lib/mock-backend/apiClient.ts'
 
 export const newThingy91X = async (): Promise<{
 	fingerprint: string

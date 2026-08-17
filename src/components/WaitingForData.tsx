@@ -1,4 +1,4 @@
-import { formatDistance } from '#utils/format.js'
+import { formatDistance } from '#utils/format.ts'
 import { Clock12, CloudOff } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'
 
@@ -7,7 +7,7 @@ export const WaitingForData = () => {
 
 	useEffect(() => {
 		const i = setInterval(() => {
-			setSeconds((s) => ++s)
+			setSeconds((s) => s + 1)
 		}, 1000)
 
 		return () => {

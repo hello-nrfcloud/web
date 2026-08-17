@@ -1,15 +1,15 @@
-import type { TimeSpan } from '#api/api.js'
+import type { TimeSpan } from '#api/api.ts'
 import {
 	decodeMapState,
 	encodeMapState,
 	type MapStateType,
 	type MapStyle,
-} from '#map/encodeMapState.js'
-import type { LocationSource } from '#map/LocationSourceLabels.js'
-import { isSSR } from '#utils/isSSR.js'
+} from '#map/encodeMapState.ts'
+import type { LocationSource } from '#map/LocationSourceLabels.ts'
+import { isSSR } from '#utils/isSSR.ts'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { useDeviceLocation } from './DeviceLocation.js'
+import { useDeviceLocation } from './DeviceLocation.tsx'
 
 type Center = NonNullable<MapStateType['center']>
 

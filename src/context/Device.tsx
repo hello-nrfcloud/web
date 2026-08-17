@@ -1,19 +1,19 @@
-import type { ConfigurationType, Model } from '#content/models/types.js'
-import { useFingerprint } from '#context/Fingerprint.js'
-import { useModels } from '#context/Models.js'
-import { useParameters } from '#context/Parameters.js'
+import type { ConfigurationType, Model } from '#content/models/types.ts'
+import { useFingerprint } from '#context/Fingerprint.tsx'
+import { useModels } from '#context/Models.tsx'
+import { useParameters } from '#context/Parameters.tsx'
 import {
 	isConfig,
 	isDeviceInformation,
 	toConfig,
 	toDeviceInformation,
-} from '#proto/lwm2m.js'
-import { validPassthrough } from '#proto/validPassthrough.js'
+} from '#proto/lwm2m.ts'
+import { validPassthrough } from '#proto/validPassthrough.ts'
 import {
 	validatingFetch,
 	type FetchProblem,
 	type ResultHandlers,
-} from '#utils/validatingFetch.js'
+} from '#utils/validatingFetch.ts'
 import {
 	LwM2MObjectID,
 	timestampResources,
@@ -31,7 +31,7 @@ import { Type, type Static } from '@sinclair/typebox'
 import { isNumber, isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
-import { instanceKey, mergeInstances } from '../proto/mergeInstances.js'
+import { instanceKey, mergeInstances } from '../proto/mergeInstances.ts'
 
 export type Device = {
 	id: string
@@ -208,7 +208,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 				let message: any
 				try {
 					message = JSON.parse(msg.data)
-				} catch (err) {
+				} catch {
 					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
 					return
 				}
@@ -296,7 +296,7 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		return () => {
 			ws?.close()
 			setWebsocket(undefined)
-			pingInterval !== undefined && clearInterval(pingInterval)
+			if (pingInterval !== undefined) clearInterval(pingInterval)
 		}
 	}, [fingerprint])
 

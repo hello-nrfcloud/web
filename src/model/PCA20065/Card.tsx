@@ -1,13 +1,13 @@
-import { Applied } from '#components/Applied.js'
-import { ButtonPresses } from '#components/ButtonPresses.js'
-import { Collapsible } from '#components/Collapsible.js'
-import { LEDPattern } from '#components/LEDPattern.js'
-import { ColorPicker } from '#components/colorpicker/ColorPicker.js'
-import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.js'
-import { type Model } from '#content/models/types.js'
-import { useDevice } from '#context/Device.js'
-import { Thingy91XVisual } from '#model/PCA20065/Thingy91XVisual.js'
-import { isLED, toLED } from '#proto/lwm2m.js'
+import { Applied } from '#components/Applied.tsx'
+import { ButtonPresses } from '#components/ButtonPresses.tsx'
+import { Collapsible } from '#components/Collapsible.tsx'
+import { LEDPattern } from '#components/LEDPattern.tsx'
+import { ColorPicker } from '#components/colorpicker/ColorPicker.tsx'
+import { RGBtoHEX } from '#components/colorpicker/RGBtoHEX.ts'
+import { type Model } from '#content/models/types.ts'
+import { useDevice } from '#context/Device.tsx'
+import { Thingy91XVisual } from '#model/PCA20065/Thingy91XVisual.tsx'
+import { isLED, toLED } from '#proto/lwm2m.ts'
 import {
 	LwM2MObjectID,
 	type LwM2MObjectInstance,
@@ -20,7 +20,7 @@ import {
 	SendHorizonal,
 } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { isOff } from '../../utils/isOff.js'
+import { isOff } from '../../utils/isOff.ts'
 
 export const Card = ({ model }: { model: Model }) => {
 	const [ledColorPickerVisible, showLEDColorPicker] = useState<boolean>(false)

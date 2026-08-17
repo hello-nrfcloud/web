@@ -1,8 +1,8 @@
-import { IncludedSIMs } from '#components/IncludedSIMInfo.js'
-import { ScanQR } from '#components/ScanQR.js'
-import { YouTubeVideo } from '#components/YouTubeVideo.js'
-import type { Model as TModel } from '#content/models/types.js'
-import { ModelCard } from '#model/ModelCard.js'
+import { IncludedSIMs } from '#components/IncludedSIMInfo.tsx'
+import { ScanQR } from '#components/ScanQR.tsx'
+import { YouTubeVideo } from '#components/YouTubeVideo.tsx'
+import type { Model as TModel } from '#content/models/types.ts'
+import { ModelCard } from '#model/ModelCard.tsx'
 
 export const Model = ({ model }: { model: TModel }) => (
 	<main>

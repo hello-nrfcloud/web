@@ -1,7 +1,7 @@
-import { useMapState } from '#context/MapState.js'
-import { defaultMapState, Map } from '#map/Map.js'
+import { useMapState } from '#context/MapState.tsx'
+import { defaultMapState, Map } from '#map/Map.tsx'
 import { ExpandIcon } from 'lucide-preact'
-import { encodeMapState } from './encodeMapState.js'
+import { encodeMapState } from './encodeMapState.ts'
 
 export const DeviceMap = () => {
 	const mapState = useMapState()

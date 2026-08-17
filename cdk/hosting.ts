@@ -1,8 +1,8 @@
 import { IAMClient } from '@aws-sdk/client-iam'
 import chalk from 'chalk'
 import pJSON from '../package.json' with { type: 'json' }
-import { HostingApp } from './HostingApp.js'
-import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.js'
+import { HostingApp } from './HostingApp.ts'
+import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.ts'
 
 const iam = new IAMClient({})
 

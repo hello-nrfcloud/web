@@ -1,9 +1,9 @@
-import { BatteryInfo } from '#components/deviceheader/BatteryInfo.js'
-import { EnvironmentInfo } from '#components/deviceheader/EnvironmentInfo.js'
-import { NetworkModeInfo } from '#components/deviceheader/NetworkModeInfo.js'
-import { SignalQualityInfo } from '#components/deviceheader/SignalQualityInfo.js'
-import { SIMInfo } from '#components/deviceheader/SIMInfo.js'
-import { useDevice } from '#context/Device.js'
+import { BatteryInfo } from '#components/deviceheader/BatteryInfo.tsx'
+import { EnvironmentInfo } from '#components/deviceheader/EnvironmentInfo.tsx'
+import { NetworkModeInfo } from '#components/deviceheader/NetworkModeInfo.tsx'
+import { SignalQualityInfo } from '#components/deviceheader/SignalQualityInfo.tsx'
+import { SIMInfo } from '#components/deviceheader/SIMInfo.tsx'
+import { useDevice } from '#context/Device.tsx'
 
 export const DeviceHeader = () => {
 	const { device, imei } = useDevice()

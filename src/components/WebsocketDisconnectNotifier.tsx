@@ -1,4 +1,4 @@
-import { useDevice } from '#context/Device.js'
+import { useDevice } from '#context/Device.tsx'
 import { ZapOff } from 'lucide-preact'
 
 export const WebsocketDisconnectNotifier = () => {

@@ -1,4 +1,4 @@
-import { validatingFetch } from '#utils/validatingFetch.js'
+import { validatingFetch, type ResultHandlers } from '#utils/validatingFetch.ts'
 import { Type, type Static } from '@sinclair/typebox'
 
 export const ts = Type.String({
@@ -34,5 +34,7 @@ export const SIMDetails = Type.Object(
 
 export type SIMDetailsType = Static<typeof SIMDetails>
 
-export const getSIMDetails = (simDetailsAPIURL: URL) => (iccid: string) =>
-	validatingFetch(SIMDetails)(new URL(`./sim/${iccid}`, simDetailsAPIURL))
+export const getSIMDetails =
+	(simDetailsAPIURL: URL) =>
+	(iccid: string): ResultHandlers<typeof SIMDetails> =>
+		validatingFetch(SIMDetails)(new URL(`./sim/${iccid}`, simDetailsAPIURL))

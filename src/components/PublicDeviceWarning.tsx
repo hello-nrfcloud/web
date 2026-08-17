@@ -1,5 +1,5 @@
-import { useMapShare } from '#context/MapShare.js'
-import { publicDeviceURL } from '#map/publicDeviceLink.js'
+import { useMapShare } from '#context/MapShare.tsx'
+import { publicDeviceURL } from '#map/publicDeviceLink.ts'
 import { AlertTriangleIcon } from 'lucide-preact'
 
 export const PublicDeviceWarning = () => {

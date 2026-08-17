@@ -1,8 +1,8 @@
-import { useDevice } from '#context/Device.js'
+import { useDevice } from '#context/Device.tsx'
 import { EyeOffIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
-import { Ago } from './Ago.js'
-import { Secondary } from './Buttons.js'
+import { Ago } from './Ago.tsx'
+import { Secondary } from './Buttons.tsx'
 
 export const HideDataBefore = () => {
 	const { hideDataBefore, device } = useDevice()

@@ -1,4 +1,4 @@
-import { FeedbackForm } from '#components/FeedbackForm.js'
+import { FeedbackForm } from '#components/FeedbackForm.tsx'
 
 export const Feedback = () => (
 	<section class="pt-4 pb-4 bg-dark">

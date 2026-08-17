@@ -1,7 +1,7 @@
-import { useDevice, type ListenerFn } from '#context/Device.js'
-import { useFingerprint } from '#context/Fingerprint.js'
-import { useHistoryChart } from '#context/HistoryChart.js'
-import { useParameters } from '#context/Parameters.js'
+import { useDevice, type ListenerFn } from '#context/Device.tsx'
+import { useFingerprint } from '#context/Fingerprint.tsx'
+import { useHistoryChart } from '#context/HistoryChart.tsx'
+import { useParameters } from '#context/Parameters.tsx'
 import {
 	isBatteryAndPower,
 	isTime,
@@ -9,13 +9,13 @@ import {
 	toBatteryAndPower,
 	type BatteryAndPower,
 	type Reboot,
-} from '#proto/lwm2m.js'
-import { byTs } from '#utils/byTs.js'
+} from '#proto/lwm2m.ts'
+import { byTs } from '#utils/byTs.ts'
 import { LwM2MObjectID } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { isNumber, isObject } from 'lodash-es'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { getObjectHistory } from '../../api/getObjectHistory.js'
+import { getObjectHistory } from '../../api/getObjectHistory.ts'
 
 type BatteryReadings = Array<BatteryAndPower>
 type Reboots = Array<Reboot>

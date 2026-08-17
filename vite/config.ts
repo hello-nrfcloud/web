@@ -2,8 +2,8 @@ import { preact } from '@preact/preset-vite'
 import ssr from 'vike/plugin'
 import { defineConfig, type PluginOption } from 'vite'
 import pJSON from '../package.json' with { type: 'json' }
-import { encloseWithSlash } from './encloseWithSlash.js'
-import { homepage, version } from './siteInfo.js'
+import { encloseWithSlash } from './encloseWithSlash.ts'
+import { homepage, version } from './siteInfo.ts'
 
 export const createConfig = ({
 	registryEndpoint,
@@ -40,10 +40,8 @@ export const createConfig = ({
 					plugins: ['@babel/plugin-syntax-import-assertions'],
 				},
 			}),
-			ssr({
-				prerender: true,
-				includeAssetsImportedByServer: true,
-			}),
+			// Vike settings are defined in pages/+config.ts
+			ssr(),
 			...(plugins ?? []),
 		],
 		base: encloseWithSlash(baseURL),
@@ -54,6 +52,9 @@ export const createConfig = ({
 		server: {
 			host: 'localhost',
 			port: 8080,
+		},
+		optimizeDeps: {
+			exclude: ['maplibre-gl'],
 		},
 		resolve: {
 			alias: [
@@ -72,6 +73,7 @@ export const createConfig = ({
 		},
 		build: {
 			outDir: './build',
+			emptyOutDir: true,
 			sourcemap: true,
 		},
 		esbuild: {

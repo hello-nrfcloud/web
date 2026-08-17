@@ -3,8 +3,8 @@ import assert from 'node:assert/strict'
 import { readdirSync } from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
-import { loadMarkdownContentFromFile } from '../../pages/loadMarkdownContent.js'
-import { ModelMarkdown } from './types.js'
+import { loadMarkdownContentFromFile } from '../../pages/loadMarkdownContent.ts'
+import { ModelMarkdown } from './types.ts'
 
 const v = validateWithTypeBox(ModelMarkdown)
 

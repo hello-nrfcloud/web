@@ -1,5 +1,5 @@
-import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.js'
-import type { Model } from '#content/models/types.js'
+import { loadModelsFromMarkdown } from '#content/models/loadModelsFromMarkdown.ts'
+import type { Model } from '#content/models/types.ts'
 import {
 	LwM2MObjectID,
 	type BatteryAndPower_14202,
@@ -11,8 +11,8 @@ import {
 	type NRFCloudServiceInfo_14401,
 } from '@hello.nrfcloud.com/proto-map/lwm2m'
 import { expect, test, type Page } from '@playwright/test'
-import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.js'
-import { apiClient } from '../lib/mock-backend/apiClient.js'
+import { checkForConsoleErrors } from '../lib/checkForConsoleErrors.ts'
+import { apiClient } from '../lib/mock-backend/apiClient.ts'
 
 let page: Page
 

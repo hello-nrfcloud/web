@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, test as it } from 'node:test'
-import { parseModemFirmwareVersion } from './parseModemFirmwareVersion.js'
+import { parseModemFirmwareVersion } from './parseModemFirmwareVersion.ts'
 
 void describe('parseModemFirmwareVersion', () => {
 	void it('should return the modem firmware version', () =>

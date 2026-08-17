@@ -1,9 +1,9 @@
 import { renderToString } from 'preact-render-to-string'
 import { dangerouslySkipEscape, escapeInject } from 'vike/server'
 import type { PageContextClient } from 'vike/types'
-import { isDevelopment } from '../src/utils/isDevelopment.js'
-import { GTMId, version } from '../vite/siteInfo.js'
-import type { Page } from './+onRenderClient.js'
+import { isDevelopment } from '../src/utils/isDevelopment.ts'
+import { GTMId, version } from '../vite/siteInfo.ts'
+import type { Page } from './+onRenderClient.tsx'
 
 export const onRenderHtml = async (pageContext: PageContextClient) => {
 	const Page = pageContext.Page as Page
@@ -58,7 +58,7 @@ const GTMScript = () => {
   <script id="CookieConsent" src="https://policy.app.cookieinformation.com/uc.js" data-culture="EN" type="text/javascript"></script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
-  {'gtm.start': new Date().getTime(),event:'gtm.js'}
+  {'gtm.start': new Date().getTime(),event:'gtm.ts'}
   );var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);

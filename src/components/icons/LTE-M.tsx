@@ -1,4 +1,4 @@
-import type { WithTestId } from '#utils/WithTestId.js'
+import type { WithTestId } from '#utils/WithTestId.ts'
 import type { CSSProperties } from 'preact/compat'
 
 export const LTEM = ({

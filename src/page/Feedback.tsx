@@ -1,4 +1,4 @@
-import { Feedback as FeedbackComponent } from '#components/Feedback.js'
+import { Feedback as FeedbackComponent } from '#components/Feedback.tsx'
 
 export const Feedback = () => (
 	<main class="feedback">

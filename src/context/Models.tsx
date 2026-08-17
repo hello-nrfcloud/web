@@ -1,4 +1,4 @@
-import type { Model } from '#content/models/types.js'
+import type { Model } from '#content/models/types.ts'
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext } from 'preact/hooks'
 

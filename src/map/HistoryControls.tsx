@@ -1,7 +1,7 @@
-import type { TimeSpan } from '#api/api.js'
-import { timeSpans, type TimeSpanInfo } from '#chart/timeSpans.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
-import { formatInt } from '#utils/format.js'
+import type { TimeSpan } from '#api/api.ts'
+import { timeSpans, type TimeSpanInfo } from '#chart/timeSpans.tsx'
+import { useDeviceLocation } from '#context/DeviceLocation.tsx'
+import { formatInt } from '#utils/format.ts'
 import { HistoryIcon } from 'lucide-preact'
 import { useState } from 'preact/hooks'
 

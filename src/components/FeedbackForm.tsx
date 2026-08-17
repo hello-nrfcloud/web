@@ -1,5 +1,5 @@
-import { useParameters } from '#context/Parameters.js'
-import { isSSR } from '#utils/isSSR.js'
+import { useParameters } from '#context/Parameters.tsx'
+import { isSSR } from '#utils/isSSR.ts'
 import cx from 'classnames'
 import { Angry, Frown, Laugh, Meh, Smile, X } from 'lucide-preact'
 import { useEffect, useState } from 'preact/hooks'

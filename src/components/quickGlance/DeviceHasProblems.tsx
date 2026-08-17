@@ -1,4 +1,4 @@
-import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.js'
+import { QuickGlanceEntry } from '#components/quickGlance/QuickGlanceEntry.tsx'
 import { ChevronsDownIcon } from 'lucide-preact'
 
 export const DeviceHasProblems = () => (

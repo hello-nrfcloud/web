@@ -1,4 +1,4 @@
-import { Secondary } from '#components/buttons/Button.js'
+import { Secondary } from '#components/buttons/Button.tsx'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 import { useState } from 'preact/hooks'
 

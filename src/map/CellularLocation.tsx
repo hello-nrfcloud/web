@@ -1,14 +1,14 @@
-import { Collapsible } from '#components/Collapsible.js'
-import { LoadingIndicator } from '#components/ValueLoading.js'
-import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.js'
-import { useDeviceLocation } from '#context/DeviceLocation.js'
+import { Collapsible } from '#components/Collapsible.tsx'
+import { LoadingIndicator } from '#components/ValueLoading.tsx'
+import { NRFCloudLogo } from '#components/icons/NRFCloudLogo.tsx'
+import { useDeviceLocation } from '#context/DeviceLocation.tsx'
 import {
 	LocationSource,
 	LocationSourceLabels,
-} from '#map/LocationSourceLabels.js'
-import { compareLocations } from '#map/compareLocations.js'
-import type { GeoLocation } from '#proto/lwm2m.js'
-import { Located } from './Located.js'
+} from '#map/LocationSourceLabels.ts'
+import { compareLocations } from '#map/compareLocations.ts'
+import type { GeoLocation } from '#proto/lwm2m.ts'
+import { Located } from './Located.tsx'
 
 export const CellularLocation = () => {
 	const { locations } = useDeviceLocation()

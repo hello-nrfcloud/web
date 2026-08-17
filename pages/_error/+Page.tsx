@@ -1,4 +1,4 @@
-import { isSSR } from '#utils/isSSR.js'
+import { isSSR } from '#utils/isSSR.ts'
 import { isFingerprint } from '@hello.nrfcloud.com/proto/fingerprint'
 
 export const Page = ({ is404 }: { is404: boolean }) => {

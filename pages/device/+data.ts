@@ -1,1 +1,1 @@
-export { data } from '../index/+data.js'
+export { data } from '../index/+data.ts'
