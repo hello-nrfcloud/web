@@ -33,7 +33,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "vike dev",
-    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --emptyOutDir && cp -v ./manifest.json ./build/client/",
+    "build": "node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build && cp -v ./manifest.json ./build/client/",
     "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
     "test": "node --experimental-transform-types --test --test-reporter spec \"!(e2e-tests|node_modules)/**/*.spec.ts\"",
     "test:e2e": "npx playwright test e2e-tests/",

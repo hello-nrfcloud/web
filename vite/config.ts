@@ -73,6 +73,7 @@ export const createConfig = ({
 		},
 		build: {
 			outDir: './build',
+			emptyOutDir: true,
 			sourcemap: true,
 		},
 		esbuild: {
