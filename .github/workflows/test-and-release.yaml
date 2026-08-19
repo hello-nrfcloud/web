@@ -48,6 +48,8 @@ jobs:
       - name: Ensure it builds
         env:
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
+          MAP_REGION: ${{ vars.MAP_REGION }}
+          MAP_API_KEY: ${{ vars.MAP_API_KEY }}
         run: |
           npm run build
           cp -L -r ./static ./build/client
