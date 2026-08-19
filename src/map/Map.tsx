@@ -131,6 +131,10 @@ export const Map = ({
 			console.debug(`[Map]`, `loaded`)
 			setMap(map)
 		})
+		// The AWS style descriptors use a globe projection, but we want a flat map
+		map.on('style.load', () => {
+			map.setProjection({ type: 'mercator' })
+		})
 
 		onCleanup = () => {
 			console.debug(`[Map]`, `cleaning up`)
