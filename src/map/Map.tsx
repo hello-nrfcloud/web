@@ -1,15 +1,11 @@
 import { useDeviceLocation, type TrailPoint } from '#context/DeviceLocation.tsx'
 import { useMapState } from '#context/MapState.tsx'
-import { useParameters } from '#context/Parameters.tsx'
 import { CenterOnLatest } from '#map/CenterOnLatest.tsx'
 import { HistoryControls } from '#map/HistoryControls.tsx'
 import { LocationSourceSelector } from '#map/LocationSourceSelector.tsx'
 import { LockInfo } from '#map/LockInfo.tsx'
 import { MapZoomControls } from '#map/MapZoomControls.tsx'
 import { MapStyle, type MapStateType } from '#map/encodeMapState.ts'
-import { mapStyle as mapStyleLight } from '#map/style-light.ts'
-import { mapStyle as mapStyleDark } from '#map/style.ts'
-import { transformRequest } from '#map/transformRequest.tsx'
 import type { GeoLocation } from '#proto/lwm2m.ts'
 import { byTsReverse } from '#utils/byTs.ts'
 import { formatDistanceToNow } from 'date-fns'
@@ -43,6 +39,11 @@ const formatDate = (d: Date) =>
 		? formatDistanceToNow(d, { addSuffix: true })
 		: formatAsTime.format(d)
 
+/**
+ * @see https://docs.aws.amazon.com/location/latest/developerguide/map-styles.html
+ */
+const mapStyleName = 'Monochrome'
+
 export const defaultMapState = {
 	// Nordic Semiconductor HQ in Trondheim
 	center: {
@@ -63,7 +64,6 @@ export const Map = ({
 	 */
 	canBeLocked?: boolean
 }) => {
-	const { onParameters } = useParameters()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const { locations, trail } = useDeviceLocation()
 	const hasLocation = Object.values(locations).length > 0
@@ -91,59 +91,53 @@ export const Map = ({
 		let syncPosition = () => undefined
 		let onCleanup = () => undefined
 
-		onParameters(({ mapRegion, mapName, mapApiKey }) => {
-			console.debug(`[Map]`, `initializing`, { lat, lng, zoom })
-			setWorkerUrl(maplibreWorkerUrl)
-			const map = new MaplibreMap({
-				container: containerRef.current!,
-				style: (style === MapStyle.LIGHT ? mapStyleLight : mapStyleDark)({
-					region: mapRegion,
-					mapName,
-				}),
-				center: {
-					lng,
-					lat,
-				},
-				zoom,
-				transformRequest: transformRequest(mapApiKey, mapRegion),
-				refreshExpiredTiles: false,
-				trackResize: true,
-				keyboard: false,
-				renderWorldCopies: false,
-			})
-
-			if ((canBeLocked ?? true) && mapState.locked) {
-				map.dragRotate.disable()
-				map.scrollZoom.disable()
-				map.dragPan.disable()
-			}
-
-			syncZoom = () => {
-				mapState.setZoom(map.getZoom())
-			}
-
-			syncPosition = () => {
-				const center = map.getCenter()
-				mapState.setCenter({
-					lat: center.lat,
-					lng: center.lng,
-				})
-			}
-
-			map.on('zoomend', syncZoom)
-			map.on('moveend', syncPosition)
-			map.on('load', () => {
-				console.debug(`[Map]`, `loaded`)
-				setMap(map)
-			})
-
-			onCleanup = () => {
-				console.debug(`[Map]`, `cleaning up`)
-				map.off('zoomend', syncZoom)
-				map.off('moveend', syncPosition)
-				map.remove()
-			}
+		console.debug(`[Map]`, `initializing`, { lat, lng, zoom })
+		setWorkerUrl(maplibreWorkerUrl)
+		const map = new MaplibreMap({
+			container: containerRef.current,
+			style: `https://maps.geo.${MAP_REGION}.amazonaws.com/v2/styles/${mapStyleName}/descriptor?key=${MAP_API_KEY}&color-scheme=${style === MapStyle.LIGHT ? 'Light' : 'Dark'}`,
+			center: {
+				lng,
+				lat,
+			},
+			zoom,
+			refreshExpiredTiles: false,
+			trackResize: true,
+			keyboard: false,
+			renderWorldCopies: false,
 		})
+
+		if ((canBeLocked ?? true) && mapState.locked) {
+			map.dragRotate.disable()
+			map.scrollZoom.disable()
+			map.dragPan.disable()
+		}
+
+		syncZoom = () => {
+			mapState.setZoom(map.getZoom())
+		}
+
+		syncPosition = () => {
+			const center = map.getCenter()
+			mapState.setCenter({
+				lat: center.lat,
+				lng: center.lng,
+			})
+		}
+
+		map.on('zoomend', syncZoom)
+		map.on('moveend', syncPosition)
+		map.on('load', () => {
+			console.debug(`[Map]`, `loaded`)
+			setMap(map)
+		})
+
+		onCleanup = () => {
+			console.debug(`[Map]`, `cleaning up`)
+			map.off('zoomend', syncZoom)
+			map.off('moveend', syncPosition)
+			map.remove()
+		}
 
 		return () => {
 			console.debug(`[Map]`, `unmounted`)

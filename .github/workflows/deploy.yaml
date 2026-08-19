@@ -42,6 +42,8 @@ jobs:
           REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+          MAP_REGION: ${{ vars.MAP_REGION }}
+          MAP_API_KEY: ${{ vars.MAP_API_KEY }}
         run: |
           npm run build
           cp -L -r ./static ./build/client

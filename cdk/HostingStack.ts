@@ -205,5 +205,4 @@ export type StackOutputs = {
 	distributionDomainName: string
 	bucketName: string
 	distributionId: string
-	mapName: string
 }

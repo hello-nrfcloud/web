@@ -11,12 +11,16 @@ export const createConfig = ({
 	domainName,
 	baseURL,
 	plugins,
+	mapRegion,
+	mapApiKey,
 }: {
 	registryEndpoint: URL
 	sentryDSN?: string
 	baseURL: string
 	domainName: string
 	plugins?: PluginOption[]
+	mapRegion: string
+	mapApiKey: string
 }): ReturnType<typeof defineConfig> => {
 	const define = {
 		HOMEPAGE: JSON.stringify(homepage),
@@ -28,6 +32,8 @@ export const createConfig = ({
 		PROTO_MAP_VERSION: JSON.stringify(
 			pJSON.dependencies['@hello.nrfcloud.com/proto-map'],
 		),
+		MAP_REGION: JSON.stringify(mapRegion),
+		MAP_API_KEY: JSON.stringify(mapApiKey),
 	}
 	for (const [k, v] of Object.entries(define)) {
 		console.debug(`[vite define] ${k}:`, v)

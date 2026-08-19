@@ -1,5 +1,5 @@
-// See https://docs.aws.amazon.com/location/latest/developerguide/esri.html for available fonts
+// See https://docs.aws.amazon.com/location/latest/developerguide/fonts.html for available fonts
 export const glyphFonts = {
-	regular: 'Ubuntu Regular',
-	bold: 'Ubuntu Medium',
+	regular: 'Amazon Ember Regular',
+	bold: 'Amazon Ember Bold',
 } as const

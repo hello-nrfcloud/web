@@ -5,9 +5,8 @@ import { createContext } from './lib/mock-backend/context.ts'
 import { mockWebsocket } from './lib/mock-backend/mockWebsocket.ts'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.ts'
 
-const { mapRegion, mapName, mapApiKey, registryEndpoint } = fromEnv({
+const { mapRegion, mapApiKey, registryEndpoint } = fromEnv({
 	mapRegion: 'MAP_REGION',
-	mapName: 'MAP_NAME',
 	mapApiKey: 'MAP_API_KEY',
 	registryEndpoint: 'REGISTRY_ENDPOINT',
 })(process.env)
@@ -27,10 +26,6 @@ export default createConfig({
 		testdataServerPlugin({
 			registry: {
 				helloApiURL: new URL('/e2e/rest/', base),
-				// Map resources
-				mapRegion,
-				mapName,
-				mapApiKey,
 				// Map sharing
 				sharingStatusAPIURL: new URL('/e2e/map-api/', base),
 				// WebSocket
@@ -41,4 +36,6 @@ export default createConfig({
 		}),
 	],
 	baseURL: '',
+	mapRegion,
+	mapApiKey,
 })

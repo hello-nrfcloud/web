@@ -18,6 +18,25 @@ Install the dependencies:
 npm ci
 ```
 
+## API Key for AWS Location Service map resources
+
+### Create an API key
+
+```bash
+  aws location create-key \
+    --region eu-west-1 \
+    --key-name hello.nrfcloud.com \
+    --description "Map tiles for the hello.nrfcloud.com web app" \
+    --no-expiry \
+    --restrictions '{"AllowActions":["geo-maps:GetTile","geo-maps:GetStaticMap"],"AllowResources":["arn:aws:geo-maps:eu-west-1::provide
+  r/default"],"AllowReferers":["https://hello.nrfcloud.com/*","http://localhost:*/*"]}'
+```
+
+### Configure
+
+Export the map settings as the environment variables `MAP_REGION` and
+`MAP_API_KEY` before running it.
+
 ## Run
 
 ```bash
@@ -28,11 +47,6 @@ npm start
 
 End-to-end tests are run completely without a backend using Vite's built-in dev
 server to serve the data.
-
-Deploy an instance of the
-[AWS Map resources](https://github.com/hello-nrfcloud/aws-map) and export the
-map settings as environment variables `MAP_REGION`, `MAP_NAME`, and
-`MAP_API_KEY` before running it.
 
 > Note: It's currently not possible to run test for multiple browsers in
 > parallel since the `webServer` >
@@ -71,11 +85,6 @@ npx cdk bootstrap
 npx cdk deploy --all
 ```
 
-### Create map resources
-
-Deploy <https://github.com/hello-nrfcloud/aws-map> and follow the instructions
-to acquire the necessary parameters to display the map.
-
 ## Continuous Deployment with GitHub Actions
 
 Create a GitHub environment `production`.
@@ -88,6 +97,8 @@ Store the registry endpoint as a GitHub Action variable:
 gh variable set REGISTRY_ENDPOINT --env production --body "<registry endpoint>"
 # If using a custom domain name
 gh variable set DOMAIN_NAME --env production --body "<domain name>"
+gh variable set MAP_REGION --env production --body "<mapRegion>"
+gh variable set MAP_API_KEY --env production --body "<apiKey>"
 ```
 
 Store the role used for continuous deployment as a secret:
@@ -106,14 +117,11 @@ gh variable set AWS_REGION --env production --body "eu-west-1"
 
 ## Continuous integration
 
-Deploy an instance of the
-[AWS Map resources](https://github.com/hello-nrfcloud/aws-map) to the CI AWS
-account and store the map settings as variables:
+Store the map settings as variables:
 
 ```bash
 # Make sure that the `ci` environment exists in this repo
 gh variable set MAP_REGION --env ci --body "<mapRegion>"
-gh variable set MAP_NAME --env ci --body "<mapName>"
 gh variable set MAP_API_KEY --env ci --body "<apiKey>"
 ```
 

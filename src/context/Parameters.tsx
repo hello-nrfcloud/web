@@ -4,10 +4,6 @@ import { useContext, useEffect, useState } from 'preact/hooks'
 export type Parameters = {
 	helloApiURL: URL
 	webSocketURI: URL
-	// Map resources
-	mapName: string
-	mapApiKey: string
-	mapRegion: string
 	// Map sharing
 	sharingStatusAPIURL: URL
 	// https://github.com/bifravst/sim-details
@@ -33,18 +29,12 @@ const parametersPromise:
 				const parameters = await res.json()
 				const {
 					webSocketURI,
-					mapName,
-					mapApiKey,
-					mapRegion,
 					helloApiURL,
 					sharingStatusAPIURL,
 					simDetailsAPIURL,
 				} = parameters
 				const parsed = {
 					webSocketURI: new URL(webSocketURI),
-					mapName,
-					mapApiKey,
-					mapRegion,
 					sharingStatusAPIURL: new URL(sharingStatusAPIURL),
 					helloApiURL: new URL(helloApiURL),
 					simDetailsAPIURL:

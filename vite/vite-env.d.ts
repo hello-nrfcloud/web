@@ -14,6 +14,10 @@ declare const DOMAIN_NAME: string
 declare const SENTRY_DSN: string | undefined
 /** Version of @hello.nrfcloud.com/proto-map */
 declare const PROTO_MAP_VERSION: string
+/** Map region for AWS maps */
+declare const MAP_REGION: string
+/** Map API key for AWS maps */
+declare const MAP_API_KEY: string
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface ImportMeta {
