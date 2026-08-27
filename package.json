@@ -101,7 +101,7 @@
     "remark-rehype": "11.1.2",
     "tsmatchers": "6.0.2",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vike": "0.4.260",
+    "vike": "0.4.262",
     "websocket": "1.0.35"
   },
   "engines": {
