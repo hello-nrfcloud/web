@@ -89,7 +89,7 @@
     "commitlint": "21.2.2",
     "glob": "13.0.6",
     "husky": "9.1.7",
-    "lint-staged": "17.3.0",
+    "lint-staged": "17.4.1",
     "nock": "14.0.17",
     "playwright": "1.62.1",
     "preact-render-to-string": "6.7.0",
