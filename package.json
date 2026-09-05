@@ -81,7 +81,7 @@
     "@types/websocket": "1.0.10",
     "@typescript/native": "npm:typescript@7.0.2",
     "aws-cdk": "2.1139.0",
-    "aws-cdk-lib": "2.266.0",
+    "aws-cdk-lib": "2.268.0",
     "bootstrap": "5.3.8",
     "cdk": "2.1139.0",
     "chalk": "6.0.0",
