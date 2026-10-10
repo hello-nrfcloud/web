@@ -90,7 +90,7 @@
     "glob": "13.0.6",
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
-    "nock": "14.0.17",
+    "nock": "15.0.1",
     "playwright": "1.63.0",
     "preact-render-to-string": "6.8.0",
     "rehype-format": "5.0.1",
