@@ -1,10 +1,10 @@
-import type { LucideProps } from '#components/icons/lucide.ts'
 import {
 	Signal,
 	SignalHigh,
 	SignalLow,
 	SignalMedium,
 	SignalZero,
+	type LucideProps,
 } from 'lucide-preact'
 import type { FunctionComponent } from 'preact'
 

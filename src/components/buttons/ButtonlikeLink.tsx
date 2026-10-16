@@ -4,7 +4,10 @@ import {
 	buttonStyleClass,
 	type ButtonStyleArgs,
 } from '#components/buttons/Button.tsx'
-import { type ComponentChild } from 'preact'
+import {
+	type AccessibleAnchorHTMLAttributes,
+	type ComponentChild,
+} from 'preact'
 import { useRef, type AnchorHTMLAttributes } from 'preact/compat'
 
 export const ButtonlikeLink = ({
@@ -16,7 +19,11 @@ export const ButtonlikeLink = ({
 	const ref = useRef<HTMLAnchorElement>(null)
 	const angleEffect = !(noAngleEffect ?? false) && !(rest.outline ?? false)
 	return (
-		<a {...rest} class={buttonStyleClass(rest)} ref={ref}>
+		<a
+			{...(rest as AccessibleAnchorHTMLAttributes<HTMLAnchorElement>)}
+			class={buttonStyleClass(rest)}
+			ref={ref}
+		>
 			{angleEffect && <ButtonAngledEffect parentRef={ref} />}
 			<span style={{ position: 'relative', zIndex: 2 }}>{children}</span>
 		</a>

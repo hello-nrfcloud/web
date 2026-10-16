@@ -5,7 +5,6 @@ import {
 	useRef,
 	useState,
 	type ButtonHTMLAttributes,
-	type HTMLAttributes,
 	type PropsWithChildren,
 	type RefObject,
 } from 'preact/compat'
@@ -26,7 +25,7 @@ export enum ButtonVariant {
 export const ButtonAngledEffect = ({
 	parentRef,
 }: {
-	parentRef: RefObject<HTMLElement>
+	parentRef: RefObject<HTMLElement | null>
 }) => {
 	const [size, setSize] = useState<DOMRect>()
 
@@ -135,7 +134,7 @@ export const Transparent = ({
 	children,
 	class: c,
 	...rest
-}: PropsWithChildren<HTMLAttributes<HTMLButtonElement>>) => (
+}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => (
 	<button
 		type="button"
 		class={c ?? ''}

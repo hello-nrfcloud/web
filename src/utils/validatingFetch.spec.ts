@@ -61,7 +61,6 @@ void describe('validatingFetch', async () => {
 	void it('should return the cache headers on errors', async () => {
 		const scope = nock('https://api.sim-details.nordicsemi.cloud/')
 		scope.get(`/2024-07-01/sim/89457300000022396158`).reply(409, '', {
-			'content-length': '760',
 			'cache-control': 'public, max-age=60',
 			expires: new Date().toUTCString(),
 		})
