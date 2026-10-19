@@ -8,14 +8,13 @@ import { Provider as HistoryChartProvider } from '#context/HistoryChart.tsx'
 import { Provider as MapShareProvider } from '#context/MapShare.tsx'
 import { Provider as MapStateProvider } from '#context/MapState.tsx'
 import { Provider as ModelsProvider } from '#context/Models.tsx'
-import { Provider as ParametersProvider } from '#context/Parameters.tsx'
 import { Provider as SIMDetailsProvider } from '#context/SIMDetails.tsx'
 import { Provider as SIMUsageHistoryProvider } from '#context/SIMUsageHistory.tsx'
 import { Device } from '#page/Device.tsx'
 import type { IndexPageProps } from '../index/+data.ts'
 
 export const Page = ({ models }: IndexPageProps) => (
-	<ParametersProvider>
+	<>
 		<FingerprintProvider>
 			<ModelsProvider models={models}>
 				<DeviceProvider>
@@ -38,5 +37,5 @@ export const Page = ({ models }: IndexPageProps) => (
 				</DeviceProvider>
 			</ModelsProvider>
 		</FingerprintProvider>
-	</ParametersProvider>
+	</>
 )

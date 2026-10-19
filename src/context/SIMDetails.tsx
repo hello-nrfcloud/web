@@ -5,7 +5,6 @@ import { createContext } from 'preact'
 import type { PropsWithChildren } from 'preact/compat'
 import { useCallback, useContext, useEffect, useState } from 'preact/hooks'
 import { useDevice } from './Device.tsx'
-import { useParameters } from './Parameters.tsx'
 
 export type SIMUsage = {
 	used: number
@@ -57,7 +56,6 @@ const knownIssuers = new Map([
 ])
 
 export const Provider = (props: PropsWithChildren) => {
-	const { onParameters } = useParameters()
 	const [usage, setUsage] = useState<SIMUsage | undefined>(undefined)
 	const [issuer, setIssuer] = useState<Issuer | undefined>(undefined)
 	const [nextFetch, setNextFetch] = useState<number | undefined>(undefined)
@@ -71,36 +69,34 @@ export const Provider = (props: PropsWithChildren) => {
 		if (issuer === undefined) return
 		if (iccid === undefined) return
 		if (!knownIssuers.has(issuer.iin)) return
-		onParameters(({ simDetailsAPIURL }) => {
-			getSIMDetails(new URL(simDetailsAPIURL))(iccid)
-				.ok(({ totalBytes, usedBytes, ts: timestamp }, { cacheControl }) => {
-					setUsage({
-						used: usedBytes,
-						total: totalBytes,
-						availablePercent: 1 - usedBytes / totalBytes,
-						availableBytes: totalBytes - usedBytes,
-						ts: new Date(timestamp),
-					})
-					if (cacheControl.public && cacheControl.maxAge !== undefined) {
-						setNextFetch(Date.now() + cacheControl.maxAge * 1000)
-					} else {
-						setNextFetch(Date.now() + 300 * 1000)
-					}
+		getSIMDetails(new URL(SIM_DETAILS_API_URL))(iccid)
+			.ok(({ totalBytes, usedBytes, ts: timestamp }, { cacheControl }) => {
+				setUsage({
+					used: usedBytes,
+					total: totalBytes,
+					availablePercent: 1 - usedBytes / totalBytes,
+					availableBytes: totalBytes - usedBytes,
+					ts: new Date(timestamp),
 				})
-				.problem(({ problem }, response) => {
-					if (
-						response?.response.status === 409 &&
-						response.cacheControl?.maxAge !== undefined
-					) {
-						setNextFetch(Date.now() + response.cacheControl.maxAge * 1000)
-					} else if (response?.response.status === 404) {
-						setUsage(undefined) // In case the SIM was changed
-						setNextFetch(undefined)
-					} else {
-						console.error(`[SIMDetails]`, problem, response)
-					}
-				})
-		})
+				if (cacheControl.public && cacheControl.maxAge !== undefined) {
+					setNextFetch(Date.now() + cacheControl.maxAge * 1000)
+				} else {
+					setNextFetch(Date.now() + 300 * 1000)
+				}
+			})
+			.problem(({ problem }, response) => {
+				if (
+					response?.response.status === 409 &&
+					response.cacheControl?.maxAge !== undefined
+				) {
+					setNextFetch(Date.now() + response.cacheControl.maxAge * 1000)
+				} else if (response?.response.status === 404) {
+					setUsage(undefined) // In case the SIM was changed
+					setNextFetch(undefined)
+				} else {
+					console.error(`[SIMDetails]`, problem, response)
+				}
+			})
 	}, [issuer, iccid])
 
 	// Update usage once we have iccid and issuer

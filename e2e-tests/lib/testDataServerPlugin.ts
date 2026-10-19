@@ -1,21 +1,17 @@
 import type { IncomingMessage, ServerResponse } from 'http'
 import type { Connect, Plugin } from 'vite'
-import type { Parameters } from '../../src/context/Parameters.tsx'
 import type { createContext } from './mock-backend/context.ts'
 import { mockBackend } from './mock-backend/mock-backend.ts'
 
 export const testdataServerPlugin = ({
-	registry,
 	context,
 }: {
-	registry: Parameters
 	context: ReturnType<typeof createContext>
 }): Plugin => ({
 	name: 'testdata-server',
 	configureServer: (server) => {
 		Object.entries(
 			mockBackend({
-				registry,
 				context,
 			}),
 		).forEach(([route, handler]) => {

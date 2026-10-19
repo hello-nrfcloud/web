@@ -1,7 +1,6 @@
 import { useDevice, type ListenerFn } from '#context/Device.tsx'
 import { useFingerprint } from '#context/Fingerprint.tsx'
 import { useHistoryChart } from '#context/HistoryChart.tsx'
-import { useParameters } from '#context/Parameters.tsx'
 import {
 	isBatteryAndPower,
 	isTime,
@@ -42,7 +41,6 @@ const isReboot = (
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { onReported, device } = useDevice()
 	const { fingerprint } = useFingerprint()
-	const { onParameters } = useParameters()
 	const { timeSpan } = useHistoryChart()
 
 	const [battery, setBattery] = useState<BatteryReadings>([])
@@ -59,34 +57,32 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		if (device === undefined) return
 		if (fingerprint === null) return
 
-		onParameters(({ helloApiURL }) => {
-			const g = getObjectHistory(helloApiURL, device, fingerprint)
-			// Fetch state of charge history
-			g(LwM2MObjectID.BatteryAndPower_14202, timeSpan).ok(
-				({ partialInstances }) => {
-					setBattery(
-						partialInstances
-							.filter(isBattery)
-							.map(({ '0': SoC, '99': ts }) => ({
-								'%': SoC,
-								ts: timeToDate(ts),
-							}))
-							.sort(byTs),
-					)
-				},
-			)
-			// Fetch reboots
-			g(LwM2MObjectID.Reboot_14250, timeSpan).ok(({ partialInstances }) => {
-				setReboots(
+		const g = getObjectHistory(new URL(HELLO_API_URL), device, fingerprint)
+		// Fetch state of charge history
+		g(LwM2MObjectID.BatteryAndPower_14202, timeSpan).ok(
+			({ partialInstances }) => {
+				setBattery(
 					partialInstances
-						.filter(isReboot)
-						.map((i) => ({
-							reason: '0' in i ? i['0'] : undefined,
-							ts: timeToDate(i['99']),
+						.filter(isBattery)
+						.map(({ '0': SoC, '99': ts }) => ({
+							'%': SoC,
+							ts: timeToDate(ts),
 						}))
 						.sort(byTs),
 				)
-			})
+			},
+		)
+		// Fetch reboots
+		g(LwM2MObjectID.Reboot_14250, timeSpan).ok(({ partialInstances }) => {
+			setReboots(
+				partialInstances
+					.filter(isReboot)
+					.map((i) => ({
+						reason: '0' in i ? i['0'] : undefined,
+						ts: timeToDate(i['99']),
+					}))
+					.sort(byTs),
+			)
 		})
 
 		return () => {

@@ -6,8 +6,14 @@
 declare const VERSION: string
 declare const HOMEPAGE: string
 declare const BUILD_TIME: string
-/** URL of the configuration registry. */
-declare const REGISTRY_ENDPOINT: string
+/** URL of the hello.nrfcloud.com backend API */
+declare const HELLO_API_URL: string
+/** URL of the hello.nrfcloud.com websocket API */
+declare const WEBSOCKET_URI: string
+/** URL of the map sharing status API */
+declare const SHARING_STATUS_API_URL: string
+/** URL of the SIM details API, see https://github.com/bifravst/sim-details */
+declare const SIM_DETAILS_API_URL: string
 /** Domain name where app is hosted. */
 declare const DOMAIN_NAME: string
 /** Sentry DSN, optional */

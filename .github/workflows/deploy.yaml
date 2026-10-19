@@ -39,7 +39,6 @@ jobs:
       - name: Build
         env:
           VERSION: ${{ env.VERSION }}
-          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
           MAP_REGION: ${{ vars.MAP_REGION }}

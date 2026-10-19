@@ -22,7 +22,6 @@ export const onRenderClient = (pageContext: PageContextClient) => {
 			addSuffix: true,
 		}),
 	)
-	console.debug('Registry Endpoint', REGISTRY_ENDPOINT)
 
 	hydrate(<Page {...pageProps} />, pageViewElement)
 }

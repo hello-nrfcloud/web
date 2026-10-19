@@ -1,5 +1,4 @@
 import { useFingerprint } from '#context/Fingerprint.tsx'
-import { useParameters } from '#context/Parameters.tsx'
 import { validatingFetch } from '#utils/validatingFetch.ts'
 import { PublicDevice } from '@hello.nrfcloud.com/proto-map/api'
 import type { Static } from '@sinclair/typebox'
@@ -14,21 +13,18 @@ const fetchDevice = validatingFetch(PublicDevice)
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const { fingerprint } = useFingerprint()
-	const { onParameters } = useParameters()
 
 	const [shared, setShared] = useState<Static<typeof PublicDevice>>()
 
 	const fetchPublicDevice = (fingerprint: string) => {
-		onParameters(({ sharingStatusAPIURL }) => {
-			fetchDevice(
-				new URL(
-					`?${new URLSearchParams({ fingerprint }).toString()}`,
-					sharingStatusAPIURL,
-				),
-			).ok((publicDevice) => {
-				console.log(`[MapShare]`, publicDevice)
-				setShared(publicDevice)
-			})
+		fetchDevice(
+			new URL(
+				`?${new URLSearchParams({ fingerprint }).toString()}`,
+				SHARING_STATUS_API_URL,
+			),
+		).ok((publicDevice) => {
+			console.log(`[MapShare]`, publicDevice)
+			setShared(publicDevice)
 		})
 	}
 
