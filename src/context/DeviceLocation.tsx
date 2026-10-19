@@ -19,7 +19,6 @@ import {
 import { createContext, type ComponentChildren } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 import { useFingerprint } from './Fingerprint.tsx'
-import { useParameters } from './Parameters.tsx'
 
 export type Locations = Partial<
 	Record<keyof typeof LocationSource, GeoLocation>
@@ -56,7 +55,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	)
 	const [locations, setLocations] = useState<Locations>({})
 	const [trail, setTrail] = useState<TrailPoint[]>([])
-	const { onParameters } = useParameters()
 	const { fingerprint } = useFingerprint()
 
 	useEffect(() => {
@@ -90,44 +88,42 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 			return
 		}
 
-		onParameters(({ helloApiURL }) => {
-			const g = getObjectHistory(helloApiURL, device, fingerprint)
-			console.debug(
-				`[DeviceLocation] Fetching history for ${device.id}`,
-				timeSpan,
-				clustering ? 'with clustering' : 'without clustering',
+		const g = getObjectHistory(new URL(HELLO_API_URL), device, fingerprint)
+		console.debug(
+			`[DeviceLocation] Fetching history for ${device.id}`,
+			timeSpan,
+			clustering ? 'with clustering' : 'without clustering',
+		)
+		g(
+			LwM2MObjectID.Geolocation_14201,
+			timeSpan,
+			clustering ? new URLSearchParams({ trail: '1' }) : undefined,
+		).ok(({ partialInstances }) => {
+			setTrail(
+				partialInstances
+					.map((instance) =>
+						instanceToTrail(
+							device,
+							instance as LwM2MObjectInstance<Geolocation_14201>['Resources'],
+						),
+					)
+					.sort(byTs),
 			)
-			g(
-				LwM2MObjectID.Geolocation_14201,
-				timeSpan,
-				clustering ? new URLSearchParams({ trail: '1' }) : undefined,
-			).ok(({ partialInstances }) => {
-				setTrail(
-					partialInstances
-						.map((instance) =>
-							instanceToTrail(
-								device,
-								instance as LwM2MObjectInstance<Geolocation_14201>['Resources'],
-							),
-						)
-						.sort(byTs),
-				)
-				// Integrate newer locations into locations
-				setLocations((l) => {
-					for (const instance of partialInstances as Array<
-						LwM2MObjectInstance<Geolocation_14201>['Resources']
-					>) {
-						const src = instance[6] as LocationSource
-						if (
-							l[src] === undefined ||
-							l[src].ts.getTime() < instance[99] * 1000
-						) {
-							const geo = instanceToTrail(device, instance)
-							l[src] = geo
-						}
+			// Integrate newer locations into locations
+			setLocations((l) => {
+				for (const instance of partialInstances as Array<
+					LwM2MObjectInstance<Geolocation_14201>['Resources']
+				>) {
+					const src = instance[6] as LocationSource
+					if (
+						l[src] === undefined ||
+						l[src].ts.getTime() < instance[99] * 1000
+					) {
+						const geo = instanceToTrail(device, instance)
+						l[src] = geo
 					}
-					return l
-				})
+				}
+				return l
 			})
 		})
 	}, [device, timeSpan, clustering])

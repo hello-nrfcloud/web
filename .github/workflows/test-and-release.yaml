@@ -47,9 +47,12 @@ jobs:
 
       - name: Ensure it builds
         env:
-          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           MAP_REGION: ${{ vars.MAP_REGION }}
           MAP_API_KEY: ${{ vars.MAP_API_KEY }}
+          HELLO_API_URL: ${{ vars.HELLO_API_URL }}
+          WEBSOCKET_URI: ${{ vars.WEBSOCKET_URI }}
+          SHARING_STATUS_API_URL: ${{ vars.SHARING_STATUS_API_URL }}
+          SIM_DETAILS_API_URL: ${{ vars.SIM_DETAILS_API_URL }}
         run: |
           npm run build
           cp -L -r ./static ./build/client
@@ -99,7 +102,6 @@ jobs:
           VERSION: ${{ env.VERSION }}
           MAP_REGION: ${{ vars.MAP_REGION }}
           MAP_API_KEY: ${{ vars.MAP_API_KEY }}
-          REGISTRY_ENDPOINT: http://localhost:8080/e2e/registry.json
         run: npm run test:e2e
 
       # This generates a string containing the current date which is used in

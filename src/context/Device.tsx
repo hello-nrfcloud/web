@@ -1,7 +1,6 @@
 import type { ConfigurationType, Model } from '#content/models/types.ts'
 import { useFingerprint } from '#context/Fingerprint.tsx'
 import { useModels } from '#context/Models.tsx'
-import { useParameters } from '#context/Parameters.tsx'
 import {
 	isConfig,
 	isDeviceInformation,
@@ -111,7 +110,6 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const [hasLiveData, setHasLiveData] = useState<boolean>(false)
 	const [connectionFailed, setConnectionFailed] = useState<boolean>(false)
 	const { fingerprint } = useFingerprint()
-	const { onParameters } = useParameters()
 	const { models } = useModels()
 	const [ws, setWebsocket] = useState<WebSocket>()
 	const [disconnected, setDisconnected] = useState<boolean>(false)
@@ -131,18 +129,11 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	)
 	const desiredListeners = useRef<Array<ListenerFn>>([])
 	const fotaJobListeners = useRef<Array<FOTAJobListener>>([])
-	const [helloApiURL, setHelloApiURL] = useState<URL>()
 	const [unsupported, setUnsupported] = useState<{ id: string } | undefined>(
 		undefined,
 	)
 
 	const connected = ws !== undefined
-
-	useEffect(() => {
-		onParameters(async ({ helloApiURL }) => {
-			setHelloApiURL(helloApiURL)
-		})
-	}, [onParameters])
 
 	// Update reported config
 	useEffect(() => {
@@ -179,118 +170,111 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 		let ws: WebSocket | undefined = undefined
 		let pingInterval: NodeJS.Timeout
 
-		onParameters(({ webSocketURI }) => {
-			const deviceURI = `${webSocketURI.toString()}?fingerprint=${fingerprint}`
-			console.debug(`[WS]`, 'connecting', deviceURI)
-			ws = new WebSocket(deviceURI)
+		const deviceURI = `${WEBSOCKET_URI}?fingerprint=${fingerprint}`
+		console.debug(`[WS]`, 'connecting', deviceURI)
+		ws = new WebSocket(deviceURI)
 
-			ws.addEventListener('open', () => {
-				console.debug(`[WS]`, 'connected')
-				setWebsocket(ws)
-				pingInterval = setInterval(
-					() => {
-						ws?.send(
-							JSON.stringify({
-								message: 'message',
-								data: 'PING',
-							}),
-						)
-					},
-					0.95 * 5 * 60 * 1000,
-				) // every ~5 minutes
-			})
+		ws.addEventListener('open', () => {
+			console.debug(`[WS]`, 'connected')
+			setWebsocket(ws)
+			pingInterval = setInterval(
+				() => {
+					ws?.send(
+						JSON.stringify({
+							message: 'message',
+							data: 'PING',
+						}),
+					)
+				},
+				0.95 * 5 * 60 * 1000,
+			) // every ~5 minutes
+		})
 
-			ws.addEventListener('error', (err) => {
-				console.error(`[WS]`, err)
-				setConnectionFailed(true)
+		ws.addEventListener('error', (err) => {
+			console.error(`[WS]`, err)
+			setConnectionFailed(true)
+		})
+		const messageListener = (msg: MessageEvent<any>) => {
+			let message: any
+			try {
+				message = JSON.parse(msg.data)
+			} catch {
+				console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
+				return
+			}
+			if (message === undefined) return
+			const maybeValid = validPassthrough(message, (message, errors) => {
+				console.error(`[WS]`, `message dropped`, message, errors)
 			})
-			const messageListener = (msg: MessageEvent<any>) => {
-				let message: any
-				try {
-					message = JSON.parse(msg.data)
-				} catch {
-					console.error(`[WS]`, `Failed to parse message as JSON`, msg.data)
-					return
-				}
-				if (message === undefined) return
-				const maybeValid = validPassthrough(message, (message, errors) => {
-					console.error(`[WS]`, `message dropped`, message, errors)
-				})
-				if (maybeValid !== null) {
-					console.debug(`[WS] <`, maybeValid)
-					if (isDeviceIdentity(maybeValid)) {
-						const type = models[maybeValid.model]
-						if (type !== undefined) {
-							setDevice({
-								id: maybeValid.id,
-								model: type,
-								hideDataBefore:
-									maybeValid.hideDataBefore !== undefined
-										? new Date(maybeValid.hideDataBefore)
-										: undefined,
-							})
-							if (maybeValid.lastSeen !== undefined) {
-								setLastSeen(new Date(maybeValid.lastSeen))
-							}
-						} else if (maybeValid.model === 'unsupported') {
-							setUnsupported({ id: maybeValid.id })
-						} else {
-							setUnsupported({ id: maybeValid.id })
-							console.error(
-								`[WS]`,
-								`Device model not found: ${maybeValid.model}`,
-							)
-						}
-					} else if (isShadow(maybeValid)) {
-						const reported = maybeValid.reported
-						if (reported.length > 0) {
-							setReported(mergeInstances(reported))
-							reportedListeners.current.forEach((listener) =>
-								reported.map(listener),
-							)
-							const maybeConfig = reported.filter(isConfig).map(toConfig)[0]
-							if (maybeConfig !== undefined) {
-								setReportedConfig(maybeConfig)
-							}
-						}
-						const desired = maybeValid.desired
-						if (desired.length > 0) {
-							setDesired(mergeInstances(desired))
-							desiredListeners.current.forEach((listener) =>
-								desired.map(listener),
-							)
-							const maybeConfig = desired.filter(isConfig).map(toConfig)[0]
-							if (maybeConfig !== undefined) {
-								setDesiredConfig(maybeConfig)
-							}
-						}
-					} else if (isUpdate(maybeValid)) {
-						setReported(mergeInstances([maybeValid]))
-						reportedListeners.current.forEach((listener) =>
-							listener(maybeValid),
-						)
-						setLastSeen((l) => {
-							const ts = maybeValid.Resources[99] as number
-							if (ts === undefined) return l
-							if (l === undefined) return new Date(ts * 1000)
-							return ts * 1000 > l.getTime() ? new Date(ts * 1000) : l
+			if (maybeValid !== null) {
+				console.debug(`[WS] <`, maybeValid)
+				if (isDeviceIdentity(maybeValid)) {
+					const type = models[maybeValid.model]
+					if (type !== undefined) {
+						setDevice({
+							id: maybeValid.id,
+							model: type,
+							hideDataBefore:
+								maybeValid.hideDataBefore !== undefined
+									? new Date(maybeValid.hideDataBefore)
+									: undefined,
 						})
-					} else if (isFOTAJob(maybeValid)) {
-						fotaJobListeners.current.forEach((listener) => listener(maybeValid))
+						if (maybeValid.lastSeen !== undefined) {
+							setLastSeen(new Date(maybeValid.lastSeen))
+						}
+					} else if (maybeValid.model === 'unsupported') {
+						setUnsupported({ id: maybeValid.id })
+					} else {
+						setUnsupported({ id: maybeValid.id })
+						console.error(`[WS]`, `Device model not found: ${maybeValid.model}`)
 					}
+				} else if (isShadow(maybeValid)) {
+					const reported = maybeValid.reported
+					if (reported.length > 0) {
+						setReported(mergeInstances(reported))
+						reportedListeners.current.forEach((listener) =>
+							reported.map(listener),
+						)
+						const maybeConfig = reported.filter(isConfig).map(toConfig)[0]
+						if (maybeConfig !== undefined) {
+							setReportedConfig(maybeConfig)
+						}
+					}
+					const desired = maybeValid.desired
+					if (desired.length > 0) {
+						setDesired(mergeInstances(desired))
+						desiredListeners.current.forEach((listener) =>
+							desired.map(listener),
+						)
+						const maybeConfig = desired.filter(isConfig).map(toConfig)[0]
+						if (maybeConfig !== undefined) {
+							setDesiredConfig(maybeConfig)
+						}
+					}
+				} else if (isUpdate(maybeValid)) {
+					setReported(mergeInstances([maybeValid]))
+					reportedListeners.current.forEach((listener) => listener(maybeValid))
+					setLastSeen((l) => {
+						const ts = maybeValid.Resources[99] as number
+						if (ts === undefined) return l
+						if (l === undefined) return new Date(ts * 1000)
+						return ts * 1000 > l.getTime() ? new Date(ts * 1000) : l
+					})
+				} else if (isFOTAJob(maybeValid)) {
+					fotaJobListeners.current.forEach((listener) => listener(maybeValid))
 				}
 			}
-			ws.addEventListener('message', messageListener)
+		}
+		ws.addEventListener('message', messageListener)
 
-			ws.addEventListener('close', () => {
-				// This happens automatically after 2 hours
-				// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
-				console.debug(`[WS]`, 'disconnected')
-				setWebsocket(undefined)
-				ws?.removeEventListener('message', messageListener)
-				ws = undefined
-				setDisconnected(true)
-			})
+		ws.addEventListener('close', () => {
+			// This happens automatically after 2 hours
+			// See https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
+			console.debug(`[WS]`, 'disconnected')
+			setWebsocket(undefined)
+			ws?.removeEventListener('message', messageListener)
+			ws = undefined
+			setDisconnected(true)
 		})
 
 		return () => {
@@ -320,10 +304,9 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	const update = async (instance: LwM2MObjectInstance): UpdateResult => {
 		if (device === undefined) throw new Error(`Device not yet loaded!`)
 		if (fingerprint === null) throw new Error(`fingerprint not available!`)
-		if (helloApiURL === undefined) throw new Error(`helloApiURL not available!`)
 		const url = new URL(
 			`./device/${device.id}/state?${new URLSearchParams({ fingerprint }).toString()}`,
-			helloApiURL,
+			HELLO_API_URL,
 		)
 		try {
 			await fetch(url, {
@@ -422,12 +405,10 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 					if (device === undefined) throw new Error(`Device not yet loaded!`)
 					if (fingerprint === null)
 						throw new Error(`fingerprint not available!`)
-					if (helloApiURL === undefined)
-						throw new Error(`helloApiURL not available!`)
 					return validatingFetch(EmptyResponse)(
 						new URL(
 							`./device/${device.id}/hideDataBefore?${new URLSearchParams({ fingerprint }).toString()}`,
-							helloApiURL,
+							HELLO_API_URL,
 						),
 						undefined,
 						'POST',

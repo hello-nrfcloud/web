@@ -39,11 +39,14 @@ jobs:
       - name: Build
         env:
           VERSION: ${{ env.VERSION }}
-          REGISTRY_ENDPOINT: ${{ vars.REGISTRY_ENDPOINT }}
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
           MAP_REGION: ${{ vars.MAP_REGION }}
           MAP_API_KEY: ${{ vars.MAP_API_KEY }}
+          HELLO_API_URL: ${{ vars.HELLO_API_URL }}
+          WEBSOCKET_URI: ${{ vars.WEBSOCKET_URI }}
+          SHARING_STATUS_API_URL: ${{ vars.SHARING_STATUS_API_URL }}
+          SIM_DETAILS_API_URL: ${{ vars.SIM_DETAILS_API_URL }}
         run: |
           npm run build
           cp -L -r ./static ./build/client

@@ -1,4 +1,3 @@
-import { useParameters } from '#context/Parameters.tsx'
 import { isSSR } from '#utils/isSSR.ts'
 import cx from 'classnames'
 import { Angry, Frown, Laugh, Meh, Smile, X } from 'lucide-preact'
@@ -21,7 +20,6 @@ export const FeedbackForm = () => {
 	const [submitting, setSubmitting] = useState<boolean>(false)
 	const [failed, setFailed] = useState<boolean>(false)
 	const [userSubmitted, setUserSubmitted] = useState<boolean>(false)
-	const params = useParameters()
 
 	const submit = () => {
 		if (!validate()) return
@@ -30,9 +28,9 @@ export const FeedbackForm = () => {
 		setFailed(false)
 		setSubmitting(true)
 
-		params.onParameters(async ({ helloApiURL }) => {
+		void (async () => {
 			try {
-				const res = await fetch(new URL('./feedback', helloApiURL), {
+				const res = await fetch(new URL('./feedback', HELLO_API_URL), {
 					method: 'POST',
 					body: JSON.stringify({
 						email,
@@ -56,7 +54,7 @@ export const FeedbackForm = () => {
 				setSubmitting(false)
 				setUserSubmitted(false)
 			}
-		})
+		})()
 	}
 
 	const validate = () => {

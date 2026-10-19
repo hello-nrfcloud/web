@@ -2,7 +2,6 @@ import {
 	getSIMHistory,
 	type SIMUsageHistoryType,
 } from '#api/getSIMUsageHistory.ts'
-import { useParameters } from '#context/Parameters.tsx'
 import { useSIMDetails } from '#context/SIMDetails.tsx'
 import { byTs } from '#utils/byTs.ts'
 import { createContext, type ComponentChildren } from 'preact'
@@ -23,7 +22,6 @@ export const SIMUsageHistoryContext = createContext<{
 })
 
 export const Provider = ({ children }: { children: ComponentChildren }) => {
-	const { onParameters } = useParameters()
 	const { iccid } = useSIMDetails()
 	const { timeSpan } = useHistoryChart()
 
@@ -32,19 +30,17 @@ export const Provider = ({ children }: { children: ComponentChildren }) => {
 	useEffect(() => {
 		if (iccid === undefined) return
 
-		onParameters(({ simDetailsAPIURL }) =>
-			getSIMHistory(new URL(simDetailsAPIURL))(iccid, timeSpan)
-				.ok(({ measurements }) => {
-					setHistory(measurements.map(toHistory).sort(byTs))
-				})
-				.problem(({ problem }, response) => {
-					if (response?.response.status === 404) {
-						setHistory([]) // In case the SIM was changed
-					} else {
-						console.error(`[SIMUsageHistory]`, problem, response)
-					}
-				}),
-		)
+		getSIMHistory(new URL(SIM_DETAILS_API_URL))(iccid, timeSpan)
+			.ok(({ measurements }) => {
+				setHistory(measurements.map(toHistory).sort(byTs))
+			})
+			.problem(({ problem }, response) => {
+				if (response?.response.status === 404) {
+					setHistory([]) // In case the SIM was changed
+				} else {
+					console.error(`[SIMUsageHistory]`, problem, response)
+				}
+			})
 	}, [timeSpan, iccid])
 
 	return (

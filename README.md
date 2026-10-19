@@ -85,20 +85,36 @@ npx cdk bootstrap
 npx cdk deploy --all
 ```
 
+## Backend configuration
+
+The URLs of the backend APIs are configured at build time using environment
+variables. They default to the production deployment:
+
+| Environment variable     | Default                                                           |
+| ------------------------ | ----------------------------------------------------------------- |
+| `HELLO_API_URL`          | `https://api.hello.nordicsemi.cloud/2024-04-17/`                  |
+| `WEBSOCKET_URI`          | `wss://f9q9oj5zv5.execute-api.eu-west-1.amazonaws.com/2023-06-22` |
+| `SHARING_STATUS_API_URL` | `https://api.nordicsemi.world/2024-04-15/share/status`            |
+| `SIM_DETAILS_API_URL`    | `https://api.sim-details.nordicsemi.cloud/2024-07-01/`            |
+
 ## Continuous Deployment with GitHub Actions
 
 Create a GitHub environment `production`.
 
 <!-- FIXME: add CLI comment -->
 
-Store the registry endpoint as a GitHub Action variable:
+Store the configuration as GitHub Action variables:
 
 ```bash
-gh variable set REGISTRY_ENDPOINT --env production --body "<registry endpoint>"
 # If using a custom domain name
 gh variable set DOMAIN_NAME --env production --body "<domain name>"
 gh variable set MAP_REGION --env production --body "<mapRegion>"
 gh variable set MAP_API_KEY --env production --body "<apiKey>"
+# Optional, to override the default backend URLs
+gh variable set HELLO_API_URL --env production --body "<helloApiURL>"
+gh variable set WEBSOCKET_URI --env production --body "<webSocketURI>"
+gh variable set SHARING_STATUS_API_URL --env production --body "<sharingStatusAPIURL>"
+gh variable set SIM_DETAILS_API_URL --env production --body "<simDetailsAPIURL>"
 ```
 
 Store the role used for continuous deployment as a secret:

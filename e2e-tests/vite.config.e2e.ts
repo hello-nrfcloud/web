@@ -5,10 +5,9 @@ import { createContext } from './lib/mock-backend/context.ts'
 import { mockWebsocket } from './lib/mock-backend/mockWebsocket.ts'
 import { testdataServerPlugin } from './lib/testDataServerPlugin.ts'
 
-const { mapRegion, mapApiKey, registryEndpoint } = fromEnv({
+const { mapRegion, mapApiKey } = fromEnv({
 	mapRegion: 'MAP_REGION',
 	mapApiKey: 'MAP_API_KEY',
-	registryEndpoint: 'REGISTRY_ENDPOINT',
 })(process.env)
 
 const context = createContext(join(process.cwd(), 'db'))
@@ -21,17 +20,16 @@ mockWebsocket(wsPort, context)
 
 export default createConfig({
 	domainName,
-	registryEndpoint: new URL(registryEndpoint),
+	backendURLs: {
+		helloApiURL: new URL('/e2e/rest/', base),
+		// Map sharing
+		sharingStatusAPIURL: new URL('/e2e/map-api/', base),
+		// WebSocket
+		webSocketURI: new URL(`ws://localhost:${wsPort}`),
+		simDetailsAPIURL: new URL('/e2e/sim-details-api/', base),
+	},
 	plugins: [
 		testdataServerPlugin({
-			registry: {
-				helloApiURL: new URL('/e2e/rest/', base),
-				// Map sharing
-				sharingStatusAPIURL: new URL('/e2e/map-api/', base),
-				// WebSocket
-				webSocketURI: new URL(`ws://localhost:${wsPort}`),
-				simDetailsAPIURL: new URL('/e2e/sim-details-api/', base),
-			},
 			context,
 		}),
 	],

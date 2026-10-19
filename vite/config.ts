@@ -5,8 +5,15 @@ import pJSON from '../package.json' with { type: 'json' }
 import { encloseWithSlash } from './encloseWithSlash.ts'
 import { homepage, version } from './siteInfo.ts'
 
+export type BackendURLs = {
+	helloApiURL: URL
+	webSocketURI: URL
+	sharingStatusAPIURL: URL
+	simDetailsAPIURL: URL
+}
+
 export const createConfig = ({
-	registryEndpoint,
+	backendURLs,
 	sentryDSN,
 	domainName,
 	baseURL,
@@ -14,7 +21,7 @@ export const createConfig = ({
 	mapRegion,
 	mapApiKey,
 }: {
-	registryEndpoint: URL
+	backendURLs: BackendURLs
 	sentryDSN?: string
 	baseURL: string
 	domainName: string
@@ -26,7 +33,14 @@ export const createConfig = ({
 		HOMEPAGE: JSON.stringify(homepage),
 		VERSION: JSON.stringify(version),
 		BUILD_TIME: JSON.stringify(new Date().toISOString()),
-		REGISTRY_ENDPOINT: JSON.stringify(registryEndpoint),
+		HELLO_API_URL: JSON.stringify(backendURLs.helloApiURL.toString()),
+		WEBSOCKET_URI: JSON.stringify(backendURLs.webSocketURI.toString()),
+		SHARING_STATUS_API_URL: JSON.stringify(
+			backendURLs.sharingStatusAPIURL.toString(),
+		),
+		SIM_DETAILS_API_URL: JSON.stringify(
+			backendURLs.simDetailsAPIURL.toString(),
+		),
 		DOMAIN_NAME: JSON.stringify(domainName),
 		SENTRY_DSN: JSON.stringify(sentryDSN),
 		PROTO_MAP_VERSION: JSON.stringify(

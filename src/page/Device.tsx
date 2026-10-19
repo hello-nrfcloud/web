@@ -6,7 +6,6 @@ import { WaitingForDevice } from '#components/WaitingForDevice.tsx'
 import { useDevice } from '#context/Device.tsx'
 import { Provider as FOTAProvider } from '#context/FOTA.tsx'
 import { useFingerprint } from '#context/Fingerprint.tsx'
-import { WithParameters } from '#context/Parameters.tsx'
 import { Page as Thingy91X } from '#model/PCA20065/Page.tsx'
 import cx from 'classnames'
 
@@ -38,22 +37,16 @@ export const Device = () => {
 
 	return (
 		<>
-			<WithParameters>
-				{({ helloApiURL }) => (
-					<FOTAProvider
-						device={device}
-						fingerprint={fingerprint!}
-						helloApiURL={helloApiURL}
-					>
-						<div class={cx({ hasSidebar: debug })}>
-							{device.model.slug === 'PCA20065' && (
-								<Thingy91X device={device} />
-							)}
-							{debug && <LwM2MDebug />}
-						</div>
-					</FOTAProvider>
-				)}
-			</WithParameters>
+			<FOTAProvider
+				device={device}
+				fingerprint={fingerprint!}
+				helloApiURL={new URL(HELLO_API_URL)}
+			>
+				<div class={cx({ hasSidebar: debug })}>
+					{device.model.slug === 'PCA20065' && <Thingy91X device={device} />}
+					{debug && <LwM2MDebug />}
+				</div>
+			</FOTAProvider>
 			<ModelResources type={device.model} />
 			<Feedback />
 		</>
