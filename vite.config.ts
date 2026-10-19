@@ -8,21 +8,28 @@ const { mapRegion, mapApiKey } = fromEnv({
 })(process.env)
 
 // Optional environment variables
+// Unset GitHub Actions variables are passed as empty strings, treat them as not set.
+const optionalEnv = (name: string): string | undefined => {
+	const value = process.env[name]
+	if (value === undefined || value.length === 0) return undefined
+	return value
+}
+
 const backendURLs = {
 	helloApiURL: new URL(
-		process.env.HELLO_API_URL ??
+		optionalEnv('HELLO_API_URL') ??
 			'https://api.hello.nordicsemi.cloud/2024-04-17/',
 	),
 	webSocketURI: new URL(
-		process.env.WEBSOCKET_URI ??
+		optionalEnv('WEBSOCKET_URI') ??
 			'wss://f9q9oj5zv5.execute-api.eu-west-1.amazonaws.com/2023-06-22',
 	),
 	sharingStatusAPIURL: new URL(
-		process.env.SHARING_STATUS_API_URL ??
+		optionalEnv('SHARING_STATUS_API_URL') ??
 			'https://api.nordicsemi.world/2024-04-15/share/status',
 	),
 	simDetailsAPIURL: new URL(
-		process.env.SIM_DETAILS_API_URL ??
+		optionalEnv('SIM_DETAILS_API_URL') ??
 			'https://api.sim-details.nordicsemi.cloud/2024-07-01/',
 	),
 }

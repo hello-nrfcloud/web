@@ -110,6 +110,11 @@ Store the configuration as GitHub Action variables:
 gh variable set DOMAIN_NAME --env production --body "<domain name>"
 gh variable set MAP_REGION --env production --body "<mapRegion>"
 gh variable set MAP_API_KEY --env production --body "<apiKey>"
+# Optional, to override the default backend URLs
+gh variable set HELLO_API_URL --env production --body "<helloApiURL>"
+gh variable set WEBSOCKET_URI --env production --body "<webSocketURI>"
+gh variable set SHARING_STATUS_API_URL --env production --body "<sharingStatusAPIURL>"
+gh variable set SIM_DETAILS_API_URL --env production --body "<simDetailsAPIURL>"
 ```
 
 Store the role used for continuous deployment as a secret:
