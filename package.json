@@ -83,7 +83,7 @@
     "aws-cdk": "2.1146.0",
     "aws-cdk-lib": "2.273.0",
     "bootstrap": "5.3.8",
-    "cdk": "2.1146.0",
+    "cdk": "2.1146.1",
     "chalk": "6.0.1",
     "check-node-version": "4.2.1",
     "commitlint": "21.2.4",
