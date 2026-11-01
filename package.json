@@ -68,7 +68,7 @@
     "@babel/plugin-syntax-import-assertions": "7.29.7",
     "@bifravst/cloudformation-helpers": "10.0.1",
     "@bifravst/eslint-config-typescript": "8.0.16",
-    "@bifravst/from-env": "4.0.0",
+    "@bifravst/from-env": "4.0.1",
     "@bifravst/prettier-config": "2.0.4",
     "@commitlint/config-conventional": "21.2.4",
     "@playwright/test": "1.64.1",
