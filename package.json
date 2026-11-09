@@ -55,7 +55,7 @@
     "lucide-preact": "1.68.0",
     "maplibre-gl": "6.16.0",
     "nanoid": "6.0.2",
-    "preact": "11.1.0",
+    "preact": "11.2.0",
     "qrcode": "1.5.4",
     "semver": "7.8.5",
     "svg-country-flags": "1.2.10",
