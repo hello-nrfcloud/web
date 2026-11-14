@@ -57,7 +57,7 @@
     "nanoid": "6.0.2",
     "preact": "11.2.0",
     "qrcode": "1.5.4",
-    "semver": "7.8.5",
+    "semver": "7.8.6",
     "svg-country-flags": "1.2.10",
     "yaml": "2.9.1"
   },
