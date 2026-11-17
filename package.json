@@ -69,7 +69,7 @@
     "@bifravst/cloudformation-helpers": "10.0.3",
     "@bifravst/eslint-config-typescript": "8.0.17",
     "@bifravst/from-env": "4.0.1",
-    "@bifravst/prettier-config": "2.0.5",
+    "@bifravst/prettier-config": "2.0.7",
     "@commitlint/config-conventional": "21.2.4",
     "@playwright/test": "1.65.0",
     "@preact/preset-vite": "2.10.6",
